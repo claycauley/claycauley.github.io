@@ -1,0 +1,174 @@
+@import 'reset.css';
+
+html, body {
+    background-color: var(--cc-creamWhite);
+
+    .button {
+        border-color: var(--cc-offBlack);
+        border-radius: 4px;
+        border-style: solid;
+        border-width: 1px;
+        font-size: 0.875rem;
+        font-weight: 600;
+        min-width: 7.5rem;
+        outline: none;
+        padding-bottom: .5rem;
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+        padding-top: .5rem;
+        text-align: center;
+        text-decoration: none;
+        transition-duration: .25s;
+        transition-property: all;
+        transition-timing-function: ease;
+
+        &.primary {
+            background-color: var(--cc-abyssBlue);
+            border-color: var(--cc-abyssBlue);
+            color: var(--cc-white);
+
+            &:hover {
+                color: var(--cc-abyssBlue);
+            }
+        }
+
+        &:hover {
+            background-color: transparent;
+        }
+    }
+
+    .container {
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 1600px;
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    header {
+        background-color: var(--cc-white);
+        padding-bottom: 1rem;
+        padding-top: 1rem;
+
+        .headerContent {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr;
+            justify-items: center;
+
+            nav {
+                display: flex;
+                gap: 1rem;
+            }
+
+           .pageHeaderCallout {
+                align-items: center;
+                display: grid;
+                gap: .5rem;
+                grid-template-columns: 1fr;
+                justify-items: center;
+
+                .pageHeader {
+                    color: var(--cc-abyssBlue);
+                    font-family: var(--cc-body-font-family);
+                    font-size: 2.5rem;
+                    font-weight: 300;
+                    letter-spacing: -1px;
+                    margin-bottom: 0;
+                    word-spacing: -.5rem;
+        
+                    strong {
+                        font-weight: 700;
+                    }
+                }
+
+                .supportText {
+                    color: var(--cc-abyssBlue);
+                    font-size: 14px;
+                    font-weight: 700;
+                    letter-spacing: -.5px;
+                    margin-bottom: 0;
+                }
+            } 
+        }
+    }
+
+    .callout {
+        background-color: var(--cc-abyssBlue);
+        padding-bottom: 2rem;
+        padding-top: 2rem;
+
+        .container {
+            align-items: center;
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: 1fr;
+
+            img {
+                aspect-ratio: 1 / 1;
+                width: 100%;
+
+                &.grayscale {
+                    filter: grayscale(100%);
+                }
+
+                &.masked {
+                    mask-image: url('/imgs/stamp.svg');
+                    mask-position: center;
+                    mask-repeat: no-repeat;
+                    mask-size: cover;
+                }
+            }
+
+            .calloutTextBlock {
+                h1, p {
+                    color: var(--cc-creamWhite);
+                }
+
+                h2 {
+                    color: var(--cc-abyssBlueLighten);
+                }
+
+                hr {
+                    background: var(--cc-creamWhite);
+                    background: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 50%);
+                    height: 2px;
+                    width: 50%;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    html, body {
+        .container {
+            padding-left: 2rem;
+            padding-right: 2rem;
+        }
+
+        header {
+            .headerContent {
+                align-items: center;
+                grid-template-columns: 1fr auto;
+                justify-items: flex-start;
+
+                .pageHeaderCallout {
+                    gap: 1rem;
+                    grid-template-columns: auto 1fr;
+                    justify-items: start;
+                }
+            }
+        }
+
+        .callout {
+            padding-bottom: 5rem;
+            padding-top: 5rem;
+    
+            .container {
+                gap: 4rem;
+                grid-template-columns: auto 1fr;
+            }
+        }
+    }
+}
