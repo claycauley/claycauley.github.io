@@ -135,6 +135,18 @@ html, body {
                     height: 2px;
                     width: 50%;
                 }
+
+                .buttonContainer {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 1rem;;
+
+                    .button {
+                        background-color: var(--cc-richVermillion);
+                        border-color: var(--cc-richVermillion);
+                        color: var(--cc-white);
+                    }
+                }
             }
         }
     }

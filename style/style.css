@@ -120,6 +120,16 @@ html .callout .container .calloutTextBlock hr, body .callout .container .callout
   height: 2px;
   width: 50%;
 }
+html .callout .container .calloutTextBlock .buttonContainer, body .callout .container .calloutTextBlock .buttonContainer {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+}
+html .callout .container .calloutTextBlock .buttonContainer .button, body .callout .container .calloutTextBlock .buttonContainer .button {
+  background-color: var(--cc-richVermillion);
+  border-color: var(--cc-richVermillion);
+  color: var(--cc-white);
+}
 
 @media (min-width: 1024px) {
   html .container, body .container {
