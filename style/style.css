@@ -15,7 +15,7 @@ html .button, body .button {
   font-weight: 600;
   gap: 0.5rem;
   justify-content: center;
-  min-width: 7.5rem;
+  min-width: 6rem;
   outline: none;
   padding-bottom: 0.5rem;
   padding-left: 1.5rem;
@@ -36,7 +36,7 @@ html .button.primary, body .button.primary {
   color: var(--cc-white);
 }
 html .button.primary:hover, body .button.primary:hover {
-  background-color: var(--cc-white);
+  background-color: var(--cc-creamWhite);
   color: var(--cc-abyssBlue);
 }
 html .button.secondary, body .button.secondary {
@@ -57,7 +57,7 @@ html .container, body .container {
   padding-right: 1rem;
 }
 html header, body header {
-  background-color: var(--cc-white);
+  background-color: var(--cc-creamWhite);
   padding-bottom: 1.5rem;
   padding-top: 1.5rem;
 }
@@ -68,8 +68,13 @@ html header .headerContent, body header .headerContent {
   justify-items: center;
 }
 html header .headerContent nav, body header .headerContent nav {
-  display: flex;
-  gap: 1rem;
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+}
+html header .headerContent nav :last-child, body header .headerContent nav :last-child {
+  grid-column: span 2;
 }
 html header .headerContent .pageHeaderCallout, body header .headerContent .pageHeaderCallout {
   align-items: center;
@@ -81,7 +86,7 @@ html header .headerContent .pageHeaderCallout, body header .headerContent .pageH
 html header .headerContent .pageHeaderCallout .pageHeader, body header .headerContent .pageHeaderCallout .pageHeader {
   color: var(--cc-abyssBlue);
   font-family: var(--cc-body-font-family);
-  font-size: 3rem;
+  font-size: 3.5rem;
   font-weight: 300;
   letter-spacing: -1px;
   line-height: 1;
@@ -92,8 +97,8 @@ html header .headerContent .pageHeaderCallout .pageHeader strong, body header .h
   font-weight: 700;
 }
 html header .headerContent .pageHeaderCallout .supportText, body header .headerContent .pageHeaderCallout .supportText {
-  color: var(--cc-abyssBlue);
-  font-size: 14px;
+  color: var(--cc-richVermillion);
+  font-size: 0.875rem;
   font-weight: 700;
   letter-spacing: -0.5px;
   margin-bottom: 0;
@@ -139,7 +144,7 @@ html .introCallout .container .introCalloutTextBlock hr, body .introCallout .con
 html .introCallout .container .introCalloutTextBlock .buttonContainer, body .introCallout .container .introCalloutTextBlock .buttonContainer {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 html .introCallout .container .introCalloutTextBlock .buttonContainer .button, body .introCallout .container .introCalloutTextBlock .buttonContainer .button {
   background-color: var(--cc-richVermillion);
@@ -236,11 +241,10 @@ html footer, body footer {
   html .button, body .button {
     font-size: 1rem;
     font-weight: 500;
-    gap: 1rem;
     min-width: 7.5rem;
     padding-bottom: 0.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
     padding-top: 0.5rem;
   }
   html header .headerContent, body header .headerContent {
@@ -248,13 +252,20 @@ html footer, body footer {
     grid-template-columns: 1fr auto;
     justify-items: flex-start;
   }
+  html header .headerContent nav, body header .headerContent nav {
+    display: flex;
+    width: auto;
+  }
+  html header .headerContent nav :last-child, body header .headerContent nav :last-child {
+    grid-column: initial;
+  }
   html header .headerContent .pageHeaderCallout, body header .headerContent .pageHeaderCallout {
     gap: 1rem;
     grid-template-columns: auto 1fr;
     justify-items: start;
   }
   html header .headerContent .pageHeaderCallout .pageHeader, body header .headerContent .pageHeaderCallout .pageHeader {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
   html .introCallout, body .introCallout {
     padding-bottom: 5rem;

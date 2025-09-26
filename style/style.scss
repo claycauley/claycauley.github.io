@@ -16,7 +16,7 @@ html, body {
         font-weight: 600;
         gap: .5rem;
         justify-content: center;
-        min-width: 7.5rem;
+        min-width: 6rem;
         outline: none;
         padding-bottom: .5rem;
         padding-left: 1.5rem;
@@ -38,7 +38,7 @@ html, body {
             color: var(--cc-white);
 
             &:hover {
-                background-color: var(--cc-white);
+                background-color: var(--cc-creamWhite);
                 color: var(--cc-abyssBlue);
             }
         }
@@ -65,7 +65,7 @@ html, body {
     }
 
     header {
-        background-color: var(--cc-white);
+        background-color: var(--cc-creamWhite);
         padding-bottom: 1.5rem;
         padding-top: 1.5rem;
 
@@ -76,8 +76,14 @@ html, body {
             justify-items: center;
 
             nav {
-                display: flex;
-                gap: 1rem;
+                display: grid;
+                gap: .5rem;
+                grid-template-columns: 1fr 1fr;
+                width: 100%;
+
+                :last-child {
+                    grid-column: span 2;
+                }
             }
 
            .pageHeaderCallout {
@@ -90,7 +96,7 @@ html, body {
                 .pageHeader {
                     color: var(--cc-abyssBlue);
                     font-family: var(--cc-body-font-family);
-                    font-size: 3rem;
+                    font-size: 3.5rem;
                     font-weight: 300;
                     letter-spacing: -1px;
                     line-height: 1;
@@ -103,8 +109,8 @@ html, body {
                 }
 
                 .supportText {
-                    color: var(--cc-abyssBlue);
-                    font-size: 14px;
+                    color: var(--cc-richVermillion);
+                    font-size: .875rem;
                     font-weight: 700;
                     letter-spacing: -.5px;
                     margin-bottom: 0;
@@ -157,7 +163,7 @@ html, body {
                 .buttonContainer {
                     display: flex;
                     flex-direction: row;
-                    gap: 1rem;;
+                    gap: .5rem;
 
                     .button {
                         background-color: var(--cc-richVermillion);
@@ -278,11 +284,10 @@ html, body {
         .button {
             font-size: 1rem;
             font-weight: 500;
-            gap: 1rem;
             min-width: 7.5rem;
             padding-bottom: .5rem;
-            padding-left: 1.5rem;
-            padding-right: 1.5rem;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
             padding-top: .5rem;
         }
 
@@ -292,13 +297,22 @@ html, body {
                 grid-template-columns: 1fr auto;
                 justify-items: flex-start;
 
+                nav {
+                    display: flex;
+                    width: auto;
+
+                    :last-child {
+                        grid-column: initial;
+                    }
+                }
+
                 .pageHeaderCallout {
                     gap: 1rem;
                     grid-template-columns: auto 1fr;
                     justify-items: start;
 
                     .pageHeader {
-                        font-size: 2.5rem;
+                        font-size: 3rem;
                     }
                 }
             }
