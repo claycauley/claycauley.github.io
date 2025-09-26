@@ -1,6 +1,7 @@
 @import 'reset.css';
 html, body {
   background-color: var(--cc-creamWhite);
+  scroll-behavior: smooth;
 }
 html .button, body .button {
   border-color: var(--cc-offBlack);
@@ -33,6 +34,7 @@ html .button:hover, body .button:hover {
   background-color: transparent;
 }
 html .container, body .container {
+  display: grid;
   margin-left: auto;
   margin-right: auto;
   max-width: 1600px;
@@ -41,8 +43,8 @@ html .container, body .container {
 }
 html header, body header {
   background-color: var(--cc-white);
-  padding-bottom: 1rem;
-  padding-top: 1rem;
+  padding-bottom: 1.5rem;
+  padding-top: 1.5rem;
 }
 html header .headerContent, body header .headerContent {
   display: grid;
@@ -64,9 +66,10 @@ html header .headerContent .pageHeaderCallout, body header .headerContent .pageH
 html header .headerContent .pageHeaderCallout .pageHeader, body header .headerContent .pageHeaderCallout .pageHeader {
   color: var(--cc-abyssBlue);
   font-family: var(--cc-body-font-family);
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 300;
   letter-spacing: -1px;
+  line-height: 1;
   margin-bottom: 0;
   word-spacing: -0.5rem;
 }
@@ -80,25 +83,24 @@ html header .headerContent .pageHeaderCallout .supportText, body header .headerC
   letter-spacing: -0.5px;
   margin-bottom: 0;
 }
-html .callout, body .callout {
+html .introCallout, body .introCallout {
   background-color: var(--cc-abyssBlue);
   padding-bottom: 2rem;
   padding-top: 2rem;
 }
-html .callout .container, body .callout .container {
+html .introCallout .container, body .introCallout .container {
   align-items: center;
-  display: grid;
   gap: 1rem;
   grid-template-columns: 1fr;
 }
-html .callout .container img, body .callout .container img {
+html .introCallout .container img, body .introCallout .container img {
   aspect-ratio: 1/1;
   width: 100%;
 }
-html .callout .container img.grayscale, body .callout .container img.grayscale {
+html .introCallout .container img.grayscale, body .introCallout .container img.grayscale {
   filter: grayscale(100%);
 }
-html .callout .container img.masked, body .callout .container img.masked {
+html .introCallout .container img.masked, body .introCallout .container img.masked {
   -webkit-mask-image: url("/imgs/stamp.svg");
           mask-image: url("/imgs/stamp.svg");
   -webkit-mask-position: center;
@@ -108,27 +110,65 @@ html .callout .container img.masked, body .callout .container img.masked {
   -webkit-mask-size: cover;
           mask-size: cover;
 }
-html .callout .container .calloutTextBlock h1, html .callout .container .calloutTextBlock p, body .callout .container .calloutTextBlock h1, body .callout .container .calloutTextBlock p {
+html .introCallout .container .introCalloutTextBlock h1, html .introCallout .container .introCalloutTextBlock p, body .introCallout .container .introCalloutTextBlock h1, body .introCallout .container .introCalloutTextBlock p {
   color: var(--cc-creamWhite);
 }
-html .callout .container .calloutTextBlock h2, body .callout .container .calloutTextBlock h2 {
+html .introCallout .container .introCalloutTextBlock h2, body .introCallout .container .introCalloutTextBlock h2 {
   color: var(--cc-abyssBlueLighten);
 }
-html .callout .container .calloutTextBlock hr, body .callout .container .calloutTextBlock hr {
+html .introCallout .container .introCalloutTextBlock hr, body .introCallout .container .introCalloutTextBlock hr {
   background: var(--cc-creamWhite);
-  background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 50%);
-  height: 2px;
-  width: 50%;
+  background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+  width: 100%;
 }
-html .callout .container .calloutTextBlock .buttonContainer, body .callout .container .calloutTextBlock .buttonContainer {
+html .introCallout .container .introCalloutTextBlock .buttonContainer, body .introCallout .container .introCalloutTextBlock .buttonContainer {
   display: flex;
   flex-direction: row;
   gap: 1rem;
 }
-html .callout .container .calloutTextBlock .buttonContainer .button, body .callout .container .calloutTextBlock .buttonContainer .button {
+html .introCallout .container .introCalloutTextBlock .buttonContainer .button, body .introCallout .container .introCalloutTextBlock .buttonContainer .button {
   background-color: var(--cc-richVermillion);
   border-color: var(--cc-richVermillion);
   color: var(--cc-white);
+}
+html .introCallout .container .introCalloutTextBlock .buttonContainer .button:hover, body .introCallout .container .introCalloutTextBlock .buttonContainer .button:hover {
+  background-color: var(--cc-creamWhite);
+  border-color: var(--cc-creamWhite);
+  color: var(--cc-richVermillion);
+}
+html .about, body .about {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+html .about .container, body .about .container {
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+html .about .container .aboutTextBlock h3, body .about .container .aboutTextBlock h3 {
+  color: var(--cc-abyssBlue);
+}
+html .about .container .aboutTextBlock hr, body .about .container .aboutTextBlock hr {
+  background: var(--cc-creamWhite);
+  background: linear-gradient(90deg, var(--cc-abyssBlue) 0%, var(--cc-richVermillion) 100%);
+  width: 100%;
+}
+html .about .container .aboutTextBlock span, body .about .container .aboutTextBlock span {
+  color: var(--cc-richVermillion);
+  font-weight: 900;
+  letter-spacing: -0.5px;
+}
+html .about .container img, body .about .container img {
+  aspect-ratio: 1/1;
+  border-radius: 3rem;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
+html footer, body footer {
+  background-color: var(--cc-offBlack);
+  padding-bottom: 2rem;
+  padding-top: 2rem;
 }
 
 @media (min-width: 1024px) {
@@ -146,12 +186,34 @@ html .callout .container .calloutTextBlock .buttonContainer .button, body .callo
     grid-template-columns: auto 1fr;
     justify-items: start;
   }
-  html .callout, body .callout {
+  html header .headerContent .pageHeaderCallout .pageHeader, body header .headerContent .pageHeaderCallout .pageHeader {
+    font-size: 2.5rem;
+  }
+  html .introCallout, body .introCallout {
     padding-bottom: 5rem;
     padding-top: 5rem;
   }
-  html .callout .container, body .callout .container {
+  html .introCallout .container, body .introCallout .container {
     gap: 4rem;
     grid-template-columns: auto 1fr;
+  }
+  html .introCallout .container .introCalloutTextBlock hr, body .introCallout .container .introCalloutTextBlock hr {
+    background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 50%);
+    width: 50%;
+  }
+  html .about, body .about {
+    padding-bottom: 5rem;
+    padding-top: 5rem;
+  }
+  html .about .container, body .about .container {
+    gap: 4rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  html .about .container .aboutTextBlock hr, body .about .container .aboutTextBlock hr {
+    background: linear-gradient(90deg, var(--cc-abyssBlue) 0%, var(--cc-richVermillion) 50%);
+    width: 50%;
+  }
+  html .about .container img, body .about .container img {
+    aspect-ratio: 4/3;
   }
 }
