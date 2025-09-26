@@ -17,10 +17,10 @@ html .button, body .button {
   justify-content: center;
   min-width: 6rem;
   outline: none;
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-  padding-top: 0.5rem;
+  padding-top: 0.75rem;
   text-align: center;
   text-decoration: none;
   transition-duration: 0.35s;
@@ -69,7 +69,7 @@ html header .headerContent, body header .headerContent {
 }
 html header .headerContent nav, body header .headerContent nav {
   display: grid;
-  gap: 0.5rem;
+  gap: 1rem;
   grid-template-columns: 1fr 1fr;
   width: 100%;
 }
@@ -144,7 +144,7 @@ html .introCallout .container .introCalloutTextBlock hr, body .introCallout .con
 html .introCallout .container .introCalloutTextBlock .buttonContainer, body .introCallout .container .introCalloutTextBlock .buttonContainer {
   display: flex;
   flex-direction: row;
-  gap: 0.5rem;
+  gap: 1rem;
 }
 html .introCallout .container .introCalloutTextBlock .buttonContainer .button, body .introCallout .container .introCalloutTextBlock .buttonContainer .button {
   background-color: var(--cc-richVermillion);
