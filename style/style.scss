@@ -6,12 +6,16 @@ html, body {
     scroll-behavior: smooth;
 
     .button {
+        align-items: center;
         border-color: var(--cc-offBlack);
-        border-radius: 4px;
+        border-radius: .5rem;
         border-style: solid;
         border-width: 1px;
+        display: flex;
         font-size: 0.875rem;
         font-weight: 600;
+        gap: .5rem;
+        justify-content: center;
         min-width: 7.5rem;
         outline: none;
         padding-bottom: .5rem;
@@ -20,9 +24,13 @@ html, body {
         padding-top: .5rem;
         text-align: center;
         text-decoration: none;
-        transition-duration: .25s;
+        transition-duration: .35s;
         transition-property: all;
         transition-timing-function: ease;
+
+        &:hover {
+            border-radius: 2rem;
+        }
 
         &.primary {
             background-color: var(--cc-abyssBlue);
@@ -30,12 +38,20 @@ html, body {
             color: var(--cc-white);
 
             &:hover {
+                background-color: var(--cc-white);
                 color: var(--cc-abyssBlue);
             }
         }
 
-        &:hover {
+        &.secondary {
             background-color: transparent;
+            border-color: var(--cc-abyssBlue);
+            color: var(--cc-abyssBlue);
+
+            &:hover {
+                background-color: var(--cc-abyssBlue);
+                color: var(--cc-white);
+            }
         }
     }
 
@@ -153,6 +169,18 @@ html, body {
                             border-color: var(--cc-creamWhite);
                             color: var(--cc-richVermillion);
                         }
+
+                        &.secondary {
+                            background-color: var(--cc-creamWhite);
+                            border-color: var(--cc-creamWhite);
+                            color: var(--cc-richVermillion);
+
+                            &:hover {
+                                background-color: var(--cc-richVermillion);
+                                border-color: var(--cc-richVermillion);
+                                color: var(--cc-creamWhite);
+                            }
+                        }
                     }
                 }
             }
@@ -245,6 +273,17 @@ html, body {
         .container {
             padding-left: 2rem;
             padding-right: 2rem;
+        }
+
+        .button {
+            font-size: 1rem;
+            font-weight: 500;
+            gap: 1rem;
+            min-width: 7.5rem;
+            padding-bottom: .5rem;
+            padding-left: 1.5rem;
+            padding-right: 1.5rem;
+            padding-top: .5rem;
         }
 
         header {

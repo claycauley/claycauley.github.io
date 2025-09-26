@@ -5,12 +5,16 @@ html, body {
   scroll-behavior: smooth;
 }
 html .button, body .button {
+  align-items: center;
   border-color: var(--cc-offBlack);
-  border-radius: 4px;
+  border-radius: 0.5rem;
   border-style: solid;
   border-width: 1px;
+  display: flex;
   font-size: 0.875rem;
   font-weight: 600;
+  gap: 0.5rem;
+  justify-content: center;
   min-width: 7.5rem;
   outline: none;
   padding-bottom: 0.5rem;
@@ -19,9 +23,12 @@ html .button, body .button {
   padding-top: 0.5rem;
   text-align: center;
   text-decoration: none;
-  transition-duration: 0.25s;
+  transition-duration: 0.35s;
   transition-property: all;
   transition-timing-function: ease;
+}
+html .button:hover, body .button:hover {
+  border-radius: 2rem;
 }
 html .button.primary, body .button.primary {
   background-color: var(--cc-abyssBlue);
@@ -29,10 +36,17 @@ html .button.primary, body .button.primary {
   color: var(--cc-white);
 }
 html .button.primary:hover, body .button.primary:hover {
+  background-color: var(--cc-white);
   color: var(--cc-abyssBlue);
 }
-html .button:hover, body .button:hover {
+html .button.secondary, body .button.secondary {
   background-color: transparent;
+  border-color: var(--cc-abyssBlue);
+  color: var(--cc-abyssBlue);
+}
+html .button.secondary:hover, body .button.secondary:hover {
+  background-color: var(--cc-abyssBlue);
+  color: var(--cc-white);
 }
 html .container, body .container {
   display: grid;
@@ -137,6 +151,16 @@ html .introCallout .container .introCalloutTextBlock .buttonContainer .button:ho
   border-color: var(--cc-creamWhite);
   color: var(--cc-richVermillion);
 }
+html .introCallout .container .introCalloutTextBlock .buttonContainer .button.secondary, body .introCallout .container .introCalloutTextBlock .buttonContainer .button.secondary {
+  background-color: var(--cc-creamWhite);
+  border-color: var(--cc-creamWhite);
+  color: var(--cc-richVermillion);
+}
+html .introCallout .container .introCalloutTextBlock .buttonContainer .button.secondary:hover, body .introCallout .container .introCalloutTextBlock .buttonContainer .button.secondary:hover {
+  background-color: var(--cc-richVermillion);
+  border-color: var(--cc-richVermillion);
+  color: var(--cc-creamWhite);
+}
 html .about, body .about {
   padding-bottom: 2rem;
   padding-top: 2rem;
@@ -208,6 +232,16 @@ html footer, body footer {
   html .container, body .container {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+  html .button, body .button {
+    font-size: 1rem;
+    font-weight: 500;
+    gap: 1rem;
+    min-width: 7.5rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    padding-top: 0.5rem;
   }
   html header .headerContent, body header .headerContent {
     align-items: center;
