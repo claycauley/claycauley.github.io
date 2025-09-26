@@ -1,6 +1,7 @@
 @import 'reset.css';
 html, body {
   background-color: var(--cc-creamWhite);
+  overflow-x: hidden;
   scroll-behavior: smooth;
 }
 html .button, body .button {
@@ -159,11 +160,43 @@ html .about .container .aboutTextBlock span, body .about .container .aboutTextBl
   letter-spacing: -0.5px;
 }
 html .about .container img, body .about .container img {
-  aspect-ratio: 3/2;
+  aspect-ratio: 4/3;
   border-radius: 3rem;
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+}
+html .process, body .process {
+  background-color: var(--cc-richVermillion);
+}
+html .process .container, body .process .container {
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  justify-items: center;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+html .process .container .processStep, body .process .container .processStep {
+  align-items: center;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+html .process .container .processStep svg, body .process .container .processStep svg {
+  color: var(--cc-creamWhite);
+  font-size: calc(2.5rem + 0.5vw);
+}
+html .process .container .processStep p, body .process .container .processStep p {
+  color: var(--cc-creamWhite);
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  text-transform: uppercase;
+}
+html .process .container hr, body .process .container hr {
+  background: var(--cc-creamWhite);
+  width: 75%;
 }
 html footer, body footer {
   background-color: var(--cc-offBlack);
@@ -214,7 +247,12 @@ html footer, body footer {
     width: 50%;
   }
   html .about .container img, body .about .container img {
-    aspect-ratio: 4/3;
     border-radius: 4rem;
+  }
+  html .process .container .processStep svg, body .process .container .processStep svg {
+    font-size: 4rem;
+  }
+  html .process .container .processStep p, body .process .container .processStep p {
+    font-size: 1rem;
   }
 }
