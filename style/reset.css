@@ -81,8 +81,7 @@
     --cc-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     --cc-gradient: linear-gradient(180deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0));
     --cc-body-font-family: var(--cc-font-sans-serif);
-    --cc-bodyFontSizeDesktop: 1rem;
-    --cc-bodyFontSizemobile: 0.875rem;
+    --cc-bodyFontSize: 1rem;
     --cc-body-font-weight: 400;
     --cc-body-line-height: 1.5;
     --cc-body-color: #212529;
@@ -151,17 +150,12 @@ body {
   background-color: var(--cc-body-bg);
   color: var(--cc-body-color);
   font-family: var(--cc-body-font-family);
-  font-size: var(--cc-bodyFontSizemobile);
+  font-size: var(--cc-bodyFontSize);
   font-weight: var(--cc-body-font-weight);
   letter-spacing: -.45px;
   line-height: var(--cc-body-line-height);
   margin: 0;
   text-align: var(--cc-body-text-align);
-}
-@media (min-width: 1200px) {
-  body {
-    font-size: var(--cc-bodyFontSizeDesktop);
-  }
 }
 
 hr {
