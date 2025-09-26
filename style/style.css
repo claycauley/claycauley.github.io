@@ -159,7 +159,7 @@ html .about .container .aboutTextBlock span, body .about .container .aboutTextBl
   letter-spacing: -0.5px;
 }
 html .about .container img, body .about .container img {
-  aspect-ratio: 1/1;
+  aspect-ratio: 3/2;
   border-radius: 3rem;
   -o-object-fit: cover;
      object-fit: cover;
@@ -215,5 +215,6 @@ html footer, body footer {
   }
   html .about .container img, body .about .container img {
     aspect-ratio: 4/3;
+    border-radius: 4rem;
   }
 }

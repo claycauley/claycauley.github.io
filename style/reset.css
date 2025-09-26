@@ -197,7 +197,7 @@ h1 {
 }
 
 h2 {
-  font-size: calc(1.5rem + 1vw);
+  font-size: calc(1.5rem + .5vw);
 }
 @media (min-width: 1200px) {
   h2 {
@@ -206,7 +206,7 @@ h2 {
 }
 
 h3 {
-  font-size: calc(1.25rem + 0.5vw);
+  font-size: calc(1rem + .25vw);
 }
 @media (min-width: 1200px) {
   h3 {

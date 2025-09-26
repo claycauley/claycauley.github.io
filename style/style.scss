@@ -186,7 +186,7 @@ html, body {
             }
 
             img {
-                aspect-ratio: 1 / 1;
+                aspect-ratio: 3 / 2;
                 border-radius: 3rem;
                 object-fit: cover;
                 width: 100%;
@@ -260,6 +260,7 @@ html, body {
 
                 img {
                     aspect-ratio: 4 / 3;
+                    border-radius: 4rem;
                 }
             }
         }
