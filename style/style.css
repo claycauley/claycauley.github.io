@@ -28,7 +28,7 @@ html .button, body .button {
   transition-timing-function: ease;
 }
 html .button:hover, body .button:hover {
-  border-radius: 2rem;
+  border-radius: 1.5rem;
 }
 html .button.primary, body .button.primary {
   background-color: var(--cc-abyssBlue);
@@ -102,6 +102,7 @@ html header .headerContent .pageHeaderCallout .supportText, body header .headerC
   font-weight: 700;
   letter-spacing: -0.5px;
   margin-bottom: 0;
+  transition: 0.25s ease-in-out all;
 }
 html .introCallout, body .introCallout {
   background-color: var(--cc-abyssBlue);
@@ -175,18 +176,19 @@ html .about .container, body .about .container {
   gap: 1rem;
   grid-template-columns: 1fr;
 }
-html .about .container .aboutTextBlock h3, body .about .container .aboutTextBlock h3 {
-  color: var(--cc-abyssBlue);
+html .about .container .aboutTextBlock h2 span, body .about .container .aboutTextBlock h2 span {
+  color: var(--cc-richVermillion);
+  font-weight: 900;
+  letter-spacing: -0.5px;
 }
 html .about .container .aboutTextBlock hr, body .about .container .aboutTextBlock hr {
   background: var(--cc-creamWhite);
   background: linear-gradient(90deg, var(--cc-abyssBlue) 0%, var(--cc-richVermillion) 100%);
   width: 100%;
 }
-html .about .container .aboutTextBlock span, body .about .container .aboutTextBlock span {
+html .about .container .aboutTextBlock p span, body .about .container .aboutTextBlock p span {
   color: var(--cc-richVermillion);
-  font-weight: 900;
-  letter-spacing: -0.5px;
+  font-weight: 700;
 }
 html .about .container img, body .about .container img {
   aspect-ratio: 4/3;
@@ -234,18 +236,29 @@ html footer, body footer {
 }
 
 @media (min-width: 1024px) {
+  html, body {
+    overflow-x: initial;
+  }
   html .container, body .container {
     padding-left: 2rem;
     padding-right: 2rem;
   }
   html .button, body .button {
     font-size: 1rem;
-    font-weight: 500;
     min-width: 7.5rem;
     padding-bottom: 0.5rem;
     padding-left: 1.25rem;
     padding-right: 1.25rem;
     padding-top: 0.5rem;
+  }
+  html header, body header {
+    border-bottom-color: var(--cc-abyssBlue);
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    transition: 0.25s ease-in-out all;
   }
   html header .headerContent, body header .headerContent {
     align-items: center;
@@ -254,6 +267,7 @@ html footer, body footer {
   }
   html header .headerContent nav, body header .headerContent nav {
     display: flex;
+    gap: 0.5rem;
     width: auto;
   }
   html header .headerContent nav :last-child, body header .headerContent nav :last-child {
@@ -266,6 +280,25 @@ html footer, body footer {
   }
   html header .headerContent .pageHeaderCallout .pageHeader, body header .headerContent .pageHeaderCallout .pageHeader {
     font-size: 3rem;
+    transition: 0.25s ease-in-out all;
+  }
+  html header.isScrolled, body header.isScrolled {
+    padding-bottom: 8px;
+    padding-top: 8px;
+  }
+  html header.isScrolled .headerContent, body header.isScrolled .headerContent {
+    align-items: center;
+    grid-template-columns: 1fr auto;
+    justify-items: flex-start;
+  }
+  html header.isScrolled .headerContent nav .button, body header.isScrolled .headerContent nav .button {
+    font-size: 0.875rem;
+  }
+  html header.isScrolled .headerContent .pageHeaderCallout .pageHeader, body header.isScrolled .headerContent .pageHeaderCallout .pageHeader {
+    font-size: 2.25rem;
+  }
+  html header.isScrolled .headerContent .pageHeaderCallout .supportText, body header.isScrolled .headerContent .pageHeaderCallout .supportText {
+    font-size: 0.75rem;
   }
   html .introCallout, body .introCallout {
     padding-bottom: 5rem;
