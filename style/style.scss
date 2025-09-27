@@ -24,7 +24,7 @@ html, body {
         padding-top: .75rem;
         text-align: center;
         text-decoration: none;
-        transition-duration: .35s;
+        transition-duration: .25s;
         transition-property: all;
         transition-timing-function: ease;
 
@@ -38,7 +38,7 @@ html, body {
             color: var(--cc-white);
 
             &:hover {
-                background-color: var(--cc-creamWhite);
+                background-color: transparent;
                 color: var(--cc-abyssBlue);
             }
         }
@@ -114,7 +114,9 @@ html, body {
                     font-weight: 700;
                     letter-spacing: -.5px;
                     margin-bottom: 0;
-                    transition: .25s ease-in-out all;
+                    transition-duration: .25s;
+                    transition-property: all;
+                    transition-timing-function: ease;
                 }
             } 
         }
@@ -320,7 +322,9 @@ html, body {
             position: sticky;
             top: 0;
             z-index: 1;
-            transition: .25s ease-in-out all;
+            transition-duration: .25s;
+            transition-property: all;
+            transition-timing-function: ease;
 
             .headerContent {
                 align-items: center;
@@ -344,12 +348,15 @@ html, body {
 
                     .pageHeader {
                         font-size: 3rem;
-                        transition: .25s ease-in-out all;
+                        transition-duration: .25s;
+                        transition-property: all;
+                        transition-timing-function: ease;
                     }
                 }
             }
 
             &.isScrolled {
+                background-color: var(--cc-white);
                 padding-bottom: 8px;
                 padding-top: 8px;
 

@@ -23,7 +23,7 @@ html .button, body .button {
   padding-top: 0.75rem;
   text-align: center;
   text-decoration: none;
-  transition-duration: 0.35s;
+  transition-duration: 0.25s;
   transition-property: all;
   transition-timing-function: ease;
 }
@@ -36,7 +36,7 @@ html .button.primary, body .button.primary {
   color: var(--cc-white);
 }
 html .button.primary:hover, body .button.primary:hover {
-  background-color: var(--cc-creamWhite);
+  background-color: transparent;
   color: var(--cc-abyssBlue);
 }
 html .button.secondary, body .button.secondary {
@@ -102,7 +102,9 @@ html header .headerContent .pageHeaderCallout .supportText, body header .headerC
   font-weight: 700;
   letter-spacing: -0.5px;
   margin-bottom: 0;
-  transition: 0.25s ease-in-out all;
+  transition-duration: 0.25s;
+  transition-property: all;
+  transition-timing-function: ease;
 }
 html .introCallout, body .introCallout {
   background-color: var(--cc-abyssBlue);
@@ -270,7 +272,9 @@ html footer, body footer {
     position: sticky;
     top: 0;
     z-index: 1;
-    transition: 0.25s ease-in-out all;
+    transition-duration: 0.25s;
+    transition-property: all;
+    transition-timing-function: ease;
   }
   html header .headerContent, body header .headerContent {
     align-items: center;
@@ -292,9 +296,12 @@ html footer, body footer {
   }
   html header .headerContent .pageHeaderCallout .pageHeader, body header .headerContent .pageHeaderCallout .pageHeader {
     font-size: 3rem;
-    transition: 0.25s ease-in-out all;
+    transition-duration: 0.25s;
+    transition-property: all;
+    transition-timing-function: ease;
   }
   html header.isScrolled, body header.isScrolled {
+    background-color: var(--cc-white);
     padding-bottom: 8px;
     padding-top: 8px;
   }
