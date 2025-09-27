@@ -162,8 +162,8 @@ html, body {
                 }
 
                 .buttonContainer {
-                    display: flex;
-                    flex-direction: row;
+                    display: grid;
+                    grid-template-columns: 1fr 1fr;
                     gap: 1rem;
 
                     .button {
@@ -389,6 +389,11 @@ html, body {
                     hr {
                         background: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 50%);
                         width: 50%;
+                    }
+
+                    .buttonContainer {
+                        display: flex;
+                        flex-direction: row;
                     }
                 }
             }

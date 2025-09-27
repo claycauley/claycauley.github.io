@@ -143,8 +143,8 @@ html .introCallout .container .introCalloutTextBlock hr, body .introCallout .con
   width: 100%;
 }
 html .introCallout .container .introCalloutTextBlock .buttonContainer, body .introCallout .container .introCalloutTextBlock .buttonContainer {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 1rem;
 }
 html .introCallout .container .introCalloutTextBlock .buttonContainer .button, body .introCallout .container .introCalloutTextBlock .buttonContainer .button {
@@ -324,6 +324,10 @@ html footer, body footer {
   html .introCallout .container .introCalloutTextBlock hr, body .introCallout .container .introCalloutTextBlock hr {
     background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 50%);
     width: 50%;
+  }
+  html .introCallout .container .introCalloutTextBlock .buttonContainer, body .introCallout .container .introCalloutTextBlock .buttonContainer {
+    display: flex;
+    flex-direction: row;
   }
   html .about, body .about {
     padding-bottom: 5rem;
