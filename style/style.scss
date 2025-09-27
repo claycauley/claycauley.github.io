@@ -224,6 +224,10 @@ html, body {
                         font-weight: 700;
                     }
                 }
+
+                &.rightAligned {
+                    order: -1;
+                }
             }
 
             img {
@@ -239,36 +243,47 @@ html, body {
         background-color: var(--cc-richVermillion);
 
         .container {
-            align-items: center;
             gap: 1rem;
-            grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
             justify-items: center;
             padding-bottom: 2rem;
             padding-top: 2rem;
 
-            .processStep {
+            .timeline {
                 align-items: center;
                 display: grid;
                 gap: 1rem;
-                justify-items: center;
+                grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+                width: 100%;
+                
+                .processStep {
+                    align-items: center;
+                    display: grid;
+                    gap: 1rem;
+                    justify-items: center;
 
-                svg {
-                    color: var(--cc-creamWhite);
-                    font-size: calc(2.5rem + .5vw);
+                    svg {
+                        color: var(--cc-creamWhite);
+                        font-size: calc(2.5rem + .5vw);
+                    }
+
+                    p {
+                        color: var(--cc-creamWhite);
+                        font-size: .875rem;
+                        font-weight: 700;
+                        margin-bottom: 0;
+                        text-transform: uppercase;
+                    }
                 }
 
-                p {
-                    color: var(--cc-creamWhite);
-                    font-size: .875rem;
-                    font-weight: 700;
-                    margin-bottom: 0;
-                    text-transform: uppercase;
+                hr {
+                    background: var(--cc-creamWhite);
+                    width: 75%;
                 }
             }
-
-            hr {
-                background: var(--cc-creamWhite);
-                width: 75%;
+            
+            p {
+                color: var(--cc-richVermillionLighten);
+                margin-bottom: 0;
             }
         }
     }
@@ -355,6 +370,7 @@ html, body {
                         }
                         .supportText {
                             font-size: .75rem;
+                            letter-spacing: -.25px;
                         }
                     }
                 }
@@ -390,6 +406,10 @@ html, body {
                     hr {
                         background: linear-gradient(90deg,var(--cc-abyssBlue) 0%, var(--cc-richVermillion) 50%);
                         width: 50%;
+                    }
+
+                    &.rightAligned {
+                        order: initial;
                     }
                 }
 

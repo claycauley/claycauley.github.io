@@ -190,6 +190,9 @@ html .about .container .aboutTextBlock p span, body .about .container .aboutText
   color: var(--cc-richVermillion);
   font-weight: 700;
 }
+html .about .container .aboutTextBlock.rightAligned, body .about .container .aboutTextBlock.rightAligned {
+  order: -1;
+}
 html .about .container img, body .about .container img {
   aspect-ratio: 4/3;
   border-radius: 3rem;
@@ -201,33 +204,42 @@ html .process, body .process {
   background-color: var(--cc-richVermillion);
 }
 html .process .container, body .process .container {
-  align-items: center;
   gap: 1rem;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   justify-items: center;
   padding-bottom: 2rem;
   padding-top: 2rem;
 }
-html .process .container .processStep, body .process .container .processStep {
+html .process .container .timeline, body .process .container .timeline {
+  align-items: center;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  width: 100%;
+}
+html .process .container .timeline .processStep, body .process .container .timeline .processStep {
   align-items: center;
   display: grid;
   gap: 1rem;
   justify-items: center;
 }
-html .process .container .processStep svg, body .process .container .processStep svg {
+html .process .container .timeline .processStep svg, body .process .container .timeline .processStep svg {
   color: var(--cc-creamWhite);
   font-size: calc(2.5rem + 0.5vw);
 }
-html .process .container .processStep p, body .process .container .processStep p {
+html .process .container .timeline .processStep p, body .process .container .timeline .processStep p {
   color: var(--cc-creamWhite);
   font-size: 0.875rem;
   font-weight: 700;
   margin-bottom: 0;
   text-transform: uppercase;
 }
-html .process .container hr, body .process .container hr {
+html .process .container .timeline hr, body .process .container .timeline hr {
   background: var(--cc-creamWhite);
   width: 75%;
+}
+html .process .container p, body .process .container p {
+  color: var(--cc-richVermillionLighten);
+  margin-bottom: 0;
 }
 html footer, body footer {
   background-color: var(--cc-offBlack);
@@ -299,6 +311,7 @@ html footer, body footer {
   }
   html header.isScrolled .headerContent .pageHeaderCallout .supportText, body header.isScrolled .headerContent .pageHeaderCallout .supportText {
     font-size: 0.75rem;
+    letter-spacing: -0.25px;
   }
   html .introCallout, body .introCallout {
     padding-bottom: 5rem;
@@ -323,6 +336,9 @@ html footer, body footer {
   html .about .container .aboutTextBlock hr, body .about .container .aboutTextBlock hr {
     background: linear-gradient(90deg, var(--cc-abyssBlue) 0%, var(--cc-richVermillion) 50%);
     width: 50%;
+  }
+  html .about .container .aboutTextBlock.rightAligned, body .about .container .aboutTextBlock.rightAligned {
+    order: initial;
   }
   html .about .container img, body .about .container img {
     border-radius: 4rem;
