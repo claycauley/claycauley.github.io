@@ -6,12 +6,12 @@ html, body {
 }
 html .button, body .button {
   align-items: center;
-  border-color: var(--cc-offBlack);
+  border-color: var(--cc-slateBlack);
   border-radius: 0.5rem;
   border-style: solid;
   border-width: 1px;
   display: flex;
-  font-size: 0.875rem;
+  font-size: 1rem;
   font-weight: 600;
   gap: 0.5rem;
   justify-content: center;
@@ -307,6 +307,54 @@ html .work .container ul li p, body .work .container ul li p {
   font-weight: 600;
   margin-bottom: 0;
 }
+html .projectBanner, body .projectBanner {
+  background-color: var(--cc-slateBlack);
+  padding-bottom: 1rem;
+  padding-top: 1rem;
+}
+html .projectBanner .container, body .projectBanner .container {
+  align-items: center;
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+html .projectBanner .container img, body .projectBanner .container img {
+  aspect-ratio: 4/3;
+  border-radius: 1rem;
+  order: -1;
+  width: 100%;
+}
+html .projectBanner .container .projectBannerTextBlock h1, html .projectBanner .container .projectBannerTextBlock p, body .projectBanner .container .projectBannerTextBlock h1, body .projectBanner .container .projectBannerTextBlock p {
+  color: var(--cc-creamWhite);
+}
+html .projectBanner .container .projectBannerTextBlock h2, body .projectBanner .container .projectBannerTextBlock h2 {
+  color: var(--cc-abyssBlueLighten);
+}
+html .projectBanner .container .projectBannerTextBlock hr, body .projectBanner .container .projectBannerTextBlock hr {
+  background: var(--cc-creamWhite);
+  background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+  width: 100%;
+}
+html .projectBanner .container .projectBannerTextBlock .buttonContainer .button, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button {
+  background-color: var(--cc-richVermillion);
+  border-color: var(--cc-richVermillion);
+  color: var(--cc-white);
+  width: 100%;
+}
+html .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover {
+  background-color: var(--cc-creamWhite);
+  border-color: var(--cc-creamWhite);
+  color: var(--cc-richVermillion);
+}
+html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary {
+  background-color: var(--cc-creamWhite);
+  border-color: var(--cc-creamWhite);
+  color: var(--cc-richVermillion);
+}
+html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover {
+  background-color: var(--cc-richVermillion);
+  border-color: var(--cc-richVermillion);
+  color: var(--cc-creamWhite);
+}
 
 @media (min-width: 1024px) {
   html, body {
@@ -452,5 +500,50 @@ html .work .container ul li p, body .work .container ul li p {
   html .work .container ul li a:hover img, body .work .container ul li a:hover img {
     filter: grayscale(0%);
     width: 100%;
+  }
+  html .projectBanner, body .projectBanner {
+    padding-bottom: 2rem;
+    padding-top: 2rem;
+  }
+  html .projectBanner .container, body .projectBanner .container {
+    align-items: center;
+    gap: 2rem;
+    grid-template-columns: 1fr 1fr;
+  }
+  html .projectBanner .container img, body .projectBanner .container img {
+    order: initial;
+  }
+  html .projectBanner .container .projectBannerTextBlock h1, html .projectBanner .container .projectBannerTextBlock p, body .projectBanner .container .projectBannerTextBlock h1, body .projectBanner .container .projectBannerTextBlock p {
+    color: var(--cc-creamWhite);
+  }
+  html .projectBanner .container .projectBannerTextBlock h2, body .projectBanner .container .projectBannerTextBlock h2 {
+    color: var(--cc-abyssBlueLighten);
+  }
+  html .projectBanner .container .projectBannerTextBlock hr, body .projectBanner .container .projectBannerTextBlock hr {
+    background: var(--cc-creamWhite);
+    background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+    width: 100%;
+  }
+  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button {
+    background-color: var(--cc-richVermillion);
+    border-color: var(--cc-richVermillion);
+    color: var(--cc-white);
+    width: -moz-max-content;
+    width: max-content;
+  }
+  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover {
+    background-color: var(--cc-creamWhite);
+    border-color: var(--cc-creamWhite);
+    color: var(--cc-richVermillion);
+  }
+  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary {
+    background-color: var(--cc-creamWhite);
+    border-color: var(--cc-creamWhite);
+    color: var(--cc-richVermillion);
+  }
+  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover {
+    background-color: var(--cc-richVermillion);
+    border-color: var(--cc-richVermillion);
+    color: var(--cc-creamWhite);
   }
 }
