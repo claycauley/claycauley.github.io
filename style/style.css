@@ -305,6 +305,7 @@ html .work .container ul li a img, body .work .container ul li a img {
 }
 html .work .container ul li p, body .work .container ul li p {
   font-weight: 600;
+  margin-bottom: 0;
 }
 
 @media (min-width: 1024px) {
