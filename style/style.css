@@ -431,8 +431,7 @@ html .work .container ul li p, body .work .container ul li p {
     width: 75%;
   }
   html .work .container ul, body .work .container ul {
-    display: flex;
-    flex-direction: row;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
     gap: 2rem;
     width: 75%;
   }

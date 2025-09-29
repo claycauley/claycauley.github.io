@@ -532,8 +532,7 @@ html, body {
                 }
 
                 ul {
-                    display: flex;
-                    flex-direction: row;
+                    grid-template-columns: 1fr 1fr 1fr 1fr;
                     gap: 2rem;
                     width: 75%;
 
