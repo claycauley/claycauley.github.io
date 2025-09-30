@@ -370,6 +370,31 @@ html .projectSamples .container img, body .projectSamples .container img {
      object-fit: cover;
   width: 100%;
 }
+html .mobileDesign, body .mobileDesign {
+  background-color: var(--cc-slateBlack);
+  padding: 1rem 0;
+}
+html .mobileDesign .container, body .mobileDesign .container {
+  gap: 1rem;
+}
+html .mobileDesign .container img, body .mobileDesign .container img {
+  border-radius: 3rem;
+  width: 100%;
+}
+html .mobileDesign .container h2, body .mobileDesign .container h2 {
+  color: var(--cc-creamWhite);
+}
+html .mobileDesign .container h2 span, body .mobileDesign .container h2 span {
+  color: var(--cc-abyssBlueLighten);
+}
+html .mobileDesign .container hr, body .mobileDesign .container hr {
+  background: var(--cc-creamWhite);
+  background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+  width: 100%;
+}
+html .mobileDesign .container p, body .mobileDesign .container p {
+  color: var(--cc-creamWhite);
+}
 
 @media (min-width: 1024px) {
   html, body {
@@ -546,7 +571,7 @@ html .projectSamples .container img, body .projectSamples .container img {
     width: max-content;
   }
   html .projectSamples, body .projectSamples {
-    padding: 2rem 0;
+    padding: 3rem 0;
   }
   html .projectSamples .container, body .projectSamples .container {
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -554,5 +579,19 @@ html .projectSamples .container img, body .projectSamples .container img {
   html .projectSamples .container img, body .projectSamples .container img {
     aspect-ratio: 7/5;
     border-radius: 1.5rem;
+  }
+  html .mobileDesign, body .mobileDesign {
+    padding: 2rem 0;
+  }
+  html .mobileDesign .container, body .mobileDesign .container {
+    align-items: center;
+    gap: 2rem;
+    grid-template-columns: 1.25fr 1fr;
+  }
+  html .mobileDesign .container img, body .mobileDesign .container img {
+    border-radius: 4rem;
+  }
+  html .mobileDesign .container hr, body .mobileDesign .container hr {
+    width: 50%;
   }
 }
