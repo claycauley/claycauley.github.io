@@ -76,6 +76,15 @@ html header .headerContent nav, body header .headerContent nav {
 html header .headerContent nav :last-child, body header .headerContent nav :last-child {
   grid-column: span 2;
 }
+html header .headerContent nav.insidePages, body header .headerContent nav.insidePages {
+  grid-template-columns: auto 1fr 1fr;
+}
+html header .headerContent nav.insidePages span, body header .headerContent nav.insidePages span {
+  display: none;
+}
+html header .headerContent nav.insidePages :last-child, body header .headerContent nav.insidePages :last-child {
+  grid-column: span 3;
+}
 html header .headerContent .pageHeaderCallout, body header .headerContent .pageHeaderCallout {
   align-items: center;
   display: grid;
@@ -244,7 +253,7 @@ html .process .container p, body .process .container p {
   margin-bottom: 0;
 }
 html .work, body .work {
-  background-color: var(--cc-abyssBlue);
+  background-color: var(--cc-slateBlack);
   color: var(--cc-creamWhite);
 }
 html .work .container, body .work .container {
@@ -264,15 +273,15 @@ html .work .container .workHeadingContainer h2, body .work .container .workHeadi
   text-align: center;
 }
 html .work .container .workHeadingContainer p, body .work .container .workHeadingContainer p {
-  color: var(--cc-abyssBlueLighten);
+  color: var(--cc-violetFrost);
   font-family: var(--cc-heading-font-family);
   font-weight: 500;
   letter-spacing: 0;
   margin-bottom: 0;
 }
 html .work .container hr, body .work .container hr {
-  background: var(--cc-creamWhite);
-  background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+  background: var(--cc-abyssBlueLighten);
+  background-image: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
   width: 100%;
 }
 html .work .container ul, body .work .container ul {
@@ -319,7 +328,7 @@ html .projectBanner .container, body .projectBanner .container {
 }
 html .projectBanner .container img, body .projectBanner .container img {
   aspect-ratio: 4/3;
-  border-radius: 1rem;
+  border-radius: 3rem;
   order: -1;
   width: 100%;
 }
@@ -335,25 +344,31 @@ html .projectBanner .container .projectBannerTextBlock hr, body .projectBanner .
   width: 100%;
 }
 html .projectBanner .container .projectBannerTextBlock .buttonContainer .button, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button {
-  background-color: var(--cc-richVermillion);
-  border-color: var(--cc-richVermillion);
-  color: var(--cc-white);
+  background-color: var(--cc-creamWhite);
+  border-color: var(--cc-creamWhite);
+  color: var(--cc-richVermillion);
   width: 100%;
 }
 html .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover {
-  background-color: var(--cc-creamWhite);
-  border-color: var(--cc-creamWhite);
-  color: var(--cc-richVermillion);
-}
-html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary {
-  background-color: var(--cc-creamWhite);
-  border-color: var(--cc-creamWhite);
-  color: var(--cc-richVermillion);
-}
-html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover {
   background-color: var(--cc-richVermillion);
   border-color: var(--cc-richVermillion);
   color: var(--cc-creamWhite);
+}
+html .projectSamples, body .projectSamples {
+  padding: 1rem 0;
+}
+html .projectSamples .container, body .projectSamples .container {
+  gap: 1rem;
+  grid-template-columns: 1fr;
+}
+html .projectSamples .container img, body .projectSamples .container img {
+  aspect-ratio: 2/1;
+  border-radius: 1rem;
+  -o-object-position: top;
+     object-position: top;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
 }
 
 @media (min-width: 1024px) {
@@ -394,6 +409,15 @@ html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.
     display: flex;
     gap: 0.5rem;
     width: auto;
+  }
+  html header .headerContent nav.insidePages, body header .headerContent nav.insidePages {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  html header .headerContent nav.insidePages span, body header .headerContent nav.insidePages span {
+    display: block;
+  }
+  html header .headerContent nav.insidePages .home, body header .headerContent nav.insidePages .home {
+    display: none;
   }
   html header .headerContent nav :last-child, body header .headerContent nav :last-child {
     grid-column: initial;
@@ -479,7 +503,7 @@ html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.
     font-size: 1rem;
   }
   html .work .container hr, body .work .container hr {
-    width: 75%;
+    width: 50%;
   }
   html .work .container ul, body .work .container ul {
     grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -511,39 +535,24 @@ html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.
     grid-template-columns: 1fr 1fr;
   }
   html .projectBanner .container img, body .projectBanner .container img {
+    border-radius: 4rem;
     order: initial;
   }
-  html .projectBanner .container .projectBannerTextBlock h1, html .projectBanner .container .projectBannerTextBlock p, body .projectBanner .container .projectBannerTextBlock h1, body .projectBanner .container .projectBannerTextBlock p {
-    color: var(--cc-creamWhite);
-  }
-  html .projectBanner .container .projectBannerTextBlock h2, body .projectBanner .container .projectBannerTextBlock h2 {
-    color: var(--cc-abyssBlueLighten);
-  }
   html .projectBanner .container .projectBannerTextBlock hr, body .projectBanner .container .projectBannerTextBlock hr {
-    background: var(--cc-creamWhite);
-    background: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
-    width: 100%;
+    width: 50%;
   }
   html .projectBanner .container .projectBannerTextBlock .buttonContainer .button, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button {
-    background-color: var(--cc-richVermillion);
-    border-color: var(--cc-richVermillion);
-    color: var(--cc-white);
     width: -moz-max-content;
     width: max-content;
   }
-  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button:hover {
-    background-color: var(--cc-creamWhite);
-    border-color: var(--cc-creamWhite);
-    color: var(--cc-richVermillion);
+  html .projectSamples, body .projectSamples {
+    padding: 2rem 0;
   }
-  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary {
-    background-color: var(--cc-creamWhite);
-    border-color: var(--cc-creamWhite);
-    color: var(--cc-richVermillion);
+  html .projectSamples .container, body .projectSamples .container {
+    grid-template-columns: 1fr 1fr 1fr 1fr;
   }
-  html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover, body .projectBanner .container .projectBannerTextBlock .buttonContainer .button.secondary:hover {
-    background-color: var(--cc-richVermillion);
-    border-color: var(--cc-richVermillion);
-    color: var(--cc-creamWhite);
+  html .projectSamples .container img, body .projectSamples .container img {
+    aspect-ratio: 7/5;
+    border-radius: 1.5rem;
   }
 }

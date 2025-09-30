@@ -84,6 +84,18 @@ html, body {
                 :last-child {
                     grid-column: span 2;
                 }
+
+                &.insidePages {
+                    grid-template-columns: auto 1fr 1fr;
+
+                    span {
+                        display: none;
+                    }
+                    
+                    :last-child {
+                        grid-column: span 3;
+                    }
+                }
             }
 
            .pageHeaderCallout {
@@ -292,7 +304,7 @@ html, body {
     }
 
     .work {
-        background-color: var(--cc-abyssBlue);
+        background-color: var(--cc-slateBlack);
         color: var(--cc-creamWhite);
 
         .container {
@@ -313,7 +325,7 @@ html, body {
                 }
 
                 p {
-                    color: var(--cc-abyssBlueLighten);
+                    color: var(--cc-violetFrost);
                     font-family: var(--cc-heading-font-family);
                     font-weight: 500;
                     letter-spacing: 0;
@@ -322,8 +334,8 @@ html, body {
             }
 
             hr {
-                background: var(--cc-creamWhite);
-                background: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+                background: var(--cc-abyssBlueLighten);
+                background-image: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
                 width: 100%;
             }
 
@@ -367,7 +379,7 @@ html, body {
     }
     //**********//
 
-    // Work Pages //
+    // Project Pages //
     .projectBanner {
         background-color: var(--cc-slateBlack);
         padding-bottom: 1rem;
@@ -380,7 +392,7 @@ html, body {
 
             img {
                 aspect-ratio: 4 / 3;
-                border-radius: 1rem;
+                border-radius: 3rem;
                 order: -1;
                 width: 100%;
             }
@@ -402,30 +414,35 @@ html, body {
 
                 .buttonContainer {
                     .button {
-                        background-color: var(--cc-richVermillion);
-                        border-color: var(--cc-richVermillion);
-                        color: var(--cc-white);
+                        background-color: var(--cc-creamWhite);
+                        border-color: var(--cc-creamWhite);
+                        color: var(--cc-richVermillion);
                         width: 100%;
 
                         &:hover {
-                            background-color: var(--cc-creamWhite);
-                            border-color: var(--cc-creamWhite);
-                            color: var(--cc-richVermillion);
-                        }
-
-                        &.secondary {
-                            background-color: var(--cc-creamWhite);
-                            border-color: var(--cc-creamWhite);
-                            color: var(--cc-richVermillion);
-
-                            &:hover {
-                                background-color: var(--cc-richVermillion);
-                                border-color: var(--cc-richVermillion);
-                                color: var(--cc-creamWhite);
-                            }
+                            background-color: var(--cc-richVermillion);
+                            border-color: var(--cc-richVermillion);
+                            color: var(--cc-creamWhite);
                         }
                     }
                 }
+            }
+        }
+    }
+
+    .projectSamples {
+        padding: 1rem 0;
+
+        .container {
+            gap: 1rem;
+            grid-template-columns: 1fr;
+
+            img {
+                aspect-ratio: 2 / 1;
+                border-radius: 1rem;
+                object-position: top;
+                object-fit: cover;
+                width: 100%;
             }
         }
     }
@@ -473,6 +490,18 @@ html, body {
                     display: flex;
                     gap: .5rem;
                     width: auto;
+
+                    &.insidePages {
+                        grid-template-columns: 1fr 1fr 1fr;
+
+                        span {
+                            display: block;
+                        }
+
+                        .home {
+                            display: none;
+                        }
+                    }
 
                     :last-child {
                         grid-column: initial;
@@ -598,7 +627,7 @@ html, body {
                 }
 
                 hr {
-                    width: 75%;
+                    width: 50%;
                 }
 
                 ul {
@@ -631,6 +660,7 @@ html, body {
         }
         //**********//
 
+        // Project Pages //
         .projectBanner {
             padding-bottom: 2rem;
             padding-top: 2rem;
@@ -641,52 +671,36 @@ html, body {
                 grid-template-columns: 1fr 1fr;
 
                 img {
+                    border-radius: 4rem;
                     order: initial;
                 }
 
                 .projectBannerTextBlock {
-                    h1, p {
-                        color: var(--cc-creamWhite);
-                    }
-
-                    h2 {
-                        color: var(--cc-abyssBlueLighten);
-                    }
-
                     hr {
-                        background: var(--cc-creamWhite);
-                        background: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
-                        width: 100%;
+                        width: 50%;
                     }
 
                     .buttonContainer {
                         .button {
-                            background-color: var(--cc-richVermillion);
-                            border-color: var(--cc-richVermillion);
-                            color: var(--cc-white);
                             width: max-content;
-
-                            &:hover {
-                                background-color: var(--cc-creamWhite);
-                                border-color: var(--cc-creamWhite);
-                                color: var(--cc-richVermillion);
-                            }
-
-                            &.secondary {
-                                background-color: var(--cc-creamWhite);
-                                border-color: var(--cc-creamWhite);
-                                color: var(--cc-richVermillion);
-
-                                &:hover {
-                                    background-color: var(--cc-richVermillion);
-                                    border-color: var(--cc-richVermillion);
-                                    color: var(--cc-creamWhite);
-                                }
-                            }
                         }
                     }
                 }
             }
         }
+
+        .projectSamples {
+            padding: 2rem 0;
+
+            .container {
+                grid-template-columns: 1fr 1fr 1fr 1fr;
+
+                img {
+                    aspect-ratio: 7 / 5;
+                    border-radius: 1.5rem;
+                }
+            }
+        }
+        //**********//
     }
 }
