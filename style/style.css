@@ -394,7 +394,7 @@ html .mobileDesign .container .mobileDesignTextBlock p, body .mobileDesign .cont
   color: var(--cc-creamWhite);
 }
 html .projectSamples, body .projectSamples {
-  background-color: var(--cc-abyssBlue);
+  background-color: var(--cc-slateBlack);
   padding: 2rem 0;
 }
 html .projectSamples .container, body .projectSamples .container {
