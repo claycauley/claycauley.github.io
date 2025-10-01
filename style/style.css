@@ -379,12 +379,16 @@ html .mobileDesign .container, body .mobileDesign .container {
 }
 html .mobileDesign .container img, body .mobileDesign .container img {
   border-radius: 3rem;
+  order: 2;
   width: 100%;
 }
 html .mobileDesign .container h2, body .mobileDesign .container h2 {
   color: var(--cc-creamWhite);
 }
-html .mobileDesign .container h2 span, body .mobileDesign .container h2 span {
+html .mobileDesign .container h2 span.richVermillion, body .mobileDesign .container h2 span.richVermillion {
+  color: var(--cc-richVermillion);
+}
+html .mobileDesign .container h2 span.fancy, body .mobileDesign .container h2 span.fancy {
   color: var(--cc-abyssBlueLighten);
 }
 html .mobileDesign .container hr, body .mobileDesign .container hr {
@@ -590,6 +594,7 @@ html .mobileDesign .container p, body .mobileDesign .container p {
   }
   html .mobileDesign .container img, body .mobileDesign .container img {
     border-radius: 4rem;
+    order: -1;
   }
   html .mobileDesign .container hr, body .mobileDesign .container hr {
     width: 50%;

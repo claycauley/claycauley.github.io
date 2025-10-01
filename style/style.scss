@@ -456,6 +456,7 @@ html, body {
             
             img {
                 border-radius: 3rem;
+                order: 2;
                 width: 100%;
             }
 
@@ -463,7 +464,14 @@ html, body {
                 color: var(--cc-creamWhite);
 
                 span {
-                    color: var(--cc-abyssBlueLighten);
+
+                    &.richVermillion {
+                        color: var(--cc-richVermillion);
+                    }
+
+                    &.fancy {
+                        color: var(--cc-abyssBlueLighten);
+                    }
                 }
             }
 
@@ -744,6 +752,7 @@ html, body {
 
                 img {
                     border-radius: 4rem;
+                    order: -1;
                 }
 
                 hr {
