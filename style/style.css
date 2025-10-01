@@ -601,10 +601,14 @@ html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRede
   html .mobileDesign .container .mobileDesignTextBlock hr, body .mobileDesign .container .mobileDesignTextBlock hr {
     width: 50%;
   }
+  html .projectRedesign, body .projectRedesign {
+    padding: 4rem 0;
+  }
   html .projectRedesign .container, body .projectRedesign .container {
     align-items: center;
     gap: 2rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    padding: 0 calc(8rem + 10vw);
   }
   html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRedesign .container .projectRedesignTextBlock hr {
     width: 50%;

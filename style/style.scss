@@ -766,10 +766,13 @@ html, body {
         }
 
         .projectRedesign {
+            padding: 4rem 0;
+
             .container {
                 align-items: center;
                 gap: 2rem;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 1fr;
+                padding: 0 calc(8rem + 10vw);
 
                 .projectRedesignTextBlock {                    
                     hr {
