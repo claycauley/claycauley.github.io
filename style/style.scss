@@ -304,42 +304,39 @@ html, body {
     }
 
     .projects {
-        background-color: var(--cc-slateBlack);
+        background-color: var(--cc-abyssBlue);
         color: var(--cc-creamWhite);
+        padding: 2rem 0;
 
         .container {
-            justify-items: center;
-            padding-bottom: 2rem;
-            padding-top: 2rem;
+            gap: 1rem;
 
-            .projectsHeadingContainer {
+            .projectsTextBlock {
                 display: grid;
                 gap: .5rem;
-                justify-items: center;
                 width: 100%;
 
                 h2 {
                     font-size: calc(1.75rem + .25vw);
                     margin-bottom: 0;
-                    text-align: center;
+
+                    span {
+                        color: var(--cc-abyssBlueLighten);
+                    }
+                }
+
+                hr {
+                    background: var(--cc-abyssBlueLighten);
+                    background-image: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+                    width: 100%;
                 }
 
                 p {
-                    color: var(--cc-violetFrost);
-                    font-family: var(--cc-heading-font-family);
-                    font-weight: 500;
-                    letter-spacing: 0;
                     margin-bottom: 0;
                 }
             }
 
-            hr {
-                background: var(--cc-abyssBlueLighten);
-                background-image: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
-                width: 100%;
-            }
-
-            ul {
+            .projectCards {
                 display: grid;
                 gap: 1rem;
                 grid-template-columns: 1fr 1fr;
@@ -347,31 +344,17 @@ html, body {
                 padding: 0;
                 width: 100%;
 
-                li {
+                a {
+                    align-items: center;
+                    aspect-ratio: 4 / 3;
+                    background-color: var(--cc-creamWhite);
+                    border-radius: 1.25rem;
                     display: grid;
-                    gap: .5rem;
-                    list-style-type: none;
                     justify-items: center;
+                    width: 100%;
 
-                    a {
-                        align-items: center;
-                        aspect-ratio: 1 / 1;
-                        background-color: var(--cc-creamWhite);
-                        border-radius: 1.5rem;
-                        display: grid;
-                        justify-items: center;
-                        padding: 2rem;
-                        width: 100%;
-
-                        img {
-                            filter: grayscale(100%);
-                            width: 100%;
-                        }
-                    }
-
-                    p {
-                        font-weight: 600;
-                        margin-bottom: 0;
+                    img {
+                        width: 75%;
                     }
                 }
             }
@@ -685,46 +668,36 @@ html, body {
         }
 
         .projects {
+            padding: 5rem 0;
             .container {
-                gap: 1rem;
+                align-items: center;
+                gap: 3rem;
+                grid-template-columns: 1.75fr 1fr;
 
-                .projectsHeadingContainer {
+                .projectsTextBlock {
                     h2 {
                         font-size: 2.25rem;
                     }
 
+                    hr {
+                        width: 50%;
+                    }
+                    
                     p {
                         font-size: 1rem;
                     }
                 }
 
-                hr {
-                    width: 50%;
-                }
+                .projectCards {
+                    grid-template-columns: 1fr 1fr;
+                    gap: 1rem;
 
-                ul {
-                    grid-template-columns: 1fr 1fr 1fr 1fr;
-                    gap: 2rem;
-                    width: 75%;
+                    a {
+                        border-radius: 2rem;
+                        transition: .25s ease-in-out all;
 
-                    li {
-                        a {
-                            border-radius: 2rem;
-                            transition: .25s ease-in-out all;
-
-                            img {
-                                transition: .25s ease-in-out all;
-                                width: 90%;
-                            }
-
-                            &:hover {
-                                border-radius: 3.5rem;
-
-                                img {
-                                    filter: grayscale(0%);
-                                    width: 100%;
-                                }
-                            }
+                        &:hover {
+                            border-radius: 3.5rem;
                         }
                     }
                 }

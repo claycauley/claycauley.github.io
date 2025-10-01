@@ -253,38 +253,34 @@ html .process .container p, body .process .container p {
   margin-bottom: 0;
 }
 html .projects, body .projects {
-  background-color: var(--cc-slateBlack);
+  background-color: var(--cc-abyssBlue);
   color: var(--cc-creamWhite);
+  padding: 2rem 0;
 }
 html .projects .container, body .projects .container {
-  justify-items: center;
-  padding-bottom: 2rem;
-  padding-top: 2rem;
+  gap: 1rem;
 }
-html .projects .container .projectsHeadingContainer, body .projects .container .projectsHeadingContainer {
+html .projects .container .projectsTextBlock, body .projects .container .projectsTextBlock {
   display: grid;
   gap: 0.5rem;
-  justify-items: center;
   width: 100%;
 }
-html .projects .container .projectsHeadingContainer h2, body .projects .container .projectsHeadingContainer h2 {
+html .projects .container .projectsTextBlock h2, body .projects .container .projectsTextBlock h2 {
   font-size: calc(1.75rem + 0.25vw);
   margin-bottom: 0;
-  text-align: center;
 }
-html .projects .container .projectsHeadingContainer p, body .projects .container .projectsHeadingContainer p {
-  color: var(--cc-violetFrost);
-  font-family: var(--cc-heading-font-family);
-  font-weight: 500;
-  letter-spacing: 0;
-  margin-bottom: 0;
+html .projects .container .projectsTextBlock h2 span, body .projects .container .projectsTextBlock h2 span {
+  color: var(--cc-abyssBlueLighten);
 }
-html .projects .container hr, body .projects .container hr {
+html .projects .container .projectsTextBlock hr, body .projects .container .projectsTextBlock hr {
   background: var(--cc-abyssBlueLighten);
   background-image: linear-gradient(90deg, var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
   width: 100%;
 }
-html .projects .container ul, body .projects .container ul {
+html .projects .container .projectsTextBlock p, body .projects .container .projectsTextBlock p {
+  margin-bottom: 0;
+}
+html .projects .container .projectCards, body .projects .container .projectCards {
   display: grid;
   gap: 1rem;
   grid-template-columns: 1fr 1fr;
@@ -292,29 +288,17 @@ html .projects .container ul, body .projects .container ul {
   padding: 0;
   width: 100%;
 }
-html .projects .container ul li, body .projects .container ul li {
-  display: grid;
-  gap: 0.5rem;
-  list-style-type: none;
-  justify-items: center;
-}
-html .projects .container ul li a, body .projects .container ul li a {
+html .projects .container .projectCards a, body .projects .container .projectCards a {
   align-items: center;
-  aspect-ratio: 1/1;
+  aspect-ratio: 4/3;
   background-color: var(--cc-creamWhite);
-  border-radius: 1.5rem;
+  border-radius: 1.25rem;
   display: grid;
   justify-items: center;
-  padding: 2rem;
   width: 100%;
 }
-html .projects .container ul li a img, body .projects .container ul li a img {
-  filter: grayscale(100%);
-  width: 100%;
-}
-html .projects .container ul li p, body .projects .container ul li p {
-  font-weight: 600;
-  margin-bottom: 0;
+html .projects .container .projectCards a img, body .projects .container .projectCards a img {
+  width: 75%;
 }
 html .projectBanner, body .projectBanner {
   background-color: var(--cc-slateBlack);
@@ -549,37 +533,33 @@ html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRede
   html .process .container .processStep p, body .process .container .processStep p {
     font-size: 1rem;
   }
-  html .projects .container, body .projects .container {
-    gap: 1rem;
+  html .projects, body .projects {
+    padding: 5rem 0;
   }
-  html .projects .container .projectsHeadingContainer h2, body .projects .container .projectsHeadingContainer h2 {
+  html .projects .container, body .projects .container {
+    align-items: center;
+    gap: 3rem;
+    grid-template-columns: 1.75fr 1fr;
+  }
+  html .projects .container .projectsTextBlock h2, body .projects .container .projectsTextBlock h2 {
     font-size: 2.25rem;
   }
-  html .projects .container .projectsHeadingContainer p, body .projects .container .projectsHeadingContainer p {
-    font-size: 1rem;
-  }
-  html .projects .container hr, body .projects .container hr {
+  html .projects .container .projectsTextBlock hr, body .projects .container .projectsTextBlock hr {
     width: 50%;
   }
-  html .projects .container ul, body .projects .container ul {
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    gap: 2rem;
-    width: 75%;
+  html .projects .container .projectsTextBlock p, body .projects .container .projectsTextBlock p {
+    font-size: 1rem;
   }
-  html .projects .container ul li a, body .projects .container ul li a {
+  html .projects .container .projectCards, body .projects .container .projectCards {
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+  html .projects .container .projectCards a, body .projects .container .projectCards a {
     border-radius: 2rem;
     transition: 0.25s ease-in-out all;
   }
-  html .projects .container ul li a img, body .projects .container ul li a img {
-    transition: 0.25s ease-in-out all;
-    width: 90%;
-  }
-  html .projects .container ul li a:hover, body .projects .container ul li a:hover {
+  html .projects .container .projectCards a:hover, body .projects .container .projectCards a:hover {
     border-radius: 3.5rem;
-  }
-  html .projects .container ul li a:hover img, body .projects .container ul li a:hover img {
-    filter: grayscale(0%);
-    width: 100%;
   }
   html .projectBanner, body .projectBanner {
     padding-bottom: 2rem;
