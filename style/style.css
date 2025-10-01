@@ -352,20 +352,18 @@ html .projectBanner .container .projectBannerTextBlock .buttonContainer .button.
   border-color: var(--cc-richVermillion);
   color: var(--cc-creamWhite);
 }
-html .projectSamples, body .projectSamples {
+html .projectRedesign, body .projectRedesign {
   padding: 2rem 0;
 }
-html .projectSamples .container, body .projectSamples .container {
-  gap: 1rem;
+html .projectRedesign .container, body .projectRedesign .container {
   grid-template-columns: 1fr;
 }
-html .projectSamples .container img, body .projectSamples .container img {
-  aspect-ratio: 16/9;
-  border-radius: 1rem;
-  -o-object-position: top;
-     object-position: top;
-  -o-object-fit: cover;
-     object-fit: cover;
+html .projectRedesign .container .projectRedesignTextBlock span, body .projectRedesign .container .projectRedesignTextBlock span {
+  color: var(--cc-richVermillion);
+}
+html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRedesign .container .projectRedesignTextBlock hr {
+  background: var(--cc-creamWhite);
+  background: linear-gradient(90deg, var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
   width: 100%;
 }
 html .mobileDesign, body .mobileDesign {
@@ -395,18 +393,21 @@ html .mobileDesign .container .mobileDesignTextBlock hr, body .mobileDesign .con
 html .mobileDesign .container .mobileDesignTextBlock p, body .mobileDesign .container .mobileDesignTextBlock p {
   color: var(--cc-creamWhite);
 }
-html .projectRedesign, body .projectRedesign {
+html .projectSamples, body .projectSamples {
+  background-color: var(--cc-abyssBlue);
   padding: 2rem 0;
 }
-html .projectRedesign .container, body .projectRedesign .container {
+html .projectSamples .container, body .projectSamples .container {
+  gap: 1rem;
   grid-template-columns: 1fr;
 }
-html .projectRedesign .container .projectRedesignTextBlock span, body .projectRedesign .container .projectRedesignTextBlock span {
-  color: var(--cc-richVermillion);
-}
-html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRedesign .container .projectRedesignTextBlock hr {
-  background: var(--cc-creamWhite);
-  background: linear-gradient(90deg, var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
+html .projectSamples .container img, body .projectSamples .container img {
+  aspect-ratio: 16/9;
+  border-radius: 1rem;
+  -o-object-position: top;
+     object-position: top;
+  -o-object-fit: cover;
+     object-fit: cover;
   width: 100%;
 }
 
@@ -581,14 +582,6 @@ html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRede
     width: -moz-max-content;
     width: max-content;
   }
-  html .projectSamples .container, body .projectSamples .container {
-    gap: 2rem;
-    grid-template-columns: 1fr 1fr;
-  }
-  html .projectSamples .container img, body .projectSamples .container img {
-    aspect-ratio: 4/3;
-    border-radius: 3rem;
-  }
   html .mobileDesign .container, body .mobileDesign .container {
     align-items: center;
     gap: 2rem;
@@ -608,9 +601,17 @@ html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRede
     align-items: center;
     gap: 2rem;
     grid-template-columns: 1fr;
-    padding: 0 calc(8rem + 10vw);
+    padding: 0 calc(4rem + 8vw);
   }
   html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRedesign .container .projectRedesignTextBlock hr {
     width: 50%;
+  }
+  html .projectSamples .container, body .projectSamples .container {
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+  html .projectSamples .container img, body .projectSamples .container img {
+    aspect-ratio: 4/3;
+    border-radius: 2rem;
   }
 }

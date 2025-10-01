@@ -428,19 +428,22 @@ html, body {
         }
     }
 
-    .projectSamples {
+    .projectRedesign {
         padding: 2rem 0;
 
         .container {
-            gap: 1rem;
             grid-template-columns: 1fr;
 
-            img {
-                aspect-ratio: 16 / 9;
-                border-radius: 1rem;
-                object-position: top;
-                object-fit: cover;
-                width: 100%;
+            .projectRedesignTextBlock {
+                span {
+                    color: var(--cc-richVermillion);
+                }
+                
+                hr {
+                    background: var(--cc-creamWhite);
+                    background: linear-gradient(90deg,var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
+                    width: 100%;
+                }
             }
         }
     }
@@ -481,22 +484,20 @@ html, body {
         }
     }
 
-    .projectRedesign {
+    .projectSamples {
+        background-color: var(--cc-abyssBlue);
         padding: 2rem 0;
 
         .container {
+            gap: 1rem;
             grid-template-columns: 1fr;
 
-            .projectRedesignTextBlock {
-                span {
-                    color: var(--cc-richVermillion);
-                }
-                
-                hr {
-                    background: var(--cc-creamWhite);
-                    background: linear-gradient(90deg,var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
-                    width: 100%;
-                }
+            img {
+                aspect-ratio: 16 / 9;
+                border-radius: 1rem;
+                object-position: top;
+                object-fit: cover;
+                width: 100%;
             }
         }
     }
@@ -734,18 +735,6 @@ html, body {
             }
         }
 
-        .projectSamples {
-            .container {
-                gap: 2rem;
-                grid-template-columns: 1fr 1fr;
-
-                img {
-                    aspect-ratio: 4 / 3;
-                    border-radius: 3rem;
-                }
-            }
-        }
-
         .mobileDesign {
             .container {
                 align-items: center;
@@ -772,12 +761,24 @@ html, body {
                 align-items: center;
                 gap: 2rem;
                 grid-template-columns: 1fr;
-                padding: 0 calc(8rem + 10vw);
+                padding: 0 calc(4rem + 8vw);
 
                 .projectRedesignTextBlock {                    
                     hr {
                         width: 50%;
                     }
+                }
+            }
+        }
+
+        .projectSamples {
+            .container {
+                gap: 1rem;
+                grid-template-columns: 1fr 1fr 1fr;
+
+                img {
+                    aspect-ratio: 4 / 3;
+                    border-radius: 2rem;
                 }
             }
         }
