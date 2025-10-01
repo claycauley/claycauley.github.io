@@ -229,7 +229,7 @@ html, body {
 
                 hr {
                     background: var(--cc-creamWhite);
-                    background: linear-gradient(90deg,var(--cc-abyssBlue) 0%, var(--cc-richVermillion) 100%);
+                    background: linear-gradient(90deg,var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
                     width: 100%;
                 }
 
@@ -303,7 +303,7 @@ html, body {
         }
     }
 
-    .work {
+    .projects {
         background-color: var(--cc-slateBlack);
         color: var(--cc-creamWhite);
 
@@ -312,7 +312,7 @@ html, body {
             padding-bottom: 2rem;
             padding-top: 2rem;
 
-            .workHeadingContainer {
+            .projectsHeadingContainer {
                 display: grid;
                 gap: .5rem;
                 justify-items: center;
@@ -382,8 +382,7 @@ html, body {
     // Project Pages //
     .projectBanner {
         background-color: var(--cc-slateBlack);
-        padding-bottom: 1rem;
-        padding-top: 1rem;
+        padding: 2rem 0;
 
         .container {
             align-items: center;
@@ -413,16 +412,32 @@ html, body {
                 }
 
                 .buttonContainer {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 1rem;
+
                     .button {
-                        background-color: var(--cc-creamWhite);
-                        border-color: var(--cc-creamWhite);
-                        color: var(--cc-richVermillion);
+                        background-color: var(--cc-richVermillion);
+                        border-color: var(--cc-richVermillion);
+                        color: var(--cc-creamWhite);
                         width: 100%;
 
                         &:hover {
-                            background-color: var(--cc-richVermillion);
-                            border-color: var(--cc-richVermillion);
-                            color: var(--cc-creamWhite);
+                            background-color: var(--cc-creamWhite);
+                            border-color: var(--cc-creamWhite);
+                            color: var(--cc-richVermillion);
+                        }
+
+                        &.secondary {
+                            background-color: var(--cc-creamWhite);
+                            border-color: var(--cc-creamWhite);
+                            color: var(--cc-richVermillion);
+
+                            &:hover {
+                                background-color: var(--cc-richVermillion);
+                                border-color: var(--cc-richVermillion);
+                                color: var(--cc-creamWhite);
+                            }
                         }
                     }
                 }
@@ -431,14 +446,14 @@ html, body {
     }
 
     .projectSamples {
-        padding: 1rem 0;
+        padding: 2rem 0;
 
         .container {
             gap: 1rem;
             grid-template-columns: 1fr;
 
             img {
-                aspect-ratio: 2 / 1;
+                aspect-ratio: 16 / 9;
                 border-radius: 1rem;
                 object-position: top;
                 object-fit: cover;
@@ -449,40 +464,56 @@ html, body {
 
     .mobileDesign {
         background-color: var(--cc-slateBlack);
-        padding: 1rem 0;
+        padding: 2rem 0;
 
         .container {
             gap: 1rem;
             
             img {
+                aspect-ratio: 4 / 3;
                 border-radius: 3rem;
                 order: 2;
                 width: 100%;
             }
 
-            h2 {
-                color: var(--cc-creamWhite);
+            .mobileDesignTextBlock {
+                h2 {
+                    color: var(--cc-creamWhite);
 
-                span {
-
-                    &.richVermillion {
-                        color: var(--cc-richVermillion);
-                    }
-
-                    &.fancy {
+                    span {
                         color: var(--cc-abyssBlueLighten);
                     }
                 }
-            }
 
-            hr {
-                background: var(--cc-creamWhite);
-                background: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
-                width: 100%;
-            }
+                hr {
+                    background: var(--cc-creamWhite);
+                    background: linear-gradient(90deg,var(--cc-creamWhite) 0%, var(--cc-abyssBlueLighten) 100%);
+                    width: 100%;
+                }
 
-            p {
-                color: var(--cc-creamWhite);
+                p {
+                    color: var(--cc-creamWhite);
+                }
+            }
+        }
+    }
+
+    .projectRedesign {
+        padding: 2rem 0;
+
+        .container {
+            grid-template-columns: 1fr;
+
+            .projectRedesignTextBlock {
+                span {
+                    color: var(--cc-richVermillion);
+                }
+                
+                hr {
+                    background: var(--cc-creamWhite);
+                    background: linear-gradient(90deg,var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
+                    width: 100%;
+                }
             }
         }
     }
@@ -492,6 +523,7 @@ html, body {
 @media (min-width: 1024px) {
     html, body {
         overflow-x: initial;
+        scroll-padding-top: 6rem;
 
         .container {
             padding-left: 2rem;
@@ -563,7 +595,7 @@ html, body {
             }
 
             &.isScrolled {
-                background-color: var(--cc-white);
+                background-color: var(--cc-offWhite);
                 padding-bottom: .5rem;
                 padding-top: .5rem;
 
@@ -652,11 +684,11 @@ html, body {
             }
         }
 
-        .work {
+        .projects {
             .container {
                 gap: 1rem;
 
-                .workHeadingContainer {
+                .projectsHeadingContainer {
                     h2 {
                         font-size: 2.25rem;
                     }
@@ -730,33 +762,46 @@ html, body {
         }
 
         .projectSamples {
-            padding: 3rem 0;
-
             .container {
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                gap: 2rem;
+                grid-template-columns: 1fr 1fr;
 
                 img {
-                    aspect-ratio: 7 / 5;
-                    border-radius: 1.5rem;
+                    aspect-ratio: 4 / 3;
+                    border-radius: 3rem;
                 }
             }
         }
 
         .mobileDesign {
-            padding: 2rem 0;
-
             .container {
                 align-items: center;
                 gap: 2rem;
-                grid-template-columns: 1.25fr 1fr;
+                grid-template-columns: 1fr 1fr;
 
                 img {
                     border-radius: 4rem;
                     order: -1;
                 }
 
-                hr {
-                    width:50%;
+                .mobileDesignTextBlock {
+                    hr {
+                        width: 50%;
+                    }
+                }
+            }
+        }
+
+        .projectRedesign {
+            .container {
+                align-items: center;
+                gap: 2rem;
+                grid-template-columns: 1fr 1fr;
+
+                .projectRedesignTextBlock {                    
+                    hr {
+                        width: 50%;
+                    }
                 }
             }
         }

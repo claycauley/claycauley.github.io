@@ -1,13 +1,20 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const header = document.querySelector("header");
-  const main = document.querySelector("main");
+  const headerElement = document.querySelector("header");
+  const mainElement = document.querySelector("main");
 
-  const sentinel = document.createElement("div");
-  main.before(sentinel);
+  if (!headerElement || !mainElement) {
+    console.error("Required elements not found. Check if header and main elements exist.");
+    return;
+  }
 
-  const observer = new IntersectionObserver(([entry]) => {
-    header.classList.toggle("isScrolled", !entry.isIntersecting);
-  });
+  const scrollSentinel = document.createElement("div");
+  mainElement.before(scrollSentinel);
 
-  observer.observe(sentinel);
+  const headerScrollObserver = new IntersectionObserver(
+    ([{ isIntersecting }]) => {
+      headerElement.classList.toggle("isScrolled", !isIntersecting);
+    }
+  );
+
+  headerScrollObserver.observe(scrollSentinel);
 });
