@@ -627,6 +627,12 @@ html .projectSamples .container img, body .projectSamples .container img {
   html .mobileDesign.threeImagesAndText .container .mobileDesignImages img:last-child, body .mobileDesign.threeImagesAndText .container .mobileDesignImages img:last-child {
     display: block;
   }
+  html .mobileDesign.threeImagesAndText .container.inverted, body .mobileDesign.threeImagesAndText .container.inverted {
+    grid-template-columns: 1.25fr 1fr;
+  }
+  html .mobileDesign.threeImagesAndText .container.inverted .mobileDesignImages, body .mobileDesign.threeImagesAndText .container.inverted .mobileDesignImages {
+    order: -1;
+  }
   html .projectRedesign, body .projectRedesign {
     padding: 4rem 0;
   }

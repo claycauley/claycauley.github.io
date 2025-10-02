@@ -795,6 +795,14 @@ html, body {
                             }
                         }
                     }
+
+                    &.inverted {
+                        grid-template-columns: 1.25fr 1fr;
+
+                        .mobileDesignImages {
+                            order: -1;
+                        }
+                    }
                 }
             }
         }
