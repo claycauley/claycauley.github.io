@@ -589,7 +589,7 @@ html .projectSamples .container img, body .projectSamples .container img {
   }
   html .mobileDesign .container img, body .mobileDesign .container img {
     border-radius: 4rem;
-    order: -1;
+    order: initial;
   }
   html .mobileDesign .container .mobileDesignTextBlock hr, body .mobileDesign .container .mobileDesignTextBlock hr {
     width: 50%;
