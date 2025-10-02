@@ -393,6 +393,22 @@ html .mobileDesign .container .mobileDesignTextBlock hr, body .mobileDesign .con
 html .mobileDesign .container .mobileDesignTextBlock p, body .mobileDesign .container .mobileDesignTextBlock p {
   color: var(--cc-creamWhite);
 }
+html .mobileDesign.threeImagesAndText .container, body .mobileDesign.threeImagesAndText .container {
+  grid-template-columns: 1fr;
+}
+html .mobileDesign.threeImagesAndText .container .mobileDesignImages, body .mobileDesign.threeImagesAndText .container .mobileDesignImages {
+  display: grid;
+  gap: 0.5rem;
+  grid-template-columns: 1fr 1fr;
+  order: -1;
+}
+html .mobileDesign.threeImagesAndText .container .mobileDesignImages img, body .mobileDesign.threeImagesAndText .container .mobileDesignImages img {
+  aspect-ratio: 9/16;
+  border-radius: 1rem;
+}
+html .mobileDesign.threeImagesAndText .container .mobileDesignImages img:last-child, body .mobileDesign.threeImagesAndText .container .mobileDesignImages img:last-child {
+  display: none;
+}
 html .projectSamples, body .projectSamples {
   background: var(--cc-slateBlack) url("/imgs/topography.svg") repeat;
   padding: 2rem 0;
@@ -593,6 +609,23 @@ html .projectSamples .container img, body .projectSamples .container img {
   }
   html .mobileDesign .container .mobileDesignTextBlock hr, body .mobileDesign .container .mobileDesignTextBlock hr {
     width: 50%;
+  }
+  html .mobileDesign.threeImagesAndText .container, body .mobileDesign.threeImagesAndText .container {
+    gap: 2rem;
+    grid-template-columns: 1fr 1.25fr;
+  }
+  html .mobileDesign.threeImagesAndText .container .mobileDesignImages, body .mobileDesign.threeImagesAndText .container .mobileDesignImages {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr 1fr;
+    order: initial;
+  }
+  html .mobileDesign.threeImagesAndText .container .mobileDesignImages img, body .mobileDesign.threeImagesAndText .container .mobileDesignImages img {
+    aspect-ratio: 9/16;
+    border-radius: 1rem;
+  }
+  html .mobileDesign.threeImagesAndText .container .mobileDesignImages img:last-child, body .mobileDesign.threeImagesAndText .container .mobileDesignImages img:last-child {
+    display: block;
   }
   html .projectRedesign, body .projectRedesign {
     padding: 4rem 0;

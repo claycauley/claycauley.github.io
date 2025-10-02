@@ -482,6 +482,28 @@ html, body {
                 }
             }
         }
+
+        &.threeImagesAndText {
+            .container {
+                grid-template-columns: 1fr;
+
+                .mobileDesignImages {
+                    display: grid;
+                    gap: .5rem;
+                    grid-template-columns: 1fr 1fr;
+                    order: -1;
+
+                    img {
+                        aspect-ratio: 9 / 16;
+                        border-radius: 1rem;
+
+                        &:last-child {
+                            display: none;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .projectSamples {
@@ -749,6 +771,29 @@ html, body {
                 .mobileDesignTextBlock {
                     hr {
                         width: 50%;
+                    }
+                }
+            }
+
+            &.threeImagesAndText {
+                .container {
+                    gap: 2rem;
+                    grid-template-columns: 1fr 1.25fr;
+
+                    .mobileDesignImages {
+                        display: grid;
+                        gap: 1rem;
+                        grid-template-columns: 1fr 1fr 1fr;
+                        order: initial;
+
+                        img {
+                            aspect-ratio: 9 / 16;
+                            border-radius: 1rem;
+
+                            &:last-child {
+                                display: block;
+                            }
+                        }
                     }
                 }
             }
