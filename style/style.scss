@@ -364,7 +364,7 @@ html, body {
 
     // Project Pages //
     .projectBanner {
-        background-color: var(--cc-slateBlack);
+        background: var(--cc-slateBlack) url('/imgs/topography.svg') repeat;
         padding: 2rem 0;
 
         .container {
@@ -449,7 +449,7 @@ html, body {
     }
 
     .mobileDesign {
-        background-color: var(--cc-slateBlack);
+        background: var(--cc-slateBlack) url('/imgs/topography.svg') repeat;
         padding: 2rem 0;
 
         .container {
@@ -485,7 +485,7 @@ html, body {
     }
 
     .projectSamples {
-        background-color: var(--cc-slateBlack);
+        background: var(--cc-slateBlack) url('/imgs/topography.svg') repeat;
         padding: 2rem 0;
 
         .container {

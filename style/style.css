@@ -301,7 +301,7 @@ html .projects .container .projectCards a img, body .projects .container .projec
   width: 75%;
 }
 html .projectBanner, body .projectBanner {
-  background-color: var(--cc-slateBlack);
+  background: var(--cc-slateBlack) url("/imgs/topography.svg") repeat;
   padding: 2rem 0;
 }
 html .projectBanner .container, body .projectBanner .container {
@@ -367,7 +367,7 @@ html .projectRedesign .container .projectRedesignTextBlock hr, body .projectRede
   width: 100%;
 }
 html .mobileDesign, body .mobileDesign {
-  background-color: var(--cc-slateBlack);
+  background: var(--cc-slateBlack) url("/imgs/topography.svg") repeat;
   padding: 2rem 0;
 }
 html .mobileDesign .container, body .mobileDesign .container {
@@ -394,7 +394,7 @@ html .mobileDesign .container .mobileDesignTextBlock p, body .mobileDesign .cont
   color: var(--cc-creamWhite);
 }
 html .projectSamples, body .projectSamples {
-  background-color: var(--cc-slateBlack);
+  background: var(--cc-slateBlack) url("/imgs/topography.svg") repeat;
   padding: 2rem 0;
 }
 html .projectSamples .container, body .projectSamples .container {
