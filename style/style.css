@@ -426,6 +426,30 @@ html .projectSamples .container img, body .projectSamples .container img {
      object-fit: cover;
   width: 100%;
 }
+html .moreProjects, body .moreProjects {
+  padding: 2rem 0;
+}
+html .moreProjects .container, body .moreProjects .container {
+  justify-items: center;
+  gap: 0.5rem;
+}
+html .moreProjects .container h2, body .moreProjects .container h2 {
+  font-size: 2rem;
+  margin-bottom: 0;
+}
+html .moreProjects .container hr, body .moreProjects .container hr {
+  background: linear-gradient(90deg, var(--cc-slateBlack) 0%, var(--cc-richVermillion) 100%);
+  width: 100%;
+}
+html .moreProjects .container .projectsGrid, body .moreProjects .container .projectsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  width: 100%;
+}
+html .moreProjects .container .projectsGrid *, body .moreProjects .container .projectsGrid * {
+  flex: 1 0 calc(50% - 0.5rem);
+}
 
 @media (min-width: 1024px) {
   html, body {
@@ -610,6 +634,9 @@ html .projectSamples .container img, body .projectSamples .container img {
   html .mobileDesign .container .mobileDesignTextBlock hr, body .mobileDesign .container .mobileDesignTextBlock hr {
     width: 50%;
   }
+  html .mobileDesign .container.inverted img, body .mobileDesign .container.inverted img {
+    order: 2;
+  }
   html .mobileDesign.threeImagesAndText .container, body .mobileDesign.threeImagesAndText .container {
     gap: 2rem;
     grid-template-columns: 1fr 1.25fr;
@@ -652,5 +679,24 @@ html .projectSamples .container img, body .projectSamples .container img {
   html .projectSamples .container img, body .projectSamples .container img {
     aspect-ratio: 4/3;
     border-radius: 2rem;
+  }
+  html .moreProjects .container, body .moreProjects .container {
+    align-items: center;
+    gap: 2rem;
+    grid-template-columns: auto auto auto;
+    max-width: -moz-max-content;
+    max-width: max-content;
+  }
+  html .moreProjects .container hr, body .moreProjects .container hr {
+    background: var(--cc-slateBlack);
+    height: 100%;
+    margin: 0;
+    width: 2px;
+  }
+  html .moreProjects .container .projectsGrid, body .moreProjects .container .projectsGrid {
+    gap: 1rem;
+  }
+  html .moreProjects .container .projectsGrid *, body .moreProjects .container .projectsGrid * {
+    flex: 1 0 calc(33% - 0.5rem);
   }
 }
