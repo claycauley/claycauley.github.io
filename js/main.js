@@ -1,4 +1,11 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // Update copyright year
+  const yearElement = document.getElementById('currentYear');
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
+  }
+
+  // Header scroll handling
   const headerElement = document.querySelector("header");
   const mainElement = document.querySelector("main");
 

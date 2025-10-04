@@ -115,6 +115,36 @@ html header .headerContent .pageHeaderCallout .supportText, body header .headerC
   transition-property: all;
   transition-timing-function: ease;
 }
+html footer, body footer {
+  background: var(--cc-slateBlack) url("/imgs/topography.svg") repeat;
+  color: var(--cc-creamWhite);
+  padding: 2rem 0;
+}
+html footer .container, body footer .container {
+  align-items: center;
+  grid-template-columns: 0.5fr auto;
+  gap: 1rem;
+}
+html footer .container p, body footer .container p {
+  justify-self: flex-start;
+  margin-bottom: 0;
+}
+html footer .container .socialLinks, body footer .container .socialLinks {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-self: flex-end;
+}
+html footer .container .socialLinks a, body footer .container .socialLinks a {
+  color: var(--cc-creamWhite);
+  font-size: 1.5rem;
+  line-height: 1;
+  width: 1.75rem;
+}
+html footer .container .socialLinks a svg, body footer .container .socialLinks a svg {
+  height: auto;
+  width: 100%;
+}
 html .introCallout, body .introCallout {
   background-color: var(--cc-abyssBlue);
   padding-bottom: 2rem;
@@ -467,6 +497,9 @@ html .moreProjects .container .projectsGrid *, body .moreProjects .container .pr
     padding-left: 1.25rem;
     padding-right: 1.25rem;
     padding-top: 0.5rem;
+  }
+  html footer, body footer {
+    padding: 3rem 0;
   }
   html header, body header {
     border-bottom-color: var(--cc-abyssBlue);
