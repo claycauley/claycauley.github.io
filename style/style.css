@@ -70,19 +70,10 @@ html header .headerContent, body header .headerContent {
 html header .headerContent nav, body header .headerContent nav {
   display: grid;
   gap: 0.5rem;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: auto 1fr 1fr;
   width: 100%;
 }
 html header .headerContent nav :last-child, body header .headerContent nav :last-child {
-  grid-column: span 2;
-}
-html header .headerContent nav.insidePages, body header .headerContent nav.insidePages {
-  grid-template-columns: auto 1fr 1fr;
-}
-html header .headerContent nav.insidePages span, body header .headerContent nav.insidePages span {
-  display: none;
-}
-html header .headerContent nav.insidePages :last-child, body header .headerContent nav.insidePages :last-child {
   grid-column: span 3;
 }
 html header .headerContent .pageHeaderCallout, body header .headerContent .pageHeaderCallout {
@@ -498,9 +489,6 @@ html .moreProjects .container .projectsGrid *, body .moreProjects .container .pr
     padding-right: 1.25rem;
     padding-top: 0.5rem;
   }
-  html footer, body footer {
-    padding: 3rem 0;
-  }
   html header, body header {
     border-bottom-color: var(--cc-abyssBlue);
     border-bottom-width: 1px;
@@ -520,18 +508,9 @@ html .moreProjects .container .projectsGrid *, body .moreProjects .container .pr
     justify-items: flex-start;
   }
   html header .headerContent nav, body header .headerContent nav {
-    display: flex;
+    grid-template-columns: 1fr 1fr 1fr auto;
     gap: 0.5rem;
     width: auto;
-  }
-  html header .headerContent nav.insidePages, body header .headerContent nav.insidePages {
-    grid-template-columns: 1fr 1fr 1fr;
-  }
-  html header .headerContent nav.insidePages span, body header .headerContent nav.insidePages span {
-    display: block;
-  }
-  html header .headerContent nav.insidePages .home, body header .headerContent nav.insidePages .home {
-    display: none;
   }
   html header .headerContent nav :last-child, body header .headerContent nav :last-child {
     grid-column: initial;
@@ -566,6 +545,9 @@ html .moreProjects .container .projectsGrid *, body .moreProjects .container .pr
   html header.isScrolled .headerContent .pageHeaderCallout .supportText, body header.isScrolled .headerContent .pageHeaderCallout .supportText {
     font-size: 0.75rem;
     letter-spacing: -0.25px;
+  }
+  html footer, body footer {
+    padding: 3rem 0;
   }
   html .introCallout, body .introCallout {
     padding-bottom: 4rem;

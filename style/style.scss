@@ -78,23 +78,11 @@ html, body {
             nav {
                 display: grid;
                 gap: .5rem;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: auto 1fr 1fr;
                 width: 100%;
 
                 :last-child {
-                    grid-column: span 2;
-                }
-
-                &.insidePages {
-                    grid-template-columns: auto 1fr 1fr;
-
-                    span {
-                        display: none;
-                    }
-                    
-                    :last-child {
-                        grid-column: span 3;
-                    }
+                    grid-column: span 3;
                 }
             }
 
@@ -610,11 +598,6 @@ html, body {
             padding-top: .5rem;
         }
 
-        footer {
-            padding: 3rem 0;
-        }
-
-        // Home Page //
         header {
             border-bottom-color: var(--cc-abyssBlue);
             border-bottom-width: 1px;
@@ -634,21 +617,9 @@ html, body {
                 justify-items: flex-start;
 
                 nav {
-                    display: flex;
+                    grid-template-columns: 1fr 1fr 1fr auto;
                     gap: .5rem;
                     width: auto;
-
-                    &.insidePages {
-                        grid-template-columns: 1fr 1fr 1fr;
-
-                        span {
-                            display: block;
-                        }
-
-                        .home {
-                            display: none;
-                        }
-                    }
 
                     :last-child {
                         grid-column: initial;
@@ -697,6 +668,12 @@ html, body {
                 }
             }
         }
+
+        footer {
+            padding: 3rem 0;
+        }
+
+        // Home Page //
 
         .introCallout {
             padding-bottom: 4rem;
