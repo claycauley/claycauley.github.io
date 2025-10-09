@@ -1,0 +1,124 @@
+h1, h2, h3, h4, h5, h6 {
+	font-family: var(--headingFontFamily);
+	font-weight: 600;
+	line-height: 1.2;
+}
+
+h1 {
+  font-size: var(--headingOneMobileFontSize);
+}
+
+h2 {
+  font-size: var(--headingTwoMobileFontSize);
+}
+
+h3 {
+  font-size: var(--headingThreeMobileFontSize);
+}
+
+h4 {
+  font-size: var(--headingFourMobileFontSize);
+}
+
+h5 {
+  font-size: var(--headingFiveMobileFontSize);
+}
+
+h6 {
+  font-size: var(--headingSixMobileFontSize);
+}
+
+p {
+	font-family: var(--bodyFontFamily);
+	font-size: var(--bodyFontMobileFontSize);
+	letter-spacing: var(--bodyFontLetterSpacing);
+	line-height: 1.5;
+	
+	&.marginBottom {
+		margin-bottom: 1rem;
+	}
+
+	&.pageHeader {
+		color: var(--abyssBlue);
+		font-family: var(--bodyFontFamily);
+		font-size: var(--headingThreeMobileFontSize);
+		font-weight: var(--fontWeightLight);
+		word-spacing: -.5rem;
+		transition-duration: .25s;
+		transition-property: all;
+		transition-timing-function: ease;
+		
+		strong {
+			font-weight: var(--fontWeightBold);
+		}
+	}
+	
+	&.preheading {
+		font-size: var(--preheadingFontSize);
+		letter-spacing: 1px;
+		text-transform: var(--preheadingTextTransform);
+		font-weight: var(--fontWeightRegular);
+	}
+
+	&.subheading {
+		font-family: var(--headingFontFamily);
+		letter-spacing: var(--subheadingLetterSpacing);
+		font-size: var(--subheadingFontSize);
+		font-weight: var(--fontWeightLight);
+	}
+	
+	&.supportText {
+		color: var(--richVermillion);
+		font-size: .75rem;
+		font-weight: 600;
+		letter-spacing: -.25px;
+		margin-bottom: 0;
+		transition-duration: .25s;
+		transition-property: all;
+		transition-timing-function: ease;
+	}
+}
+
+@media (min-width: 1024px) {
+	h1{
+		font-size: var(--headingOneDesktopFontSize);
+	}
+	h2{
+		font-size: var(--headingTwoDesktopFontSize);
+	}
+	h3{
+		font-size: var(--headingThreeDesktopFontSize);
+	}
+	h4{
+		font-size: var(--headingFourDesktopFontSize);
+	}
+	h5{
+		font-size: var(--headingFiveDesktopFontSize);
+	}
+	h6{
+		font-size: var(--headingSixDesktopFontSize);
+	}
+	
+	p {
+		font-size: var(--bodyFontDesktopFontSize);
+
+		&.pageHeader {
+			color: var(--abyssBlue);
+			font-family: var(--bodyFontFamily);
+			font-size: var(--headingFourDesktopFontSize);
+			font-weight: var(--fontWeightLight);
+			letter-spacing: -1px;
+			word-spacing: -.5rem;
+		}
+
+		&.supportText {
+			font-size: .875rem;
+			font-weight: 700;
+			letter-spacing: -.5px;
+			margin-bottom: 0;
+			transition-duration: .25s;
+			transition-property: all;
+			transition-timing-function: ease;
+		}
+	}
+}
