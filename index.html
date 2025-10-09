@@ -1,69 +1,62 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Clay Cauley - Web & UI Designer | Front-End Developer</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style/style.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <script defer src="/assets/fontawesome/js/all.min.js"></script>
-        <script defer src="/assets/fontawesome/js/fontawesome.min.js"></script>
-        <script defer src="/js/main.js"></script>
-    </head>
+    <html lang="en">
+    	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Clay Cauley - Web & UI Designer | Front-End Developer</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/style/css/combined.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<script defer src="assets/fontawesome/js/all.min.js"></script>
+	<script defer src="assets/fontawesome/js/fontawesome.min.js"></script>
+	<script defer src="assets/script/main.js"></script>
+</head>
     <body>
-        <header>
-            <div class="container">
-                <div class="headerContent">
-                    <div class="pageHeaderCallout">
-                        <p class="pageHeader"><strong>Clay</strong> Cauley</p>
-                        <p class="supportText">Web & UI Designer || Front-End Developer</p>
-                    </div>
-                    <nav>
-                        <a class="button primary" href="#homePage"><i class="fa-solid fa-house-chimney home"></i></a>
-                        <a class="button primary" href="#about">About</a>
-                        <a class="button primary" href="#projects">Projects</a>
-                        <a class="button secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry">Get In Touch <i class="fa-solid fa-paper-plane"></i></a>
-                    </nav>
-                </div>
-            </div>
-        </header>
-        <main id="homePage">
-            <section class="introCallout">
+		<header>
+	<div class="container">
+		<div class="headerContent">
+			<button aria-label="Menu" class="menu"><i class="fa-solid fa-bars"></i></button>
+			<div class="pageHeaderCallout">
+				<p class="pageHeader"><strong>Clay</strong> Cauley</p>
+				<p class="supportText">Web & UI Designer || Front-End Developer</p>
+			</div>
+			<nav>
+				<a class="button abyssBlue" href="/"><i class="fa-solid fa-house-chimney home"></i> Home</a>
+				<a class="button abyssBlue" href="about.html"><i class="fa-solid fa-address-card"></i> About</a>
+				<a class="button abyssBlue" href="#projects"><i class="fa-solid fa-pen-ruler"></i> Projects</a>
+				<a class="button abyssBlue secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
+				<div class="overlay"></div>
+			</nav>
+		</div>
+	</div>
+</header>
+        <main>
+			<section class="introCallout">
                 <div class="container">
-                    <img class="grayscale masked" src="imgs/profile.webp" />
-                    <div class="introCalloutTextBlock">
-                        <h1>Hello.<br>My name is Clay.</h1>
-                        <h2>A full-stack designer from Kentucky.</h2>
-                        <hr>
-                        <p>I love turning ideas into experiences. From crafting clean, thoughtful interfaces to building the underlying functionality that makes them work, I live for every step of the process, blending creativity with problem-solving. There’s nothing better than seeing a concept come to life from first sketch to that first interaction.</p>
+                    <img class="grayscale faded" src="assets/imgs/profile.webp" />
+                    <div class="textBlock">
+                        <p class="preheading">Nice to meet you</p>
+						<h1>My name is Clay.</h1>
+                        <p class="subheading">I'm a full-stack designer from Kentucky.</p>
+                        <hr class="creamWhiteToAbyssBlueLighten">
+                        <p class="marginBottom">I love turning ideas into experiences. From crafting clean, thoughtful interfaces to building the underlying functionality that makes them work, I live for every step of the process, blending creativity with problem-solving. There’s nothing better than seeing a concept come to life from first sketch to that first interaction.</p>
+						<p class="marginBottom">I'm a hands-on designer who bridges the gap between concept and code. I enjoy the entire process: building design systems from color and type research, creating mockups in Figma, and using feedback to perfect the vision. Then, I get to bring it all to life. Each step has its own unique challenges, and I love applying a diverse set of skills to solve them.</p>
                         <div class="buttonContainer">
-                            <a class="button primary" href="#projects">Projects</a>
-                            <a class="button secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry">Get In Touch <i class="fa-solid fa-paper-plane"></i></a>
+                            <a class="button abyssBlueLighten" href="#projects"><i class="fa-solid fa-pen-ruler"></i> Projects</a>
+                            <a class="button abyssBlueLighten secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
                         </div>
                     </div>
                 </div>
             </section>
-            <section id="about" class="about">
-                <div class="container">
-                    <div class="aboutTextBlock">
-                        <h2>With <span>15+ years</span> of professional experience, I've been involved in every step of the creative process.</h2>
-                        <hr>
-                        <p>For me, the greatest thrill is guiding a project on its journey from a simple concept to a polished product that people genuinely enjoy using. It's the sweet spot where pixels meet purpose.</p>
-                        <p>I'm a hands-on designer who bridges the gap between concept and code. I enjoy the entire process: building design systems from color and type research, creating mockups in <span>Figma</span>, and using feedback to perfect the vision. Then, I get to bring it all to life. Each step has its own unique challenges, and I love applying a diverse set of skills to solve them.</p>
-                    </div>
-                    <img src="imgs/laptop-code.webp" />
-                </div>
-            </section>
-            <section class="process">
+			<section class="process">
                 <div class="container">
                     <div class="timeline">
                         <div class="processStep">
                             <i class="fa-solid fa-compass-drafting"></i>
-                            <p>Prototype</p>
+                            <p>Mockup</p>
                         </div>
                         <hr>
                         <div class="processStep">
@@ -75,52 +68,23 @@
                             <i class="fa-solid fa-laptop-code"></i>
                             <p>Code</p>
                         </div>
-                    </div>
-                </div>
-            </section>
-            <section class="about">
-                <div class="container">
-                    <img src="imgs/collaboration.webp" />
-                    <div class="aboutTextBlock rightAligned">
-                        <h2>Great ideas don’t happen in silos. Sharing and syncing up keeps the <span>creativity</span> flowing and the output top-notch.</h2>
                         <hr>
-                        <p>Throughout my career I’ve partnered with exceptional, diverse teams. Yet every team is just one piece of the puzzle. Design projects are only possible with the support of an entire village.</p>
-                        <p>I make it a point to keep communication open across teams, welcoming feedback and sharing creative solutions along the way. While I own the project from start to finish, fresh perspectives often spark unexpected ideas which lead to those <span>aha</span> moments, and that is where the real magic happens.</p>
-                    </div>
-                </div>
-            </section>
-            <section id="projects" class="projects">
-                <div class="container">
-                    <div class="projectsTextBlock">
-                        <h2>From <span>concept</span> to <span>completion</span>, here are a few recent projects I’ve helped bring to life.</h2>
-                        <hr>
-                        <p>I’ve contributed to a variety of projects where collaboration and problem-solving were key. My work has spanned project management, UI/UX design, and front-end development. While always maintaining a focus on building seamless user experiences.</p>
-                    </div>
-                    <div class="projectCards">
-                        <a href="fruit.html">
-                            <img src="imgs/brands/fruit-logo.svg" />
-                        </a>
-                        <a href="spalding.html">
-                            <img src="imgs/brands/spalding-logo-wordmark.svg" />
-                        </a>
-                        <a href="russellathletic.html">
-                            <img src="imgs/brands/russell-logo-wordmark.svg" />
-                        </a>
-                        <a href="vanityfairlingerie.html">
-                            <img src="imgs/brands/vfl-logo.svg" />
-                        </a>
+                        <div class="processStep">
+                            <i class="fa-solid fa-handshake"></i>
+                            <p>Deliver</p>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
-        <footer>
-            <div class="container">
-                <p>Clay Cauley <i class="fa-regular fa-copyright"></i> <span id="currentYear"></span></p>
-                <div class="socialLinks">
-                    <a href="https://www.linkedin.com/in/clay-cauley/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="mailto:clay@claydesigns.cc?subject=Inquiry" target="_blank" rel="noopener" aria-label="Email"><i class="fa-solid fa-square-envelope"></i></a>
-                </div>
-            </div>
-        </footer>
+		<footer>
+    <div class="container">
+        <p>Clay Cauley <i class="fa-regular fa-copyright"></i> <span id="currentYear" class="ignore"></span></p>
+        <div class="socialLinks">
+            <a href="https://www.linkedin.com/in/clay-cauley/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-square-linkedin"></i></a>
+            <a href="mailto:clay@claydesigns.cc?subject=Inquiry" target="_blank" rel="noopener" aria-label="Email"><i class="fa-solid fa-square-envelope"></i></a>
+        </div>
+    </div>
+</footer>
     </body>
-</html>
+</html> 
