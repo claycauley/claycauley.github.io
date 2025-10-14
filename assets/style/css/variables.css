@@ -2,7 +2,9 @@
 	--abyssBlue: #003049;
 	--abyssBlueLighten: #ADE2FF;
 	--creamWhite: #FAF3E7;
+	--creamWhiteDarken: #FFDCC2;
 	--richVermillion: #D62828;	
+	--richVermillionDarken: #6E1410;
 	--richVermillionLighten: #FFADAD;
 	--slateBlack: #1C1C1E;
 	--violetFrost: #EDADFF;
@@ -26,7 +28,7 @@
 	--headingSixMobileFontSize: calc(.5rem + 2.25dvw);
 	--headingThreeDesktopFontSize: 3.5rem;
 	--headingThreeMobileFontSize: calc(2rem + 2dvw);
-	--headingTwoDesktopFontSize: 4rem;
+	--headingTwoDesktopFontSize: 3.875rem;
 	--headingTwoMobileFontSize: calc(2.5rem + 1.75dvw);
 	--preheadingFontLetterSpacing: -.5px;
 	--preheadingFontSize: 1rem;

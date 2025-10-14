@@ -10,6 +10,10 @@ h1 {
 
 h2 {
   font-size: var(--headingTwoMobileFontSize);
+
+	&.smallSectionHeading {
+		font-size: calc(1.5rem + .5vw);
+	}
 }
 
 h3 {
@@ -43,10 +47,11 @@ p {
 		font-family: var(--bodyFontFamily);
 		font-size: var(--headingThreeMobileFontSize);
 		font-weight: var(--fontWeightLight);
-		word-spacing: -.5rem;
+		line-height: 1;
 		transition-duration: .25s;
 		transition-property: all;
 		transition-timing-function: ease;
+		word-spacing: -.5rem;
 		
 		strong {
 			font-weight: var(--fontWeightBold);
@@ -63,6 +68,7 @@ p {
 	&.subheading {
 		font-family: var(--headingFontFamily);
 		letter-spacing: var(--subheadingLetterSpacing);
+		line-height: 1;
 		font-size: var(--subheadingFontSize);
 		font-weight: var(--fontWeightLight);
 	}
@@ -79,12 +85,22 @@ p {
 	}
 }
 
+li {
+	font-family: var(--bodyFontFamily);
+	font-size: var(--bodyFontMobileFontSize);
+	font-weight: 600;
+	letter-spacing: var(--bodyFontLetterSpacing);
+}
+
 @media (min-width: 1024px) {
 	h1{
 		font-size: var(--headingOneDesktopFontSize);
 	}
 	h2{
 		font-size: var(--headingTwoDesktopFontSize);
+			&.smallSectionHeading {
+				font-size: 2.25rem;
+			}
 	}
 	h3{
 		font-size: var(--headingThreeDesktopFontSize);
@@ -97,6 +113,10 @@ p {
 	}
 	h6{
 		font-size: var(--headingSixDesktopFontSize);
+	}
+
+	li {
+		font-size: var(--bodyFontDesktopFontSize);
 	}
 	
 	p {
