@@ -1,125 +1,148 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Clay Cauley - Web & UI Designer | Front-End Developer</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style/style.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <script defer src="/assets/fontawesome/js/all.min.js"></script>
-        <script defer src="/assets/fontawesome/js/fontawesome.min.js"></script>
-        <script defer src="/js/main.js"></script>
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <div class="headerContent">
-                    <div class="pageHeaderCallout">
-                        <p class="pageHeader"><strong>Clay</strong> Cauley</p>
-                        <p class="supportText">Web & UI Designer || Front-End Developer</p>
-                    </div>
-                    <nav class="insidePages">
-                        <a class="button primary" href="/"><i class="fa-solid fa-house-chimney home"></i></a>
-                        <a class="button primary" href="/#about">About</a>
-                        <a class="button primary" href="#projects">Projects</a>
-                        <a class="button secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry">Get In Touch <i class="fa-solid fa-paper-plane"></i></a>
-                    </nav>
-                </div>
-            </div>
-        </header>
+    <html lang="en">
+    	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Clay Cauley - Web & UI Designer | Front-End Developer</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/style/css/combined.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<script defer src="assets/fontawesome/js/all.min.js"></script>
+	<script defer src="assets/fontawesome/js/fontawesome.min.js"></script>
+	<script defer src="assets/script/main.js"></script>
+</head>
+    <body class="project">
+		<header>
+	<div class="container">
+		<div class="headerContent">
+			<button aria-label="Menu" class="menu"><i class="fa-solid fa-bars"></i></button>
+			<div class="pageHeaderCallout">
+				<p class="pageHeader"><strong>Clay</strong> Cauley</p>
+				<p class="supportText">Web & UI Designer || Front-End Developer</p>
+			</div>
+			<nav>
+				<a class="button abyssBlue" href="/"><i class="fa-solid fa-house-chimney home"></i> Home</a>
+				<a class="button abyssBlue" href="about.html"><i class="fa-solid fa-address-card"></i> About</a>
+				<a class="button abyssBlue" href="projects.html"><i class="fa-solid fa-pen-ruler"></i> Projects</a>
+				<a class="button abyssBlue secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
+				<div class="overlay"></div>
+			</nav>
+		</div>
+	</div>
+</header>
         <main>
-            <section class="projectBanner">
+            <section class="header vfl">
                 <div class="container">
-                    <div class="projectBannerTextBlock">
+                    <div class="textBlock">
                         <h1>Vanity Fair Lingerie</h1>
-                        <h2>Brandsite redesign + e-commerce platform migration</h2>
-                        <hr>
-                        <p>We transformed Vanity Fair Lingerie's brand guidelines into a cohesive digital design system that gave the site clarity and consistency. The new direction was first explored through detailed mockups, then realized through a library of reusable ReactJS components built for speed and scalability. At the same time, the store was moved onto a headless e-commerce platform, creating a more streamlined experience behind the scenes as well as for customers. The finished product is a modern, enduring site that reflects the sophistication and confidence of the brand.</p>
+                        <p class="subheading">Brandsite redesign & e-commerce platform migration</p>
+                        <hr class="creamWhiteToAbyssBlueLighten">
+                        <p class="marginBottom">We transformed Vanity Fair Lingerie's brand guidelines into a cohesive digital design system that gave the site clarity and consistency. The new direction was first explored through detailed mockups, then realized through a library of reusable ReactJS components built for speed and scalability. At the same time, the store was moved onto a headless e-commerce platform, creating a more streamlined experience behind the scenes as well as for customers. The finished product is a modern, enduring site that reflects the sophistication and confidence of the brand.</p>
                         <div class="buttonContainer">
-                            <a class="button secondary" href="http://vanityfairlingerie.com" target="_blank">Visit Vanity Fair Lingerie <i class="fa-solid fa-square-up-right"></i></a>
+                            <a class="button abyssBlueLighten" href="http://vanityfairlingerie.com" rel="noopener noreferrer" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Vanity Fair Lingerie</a>
                         </div>
                     </div>
-                    <img src="imgs/vf/project-banner-4x3.webp" />
+                    <div class="headerBrandLogo">
+                        <img src="assets/imgs/logos/vfl-logo.svg" />
+                    </div>
                 </div>
             </section>
-            <section class="projectRedesign">
+            <section class="dektopExamples">
+                <div class="container narrow">
+                    <div class="mainImage">
+                        <img src="/assets/imgs/vfl/main.webp" >
+                    </div>
+                    <div class="supportingImages">
+                        <img src="assets/imgs/vfl/supportOne.webp" >
+                        <img src="assets/imgs/vfl/supportTwo.webp" >
+                        <img src="assets/imgs/vfl/supportThree.webp" >
+                    </div>
+                </div>
+            </section>
+            <section class="refreshDetails">
                 <div class="container">
-                    <div class="projectRedesignTextBlock">
-                        <h2>Vanity Fair Lingerie’s website had <span>fallen out</span> of step with modern user expectations and brand standards. We were going to <span>fix that</span>.</h2>
-                        <hr>
-                        <p>The previous site revealed its age the moment you tried to browse it. The experience was designed around desktop screens, leaving mobile users with layouts that felt cramped and difficult to use. Buttons were awkward to interact with, text didn’t adapt cleanly and pages often seemed more squeezed down than thoughtfully reimagined.</p>
+                    <div class="textBlock">
+                        <h2 class="smallSectionHeading">Vanity Fair Lingerie’s website had <span class="richVermillion">fallen out</span> of step with modern user expectations and brand standards. We were going to <span class="richVermillion">fix that</span>.</h2>
+                        <hr class="slateBlackToRichVermillion">
+                        <p class="marginBottom">The previous site revealed its age the moment you tried to browse it. The experience was designed around desktop screens, leaving mobile users with layouts that felt cramped and difficult to use. Buttons were awkward to interact with, text didn’t adapt cleanly and pages often seemed more squeezed down than thoughtfully reimagined.</p>
                         <p>These issues became especially noticeable during the shopping journey. What should have been a smooth, intuitive checkout felt clumsy and drawn out, requiring too many taps and scrolls to complete. Product images further undermined confidence by appearing stretched or poorly scaled. Instead of inspiring trust at the most critical stage, the site made it easy for customers to walk away.</p>
                     </div>
                 </div>
             </section>
-            <section class="mobileDesign">
+            <section class="mobileDesign threeImagesAndText">
                 <div class="container inverted">
-                    <img src="imgs/vf/mobile-design.webp" />
                     <div class="mobileDesignTextBlock">
-                        <h2>We needed to understand the audience by prioritizing <span>mobile interactions</span> and creating a design system that felt seamless across <span>every device</span>.</h2>
-                        <hr>
-                        <p>Beforehand we weren't delivering the experience today’s shoppers expect, especially on mobile where layouts felt clunky and images often missed the mark. Our research revealed the brand’s core demographic and the new design was shaped to meet their needs with an experience that feels elegant, intuitive and modern.</p>
+                        <h2 class="smallSectionHeading">We needed to understand the audience by prioritizing <span class="abyssBlueLighten">mobile interactions</span> and creating a design system that felt seamless across <span class="abyssBlueLighten">every device</span>.</h2>
+                        <hr class="creamWhiteToAbyssBlueLighten">
+                        <p class="marginBottom">Beforehand we weren't delivering the experience today’s shoppers expect, especially on mobile where layouts felt clunky and images often missed the mark. Our research revealed the brand’s core demographic and the new design was shaped to meet their needs with an experience that feels elegant, intuitive and modern.</p>
                         <p>Mobile was a key focus from the start. We introduced navigation designed for quick, natural taps, flows that reduce friction and imagery that scales beautifully across screen sizes. At the same time, the design system was built to move seamlessly between mobile and desktop, ensuring consistency wherever customers engage. The result is a responsive, accessible site that elevates the brand while making every interaction smoother and more trustworthy.</p>
+
+                    </div>
+                    <div class="mobileDesignImages">
+                        <img src="http://placehold.co/900x2000" >
+                        <img src="http://placehold.co/900x2000" >
+                        <img src="http://placehold.co/900x2000" >
                     </div>
                 </div>
             </section>
-            <section class="projectRedesign">
-                <div class="container">
-                    <div class="projectRedesignTextBlock">
-                        <h2>From the start, we partnered closely with Vanity Fair Lingerie’s marketing team, working within the <span>brand guidelines</span> they provided while expanding them into a scalable digital <span>design system</span>.</h2>
-                        <hr>
-                        <p>We kicked things off in Figma, where design exploration and collaboration happened in real time. Multiple rounds of feedback and iteration kept the process moving, until we arrived at a solution that hit the mark: mobile-first in principle, yet flexible enough to deliver a clean, responsive experience on desktop too.</p>
-                        <p>On the engineering side, the build was no less ambitious. The site was transitioned from Salesforce Creative Cloud to a headless setup with CommerceTools, opening the door for long-term scalability and adaptability. As a full-stack designer, I partnered closely with backend developers to translate our designs into a library of reusable ReactJS components. All while baking in ADA compliance from the very beginning.</p>
+            <section class="refreshDetails">
+                <div class="container narrow">
+                    <div class="textBlock">
+                        <h2 class="smallSectionHeading">We partnered closely with Vanity Fair Lingerie’s marketing team, working within the <span class="richVermillion">brand guidelines</span> they provided while expanding them into a scalable digital <span class="richVermillion">design system</span>.</h2>
+                        <hr class="slateBlackToRichVermillion">
+                        <p class="marginBottom">We kicked things off in Figma, where design exploration and collaboration happened in real time. Multiple rounds of feedback and iteration kept the process moving, until we arrived at a solution that hit the mark: mobile-first in principle, yet flexible enough to deliver a clean, responsive experience on desktop too.</p>
+                        <p class="marginBottom">On the engineering side, the build was no less ambitious. The site was transitioned from Salesforce Creative Cloud to a headless setup with CommerceTools, opening the door for long-term scalability and adaptability. As a full-stack designer, I partnered closely with backend developers to translate our designs into a library of reusable ReactJS components. All while baking in ADA compliance from the very beginning.</p>
                         <p>The outcome is a site that balances form and function. It’s visually polished, technically sound and smooth across every device. More importantly, the improvements go beyond appearances: checkout flows are streamlined, performance is stronger and the overall shopping journey feels trustworthy and effortless.</p>
                     </div>
                 </div>
             </section>
             <section class="projectSamples">
                 <div class="container">
-                    <div>
-                        <img src="imgs/vf/project-sample-1-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/vf/project-sample-2-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/vf/project-sample-3-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/vf/project-sample-4-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/vf/project-sample-5-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/vf/project-sample-6-7x5.webp" />
+                    <div class="desktopSampleContainer">
+                        <img src="assets/imgs/vfl/project-sample-1-7x5.webp" />
+                        <img src="assets/imgs/vfl/project-sample-2-7x5.webp" />
+                        <img src="assets/imgs/vfl/project-sample-3-7x5.webp" />
+                        <img src="assets/imgs/vfl/project-sample-4-7x5.webp" />
+                        <img src="assets/imgs/vfl/project-sample-5-7x5.webp" />
+                        <img src="assets/imgs/vfl/project-sample-6-7x5.webp" />
                     </div>
                 </div>
             </section>
-            <section id="projects" class="moreProjects">
-               <div class="container">
-                    <h2>Explore more projects</h2>
-                    <hr>
-                    <div class="projectsGrid">
-                        <a class="button primary" href="/spalding.html">Spalding</a>
-                        <a class="button primary" href="/russellathletic.html">Russell Athletic</a>
-                        <a class="button primary" href="/fruit.html">Fruit of the Loom</a>
-                    </div>
-                </div> 
+            <section class="skillSet">
+                <div class="container narrow">
+                    <ul class="skillList">
+                        <li class="skill">CSS</li>
+                        <li class="skill">Design Systems</li>
+                        <li class="skill">React</li>
+                        <li class="skill">Prototyping</li>
+                        <li class="skill">Accessibility Standards</li>
+                        <li class="skill">Figma</li>
+                        <li class="skill">DevOps</li>
+                        <li class="skill">Layout Design</li>
+                        <li class="skill">Illustrator</li>
+                        <li class="skill">Frontastic</li>
+                        <li class="skill">JavaScript</li>
+                        <li class="skill">HTML</li>
+                        <li class="skill">CommerceTools</li>
+                        <li class="skill">Photoshop</li>
+                        <li class="skill">E-Commerce</li>
+                        <li class="skill">User Interface Design</li>
+                        <li class="skill">Multi Team Collaboration</li>
+                    </ul>
+                </div>
             </section>
         </main>
-        <footer>
-            <div class="container">
-                <p>Clay Cauley <i class="fa-regular fa-copyright"></i> <span id="currentYear"></span></p>
-                <div class="socialLinks">
-                    <a href="https://www.linkedin.com/in/clay-cauley/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="mailto:clay@claydesigns.cc?subject=Inquiry" target="_blank" rel="noopener" aria-label="Email"><i class="fa-solid fa-square-envelope"></i></a>
-                </div>
-            </div>
-        </footer>
+		<footer>
+    <div class="container">
+        <p>Clay Cauley <i class="fa-regular fa-copyright"></i> <span id="currentYear" class="ignore"></span></p>
+        <div class="socialLinks">
+            <a href="https://www.linkedin.com/in/clay-cauley/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-square-linkedin"></i></a>
+            <a href="mailto:clay@claydesigns.cc?subject=Inquiry" target="_blank" rel="noopener" aria-label="Email"><i class="fa-solid fa-square-envelope"></i></a>
+        </div>
+    </div>
+</footer>
     </body>
-</html>
+</html> 

@@ -1,130 +1,147 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>Clay Cauley - Web & UI Designer | Front-End Developer</title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="style/style.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <script defer src="/assets/fontawesome/js/all.min.js"></script>
-        <script defer src="/assets/fontawesome/js/fontawesome.min.js"></script>
-        <script defer src="/js/main.js"></script>
-    </head>
-    <body>
-        <header>
-            <div class="container">
-                <div class="headerContent">
-                    <div class="pageHeaderCallout">
-                        <p class="pageHeader"><strong>Clay</strong> Cauley</p>
-                        <p class="supportText">Web & UI Designer || Front-End Developer</p>
-                    </div>
-                    <nav class="insidePages">
-                        <a class="button primary" href="/"><i class="fa-solid fa-house-chimney home"></i></a>
-                        <a class="button primary" href="/#about">About</a>
-                        <a class="button primary" href="#projects">Projects</a>
-                        <a class="button secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry">Get In Touch <i class="fa-solid fa-paper-plane"></i></a>
-                    </nav>
-                </div>
-            </div>
-        </header>
+    <html lang="en">
+    	<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Clay Cauley - Web & UI Designer | Front-End Developer</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/style/css/combined.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+	<script defer src="assets/fontawesome/js/all.min.js"></script>
+	<script defer src="assets/fontawesome/js/fontawesome.min.js"></script>
+	<script defer src="assets/script/main.js"></script>
+</head>
+    <body class="project">
+		<header>
+	<div class="container">
+		<div class="headerContent">
+			<button aria-label="Menu" class="menu"><i class="fa-solid fa-bars"></i></button>
+			<div class="pageHeaderCallout">
+				<p class="pageHeader"><strong>Clay</strong> Cauley</p>
+				<p class="supportText">Web & UI Designer || Front-End Developer</p>
+			</div>
+			<nav>
+				<a class="button abyssBlue" href="/"><i class="fa-solid fa-house-chimney home"></i> Home</a>
+				<a class="button abyssBlue" href="about.html"><i class="fa-solid fa-address-card"></i> About</a>
+				<a class="button abyssBlue" href="projects.html"><i class="fa-solid fa-pen-ruler"></i> Projects</a>
+				<a class="button abyssBlue secondary" href="mailto:clay@claydesigns.cc?subject=Inquiry"><i class="fa-solid fa-paper-plane"></i> Get In Touch</a>
+				<div class="overlay"></div>
+			</nav>
+		</div>
+	</div>
+</header>
         <main>
-            <section class="projectBanner">
+            <section class="header ra">
                 <div class="container">
-                    <div class="projectBannerTextBlock">
+                    <div class="textBlock">
                         <h1>Russell Athletic</h1>
-                        <h2>Brandsite redesign + platform migration</h2>
-                        <hr>
-                        <p>Russell Athletic needed a digital refresh and we delivered by elevating their brand guide into a full design system. We redesigned the site from the ground up in Figma, then built it out using CommerceTools front end and utilizing reusable ReactJS components for speed, flexibility and scale. Collaboration across teams kept the process sharp, while a focus on usability ensured every interaction feels seamless. The result is a bold, modern site that captures the brand’s legacy while setting it up for the future.</p>
+                        <p class="subheading">Brandsite refresh & platform migration</p>
+                        <hr class="creamWhiteToAbyssBlueLighten">
+                        <p class="marginBottom">Russell Athletic needed a digital refresh and we delivered by elevating their brand guide into a full design system. We redesigned the site from the ground up in Figma, then built it out using CommerceTools front end and utilizing reusable ReactJS components for speed, flexibility and scale. Collaboration across teams kept the process sharp, while a focus on usability ensured every interaction feels seamless. The result is a bold, modern site that captures the brand’s legacy while setting it up for the future.</p>
                         <div class="buttonContainer">
-                            <a class="button secondary" href="http://russellathletic.com" target="_blank">Visit Russell Athletic <i class="fa-solid fa-square-up-right"></i></a>
+                            <a class="button abyssBlueLighten" href="http://russellathletic.com" rel="noopener noreferrer" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square"></i> Visit Russell Athletic</a>
                         </div>
                     </div>
-                    <img src="imgs/ra/project-banner-4x3.webp" />
+                    <div class="headerBrandLogo">
+                        <img src="assets/imgs/logos/russell-logomark.svg" />
+                    </div>
                 </div>
             </section>
-            <section class="projectRedesign">
+            <section class="dektopExamples">
+                <div class="container narrow">
+                    <div class="mainImage">
+                        <img src="/assets/imgs/ra/main.webp" >
+                    </div>
+                    <div class="supportingImages">
+                        <img src="assets/imgs/ra/supportOne.webp" >
+                        <img src="assets/imgs/ra/supportTwo.webp" >
+                        <img src="assets/imgs/ra/supportThree.webp" >
+                    </div>
+                </div>
+            </section>
+            <section class="refreshDetails">
                 <div class="container">
-                    <div class="projectRedesignTextBlock">
-                        <h2>Russell Athletic was in dire need of a <span>digital presence</span> that worked harder for the brand.</h2>
-                        <hr>
-                        <p>Their old site wasn’t doing enough to keep visitors engaged, often leading to high page abandonment and missed opportunities to connect. The experience felt dated and it didn’t reflect the energy or heritage of the brand.</p>
-                        <p>Our redesign brought a fresh look and a more thoughtful structure, with accessibility and usability at the forefront. Every element of the new design system was crafted to be both flexible and consistent, giving Russell a platform that could evolve alongside the brand. Clearer storytelling and stronger visuals put the spotlight back where it belongs, on Russell's legacy and quality products.</p>
+                    <div class="textBlock">
+                        <h2 class="smallSectionHeading">Russell Athletic was in dire need of a <span class="richVermillion">digital presence</span> that worked harder for the brand, and we were ready to make it happen.</h2>
+                        <hr class="slateBlackToRichVermillion">
+                        <p class="marginBottom">Their old site wasn’t doing enough to keep visitors engaged, often leading to high page abandonment and missed opportunities to connect. The experience felt dated and it didn’t reflect the energy or heritage of the brand.</p>
+                        <p class="marginBottom">Our redesign brought a fresh look and a more thoughtful structure, with accessibility and usability at the forefront. Every element of the new design system was crafted to be both flexible and consistent, giving Russell a platform that could evolve alongside the brand. Clearer storytelling and stronger visuals put the spotlight back where it belongs, on Russell's legacy and quality products.</p>
                         <p>The new system not only promotes Russell’s story but also creates a smoother path for fans to discover products and connect with retail partners. By reducing friction and elevating the brand experience, the site now supports engagement, strengthens trust and drives sales where it matters most.</p>
                     </div>
                 </div>
             </section>
             <section class="mobileDesign threeImagesAndText">
-                <div class="container">
+                <div class="container inverted">
                     <div class="mobileDesignTextBlock">
-                        <h2>We redesigned Russell Athletic from the ground up. Making <span>user experience</span> the core playbook.</h2>
-                        <hr>
+                        <h2 class="smallSectionHeading">We redesigned Russell Athletic from the ground up. Making <span class="abyssBlueLighten">user experience</span> the core playbook.</h2>
+                        <hr class="creamWhiteToAbyssBlueLighten">
                         <p>Russell Athletic's old site technically worked on mobile, but visually it missed the mark. Buttons were too small, text felt cramped and layouts didn’t translate well to smaller screens. Product images often appeared stretched or distorted, undermining trust in the shopping experience. These design missteps created a first impression that felt anything but premium.</p>
-                        
                     </div>
                     <div class="mobileDesignImages">
-                        <img src="imgs/ra/mobile-sample-1-9x16.webp" />
-                        <img src="imgs/ra/mobile-sample-2-9x16.webp" />
-                        <img src="imgs/ra/mobile-sample-3-9x16.webp" />
+                        <img src="http://placehold.co/900x2000" >
+                        <img src="http://placehold.co/900x2000" >
+                        <img src="http://placehold.co/900x2000" >
                     </div>
                 </div>
             </section>
-            <section class="projectRedesign">
-                <div class="container">
-                    <div class="projectRedesignTextBlock">
-                        <h2>Through close <span>collaboration</span>, thoughtful <span>design</span> and a modern build process, we transformed Russell’s digital presence into a platform that is consistent, accessible and ready for the future.</h2>
-                        <hr>
-                        <p>We started in Figma, shaping concepts into something everyone could rally around. The process was highly collaborative, with feedback and refinements happening at every stage. After multiple rounds of iteration, the team aligned on a design system that felt sharp, flexible and consistent across devices.</p>
-                        <p>On the build side, we paired that design foundation with a modern headless architecture powered by CommerceTools. I worked closely with engineers to translate the system into reusable ReactJS components, ensuring the site was both scalable and easy to maintain. Accessibility was baked in from the beginning, so every user could navigate and engage without barriers.</p>
+            <section class="refreshDetails">
+                <div class="container narrow">
+                    <div class="textBlock">
+                        <h2 class="smallSectionHeading">Through close <span class="richVermillion">collaboration</span>, thoughtful <span class="richVermillion">design</span> and a modern build process, we transformed Russell’s digital presence into a platform that is consistent, accessible and ready for the future.</h2>
+                        <hr class="slateBlackToRichVermillion">
+                        <p class="marginBottom">We started in Figma, shaping concepts into something everyone could rally around. The process was highly collaborative, with feedback and refinements happening at every stage. After multiple rounds of iteration, the team aligned on a design system that felt sharp, flexible and consistent across devices.</p>
+                        <p class="marginBottom">On the build side, we paired that design foundation with a modern headless architecture powered by CommerceTools. I worked closely with engineers to translate the system into reusable ReactJS components, ensuring the site was both scalable and easy to maintain. Accessibility was baked in from the beginning, so every user could navigate and engage without barriers.</p>
                         <p>The outcome is a digital experience that feels fresh and reliable. It highlights Russell’s brand with a cleaner design language, faster performance and a structure built for the future. By uniting design, engineering and accessibility, the site now delivers a stronger connection between the brand and its audience.</p>
                     </div>
                 </div>
             </section>
             <section class="projectSamples">
                 <div class="container">
-                    <div>
-                        <img src="imgs/ra/project-sample-1-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/ra/project-sample-2-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/ra/project-sample-3-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/ra/project-sample-4-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/ra/project-sample-5-7x5.webp" />
-                    </div>
-                    <div>
-                        <img src="imgs/ra/project-sample-6-7x5.webp" />
+                    <div class="desktopSampleContainer">
+                        <img src="assets/imgs/ra/project-sample-1-7x5.webp" />
+                        <img src="assets/imgs/ra/project-sample-2-7x5.webp" />
+                        <img src="assets/imgs/ra/project-sample-3-7x5.webp" />
+                        <img src="assets/imgs/ra/project-sample-4-7x5.webp" />
+                        <img src="assets/imgs/ra/project-sample-5-7x5.webp" />
+                        <img src="assets/imgs/ra/project-sample-6-7x5.webp" />
                     </div>
                 </div>
             </section>
-            <section id="projects" class="moreProjects">
-               <div class="container">
-                    <h2>Explore more projects</h2>
-                    <hr>
-                    <div class="projectsGrid">
-                        <a class="button primary" href="/spalding.html">Spalding</a>
-                        <a class="button primary" href="/fruit.html">Fruit of the Loom</a>
-                        <a class="button primary" href="/vanityfairlingerie.html">Vanity Fair Lingerie</a>
-                    </div>
-                </div> 
+            <section class="skillSet">
+                <div class="container narrow">
+                    <ul class="skillList">
+                        <li class="skill">React</li>
+                        <li class="skill">Layout Design</li>
+                        <li class="skill">CommerceTools</li>
+                        <li class="skill">Prototyping</li>
+                        <li class="skill">DevOps</li>
+                        <li class="skill">Photoshop</li>
+                        <li class="skill">Multi Team Collaboration</li>
+                        <li class="skill">Design Systems</li>
+                        <li class="skill">Accessibility Standards</li>
+                        <li class="skill">Illustrator</li>
+                        <li class="skill">Figma</li>
+                        <li class="skill">Frontastic</li>
+                        <li class="skill">CSS</li>
+                        <li class="skill">HTML</li>
+                        <li class="skill">JavaScript</li>
+                        <li class="skill">User Interface Design</li>
+
+                    </ul>
+                </div>
             </section>
         </main>
-        <footer>
-            <div class="container">
-                <p>Clay Cauley <i class="fa-regular fa-copyright"></i> <span id="currentYear"></span></p>
-                <div class="socialLinks">
-                    <a href="https://www.linkedin.com/in/clay-cauley/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
-                    <a href="mailto:clay@claydesigns.cc?subject=Inquiry" target="_blank" rel="noopener" aria-label="Email"><i class="fa-solid fa-square-envelope"></i></a>
-                </div>
-            </div>
-        </footer>
+		<footer>
+    <div class="container">
+        <p>Clay Cauley <i class="fa-regular fa-copyright"></i> <span id="currentYear" class="ignore"></span></p>
+        <div class="socialLinks">
+            <a href="https://www.linkedin.com/in/clay-cauley/" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-square-linkedin"></i></a>
+            <a href="mailto:clay@claydesigns.cc?subject=Inquiry" target="_blank" rel="noopener" aria-label="Email"><i class="fa-solid fa-square-envelope"></i></a>
+        </div>
+    </div>
+</footer>
     </body>
-</html>
+</html> 
