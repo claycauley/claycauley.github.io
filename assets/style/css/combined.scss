@@ -317,21 +317,20 @@
 	}
 
 	.container {
-		gap: .5rem;
+		gap: 1rem;
 
-		.headerBrandLogo {
+		.projectLogo {
 			align-items: center;
 			aspect-ratio: 16 / 9;
 			background-color: var(--creamWhite);
 			border-radius: 1rem;
-			display: flex;
-			flex-shrink: 0;
 			justify-content: center;
 			order: -1;
 			padding-bottom: 2rem;
 			padding-left: 1rem;
 			padding-right: 1rem;
 			padding-top: 2rem;
+			width: 100%;
 		}
 	}
 }
@@ -343,7 +342,7 @@
 		gap: 1rem;
 
 		.mainImage {
-			aspect-ratio: 1 / 1;
+			aspect-ratio: 4 / 3;
 			overflow: hidden; 
 			width: 100%;
 
@@ -489,7 +488,7 @@
 /** About Page **/
 	.aboutCallout {
 		.container {
-			gap: 3rem;
+			gap: 1rem;
 			grid-template-columns: 1fr 1fr;
 
 			.textBlock {
@@ -505,12 +504,8 @@
 			gap: 1.5rem;
 			justify-items: center;
 
-			h2 {
-				text-align: center;
-			}
-
 			.collabContainer {
-				gap: 3rem;
+				gap: 1rem;
 				grid-template-columns: 1fr 1fr;
 			}
 		}
@@ -589,10 +584,11 @@
 /** Individual Projects Page **/
 	.header {
 		.container {
-			gap: 1rem;
-			grid-template-columns: 2.25fr .75fr;
+			align-items: center;
+			gap: 2rem;
+			grid-template-columns: 3fr 1fr;
 
-			.headerBrandLogo {
+			.projectLogo {
 				align-items: center;
 				aspect-ratio: 1 / 1;
 				background-color: var(--creamWhite);

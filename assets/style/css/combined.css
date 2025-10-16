@@ -958,21 +958,20 @@ footer .container .socialLinks a svg {
   background-image: url(/assets/imgs/vfl/header.webp);
 }
 .header .container {
-  gap: 0.5rem;
+  gap: 1rem;
 }
-.header .container .headerBrandLogo {
+.header .container .projectLogo {
   align-items: center;
   aspect-ratio: 16/9;
   background-color: var(--creamWhite);
   border-radius: 1rem;
-  display: flex;
-  flex-shrink: 0;
   justify-content: center;
   order: -1;
   padding-bottom: 2rem;
   padding-left: 1rem;
   padding-right: 1rem;
   padding-top: 2rem;
+  width: 100%;
 }
 
 .dektopExamples {
@@ -982,7 +981,7 @@ footer .container .socialLinks a svg {
   gap: 1rem;
 }
 .dektopExamples .container .mainImage {
-  aspect-ratio: 1/1;
+  aspect-ratio: 4/3;
   overflow: hidden;
   width: 100%;
 }
@@ -1107,7 +1106,7 @@ footer .container .socialLinks a svg {
   /***************/
   /** About Page **/
   .aboutCallout .container {
-    gap: 3rem;
+    gap: 1rem;
     grid-template-columns: 1fr 1fr;
   }
   .aboutCallout .container .textBlock .buttonContainer {
@@ -1117,11 +1116,8 @@ footer .container .socialLinks a svg {
     gap: 1.5rem;
     justify-items: center;
   }
-  .professionalCollaboration .container h2 {
-    text-align: center;
-  }
   .professionalCollaboration .container .collabContainer {
-    gap: 3rem;
+    gap: 1rem;
     grid-template-columns: 1fr 1fr;
   }
   .skillSet .container {
@@ -1175,10 +1171,11 @@ footer .container .socialLinks a svg {
   /*******************/
   /** Individual Projects Page **/
   .header .container {
-    gap: 1rem;
-    grid-template-columns: 2.25fr 0.75fr;
+    align-items: center;
+    gap: 2rem;
+    grid-template-columns: 3fr 1fr;
   }
-  .header .container .headerBrandLogo {
+  .header .container .projectLogo {
     align-items: center;
     aspect-ratio: 1/1;
     background-color: var(--creamWhite);
@@ -1192,7 +1189,7 @@ footer .container .socialLinks a svg {
     padding-right: 2rem;
     padding-top: 3rem;
   }
-  .header .container .headerBrandLogo img {
+  .header .container .projectLogo img {
     border-radius: 0;
   }
   .header .container .textBlock .buttonContainer .button {
