@@ -382,6 +382,16 @@
 	background: var(--abyssBlue) url('/assets/imgs/topography.svg') repeat fixed;;
 	color: var(--creamWhite);
 
+	.container {
+		gap: 1rem;
+
+		&.inverted {
+			img {
+				order: -1;
+			}
+		}
+	}
+
 	&.threeImagesAndText {
 		.container {
 			gap: 1rem;
@@ -658,7 +668,6 @@
 			}
 
 			&.inverted {
-				grid-template-columns: .5rem 2rem;
 				img {
 					order: 2;
 				}

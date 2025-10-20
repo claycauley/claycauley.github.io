@@ -1020,6 +1020,12 @@ footer .container .socialLinks a svg {
   background: var(--abyssBlue) url("/assets/imgs/topography.svg") repeat fixed;
   color: var(--creamWhite);
 }
+.mobileDesign .container {
+  gap: 1rem;
+}
+.mobileDesign .container.inverted img {
+  order: -1;
+}
 .mobileDesign.threeImagesAndText .container {
   gap: 1rem;
   grid-template-columns: 1fr;
@@ -1228,9 +1234,6 @@ footer .container .socialLinks a svg {
   }
   .mobileDesign .container img {
     order: initial;
-  }
-  .mobileDesign .container.inverted {
-    grid-template-columns: 0.5rem 2rem;
   }
   .mobileDesign .container.inverted img {
     order: 2;
