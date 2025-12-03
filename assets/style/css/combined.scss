@@ -313,6 +313,55 @@
 	}
 }
 
+.personalProjects {
+	color: var(--creamWhite);
+	position: relative;
+
+	.container {
+		align-items: center;
+		gap: 2rem;
+
+		img {
+			aspect-ratio: 1 / 1;
+			width: 100%;
+		}
+
+		.textBlock {
+			.buttonContainer {
+				display: grid;
+				gap: 1rem;
+
+				.supportText {
+					font-size: .75rem;
+					opacity: 75%;
+				}
+			}
+		}
+	}
+
+	&::before {
+		background-color: var(--slateBlack);
+		background-image: url(/assets/imgs/nature.webp);
+		background-position: top;
+		background-size: cover;
+		content: '';
+		filter: grayscale(100%) blur(.5rem) brightness(20%);
+		height: 100%;
+		left: 0;
+		position: absolute;
+		top: 0;
+		transform: scale(1.1);
+		width: 100%;
+		z-index: -1;
+	}
+
+	&.bitesizedBlackjack {
+		&::before {
+			background-image: url(/assets/imgs/blackjack/header.webp);
+		}
+	}
+}
+
 .additionalProjects {
 	.container {
 		align-items: center;
@@ -632,6 +681,24 @@
 
 					a{
 						padding: 2rem;
+					}
+				}
+			}
+		}
+	}
+
+	.personalProjects {
+		.container {
+			gap: 2rem;
+			grid-template-columns: 24rem 1fr;
+
+			.textBlock {
+				.buttonContainer {
+					display: grid;
+					grid-template-columns: max-content max-content;
+
+					.button {
+						width: max-content;
 					}
 				}
 			}

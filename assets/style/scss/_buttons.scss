@@ -94,6 +94,17 @@
 			}
 		}
 	}
+
+	&.disabled {
+		background-color: #CCCCCC;
+		border-color: #CCCCCC;
+		color: #666666;
+		
+		&:hover {
+			border-radius: .5rem;
+			cursor: not-allowed;
+		}
+	}
 }
 
 @media (min-width: 1024px) {

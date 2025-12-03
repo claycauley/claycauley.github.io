@@ -654,6 +654,15 @@ header.isScrolled .headerContent .pageHeaderCallout .supportText {
   border-color: var(--richVermillion);
   color: var(--creamWhite);
 }
+.button.disabled {
+  background-color: #CCCCCC;
+  border-color: #CCCCCC;
+  color: #666666;
+}
+.button.disabled:hover {
+  border-radius: 0.5rem;
+  cursor: not-allowed;
+}
 
 @media (min-width: 1024px) {
   .button {
@@ -953,6 +962,45 @@ footer .container .socialLinks a svg {
   width: 100%;
 }
 
+.personalProjects {
+  color: var(--creamWhite);
+  position: relative;
+}
+.personalProjects .container {
+  align-items: center;
+  gap: 2rem;
+}
+.personalProjects .container img {
+  aspect-ratio: 1/1;
+  width: 100%;
+}
+.personalProjects .container .textBlock .buttonContainer {
+  display: grid;
+  gap: 1rem;
+}
+.personalProjects .container .textBlock .buttonContainer .supportText {
+  font-size: 0.75rem;
+  opacity: 75%;
+}
+.personalProjects::before {
+  background-color: var(--slateBlack);
+  background-image: url(/assets/imgs/nature.webp);
+  background-position: top;
+  background-size: cover;
+  content: "";
+  filter: grayscale(100%) blur(0.5rem) brightness(20%);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  transform: scale(1.1);
+  width: 100%;
+  z-index: -1;
+}
+.personalProjects.bitesizedBlackjack::before {
+  background-image: url(/assets/imgs/blackjack/header.webp);
+}
+
 .additionalProjects .container {
   align-items: center;
   gap: 1rem;
@@ -1207,6 +1255,18 @@ footer .container .socialLinks a svg {
   }
   .recentProjects .container .projectList .project a {
     padding: 2rem;
+  }
+  .personalProjects .container {
+    gap: 2rem;
+    grid-template-columns: 24rem 1fr;
+  }
+  .personalProjects .container .textBlock .buttonContainer {
+    display: grid;
+    grid-template-columns: max-content max-content;
+  }
+  .personalProjects .container .textBlock .buttonContainer .button {
+    width: -moz-max-content;
+    width: max-content;
   }
   .additionalProjects {
     padding-bottom: 2rem;
