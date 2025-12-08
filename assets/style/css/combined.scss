@@ -82,6 +82,7 @@
 
 			hr {
 				background: var(--abyssBlue);
+				height: 2px;
 			}
 		}
 	}
@@ -606,6 +607,10 @@
 					p {
 						font-size: .875rem;
 					}
+				}
+
+				hr {
+					height: 4px;
 				}
 			}
 		}

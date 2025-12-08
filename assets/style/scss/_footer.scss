@@ -10,6 +10,11 @@ footer {
 		gap: 1rem;
 
 		p {
+			align-items: center;
+			display: flex;
+			font-size: 1rem;
+			font-weight: 700;
+			gap: .25rem;
 			justify-self: flex-start;
 			margin-bottom: 0;
 		}
@@ -17,18 +22,30 @@ footer {
 		.socialLinks {
 			display: flex;
 			flex-direction: row;
-			gap: 1rem;
+			gap: .5rem;
 			justify-self: flex-end;
 
 			a {
-				color: var(--creamWhite);
-				font-size: 1.5rem;
-				line-height: 1;
-				width: 1.75rem;
+				background-color: var(--creamWhite);
+				border-radius: .25rem;
+				color: var(--slateBlack);
+				font-size: 1rem;
+				line-height: 0;
+				padding: .5rem .75rem;
+				transition-duration: .25s;
+				transition-property: all;
+				transition-timing-function: ease;
 
-				svg {
-					height: auto;
-					width: 100%;
+				&:first-child {
+					border-radius: 1rem .25rem .25rem 1rem;
+				}
+				
+				&:last-child {
+					border-radius: .25rem 1rem 1rem .25rem;
+				}
+
+				&:hover {
+					border-radius: 1rem;
 				}
 			}
 		}
@@ -37,6 +54,6 @@ footer {
 
 @media (min-width: 1024px) {
     footer {
-		padding: 4rem 0;
+		padding: 2.875rem 0;
 	}
 }
