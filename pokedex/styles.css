@@ -449,4 +449,8 @@ button:active {
         margin: 20% auto;
         padding: 20px;
     }
+
+    .close {
+        color: #222222;
+    }
 }
