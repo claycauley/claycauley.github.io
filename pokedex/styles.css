@@ -181,7 +181,7 @@ button:active {
     padding: 30px;
     border-radius: 15px;
     width: 55vw;
-    max-height: 90vh;
+    max-height: 90dvh;
     overflow-y: auto;
     overflow-x: hidden;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
@@ -202,7 +202,7 @@ button:active {
 @media (max-width: 768px) {
     .modal-content {
         width: 95vw;
-        max-height: 95vh;
+        max-height: 95dvh;
     }
 }
 
