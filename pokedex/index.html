@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokédex</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔴 Pokédex</h1>
+        </header>
+
+        <div class="search-container">
+            <input type="text" id="searchInput" placeholder="Search Pokémon by name or ID...">
+            <button id="searchBtn">Search</button>
+            <button id="clearBtn">Clear</button>
+        </div>
+
+        <div id="errorContainer"></div>
+        <div id="pokemonContainer" class="pokemon-grid"></div>
+        <div id="loadingContainer" class="loading" style="display: none;">Loading...</div>
+
+        <div class="pagination">
+            <button id="prevBtn" disabled>← Previous</button>
+            <span id="pageInfo" style="color: white; align-self: center;"></span>
+            <button id="nextBtn">Next →</button>
+        </div>
+    </div>
+
+    <!-- Modal for Pokemon Details -->
+    <div id="pokemonModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="modal-header">
+                <img id="modalImage" class="modal-image" src="" alt="Pokemon">
+                <div class="modal-name" id="modalName"></div>
+                <div class="modal-id" id="modalId"></div>
+                <button id="cryButton" style="margin-top: 10px; padding: 8px 16px; background-color: #667eea; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease;">🔊 Cry</button>
+            </div>
+            <div id="modalTypes" class="pokemon-types" style="margin-bottom: 20px;"></div>
+            <div id="modalStats"></div>
+            <div id="modalAbilities" style="margin-top: 20px;"></div>
+            <div id="modalEffectiveness" class="type-effectiveness"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
