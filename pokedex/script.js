@@ -84,6 +84,7 @@ async function showPokemonDetails(pokemon) {
         const modalTypes = document.getElementById('modalTypes');
         const modalStats = document.getElementById('modalStats');
         const modalAbilities = document.getElementById('modalAbilities');
+        const modalEvolutions = document.getElementById('modalEvolutions');
         const modalEffectiveness = document.getElementById('modalEffectiveness');
 
         modalImage.src = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
@@ -142,6 +143,10 @@ async function showPokemonDetails(pokemon) {
         }).join('');
         modalAbilities.innerHTML = `<strong>Abilities:</strong><div style="margin-top: 8px;">${abilities}</div>`;
 
+        // Fetch and display evolutions
+        const evolutions = await getEvolutions(data.species.url);
+        modalEvolutions.innerHTML = evolutions;
+
         // Fetch and display type effectiveness
         const typeEffectiveness = await getTypeEffectiveness(data.types);
         modalEffectiveness.innerHTML = typeEffectiveness;
@@ -150,6 +155,124 @@ async function showPokemonDetails(pokemon) {
     } catch (error) {
         console.error('Error in showPokemonDetails:', error);
         showError('Failed to load Pokemon details');
+    }
+}
+
+// Get evolution chain for a Pokemon
+async function getEvolutions(speciesUrl) {
+    try {
+        const speciesResponse = await fetch(speciesUrl);
+        if (!speciesResponse.ok) return '';
+        
+        const speciesData = await speciesResponse.json();
+        const evolutionChainUrl = speciesData.evolution_chain.url;
+        
+        const chainResponse = await fetch(evolutionChainUrl);
+        if (!chainResponse.ok) return '';
+        
+        const chainData = await chainResponse.json();
+        
+        let html = '';
+        const evolutionChain = buildEvolutionChain(chainData.chain);
+        
+        if (evolutionChain.length > 1) {
+            html = '<div class="evolution-section"><strong>Evolution Chain:</strong><div class="evolution-chain">';
+            html += evolutionChain.map((pokemon, index) => {
+                let html = `
+                    <div class="evolution-item" onclick="showPokemonByName('${pokemon.name}')">
+                        <img class="evolution-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png'">
+                        <div class="evolution-name">${pokemon.name}</div>
+                `;
+                if (pokemon.condition) {
+                    html += `<div class="evolution-condition">${pokemon.condition}</div>`;
+                }
+                html += '</div>';
+                
+                if (index < evolutionChain.length - 1) {
+                    html += '<div class="evolution-arrow">→</div>';
+                }
+                
+                return html;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        return html;
+    } catch (error) {
+        console.error('Error fetching evolutions:', error);
+        return '';
+    }
+}
+
+// Build evolution chain recursively
+function buildEvolutionChain(chain) {
+    const evolutions = [];
+    
+    const processChain = (chainLink) => {
+        if (chainLink.species) {
+            const pokemonId = chainLink.species.url.split('/').filter(Boolean).pop();
+            const condition = getEvolutionCondition(chainLink.evolution_details);
+            
+            evolutions.push({
+                name: chainLink.species.name,
+                id: pokemonId,
+                condition: condition
+            });
+        }
+        
+        if (chainLink.evolves_to.length > 0) {
+            chainLink.evolves_to.forEach(evolution => processChain(evolution));
+        }
+    };
+    
+    processChain(chain);
+    return evolutions;
+}
+
+// Get human-readable evolution condition
+function getEvolutionCondition(evolutionDetails) {
+    if (!evolutionDetails || evolutionDetails.length === 0) return '';
+    
+    const details = evolutionDetails[0];
+    const conditions = [];
+    
+    if (details.min_level) conditions.push(`Level ${details.min_level}`);
+    if (details.min_happiness) conditions.push(`Happiness ${details.min_happiness}`);
+    if (details.min_affection) conditions.push(`Affection ${details.min_affection}`);
+    if (details.item) conditions.push(`Use ${details.item.name}`);
+    if (details.known_move) conditions.push(`Knows ${details.known_move.name}`);
+    if (details.known_move_type) conditions.push(`Knows ${details.known_move_type.name} Move`);
+    if (details.location) conditions.push(`At ${details.location.name}`);
+    if (details.time_of_day) conditions.push(`Time: ${details.time_of_day}`);
+    if (details.trade_species) conditions.push('Trade');
+    if (details.trigger.name === 'trade' && !details.trade_species) conditions.push('Trade');
+    if (details.held_item) conditions.push(`Hold ${details.held_item.name}`);
+    if (details.relative_physical_stats) {
+        if (details.relative_physical_stats > 0) conditions.push('Attack > Defense');
+        if (details.relative_physical_stats < 0) conditions.push('Defense > Attack');
+        if (details.relative_physical_stats === 0) conditions.push('Attack = Defense');
+    }
+    
+    return conditions.length > 0 ? conditions.join(', ') : '';
+}
+
+// Show Pokemon by name
+async function showPokemonByName(pokemonName) {
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
+        if (!response.ok) throw new Error('Pokemon not found');
+        
+        const pokemonData = await response.json();
+        await showPokemonDetails({ url: pokemonData.species.url.replace('pokemon-species', 'pokemon').replace(/\/$/, '').replace(/[^/]*$/, pokemonData.id), name: pokemonName });
+        
+        // Smooth scroll to top of modal
+        const modalContent = document.querySelector('.modal-content');
+        if (modalContent) {
+            modalContent.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    } catch (error) {
+        console.error('Error loading Pokemon:', error);
+        showError('Failed to load Pokemon');
     }
 }
 
@@ -372,19 +495,27 @@ searchInput.addEventListener('keypress', (e) => {
 
 // Modal event listeners
 closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
+    closeModal();
 });
+
+function closeModal() {
+    modal.classList.add('closing');
+    setTimeout(() => {
+        modal.style.display = 'none';
+        modal.classList.remove('closing');
+    }, 300);
+}
 
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
-        modal.style.display = 'none';
+        closeModal();
     }
 });
 
 // Close modal on ESC key
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-        modal.style.display = 'none';
+        closeModal();
     }
 });
 
