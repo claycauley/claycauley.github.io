@@ -819,7 +819,15 @@ async function sortPokemonByNationalDex(pokemonList, onlyFirstHalf = false) {
 function displayPage() {
     let pagePokemon = filteredPokemon.length > 0 ? filteredPokemon : allPokemon;
     
-    // Apply form visibility toggles
+    // Filter out non-visible forms (Alola, Galar, Hisui, Paldea, etc.) from main display
+    // These forms should only appear in the modal/details view
+    pagePokemon = pagePokemon.filter(pokemon => {
+        const isHiddenForm = ALL_FORM_SUFFIXES.some(suffix => pokemon.name.endsWith(suffix)) &&
+                            !VISIBLE_FORM_SUFFIXES.some(suffix => pokemon.name.endsWith(suffix));
+        return !isHiddenForm; // Show only if NOT a hidden form
+    });
+    
+    // Apply form visibility toggles (for Mega/Gmax which ARE in visible forms)
     pagePokemon = pagePokemon.filter(pokemon => {
         const lowerName = pokemon.name.toLowerCase();
         
