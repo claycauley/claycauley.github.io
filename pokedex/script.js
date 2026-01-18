@@ -6,17 +6,54 @@ const DB_NAME = 'PokedexDB';
 const DB_VERSION = 1;
 const IMAGE_STORE = 'pokemonImages';
 
+// Forms to keep in main Pokedex display
+const VISIBLE_FORM_SUFFIXES = ['-alola', '-galar', '-hisui', '-paldea', '-gmax', '-gigantamax', '-mega'];
+
+// All forms (for finding alternate forms in modals)
+const ALL_FORM_SUFFIXES = ['-alola', '-galar', '-hisui', '-paldea', '-gmax', '-gigantamax', '-mega', 
+                           '-starter', '-active', '-totem', '-shadow', '-primal', '-eternamax',
+                           '-rock-star', '-belle', '-pop-star', '-phd', '-libre', '-cosplay',
+                           '-original-cap', '-hoenn-cap', '-sinnoh-cap', '-unova-cap', '-kalos-cap', '-alola-cap',
+                           '-partner-cap', '-world-cap', '-attack', '-defense', '-speed', '-sandy', '-trash',
+                           '-sky', '-origin', '-heat', '-wash', '-frost', '-fan', '-mow', '-sunny', '-rainy', '-snowy',
+                           '-blue-striped', '-zen', '-pirouette', '-therian', '-black', '-white', '-resolute',
+                           '-female', '-male', '-blade', '-shield', '-small', '-large', '-super', '-average',
+                           '-red-meteor', '-orange-meteor', '-yellow-meteor', '-green-meteor', '-blue-meteor', '-indigo-meteor', '-violet-meteor',
+                           '-red', '-orange', '-yellow', '-green', '-blue', '-indigo', '-violet',
+                           '-busted', '-disguised', '-totem-disguised', '-totem-busted', '-busted',
+                           '-unbound', '-dusk', '-dawn', '-ultra', '-ice', '-shadow', '-low-key', '-amped',
+                           '-noice', '-hangry', '-crowned', '-dada', '-eternal', '-eternamax', '-limited-build',
+                           '-sprinting-build', '-swimming-build', '-gliding-build', '-low-power-mode', '-drive-mode',
+                           '-aquatic-mode', '-glide-mode', '-bloodmoon', '-wellspring-mask', '-hearthflame-mask', '-cornerstone-mask',
+                           '-terastal', '-stellar', '-z', '-combat-breed', '-blaze-breed', '-aqua-breed',
+                           '-white-striped', '-roaming', '-hero', '-three-segment', '-two-segment',
+                           '-stretchy', '-droopy', '-blue-plumage', '-yellow-plumage', '-white-plumage', '-green-plumage',
+                           '-pom-pom', '-pau', '-sensu', '-school', '-gulping', '-gorging'];
+
 let allPokemon = [];
 let filteredPokemon = [];
 let isSearching = false;
-let nextOffset = INITIAL_LOAD;
 let totalPokemonCount = 0;
-let isLoadingMore = false; // prevent multiple simultaneous requests
-let intersectionObserver = null;
-let skeletonPlaceholders = []; // Track skeleton elements for intersection
-let sentinelElement = null; // Element to trigger loading on intersection
 let db = null; // IndexedDB instance
 let isListView = false; // Track current view mode
+
+// Form visibility toggles
+let showMegaEvolutions = false;
+let showGigantamaxForms = false;
+
+// Virtualization for lazy rendering
+let visibleStart = 0;
+let visibleCount = 50; // Show 50 at a time
+let intersectionObserver = null;
+
+// Filter state
+let activeFilters = {
+    generation: '',
+    type: '',
+    category: ''
+};
+let allTypes = []; // Store all available types
+let pokemonDataCache = {}; // Cache for Pokemon detailed data (type, generation)
 
 const pokemonContainer = document.getElementById('pokemonContainer');
 const loadingContainer = document.getElementById('loadingContainer');
@@ -29,6 +66,208 @@ const errorContainer = document.getElementById('errorContainer');
 const loadMoreBtn = document.getElementById('loadMoreBtn');
 const viewToggleBtn = document.getElementById('viewToggleBtn');
 const viewToggleIcon = document.getElementById('viewToggleIcon');
+const generationFilter = document.getElementById('generationFilter');
+const typeFilter = document.getElementById('typeFilter');
+const categoryFilter = document.getElementById('categoryFilter');
+const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+const filtersModal = document.getElementById('filtersModal');
+const openFiltersBtn = document.getElementById('openFiltersBtn');
+const filterBadge = document.getElementById('filterBadge');
+const closeFiltersBtn = document.querySelector('.close-filters');
+const applyFiltersBtn = document.getElementById('applyFiltersBtn');
+const progressBar = document.getElementById('progressBar');
+const showMegaToggle = document.getElementById('showMegaToggle');
+const showGmaxToggle = document.getElementById('showGmaxToggle');
+const settingsModal = document.getElementById('settingsModal');
+const openSettingsBtn = document.getElementById('openSettingsBtn');
+const closeSettingsBtn = document.querySelector('#settingsModal .close');
+
+// Helper function to check if a Pokemon name is an alternate form (any form)
+function isAlternateForm(pokemonName) {
+    return ALL_FORM_SUFFIXES.some(suffix => pokemonName.endsWith(suffix));
+}
+
+// Helper function to check if a Pokemon should be hidden from main display
+function shouldHideFromMainDisplay(pokemonName) {
+    const lowerName = pokemonName.toLowerCase();
+    
+    // Check if it's a hidden form
+    const isHiddenForm = ALL_FORM_SUFFIXES.some(suffix => pokemonName.endsWith(suffix)) &&
+                        !VISIBLE_FORM_SUFFIXES.some(suffix => pokemonName.endsWith(suffix));
+    
+    if (!isHiddenForm) {
+        return false; // Not a hidden form, show it
+    }
+    
+    // It's a form - check if we should hide it based on toggles
+    if (!showMegaEvolutions && lowerName.includes('-mega')) {
+        return true; // Hide Mega forms if toggle is off
+    }
+    
+    if (!showGigantamaxForms && (lowerName.includes('-gmax') || lowerName.includes('-gigantamax'))) {
+        return true; // Hide Gmax forms if toggle is off
+    }
+    
+    return false; // Show it by default
+}
+
+// Filter out alternate forms from Pokemon list (keeps only base forms)
+function filterOutForms(pokemonList) {
+    return pokemonList.filter(pokemon => !isAlternateForm(pokemon.name));
+}
+
+// Format Pokemon name for display (convert POKEMON-Mega to Mega POKEMON, etc.)
+function formatPokemonName(name) {
+    const lowerName = name.toLowerCase();
+    
+    // Handle Nidoran gender forms: nidoran-f -> Nidoran♀, nidoran-m -> Nidoran♂
+    if (lowerName === 'nidoran-f') {
+        return 'Nidoran♀';
+    }
+    if (lowerName === 'nidoran-m') {
+        return 'Nidoran♂';
+    }
+    
+    // Handle Mega Evolutions: pokemon-mega, pokemon-mega-x, pokemon-mega-y, pokemon-mega-z
+    if (lowerName.includes('-mega')) {
+        const parts = lowerName.split('-mega');
+        const baseName = parts[0];
+        const megaVariant = parts[1] ? parts[1].replace('-', ' ').toUpperCase() : ''; // X, Y, Z
+        const displayName = baseName.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        
+        if (megaVariant) {
+            return `Mega ${displayName} ${megaVariant}`;
+        } else {
+            return `Mega ${displayName}`;
+        }
+    }
+    
+    // Handle Gigantamax: pokemon-gmax or pokemon-gigantamax
+    if (lowerName.includes('-gmax') || lowerName.includes('-gigantamax')) {
+        const baseName = lowerName.replace('-gmax', '').replace('-gigantamax', '');
+        const displayName = baseName.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        return `Gmax ${displayName}`;
+    }
+    
+    // Handle multi-word form suffixes (e.g., pikachu-original-cap -> Original Cap Pikachu)
+    // These are known multi-word suffixes that should go before the base name
+    const multiWordSuffixes = [
+        // Cap variants (Pikachu)
+        'original-cap', 'hoenn-cap', 'sinnoh-cap', 'unova-cap', 'kalos-cap', 'alola-cap', 'partner-cap', 'world-cap',
+        // Pikachu costumes
+        'rock-star', 'pop-star', 'belle', 'phd', 'libre', 'cosplay',
+        // Color variants (Minior)
+        'red-meteor', 'orange-meteor', 'yellow-meteor', 'green-meteor', 'blue-meteor', 'indigo-meteor', 'violet-meteor',
+        'red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet',
+        // Striped variants
+        'blue-striped', 'red-striped', 'white-striped',
+        // Plumage variants (Squawkabilly)
+        'blue-plumage', 'yellow-plumage', 'white-plumage', 'green-plumage',
+        // Personality variants (Oricorio)
+        'pom-pom', 'pau', 'sensu',
+        // Breed variants (Tauros)
+        'combat-breed', 'blaze-breed', 'aqua-breed',
+        // Build/Mode variants (Koraidon, Miraidon)
+        'limited-build', 'sprinting-build', 'swimming-build', 'gliding-build',
+        'low-power-mode', 'drive-mode', 'aquatic-mode', 'glide-mode',
+        // Mask variants (Ogerpon)
+        'wellspring-mask', 'hearthflame-mask', 'cornerstone-mask',
+        // Strike variants (Urshifu)
+        'single-strike', 'rapid-strike',
+        // Segment variants (Dudunsparce)
+        'three-segment', 'two-segment',
+        // Family variants (Maushold)
+        'family-of-four', 'family-of-three',
+        // Rider variants (Calyrex)
+        'ice-rider', 'shadow-rider',
+        // Other multi-word forms
+        'dada', 'unlimited', 'eternamax', 'droopy', 'stretchy', 'low-key'
+    ];
+    
+    let matchedSuffix = null;
+    for (const suffix of multiWordSuffixes) {
+        if (lowerName.endsWith('-' + suffix)) {
+            matchedSuffix = suffix;
+            break;
+        }
+    }
+    
+    if (matchedSuffix) {
+        const suffixLength = matchedSuffix.split('-').length + 1; // +1 for the dash
+        const baseName = lowerName.split('-').slice(0, -suffixLength + 1).join('-');
+        
+        const displayBaseName = baseName.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        const displayFormName = matchedSuffix.split('-').map(word =>
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        
+        return `${displayFormName} ${displayBaseName}`;
+    }
+    
+    // Handle single-word forms (Alola, Galar, Hisui, Paldea, etc.)
+    if (lowerName.includes('-')) {
+        const parts = lowerName.split('-');
+        const formName = parts[parts.length - 1]; // Last part is the form
+        const baseName = parts.slice(0, -1).join('-');
+        
+        const displayBaseName = baseName.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        const displayFormName = formName.charAt(0).toUpperCase() + formName.slice(1);
+        
+        return `${displayFormName} ${displayBaseName}`;
+    }
+    
+    // Standard name: capitalize each word
+    return lowerName.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+}
+
+// Cache for base National Dex numbers of alternate forms
+const nationalDexCache = {};
+
+// Get the base National Pokedex number for a Pokemon (for forms like Mega, Regional variants, etc.)
+async function getBaseNationalDexNumber(pokemonName) {
+    // If already cached, return it
+    if (nationalDexCache[pokemonName]) {
+        return nationalDexCache[pokemonName];
+    }
+    
+    try {
+        // Fetch the Pokemon data to get species info
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+        if (!response.ok) return null;
+        
+        const data = await response.json();
+        
+        // If this Pokemon has a species URL, fetch the species to get the base National Dex number
+        if (data.species && data.species.url) {
+            const speciesResponse = await fetch(data.species.url);
+            if (!speciesResponse.ok) return null;
+            
+            const speciesData = await speciesResponse.json();
+            const baseNationalDex = speciesData.id;
+            
+            // Cache it
+            nationalDexCache[pokemonName] = baseNationalDex;
+            return baseNationalDex;
+        }
+        
+        // Fallback: use the Pokemon's own ID if no species data
+        nationalDexCache[pokemonName] = data.id;
+        return data.id;
+    } catch (error) {
+        console.error(`Error fetching base National Dex for ${pokemonName}:`, error);
+        return null;
+    }
+}
 
 // Initialize IndexedDB for image caching
 async function initDB() {
@@ -109,180 +348,502 @@ async function fetchImageWithCache(url) {
     }
 }
 
+// Initialize filters by fetching all available types
+async function initializeFilters() {
+    try {
+        // Fetch all types from PokéAPI
+        const response = await fetch('https://pokeapi.co/api/v2/type');
+        const data = await response.json();
+        
+        // Extract type names and sort them
+        allTypes = data.results
+            .map(type => type.name)
+            .filter(type => type !== 'unknown' && type !== 'shadow') // Filter out special types
+            .sort();
+        
+        // Populate type filter dropdown
+        if (typeFilter) {
+            allTypes.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+                typeFilter.appendChild(option);
+            });
+        }
+    } catch (error) {
+        console.error('Error initializing filters:', error);
+    }
+}
+
+// Get generation number from Pokemon ID
+function getGenerationFromId(id) {
+    if (id <= 151) return '1';
+    if (id <= 251) return '2';
+    if (id <= 386) return '3';
+    if (id <= 493) return '4';
+    if (id <= 649) return '5';
+    if (id <= 721) return '6';
+    if (id <= 809) return '7';
+    if (id <= 905) return '8';
+    if (id <= 1025) return '9';
+    return '';
+}
+
+// Enrich Pokemon data with type, generation, and category info
+async function enrichPokemonData(pokemon) {
+    const id = pokemon.url.split('/').filter(Boolean).pop();
+    
+    if (!pokemonDataCache[id]) {
+        try {
+            const response = await fetch(pokemon.url);
+            const data = await response.json();
+            
+            // Fetch species data for category info and base National Dex number
+            const speciesResponse = await fetch(data.species.url);
+            const speciesData = await speciesResponse.json();
+            
+            pokemonDataCache[id] = {
+                types: data.types.map(t => t.type.name),
+                generation: getGenerationFromId(data.id),
+                isLegendary: speciesData.is_legendary,
+                isMythical: speciesData.is_mythical,
+                isBaby: speciesData.is_baby,
+                baseNationalDexNumber: speciesData.id
+            };
+        } catch (error) {
+            console.error('Error enriching Pokemon data for', pokemon.name, ':', error);
+            pokemonDataCache[id] = { types: [], generation: '', isLegendary: false, isMythical: false, isBaby: false, baseNationalDexNumber: id };
+        }
+    }
+    
+    return pokemonDataCache[id];
+}
+
+// Apply active filters to Pokemon list
+async function applyFilters() {
+    activeFilters.generation = generationFilter.value;
+    activeFilters.type = typeFilter.value;
+    activeFilters.category = categoryFilter.value;
+    
+    // Reset to first page when filtering
+    isSearching = false;
+    searchInput.value = '';
+    
+    // If filters are active, filter the already-loaded allPokemon
+    if (activeFilters.generation || activeFilters.type || activeFilters.category) {
+        filteredPokemon = [];
+        
+        // Filter through the already-cached Pokemon data
+        for (const pokemon of allPokemon) {
+            const id = pokemon.url.split('/').filter(Boolean).pop();
+            const data = pokemonDataCache[id];
+            
+            if (!data) {
+                continue;
+            }
+            
+            let matches = true;
+            
+            // Check generation filter
+            if (activeFilters.generation) {
+                if (data.generation !== activeFilters.generation) {
+                    matches = false;
+                }
+            }
+            
+            // Check type filter
+            if (matches && activeFilters.type) {
+                if (!data.types || !data.types.includes(activeFilters.type)) {
+                    matches = false;
+                }
+            }
+            
+            // Check category filter
+            if (matches && activeFilters.category) {
+                if (activeFilters.category === 'legendary') {
+                    if (!data.isLegendary) {
+                        matches = false;
+                    }
+                } else if (activeFilters.category === 'mythical') {
+                    if (!data.isMythical) {
+                        matches = false;
+                    }
+                } else if (activeFilters.category === 'baby') {
+                    if (!data.isBaby) {
+                        matches = false;
+                    }
+                } else if (activeFilters.category === 'mega') {
+                    // For mega, check if pokemon name contains 'mega'
+                    if (!pokemon.name.includes('mega')) {
+                        matches = false;
+                    }
+                }
+            }
+            
+            if (matches) {
+                filteredPokemon.push(pokemon);
+            }
+        }
+    } else {
+        filteredPokemon = [];
+    }
+    
+    updateFilterBadge();
+    displayPage();
+}
+
+// Update the filter badge count
+function updateFilterBadge() {
+    let activeCount = 0;
+    if (activeFilters.generation) activeCount++;
+    if (activeFilters.type) activeCount++;
+    if (activeFilters.category) activeCount++;
+    
+    const filterCountEl = document.getElementById('filterCount');
+    if (activeCount > 0) {
+        filterCountEl.textContent = activeCount;
+        filterBadge.style.display = 'inline';
+    } else {
+        filterBadge.style.display = 'none';
+    }
+}
+
+// Reset all filters
+async function resetFilters() {
+    activeFilters.generation = '';
+    activeFilters.type = '';
+    activeFilters.category = '';
+    filteredPokemon = [];
+    generationFilter.value = '';
+    typeFilter.value = '';
+    categoryFilter.value = '';
+    isSearching = false;
+    searchInput.value = '';
+    updateFilterBadge();
+    // Don't call displayPage here - let the user apply filters or close the modal
+}
+
+// Update progress bar
+function updateProgress(percent) {
+    progressBar.style.width = percent + '%';
+    // Also update loading screen progress if visible
+    const loadingProgress = document.getElementById('loading-progress');
+    if (loadingProgress) {
+        loadingProgress.style.width = percent + '%';
+    }
+}
+
+// Complete progress bar (fade out)
+function completeProgress() {
+    progressBar.style.width = '100%';
+    progressBar.classList.add('complete');
+    // Also complete loading screen progress
+    const loadingProgress = document.getElementById('loading-progress');
+    if (loadingProgress) {
+        loadingProgress.style.width = '100%';
+    }
+}
+
+// Pre-load and cache all Pokemon data in the background
+async function preloadAllData() {
+    try {
+        // Only proceed if we have totalPokemonCount set
+        if (totalPokemonCount === 0) {
+            completeProgress();
+            return;
+        }
+        
+        // First, fetch all Pokemon in the background (if we haven't already)
+        let allPokemonList = [...allPokemon]; // Start with already loaded
+        if (allPokemonList.length < totalPokemonCount) {
+            try {
+                const fullResponse = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${totalPokemonCount}&offset=0`);
+                const fullData = await fullResponse.json();
+                // Include ALL Pokemon (no filtering of forms)
+                allPokemonList = fullData.results;
+                updateProgress(5); // 5% after fetching list
+            } catch (error) {
+                console.warn('Could not fetch full Pokemon list, using current list:', error);
+                updateProgress(5);
+            }
+        }
+        
+        // Pre-load all Pokemon data in batches
+        const batchSize = 25;
+        for (let i = 0; i < allPokemonList.length; i += batchSize) {
+            const batch = allPokemonList.slice(i, i + batchSize);
+            await Promise.all(batch.map(pokemon => enrichPokemonData(pokemon)));
+            
+            // Update progress bar (5% + 95% distributed)
+            const progress = Math.min(95, 5 + Math.round((i + batchSize) / allPokemonList.length * 90));
+            updateProgress(progress);
+            
+            // Small delay to prevent overwhelming the API and allow UI to stay responsive
+            await new Promise(resolve => setTimeout(resolve, 50));
+        }
+
+        // Complete the progress bar
+        updateProgress(100);
+        completeProgress();
+    } catch (error) {
+        console.error('Error pre-loading data:', error);
+        updateProgress(100);
+        completeProgress();
+    }
+}
+
 // Initialize the app
 async function init() {
     await initDB();
     loadViewPreference();
+    await initializeFilters();
     await loadPokemonList();
-    // Wire up load more button
-    if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', loadMorePokemonManual);
-    }
     // Wire up view toggle button
     if (viewToggleBtn) {
         viewToggleBtn.addEventListener('click', toggleViewMode);
     }
+    // Wire up form visibility toggles
+    if (showMegaToggle) {
+        showMegaToggle.addEventListener('change', (e) => {
+            showMegaEvolutions = e.target.checked;
+            // Re-render the current Pokemon list without reloading
+            displayPage();
+        });
+    }
+    if (showGmaxToggle) {
+        showGmaxToggle.addEventListener('change', (e) => {
+            showGigantamaxForms = e.target.checked;
+            // Re-render the current Pokemon list without reloading
+            displayPage();
+        });
+    }
+    // Wire up filters modal
+    if (openFiltersBtn) {
+        openFiltersBtn.addEventListener('click', () => {
+            filtersModal.style.display = 'block';
+        });
+    }
+    if (closeFiltersBtn) {
+        closeFiltersBtn.addEventListener('click', () => {
+            filtersModal.style.display = 'none';
+        });
+    }
+    if (applyFiltersBtn) {
+        applyFiltersBtn.addEventListener('click', async () => {
+            await applyFilters();
+            filtersModal.style.display = 'none';
+        });
+    }
+    if (resetFiltersBtn) {
+        resetFiltersBtn.addEventListener('click', async () => {
+            await resetFilters();
+            filtersModal.style.display = 'none';
+        });
+    }
+    // Wire up settings modal
+    if (openSettingsBtn) {
+        openSettingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'block';
+        });
+    }
+    if (closeSettingsBtn) {
+        closeSettingsBtn.addEventListener('click', () => {
+            settingsModal.style.display = 'none';
+        });
+    }
+    // Global modal handlers - click outside or ESC to close
+    window.addEventListener('click', (event) => {
+        if (event.target === filtersModal) {
+            filtersModal.style.display = 'none';
+        }
+        if (event.target === settingsModal) {
+            settingsModal.style.display = 'none';
+        }
+    });
+    window.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            filtersModal.style.display = 'none';
+            settingsModal.style.display = 'none';
+        }
+    });
     displayPage();
-    setupIntersectionObserver();
 }
 
 // Load the list of all Pokemon
 async function loadPokemonList() {
     try {
-        showLoadingScreen();
-        // Fetch the initial list info and first batch
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${INITIAL_LOAD}&offset=0`);
-        const data = await response.json();
-        totalPokemonCount = data.count || 0;
-        allPokemon = data.results;
-        nextOffset = INITIAL_LOAD;
-        
-        // Display the initial batch
-        displayPage();
-        
-        // Setup observer for lazy loading after initial display
-        await new Promise(resolve => setTimeout(resolve, 100));
-        setupIntersectionObserver();
-        
-        hideLoadingScreen();
-    } catch (error) {
-        showError('Failed to load Pokemon list');
-        hideLoadingScreen();
-    }
-}
-
-// Load the next batch of Pokemon
-async function loadNextBatch() {
-    if (isLoadingMore || allPokemon.length >= totalPokemonCount) return;
-    
-    isLoadingMore = true;
-    try {
-        // Add skeleton placeholders first
-        const skeletonsToAdd = LOAD_MORE_COUNT;
-        const skeletonRefs = [];
-        
-        for (let i = 0; i < skeletonsToAdd; i++) {
-            const skeleton = createSkeletonCard();
-            pokemonContainer.appendChild(skeleton);
-            skeletonRefs.push(skeleton);
-        }
-
-        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${LOAD_MORE_COUNT}&offset=${nextOffset}`);
-        if (!response.ok) throw new Error('Failed to load more');
-        
-        const data = await response.json();
-        if (!Array.isArray(data.results) || data.results.length === 0) {
-            // Remove unused skeletons if no results
-            skeletonRefs.forEach(s => s.remove());
+        // Check if we already have all Pokemon cached
+        if (allPokemon.length > 0) {
+            // We already have the data, skip loading
             return;
         }
-
-        // Replace skeletons with actual cards
-        allPokemon = allPokemon.concat(data.results);
-        nextOffset += data.results.length;
         
-        data.results.forEach((pokemon, index) => {
-            const skeleton = skeletonRefs[index];
-            if (skeleton && skeleton.parentNode) {
-                const card = createPokemonCard(pokemon);
-                card.style.opacity = '0';
-                card.style.transform = 'translateY(20px)';
-                skeleton.parentNode.replaceChild(card, skeleton);
-                
-                // Animate in
-                setTimeout(() => {
-                    card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
-                    card.style.opacity = '1';
-                    card.style.transform = 'translateY(0)';
-                }, index * 30);
-            }
-        });
-
-        // Update button visibility
-        updateLoadMoreButtonVisibility();
+        showLoadingScreen();
+        updateProgress(0);
         
-        // Re-add sentinel and setup observer for next batch
-        if (sentinelElement && sentinelElement.parentNode) {
-            sentinelElement.remove();
+        // Fetch ALL Pokemon including alternate forms
+        let fetchedPokemon = [];
+        let offset = 0;
+        
+        // Fetch all Pokemon from the API
+        while (true) {
+            const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=100&offset=${offset}`);
+            const data = await response.json();
+            
+            if (!data.results || data.results.length === 0) break;
+            
+            totalPokemonCount = data.count || 0;
+            
+            // Include ALL Pokemon (base forms + alternate forms)
+            fetchedPokemon = fetchedPokemon.concat(data.results);
+            offset += 100;
+            
+            // Stop when we have all Pokemon
+            if (fetchedPokemon.length >= totalPokemonCount) break;
         }
-        sentinelElement = document.createElement('div');
-        sentinelElement.id = 'load-sentinel';
-        sentinelElement.style.height = '20px';
-        pokemonContainer.appendChild(sentinelElement);
         
-        setupIntersectionObserver();
+        // Sort by National Pokedex number (for alternate forms, use base number)
+        // First enriches HALF the Pokemon to show content quickly
+        let sortedPokemon = await sortPokemonByNationalDex(fetchedPokemon, true);
         
-    } catch (error) {
-        console.error('Error loading more Pokemon:', error);
-        showError('Failed to load more Pokémon');
-    } finally {
-        isLoadingMore = false;
-    }
-}
-
-// Setup intersection observer for lazy loading as user scrolls
-function setupIntersectionObserver() {
-    if (intersectionObserver) {
-        intersectionObserver.disconnect();
-    }
-    
-    // Don't set up observer if searching
-    if (isSearching) {
-        return;
-    }
-    
-    const options = {
-        root: null,
-        rootMargin: '200px',
-        threshold: 0.01
-    };
-    
-    intersectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            // If sentinel is visible and we haven't loaded everything and not searching
-            if (entry.isIntersecting && entry.target.id === 'load-sentinel' && !isLoadingMore && !isSearching && allPokemon.length < totalPokemonCount) {
-                loadNextBatch();
-            }
+        // Keep ALL Pokemon (don't filter here, filter on display instead)
+        allPokemon = sortedPokemon;
+        
+        updateProgress(100);
+        completeProgress();
+        
+        // Hide loading screen after a short delay to show 100%
+        setTimeout(() => {
+            hideLoadingScreen();
+            // Display the loaded Pokemon after splash screen disappears
+            displayPage();
+        }, 300);
+        
+        // Continue enriching remaining Pokemon in the background
+        // This won't block the UI since the splash screen is already gone
+        sortPokemonByNationalDex(fetchedPokemon, false).catch(error => {
+            console.warn('Background Pokemon enrichment encountered an error:', error);
         });
-    }, options);
-    
-    // Observe the sentinel element
-    if (sentinelElement) {
-        intersectionObserver.observe(sentinelElement);
+    } catch (error) {
+        showError('Failed to load Pokemon list');
+        updateProgress(100);
+        completeProgress();
+        hideLoadingScreen();
     }
 }
 
-// Manual load more button click
-async function loadMorePokemonManual() {
-    if (isLoadingMore || allPokemon.length >= totalPokemonCount) return;
-    await loadNextBatch();
-}
-
-
-// Helper function to update button visibility
-function updateLoadMoreButtonVisibility() {
-    if (!loadMoreBtn) return;
+// Display all Pokemon
+// Sort Pokemon by National Pokedex number (using base number for forms)
+async function sortPokemonByNationalDex(pokemonList, onlyFirstHalf = false) {
+    // Enrich all Pokemon with base National Dex numbers in batches
+    const batchSize = 20;
+    const listToProcess = onlyFirstHalf ? pokemonList.slice(0, Math.ceil(pokemonList.length / 2)) : pokemonList;
     
-    // Show button if we've reached 151 and haven't loaded all
-    if (allPokemon.length >= MILESTONE_151 && allPokemon.length < totalPokemonCount) {
-        loadMoreBtn.style.display = 'inline-block';
-        loadMoreBtn.textContent = `Load More Pokémon (${allPokemon.length}/${totalPokemonCount})`;
-    } else if (allPokemon.length >= totalPokemonCount) {
-        // Hide button when all loaded
-        loadMoreBtn.style.display = 'none';
-    } else {
-        // Hide button before 151
-        loadMoreBtn.style.display = 'none';
+    for (let i = 0; i < listToProcess.length; i += batchSize) {
+        const batch = listToProcess.slice(i, i + batchSize);
+        
+        // Fetch all Pokemon in this batch in parallel
+        await Promise.all(batch.map(async (pokemon) => {
+            const id = pokemon.url.split('/').filter(Boolean).pop();
+            if (!pokemonDataCache[id] || !pokemonDataCache[id].types) {
+                try {
+                    const response = await fetch(pokemon.url);
+                    const data = await response.json();
+                    
+                    let baseNationalDex = data.id;
+                    let isLegendary = false;
+                    let isMythical = false;
+                    let isBaby = false;
+                    
+                    // Fetch species data to get the actual base National Dex number and category info
+                    if (data.species) {
+                        try {
+                            const speciesResponse = await fetch(data.species.url);
+                            const speciesData = await speciesResponse.json();
+                            baseNationalDex = speciesData.id;
+                            isLegendary = speciesData.is_legendary;
+                            isMythical = speciesData.is_mythical;
+                            isBaby = speciesData.is_baby;
+                        } catch (e) {
+                            console.warn(`Could not fetch species for ${pokemon.name}, using pokemon id`);
+                        }
+                    }
+                    
+                    // Store COMPLETE cache entry so enrichPokemonData doesn't re-fetch
+                    pokemonDataCache[id] = {
+                        types: data.types.map(t => t.type.name),
+                        generation: getGenerationFromId(data.id),
+                        isLegendary: isLegendary,
+                        isMythical: isMythical,
+                        isBaby: isBaby,
+                        baseNationalDexNumber: baseNationalDex
+                    };
+                } catch (error) {
+                    console.error(`Error fetching Pokemon ${pokemon.name}:`, error);
+                    pokemonDataCache[id] = {
+                        types: [],
+                        generation: '',
+                        isLegendary: false,
+                        isMythical: false,
+                        isBaby: false,
+                        baseNationalDexNumber: parseInt(id)
+                    };
+                }
+            }
+        }));
+        
+        // Update progress bar (only show for first half)
+        if (onlyFirstHalf) {
+            const progress = Math.min(95, Math.round((i + batchSize) / listToProcess.length * 90));
+            updateProgress(progress);
+        }
     }
+    
+    // Sort by base National Dex number
+    return pokemonList.sort((a, b) => {
+        const idA = a.url.split('/').filter(Boolean).pop();
+        const idB = b.url.split('/').filter(Boolean).pop();
+        
+        const baseA = pokemonDataCache[idA]?.baseNationalDexNumber || parseInt(idA);
+        const baseB = pokemonDataCache[idB]?.baseNationalDexNumber || parseInt(idB);
+        
+        if (baseA !== baseB) {
+            return baseA - baseB;
+        }
+        
+        // If same base number (forms), sort by form name
+        return a.name.localeCompare(b.name);
+    });
 }
 
-// Display current page of Pokemon
 function displayPage() {
-    const pagePokemon = filteredPokemon.length > 0 ? filteredPokemon : allPokemon;
-
+    let pagePokemon = filteredPokemon.length > 0 ? filteredPokemon : allPokemon;
+    
+    // Apply form visibility toggles
+    pagePokemon = pagePokemon.filter(pokemon => {
+        const lowerName = pokemon.name.toLowerCase();
+        
+        // Hide Megas if toggle is off
+        if (!showMegaEvolutions && lowerName.includes('-mega')) {
+            return false;
+        }
+        
+        // Hide Gmaxes if toggle is off
+        if (!showGigantamaxForms && (lowerName.includes('-gmax') || lowerName.includes('-gigantamax'))) {
+            return false;
+        }
+        
+        return true;
+    });
+    
     pokemonContainer.innerHTML = '';
-
-    pagePokemon.forEach((pokemon, index) => {
+    visibleStart = 0;
+    
+    // Only render the first batch of Pokemon
+    const endIndex = Math.min(visibleStart + visibleCount, pagePokemon.length);
+    const visiblePokemon = pagePokemon.slice(visibleStart, endIndex);
+    
+    visiblePokemon.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
         card.style.opacity = '0';
         card.style.transform = 'translateY(20px)';
@@ -296,15 +857,64 @@ function displayPage() {
         }, index * 20);
     });
     
-    // Add sentinel element at the bottom to trigger lazy loading (only if not searching)
-    if (!isSearching) {
-        if (sentinelElement) {
-            sentinelElement.remove();
-        }
-        sentinelElement = document.createElement('div');
-        sentinelElement.id = 'load-sentinel';
-        sentinelElement.style.height = '20px';
-        pokemonContainer.appendChild(sentinelElement);
+    // Setup intersection observer to load more when scrolling
+    setupIntersectionObserver(pagePokemon);
+}
+
+// Setup intersection observer to load more Pokemon when scrolling
+function setupIntersectionObserver(pokemonList) {
+    // Clean up old observer
+    if (intersectionObserver) {
+        intersectionObserver.disconnect();
+    }
+    
+    intersectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            // If the last visible card is near the bottom, load more
+            if (entry.isIntersecting && entry.target === pokemonContainer.lastChild) {
+                loadMoreCards(pokemonList);
+            }
+        });
+    }, {
+        rootMargin: '100px' // Start loading 100px before reaching the bottom
+    });
+    
+    // Observe the container
+    if (pokemonContainer.lastChild) {
+        intersectionObserver.observe(pokemonContainer.lastChild);
+    }
+}
+
+// Load more Pokemon cards
+function loadMoreCards(pokemonList) {
+    const currentLength = pokemonContainer.children.length;
+    const newStart = currentLength;
+    const newEnd = Math.min(newStart + visibleCount, pokemonList.length);
+    
+    // If we've loaded everything, stop
+    if (newEnd <= currentLength) {
+        return;
+    }
+    
+    const newPokemon = pokemonList.slice(newStart, newEnd);
+    
+    newPokemon.forEach((pokemon, index) => {
+        const card = createPokemonCard(pokemon);
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        pokemonContainer.appendChild(card);
+        
+        // Stagger animation
+        setTimeout(() => {
+            card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 20);
+    });
+    
+    // Re-observe the new last child
+    if (intersectionObserver && pokemonContainer.lastChild) {
+        intersectionObserver.observe(pokemonContainer.lastChild);
     }
 }
 
@@ -384,24 +994,29 @@ function createPokemonCard(pokemon) {
     // Extract Pokemon ID from URL
     const id = pokemon.url.split('/').filter(Boolean).pop();
     
+    // Get the base National Dex number for display (for forms like Mega, Regional variants)
+    const baseNationalDex = pokemonDataCache[id]?.baseNationalDexNumber || parseInt(id);
+    
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
+    const displayName = formatPokemonName(pokemon.name);
+    
     if (isListView) {
         // List view layout
         card.innerHTML = `
             <div>
-                <div class="pokemon-id">#${id.padStart(3, '0')}</div>
+                <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
                 <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
             </div>
-            <div class="pokemon-name">${pokemon.name}</div>
+            <div class="pokemon-name">${displayName}</div>
         `;
     } else {
         // Grid view layout
         card.innerHTML = `
-            <div class="pokemon-id">#${id.padStart(3, '0')}</div>
+            <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
             <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
-            <div class="pokemon-name">${pokemon.name}</div>
+            <div class="pokemon-name">${displayName}</div>
         `;
     }
 
@@ -429,6 +1044,18 @@ async function showPokemonDetails(pokemon) {
         const data = await response.json();
 
         const id = data.id;
+        
+        // Get the base National Dex number for display
+        let baseNationalDex = id;
+        if (data.species) {
+            const speciesResponse = await fetch(data.species.url);
+            const speciesData = await speciesResponse.json();
+            baseNationalDex = speciesData.id;
+            // Cache it for future use
+            pokemonDataCache[id] = pokemonDataCache[id] || {};
+            pokemonDataCache[id].baseNationalDexNumber = baseNationalDex;
+        }
+        
         const modalImage = document.getElementById('modalImage');
         const modalName = document.getElementById('modalName');
         const modalId = document.getElementById('modalId');
@@ -443,8 +1070,8 @@ async function showPokemonDetails(pokemon) {
         // Use cached image if available, otherwise use direct URL
         const cachedImageUrl = await fetchImageWithCache(imageUrl);
         modalImage.src = cachedImageUrl || imageUrl;
-        modalName.textContent = data.name;
-        modalId.textContent = `#${id.toString().padStart(3, '0')}`;
+        modalName.textContent = formatPokemonName(data.name);
+        modalId.textContent = `#${baseNationalDex.toString().padStart(3, '0')}`;
 
         // Setup cry button
         const cryButton = document.getElementById('cryButton');
@@ -498,16 +1125,14 @@ async function showPokemonDetails(pokemon) {
         }).join('');
         modalAbilities.innerHTML = `<strong>Abilities:</strong><div style="margin-top: 8px;">${abilities}</div>`;
 
-        // Fetch and display games
-        const games = await getGamesList(data.species.url);
-        const modalGames = document.getElementById('modalGames');
-        if (modalGames) {
-            modalGames.innerHTML = games;
-        }
-
         // Fetch and display evolutions
         const evolutions = await getEvolutions(data.species.url);
         modalEvolutions.innerHTML = evolutions;
+
+        // Fetch and display alternate forms
+        const modalOtherForms = document.getElementById('modalOtherForms');
+        const alternateFormsHtml = await getAlternateForms(data.name, data.id);
+        modalOtherForms.innerHTML = alternateFormsHtml;
 
         // Fetch and display type effectiveness
         const typeEffectiveness = await getTypeEffectiveness(data.types);
@@ -524,165 +1149,6 @@ async function showPokemonDetails(pokemon) {
         showError('Failed to load Pokemon details');
     }
 }
-
-// Get games list for a Pokemon
-async function getGamesList(speciesUrl) {
-    try {
-        const speciesResponse = await fetch(speciesUrl);
-        if (!speciesResponse.ok) return '';
-        
-        const speciesData = await speciesResponse.json();
-        
-        // Get encounters to find games
-        if (!speciesData.id) return '';
-        
-        const encountersUrl = `https://pokeapi.co/api/v2/pokemon/${speciesData.id}/encounters`;
-        const encountersResponse = await fetch(encountersUrl);
-        if (!encountersResponse.ok) return '';
-        
-        const encounters = await encountersResponse.json();
-        
-        // Extract unique games from encounters
-        const games = new Set();
-        encounters.forEach(encounter => {
-            if (encounter.version_details) {
-                encounter.version_details.forEach(versionDetail => {
-                    games.add(versionDetail.version.name);
-                });
-            }
-        });
-        
-        if (games.size === 0) return '';
-        
-        // Map of games to their release order (more granular for accurate chronological sorting)
-        const gameReleaseOrder = {
-            // Gen I (1996)
-            'red': 1.1, 'blue': 1.2, 
-            // Gen I Enhanced (1998)
-            'yellow': 1.3,
-            // Gen II (1999)
-            'gold': 2.1, 'silver': 2.2, 
-            // Gen II Enhanced (2000)
-            'crystal': 2.3,
-            // Gen III (2002)
-            'ruby': 3.1, 'sapphire': 3.2, 
-            // Gen III Enhanced (2004)
-            'emerald': 3.3, 'fire-red': 3.4, 'leaf-green': 3.5,
-            // Gen IV (2006)
-            'diamond': 4.1, 'pearl': 4.2, 
-            // Gen IV Enhanced (2008)
-            'platinum': 4.3,
-            // Gen IV Remakes (2009-2010)
-            'heart-gold': 4.4, 'soul-silver': 4.5,
-            // Gen V (2010)
-            'black': 5.1, 'white': 5.2, 
-            // Gen V Enhanced (2012)
-            'black-2': 5.3, 'white-2': 5.4,
-            // Gen VI (2013)
-            'x': 6.1, 'y': 6.2, 
-            // Gen VI Remakes (2014)
-            'omega-ruby': 6.3, 'alpha-sapphire': 6.4,
-            // Gen VII (2016)
-            'sun': 7.1, 'moon': 7.2, 
-            // Gen VII Enhanced (2017)
-            'ultra-sun': 7.3, 'ultra-moon': 7.4,
-            // Gen VII Remakes (2018)
-            'lets-go-pikachu': 7.5, 'lets-go-eevee': 7.6,
-            // Gen VIII (2019)
-            'sword': 8.1, 'shield': 8.2,
-            // Gen VIII Remakes (2021)
-            'brilliant-diamond': 8.3, 'shining-pearl': 8.4,
-            // Gen VIII Spinoff (2021)
-            'legends-arceus': 8.5,
-            // Gen IX (2022)
-            'scarlet': 9.1, 'violet': 9.2
-        };
-        
-        // Map of game IDs to proper display names
-        const gameDisplayNames = {
-            'red': 'Red',
-            'blue': 'Blue',
-            'yellow': 'Yellow',
-            'gold': 'Gold',
-            'silver': 'Silver',
-            'crystal': 'Crystal',
-            'ruby': 'Ruby',
-            'sapphire': 'Sapphire',
-            'emerald': 'Emerald',
-            'fire-red': 'FireRed',
-            'firered': 'FireRed',
-            'leaf-green': 'LeafGreen',
-            'leafgreen': 'LeafGreen',
-            'diamond': 'Diamond',
-            'pearl': 'Pearl',
-            'platinum': 'Platinum',
-            'heart-gold': 'HeartGold',
-            'heartgold': 'HeartGold',
-            'soul-silver': 'SoulSilver',
-            'soulssilver': 'SoulSilver',
-            'black': 'Black',
-            'white': 'White',
-            'black-2': 'Black 2',
-            'black2': 'Black 2',
-            'white-2': 'White 2',
-            'white2': 'White 2',
-            'x': 'X',
-            'y': 'Y',
-            'omega-ruby': 'Omega Ruby',
-            'omegaruby': 'Omega Ruby',
-            'alpha-sapphire': 'Alpha Sapphire',
-            'alphasapphire': 'Alpha Sapphire',
-            'sun': 'Sun',
-            'moon': 'Moon',
-            'ultra-sun': 'Ultra Sun',
-            'ultrasun': 'Ultra Sun',
-            'ultra-moon': 'Ultra Moon',
-            'ultramoon': 'Ultra Moon',
-            'lets-go-pikachu': "Let's Go Pikachu",
-            'letsgopikachu': "Let's Go Pikachu",
-            'lets-go-eevee': "Let's Go Eevee",
-            'letsgoeevee': "Let's Go Eevee",
-            'sword': 'Sword',
-            'shield': 'Shield',
-            'brilliant-diamond': 'Brilliant Diamond',
-            'brilliantdiamond': 'Brilliant Diamond',
-            'shining-pearl': 'Shining Pearl',
-            'shiningpearl': 'Shining Pearl',
-            'legends-arceus': 'Legends: Arceus',
-            'legendsarceus': 'Legends: Arceus',
-            'scarlet': 'Scarlet',
-            'violet': 'Violet'
-        };
-        
-        // Sort and format game names by release order
-        const sortedGames = Array.from(games)
-            .sort((a, b) => {
-                const orderA = gameReleaseOrder[a] ?? 999;
-                const orderB = gameReleaseOrder[b] ?? 999;
-                return orderA - orderB;
-            })
-            .map(game => {
-                // Try to find display name with both hyphenated and non-hyphenated versions
-                const displayName = gameDisplayNames[game] || gameDisplayNames[game.replace(/-/g, '')] || game
-                    .split('-')
-                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                    .join(' ');
-                return displayName;
-            });
-        
-        let html = '<div class="games-section"><strong>Available in Games:</strong><div style="margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap;">';
-        html += sortedGames.map(game => 
-            `<span class="game-badge">${game}</span>`
-        ).join('');
-        html += '</div></div>';
-        
-        return html;
-    } catch (error) {
-        console.error('Error fetching games:', error);
-        return '';
-    }
-}
-
 // Get evolution chain for a Pokemon
 async function getEvolutions(speciesUrl) {
     try {
@@ -779,6 +1245,229 @@ function getEvolutionCondition(evolutionDetails) {
     }
     
     return conditions.length > 0 ? conditions.join(', ') : '';
+}
+
+// Get alternate forms for a Pokemon (Alola, Galar, Mega, Gmax, etc)
+async function getAlternateForms(pokemonName, baseId) {
+    try {
+        // Fetch all Pokemon forms to find alternates
+        const formsResponse = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=2000`);
+        if (!formsResponse.ok) return '';
+        
+        const formsData = await formsResponse.json();
+        const pokemonNameLower = pokemonName.toLowerCase();
+        
+        // Determine the base name (without variant suffix)
+        // For "charizard" -> "charizard", for "charizard-mega-x" -> "charizard"
+        let baseName = pokemonNameLower;
+        if (pokemonNameLower.includes('-')) {
+            baseName = pokemonNameLower.split('-')[0];
+        }
+        
+        // Find all forms that match this base Pokemon name
+        // Check both explicit suffixes AND any form that starts with the base name
+        const allFormNames = formsData.results
+            .map(p => p.name)
+            .filter(name => name.startsWith(baseName) && name !== baseName);
+        
+        if (allFormNames.length === 0) return ''; // No alternate forms exist
+        
+        // Fetch details for each form (base + alternates)
+        const formDetails = await Promise.all(
+            [baseName, ...allFormNames].map(async (formName) => {
+                try {
+                    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${formName}`);
+                    if (!response.ok) return null;
+                    return await response.json();
+                } catch (err) {
+                    return null;
+                }
+            })
+        );
+        
+        const validForms = formDetails.filter(f => f !== null);
+        if (validForms.length <= 1) return ''; // Only the base form, no alternates
+        
+        // Check if we're viewing the base form or a variant
+        const isViewingBaseForm = pokemonNameLower === baseName;
+        
+        // Organize forms by type
+        const megas = validForms.filter(f => f.name.includes('-mega'));
+        const gmaxes = validForms.filter(f => f.name.includes('-gmax') || f.name.includes('-gigantamax'));
+        const alolaForms = validForms.filter(f => f.name.includes('-alola'));
+        const galarForms = validForms.filter(f => f.name.includes('-galar'));
+        const hisuiForms = validForms.filter(f => f.name.includes('-hisui'));
+        const paldeanForms = validForms.filter(f => f.name.includes('-paldea'));
+        
+        // Get remaining forms that don't fit above categories (but exclude the base form)
+        const allCategorizedNames = new Set([
+            baseName, // Exclude the base form from other sections
+            ...megas.map(f => f.name),
+            ...gmaxes.map(f => f.name),
+            ...alolaForms.map(f => f.name),
+            ...galarForms.map(f => f.name),
+            ...hisuiForms.map(f => f.name),
+            ...paldeanForms.map(f => f.name)
+        ]);
+        const otherForms = validForms.filter(f => !allCategorizedNames.has(f.name));
+        
+        let html = '';
+        
+        // If viewing a Mega or Gmax variant, only show the Original Form section
+        const isViewingMega = pokemonNameLower.includes('-mega');
+        const isViewingGmax = pokemonNameLower.includes('-gmax') || pokemonNameLower.includes('-gigantamax');
+        
+        if (isViewingMega || isViewingGmax) {
+            // Show only the Original Form for Mega/Gmax variants
+            const baseForm = validForms.find(f => f.name === baseName);
+            if (baseForm) {
+                html += '<div class="other-forms-section"><h4>Original Form</h4><div class="forms-grid">';
+                const displayName = formatPokemonName(baseForm.name);
+                const imageUrl = baseForm.sprites.other['official-artwork']?.front_default || baseForm.sprites.front_default;
+                const types = baseForm.types.map(t => t.type.name).join('/');
+                html += `
+                    <div class="form-item" onclick="showPokemonByName('${baseForm.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${baseForm.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${baseForm.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                        <div class="form-type-badge">${types}</div>
+                    </div>
+                `;
+                html += '</div></div>';
+            }
+            return html;
+        }
+        
+        // Alola Forms Section
+        if (alolaForms.length > 0) {
+            html += '<div class="other-forms-section"><h4>Alola Forms</h4><div class="forms-grid">';
+            html += alolaForms.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}" 
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        // Galar Forms Section
+        if (galarForms.length > 0) {
+            html += '<div class="other-forms-section"><h4>Galar Forms</h4><div class="forms-grid">';
+            html += galarForms.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        // Hisui Forms Section
+        if (hisuiForms.length > 0) {
+            html += '<div class="other-forms-section"><h4>Hisui Forms</h4><div class="forms-grid">';
+            html += hisuiForms.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        // Paldea Forms Section
+        if (paldeanForms.length > 0) {
+            html += '<div class="other-forms-section"><h4>Paldea Forms</h4><div class="forms-grid">';
+            html += paldeanForms.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        // Mega Evolution Section
+        if (megas.length > 0) {
+            html += '<div class="other-forms-section"><h4>Mega Evolutions</h4><div class="forms-grid">';
+            
+            // Add mega forms
+            html += megas.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const types = form.types.map(t => t.type.name).join('/');
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                        <div class="form-type-badge">${types}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        // Gigantamax Section
+        if (gmaxes.length > 0) {
+            html += '<div class="other-forms-section"><h4>Gigantamax Forms</h4><div class="forms-grid">';
+            
+            // Add gmax forms
+            html += gmaxes.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        // Other Miscellaneous Forms Section
+        if (otherForms.length > 0) {
+            html += '<div class="other-forms-section"><h4>Other Forms</h4><div class="forms-grid">';
+            html += otherForms.map(form => {
+                const displayName = formatPokemonName(form.name);
+                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                return `
+                    <div class="form-item" onclick="showPokemonByName('${form.name}')">
+                        <img class="form-image" src="${imageUrl}" alt="${form.name}"
+                            onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${form.id}.png'">
+                        <div class="form-label">${displayName}</div>
+                    </div>
+                `;
+            }).join('');
+            html += '</div></div>';
+        }
+        
+        return html;
+    } catch (error) {
+        console.error('Error fetching alternate forms:', error);
+        return '';
+    }
 }
 
 // Show Pokemon by name
@@ -1018,11 +1707,13 @@ async function handleSearch() {
 // Search event listeners
 searchBtn.addEventListener('click', handleSearch);
 clearBtn.addEventListener('click', () => {
-    searchInput.value = '';
-    isSearching = false;
-    filteredPokemon = [];
-    displayPage();
-    setupIntersectionObserver();
+    // Only clear if there's actually something to clear
+    if (searchInput.value.trim() || isSearching || filteredPokemon.length > 0) {
+        searchInput.value = '';
+        isSearching = false;
+        filteredPokemon = [];
+        displayPage();
+    }
 });
 
 searchInput.addEventListener('keypress', (e) => {
@@ -1044,9 +1735,16 @@ function closeModal() {
     }, 300);
 }
 
+function closeFiltersModalFunc() {
+    filtersModal.style.display = 'none';
+}
+
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
         closeModal();
+    }
+    if (event.target === filtersModal) {
+        closeFiltersModalFunc();
     }
 });
 
@@ -1054,6 +1752,7 @@ window.addEventListener('click', (event) => {
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
         closeModal();
+        closeFiltersModalFunc();
     }
 });
 
@@ -1088,30 +1787,31 @@ function showLoadingScreen() {
         `;
         
         overlay.innerHTML = `
-            <div style="text-align: center;">
-                <h1 style="color: white; font-size: 48px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🔴 Pokédex</h1>
+            <div style="text-align: center; width: 80%; max-width: 400px;">
+                <h1 style="color: white; font-size: 48px; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🔴 Pokédex</h1>
                 <div style="
-                    width: 60px;
-                    height: 60px;
-                    border: 4px solid rgba(255,255,255,0.3);
-                    border-top: 4px solid white;
-                    border-radius: 50%;
-                    animation: spin 1s linear infinite;
-                    margin: 20px auto;
-                "></div>
-                <p style="color: white; font-size: 18px; margin-top: 20px;">Loading Pokémon...</p>
+                    width: 100%;
+                    height: 6px;
+                    background: rgba(255,255,255,0.2);
+                    border-radius: 3px;
+                    overflow: hidden;
+                    margin-bottom: 20px;
+                ">
+                    <div id="loading-progress" style="
+                        width: 0%;
+                        height: 100%;
+                        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                        transition: width 0.3s ease;
+                    "></div>
+                </div>
+                <p id="loading-text" style="color: white; font-size: 18px; margin-top: 20px;">Loading Pokémon...</p>
             </div>
-            <style>
-                @keyframes spin {
-                    0% { transform: rotate(0deg); }
-                    100% { transform: rotate(360deg); }
-                }
-            </style>
         `;
         document.body.appendChild(overlay);
     }
     overlay.style.display = 'flex';
 }
+
 
 function hideLoadingScreen() {
     const overlay = document.getElementById('loading-overlay');

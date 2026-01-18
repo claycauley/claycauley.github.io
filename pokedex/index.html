@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Progress bar for background caching -->
+    <div id="progressBar" class="progress-bar"></div>
+    
     <div class="container">
         <header>
             <h1>🔴 Pokédex</h1>
@@ -19,9 +22,11 @@
             <button id="viewToggleBtn" title="Toggle view">
                 <span id="viewToggleIcon">⊞</span>
             </button>
-        </div>
-
-        <div id="errorContainer"></div>
+            <button id="openFiltersBtn" title="Open filters">
+                🔍 Filters<span id="filterBadge" style="display: none; margin-left: 8px;">(<span id="filterCount">0</span>)</span>
+            </button>
+            <button id="openSettingsBtn" title="Open settings">⚙️ Settings</button>
+        </div>        <div id="errorContainer"></div>
         <div id="pokemonContainer" class="pokemon-grid"></div>
         <div id="loadingContainer" class="loading" style="display: none;">Loading...</div>
 
@@ -43,9 +48,80 @@
             <div id="modalTypes" class="pokemon-types" style="margin-bottom: 20px;"></div>
             <div id="modalStats"></div>
             <div id="modalAbilities" style="margin-top: 20px;"></div>
-            <div id="modalGames" style="margin-top: 20px;"></div>
             <div id="modalEvolutions" style="margin-top: 20px;"></div>
+            <div id="modalOtherForms" style="margin-top: 20px;"></div>
             <div id="modalEffectiveness" class="type-effectiveness"></div>
+        </div>
+    </div>
+
+    <!-- Modal for Filters -->
+    <div id="filtersModal" class="modal">
+        <span class="close close-filters">&times;</span>
+        <div class="modal-content filters-modal-content">
+            <h2>Filter Pokémon</h2>
+            
+            <div class="filter-group">
+                <label for="generationFilter">Generation:</label>
+                <select id="generationFilter">
+                    <option value="">All Generations</option>
+                    <option value="1">Gen I</option>
+                    <option value="2">Gen II</option>
+                    <option value="3">Gen III</option>
+                    <option value="4">Gen IV</option>
+                    <option value="5">Gen V</option>
+                    <option value="6">Gen VI</option>
+                    <option value="7">Gen VII</option>
+                    <option value="8">Gen VIII</option>
+                    <option value="9">Gen IX</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="typeFilter">Type:</label>
+                <select id="typeFilter">
+                    <option value="">All Types</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label for="categoryFilter">Category:</label>
+                <select id="categoryFilter">
+                    <option value="">All Categories</option>
+                    <option value="legendary">Legendary</option>
+                    <option value="mythical">Mythical</option>
+                    <option value="mega">Mega</option>
+                    <option value="baby">Baby</option>
+                </select>
+            </div>
+
+            <div class="filter-buttons">
+                <button id="resetFiltersBtn">Reset Filters</button>
+                <button id="applyFiltersBtn" class="apply-btn">Apply Filters</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Settings -->
+    <div id="settingsModal" class="modal">
+        <span class="close close-settings">&times;</span>
+        <div class="modal-content settings-modal-content">
+            <h2>Settings</h2>
+            
+            <div class="filter-group">
+                <label>Form Visibility:</label>
+                <div class="toggles-group">
+                    <label class="mobile-toggle">
+                        <span>Show Mega Evolutions</span>
+                        <input type="checkbox" id="showMegaToggle">
+                        <div class="toggle-slider"></div>
+                    </label>
+                    <label class="mobile-toggle">
+                        <span>Show Gigantamax Forms</span>
+                        <input type="checkbox" id="showGmaxToggle">
+                        <div class="toggle-slider"></div>
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
 
