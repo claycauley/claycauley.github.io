@@ -16,16 +16,17 @@
             <input type="text" id="searchInput" placeholder="Search Pokémon by name or ID...">
             <button id="searchBtn">Search</button>
             <button id="clearBtn">Clear</button>
+            <button id="viewToggleBtn" title="Toggle view">
+                <span id="viewToggleIcon">⊞</span>
+            </button>
         </div>
 
         <div id="errorContainer"></div>
         <div id="pokemonContainer" class="pokemon-grid"></div>
         <div id="loadingContainer" class="loading" style="display: none;">Loading...</div>
 
-        <div class="pagination">
-            <button id="prevBtn" disabled>← Previous</button>
-            <span id="pageInfo" style="color: white; align-self: center;"></span>
-            <button id="nextBtn">Next →</button>
+        <div style="display:flex; justify-content:center; gap:12px; margin-top: 20px;">
+            <button id="loadMoreBtn">Load more Pokémon</button>
         </div>
     </div>
 
@@ -42,6 +43,7 @@
             <div id="modalTypes" class="pokemon-types" style="margin-bottom: 20px;"></div>
             <div id="modalStats"></div>
             <div id="modalAbilities" style="margin-top: 20px;"></div>
+            <div id="modalGames" style="margin-top: 20px;"></div>
             <div id="modalEvolutions" style="margin-top: 20px;"></div>
             <div id="modalEffectiveness" class="type-effectiveness"></div>
         </div>
