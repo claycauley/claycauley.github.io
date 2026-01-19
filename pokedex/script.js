@@ -35,7 +35,7 @@ let filteredPokemon = [];
 let isSearching = false;
 let totalPokemonCount = 0;
 let db = null; // IndexedDB instance
-let isListView = false; // Track current view mode
+let isListView = true; // Track current view mode
 
 // Form visibility toggles
 let showMegaEvolutions = false;
@@ -598,10 +598,12 @@ async function init() {
     loadViewPreference();
     await initializeFilters();
     await loadPokemonList();
+    
     // Wire up view toggle button
     if (viewToggleBtn) {
         viewToggleBtn.addEventListener('click', toggleViewMode);
     }
+    
     // Wire up form visibility toggles
     if (showMegaToggle) {
         showMegaToggle.addEventListener('change', (e) => {
@@ -666,6 +668,10 @@ async function init() {
             settingsModal.style.display = 'none';
         }
     });
+
+    // Setup swipe gesture handling for drawer modals
+    setupDrawerSwipeGestures();
+    
     displayPage();
 }
 
@@ -931,9 +937,9 @@ function toggleViewMode() {
     isListView = !isListView;
     pokemonContainer.classList.toggle('list-view', isListView);
     
-    // Update button icon
+    // Update button icon - show what you're switching TO
     if (viewToggleIcon) {
-        viewToggleIcon.textContent = isListView ? '≡' : '⊞';
+        viewToggleIcon.textContent = isListView ? '⊞' : '≡';
     }
     
     // Save preference to localStorage
@@ -946,11 +952,12 @@ function toggleViewMode() {
 // Load saved view preference
 function loadViewPreference() {
     const savedMode = localStorage.getItem('pokemonViewMode');
-    if (savedMode === 'list') {
+    if (savedMode === 'list' || !savedMode) {
+        // Default to list view if no preference is saved
         isListView = true;
         pokemonContainer.classList.add('list-view');
         if (viewToggleIcon) {
-            viewToggleIcon.textContent = '≡';
+            viewToggleIcon.textContent = '⊞'; // Grid icon - shows what you can switch to
         }
     }
 }

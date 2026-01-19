@@ -78,6 +78,10 @@ button {
     color: white;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 button:hover {
@@ -278,6 +282,17 @@ button:active {
     }
 }
 
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes fadeOut {
     from { opacity: 1; }
     to { opacity: 0; }
@@ -313,6 +328,15 @@ button:active {
     transition: all 0.3s ease;
     z-index: 1001;
     display: none;
+}
+
+.modal[style*="display: block"] .close {
+    display: block;
+}
+
+.close:hover {
+    color: #f0f0f0;
+    transform: scale(1.1);
 }
 
 .modal[style*="display: block"] .close {
@@ -656,7 +680,7 @@ button:active {
 /* Filters Modal and Button */
 #openFiltersBtn {
     padding: 8px 16px;
-    background-color: #667eea;
+    background-color: #764ba2;
     color: white;
     border: none;
     border-radius: 6px;
@@ -668,9 +692,9 @@ button:active {
 }
 
 #openFiltersBtn:hover {
-    background-color: #5568d3;
+    background-color: #603a7f;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
 }
 
 #openFiltersBtn:active {
@@ -680,7 +704,7 @@ button:active {
 /* Settings Button and Modal */
 #openSettingsBtn {
     padding: 8px 16px;
-    background-color: #667eea;
+    background-color: #764ba2;
     color: white;
     border: none;
     border-radius: 6px;
@@ -692,9 +716,9 @@ button:active {
 }
 
 #openSettingsBtn:hover {
-    background-color: #5568d3;
+    background-color: #603a7f;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+    box-shadow: 0 4px 12px rgba(118, 75, 162, 0.3);
 }
 
 #openSettingsBtn:active {
@@ -925,8 +949,46 @@ button:active {
 }
 
 @media (max-width: 768px) {
-    #openFiltersBtn {
+    .search-container {
+        flex-wrap: wrap;
+    }
+
+    input[type="text"] {
         width: 100%;
+        order: 1;
+        flex-basis: 100%;
+        margin-bottom: 10px;
+    }
+
+    #searchBtn {
+        order: 2;
+        flex: 1;
+        flex-basis: calc(33.333% - 7px);
+    }
+
+    #clearBtn {
+        order: 3;
+        flex: 1;
+        flex-basis: calc(33.333% - 7px);
+    }
+
+    #viewToggleBtn {
+        order: 4;
+        flex: 1;
+        flex-basis: calc(33.333% - 7px);
+        margin-bottom: 10px;
+    }
+
+    #openFiltersBtn {
+        order: 5;
+        flex: 1;
+        flex-basis: calc(50% - 5px);
+    }
+
+    #openSettingsBtn {
+        order: 6;
+        flex: 1;
+        flex-basis: calc(50% - 5px);
     }
 
     .filters-modal-content {
