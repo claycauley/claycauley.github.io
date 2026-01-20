@@ -34,14 +34,16 @@
 
     <!-- Modal for Pokemon Details -->
     <div id="pokemonModal" class="modal">
-        <span class="close">&times;</span>
         <div class="modal-content">
-            <div class="modal-header">
-                <img id="modalImage" class="modal-image" src="" alt="Pokemon">
-                <div class="modal-name" id="modalName"></div>
-                <div class="modal-id" id="modalId"></div>
-                <button id="cryButton" style="margin-top: 10px; padding: 8px 16px; background-color: #667eea; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease;">🔊 Cry</button>
+            <span class="close" id="pokemonModalClose">&times;</span>
+            <div class="modal-header-gradient">
+                <div class="modal-header">
+                    <img id="modalImage" class="modal-image" src="" alt="Pokemon">
+                    <div class="modal-name" id="modalName"></div>
+                    <div class="modal-id" id="modalId"></div>
+                </div>
             </div>
+            <button id="cryButton" style="margin-top: 20px; margin-bottom: 20px; padding: 8px 16px; background-color: #667eea; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease;">🔊 Cry</button>
             <div id="modalTypes" class="pokemon-types" style="margin-bottom: 20px;"></div>
             <div id="modalStats"></div>
             <div id="modalAbilities" style="margin-top: 20px;"></div>
@@ -53,8 +55,8 @@
 
     <!-- Modal for Filters -->
     <div id="filtersModal" class="modal">
-        <span class="close close-filters">&times;</span>
         <div class="modal-content filters-modal-content">
+            <span class="close close-filters">&times;</span>
             <h2>Filter Pokémon</h2>
             
             <div class="filter-group">
@@ -100,8 +102,8 @@
 
     <!-- Modal for Settings -->
     <div id="settingsModal" class="modal">
-        <span class="close close-settings">&times;</span>
         <div class="modal-content settings-modal-content">
+            <span class="close close-settings">&times;</span>
             <h2>Settings</h2>
             
             <div class="filter-group">
@@ -115,6 +117,11 @@
                     <label class="mobile-toggle">
                         <span>Show Gigantamax Forms</span>
                         <input type="checkbox" id="showGmaxToggle">
+                        <div class="toggle-slider"></div>
+                    </label>
+                    <label class="mobile-toggle">
+                        <span>Show Regional Variants</span>
+                        <input type="checkbox" id="showRegionalVariantsToggle">
                         <div class="toggle-slider"></div>
                     </label>
                 </div>

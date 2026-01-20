@@ -40,6 +40,7 @@ let isListView = true; // Track current view mode
 // Form visibility toggles
 let showMegaEvolutions = false;
 let showGigantamaxForms = false;
+let showRegionalVariants = false;
 
 // Virtualization for lazy rendering
 let visibleStart = 0;
@@ -77,6 +78,7 @@ const applyFiltersBtn = document.getElementById('applyFiltersBtn');
 const progressBar = document.getElementById('progressBar');
 const showMegaToggle = document.getElementById('showMegaToggle');
 const showGmaxToggle = document.getElementById('showGmaxToggle');
+const showRegionalVariantsToggle = document.getElementById('showRegionalVariantsToggle');
 const settingsModal = document.getElementById('settingsModal');
 const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
@@ -105,6 +107,11 @@ function shouldHideFromMainDisplay(pokemonName) {
     
     if (!showGigantamaxForms && (lowerName.includes('-gmax') || lowerName.includes('-gigantamax'))) {
         return true; // Hide Gmax forms if toggle is off
+    }
+    
+    if (!showRegionalVariants && (lowerName.includes('-alola') || lowerName.includes('-galar') || 
+                                    lowerName.includes('-hisui') || lowerName.includes('-paldea'))) {
+        return true; // Hide regional variants if toggle is off
     }
     
     return false; // Show it by default
@@ -519,7 +526,7 @@ async function resetFilters() {
     isSearching = false;
     searchInput.value = '';
     updateFilterBadge();
-    // Don't call displayPage here - let the user apply filters or close the modal
+    displayPage();
 }
 
 // Update progress bar
@@ -614,6 +621,13 @@ async function init() {
     if (showGmaxToggle) {
         showGmaxToggle.addEventListener('change', (e) => {
             showGigantamaxForms = e.target.checked;
+            // Re-render the current Pokemon list without reloading
+            displayPage();
+        });
+    }
+    if (showRegionalVariantsToggle) {
+        showRegionalVariantsToggle.addEventListener('change', (e) => {
+            showRegionalVariants = e.target.checked;
             // Re-render the current Pokemon list without reloading
             displayPage();
         });
@@ -843,6 +857,12 @@ function displayPage() {
             return false;
         }
         
+        // Hide regional variants if toggle is off
+        if (!showRegionalVariants && (lowerName.includes('-alola') || lowerName.includes('-galar') || 
+                                       lowerName.includes('-hisui') || lowerName.includes('-paldea'))) {
+            return false;
+        }
+        
         return true;
     });
     
@@ -1005,6 +1025,25 @@ function hexToRgb(hex) {
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
     } : { r: 246, g: 246, b: 246 };
+}
+
+// Manual color overrides for specific Pokemon forms
+const pokemonColorOverrides = {
+    'blastoise': '#8EA9CF',
+    'electabuzz': '#F7D02C',
+    'electivire': '#EDCC81',
+    'electrode': '#e3928f',
+    'electrode-hisui': '#d05915',
+    'nidoran-m': '#CBA1C9'
+};
+
+function getManualColorOverride(pokemon) {
+    // Check by exact name first (handles all forms/variations)
+    const nameLower = pokemon.name.toLowerCase();
+    if (pokemonColorOverrides[nameLower]) {
+        return pokemonColorOverrides[nameLower];
+    }
+    return null;
 }
 
 // Calculate relative luminance for WCAG contrast
@@ -1276,6 +1315,9 @@ function simpleCanvasAveraging(imageUrl) {
     });
 }
 
+// Store card animation data for morph effect
+let lastClickedCard = null;
+
 // Create a Pokemon card element
 function createPokemonCard(pokemon) {
     const card = document.createElement('div');
@@ -1326,22 +1368,29 @@ function createPokemonCard(pokemon) {
     // Extract dominant color from image and apply it as a gradient background
     img.addEventListener('load', async function() {
         const imageToAnalyze = this.src || imageUrl;
-        let dominantColor = await getDominantColorFromImage(imageToAnalyze);
         
-        // First fallback: try canvas with center bias
-        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-            dominantColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
-        }
+        // Check for manual color override first (by ID to handle all forms)
+        let dominantColor = getManualColorOverride(pokemon);
         
-        // Second fallback: try simple averaging
-        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-            dominantColor = await simpleCanvasAveraging(imageToAnalyze);
+        if (!dominantColor) {
+            // If no override, extract color from image
+            dominantColor = await getDominantColorFromImage(imageToAnalyze);
+            
+            // First fallback: try canvas with center bias
+            if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+                dominantColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
+            }
+            
+            // Second fallback: try simple averaging
+            if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+                dominantColor = await simpleCanvasAveraging(imageToAnalyze);
+            }
         }
         
         // Convert hex color to rgb format
         const rgb = hexToRgb(dominantColor);
-        // Apply gradient: extracted color at 25%, fading to white at 100%
-        card.style.background = `linear-gradient(90deg, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) 25%, rgb(255, 255, 255) 100%)`;
+        // Apply gradient: white from start, extracted color at 80%
+        card.style.background = `linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) 80%)`;
         
         // Determine optimal text color based on contrast
         const textColor = getOptimalTextColor(dominantColor);
@@ -1355,11 +1404,14 @@ function createPokemonCard(pokemon) {
         // Apply optimal text color to Pokemon name
         const nameElement = card.querySelector('.pokemon-name');
         if (nameElement) {
-            nameElement.style.color = textColor;
+            nameElement.style.color = '#000000';
         }
     });
 
-    card.addEventListener('click', () => showPokemonDetails(pokemon));
+    card.addEventListener('click', () => {
+        lastClickedCard = card;
+        showPokemonDetails(pokemon);
+    });
     return card;
 }
 
@@ -1380,6 +1432,33 @@ async function showPokemonDetails(pokemon) {
             // Cache it for future use
             pokemonDataCache[id] = pokemonDataCache[id] || {};
             pokemonDataCache[id].baseNationalDexNumber = baseNationalDex;
+        }
+        
+        // Calculate morph animation from card to modal
+        let cardX = 0, cardY = 0, cardScale = 1;
+        if (lastClickedCard) {
+            const cardRect = lastClickedCard.getBoundingClientRect();
+            const containerRect = pokemonContainer.getBoundingClientRect();
+            
+            // Account for container scroll position
+            const cardCenterX = cardRect.left + cardRect.width / 2;
+            const cardCenterY = cardRect.top + cardRect.height / 2;
+            const modalCenterX = window.innerWidth / 2;
+            const modalCenterY = window.innerHeight / 2;
+            
+            // Calculate translate to move from card center to modal center
+            cardX = cardCenterX - modalCenterX;
+            cardY = cardCenterY - modalCenterY;
+            
+            // Calculate scale more accurately
+            // Modal content is roughly 550px wide on desktop, card is around 200px
+            const estimatedModalWidth = Math.min(window.innerWidth * 0.55, 550);
+            cardScale = Math.max(0.15, cardRect.width / estimatedModalWidth);
+            
+            // Set CSS variables for animation
+            modal.style.setProperty('--card-x', `${cardX}px`);
+            modal.style.setProperty('--card-y', `${cardY}px`);
+            modal.style.setProperty('--card-scale', cardScale);
         }
         
         const modalImage = document.getElementById('modalImage');
@@ -1465,6 +1544,54 @@ async function showPokemonDetails(pokemon) {
         modalEffectiveness.innerHTML = typeEffectiveness;
 
         modal.style.display = 'block';
+        
+        // Trigger opening animation class for staggered content fades
+        modal.classList.add('opening');
+        
+        // Apply dynamic color to Pokemon modal close button
+        const pokemonCloseBtn = document.getElementById('pokemonModalClose');
+        if (pokemonCloseBtn) {
+            // Get the extracted color from the card's ID element or extract it
+            let modalColor = null;
+            
+            // Try to get color from manual overrides first
+            modalColor = getManualColorOverride(pokemon);
+            
+            if (!modalColor) {
+                // Extract color from the image
+                const imageToAnalyze = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+                modalColor = await getDominantColorFromImage(imageToAnalyze);
+                
+                // Fallbacks
+                if (modalColor === '#ffffff' || modalColor === '#f6f6f6') {
+                    modalColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
+                }
+                if (modalColor === '#ffffff' || modalColor === '#f6f6f6') {
+                    modalColor = await simpleCanvasAveraging(imageToAnalyze);
+                }
+            }
+            
+            pokemonCloseBtn.style.color = modalColor;
+            pokemonCloseBtn.style.filter = 'brightness(0.5)';
+            
+            // Apply gradient to modal header using extracted color
+            const headerGradient = document.querySelector('.modal-header-gradient');
+            if (headerGradient) {
+                headerGradient.style.background = `linear-gradient(180deg, ${modalColor} 0%, #ffffff 100%)`;
+            }
+        }
+        
+        // Set Settings/Filters close buttons to dark gray
+        const settingsClose = document.querySelector('.close-settings');
+        const filtersClose = document.querySelector('.close-filters');
+        if (settingsClose) {
+            settingsClose.style.color = '#222222';
+            settingsClose.style.filter = 'none';
+        }
+        if (filtersClose) {
+            filtersClose.style.color = '#222222';
+            filtersClose.style.filter = 'none';
+        }
         
         // Scroll to top after content is rendered using requestAnimationFrame
         requestAnimationFrame(() => {
@@ -2016,6 +2143,9 @@ async function handleSearch() {
                         const id = pokemon.url.split('/').filter(Boolean).pop();
                         return pokemon.name.toLowerCase().includes(query) || id.includes(query);
                     });
+                    
+                    // Enrich the search results with Pokemon data (including baseNationalDexNumber)
+                    await Promise.all(results.map(pokemon => enrichPokemonData(pokemon)));
                 }
             } catch (error) {
                 console.error('Error searching all Pokemon:', error);
@@ -2054,11 +2184,31 @@ closeBtn.addEventListener('click', () => {
 });
 
 function closeModal() {
-    modal.classList.add('closing');
+    const modalContent = document.querySelector('.modal-content');
+    const modalBackdrop = document.querySelector('.modal');
+    
+    // Remove opening class to stop staggered animations
+    modal.classList.remove('opening');
+    
+    // Apply both animations with proper timing
+    // The backdrop fade needs to complete fully (0.6s)
+    modalContent.style.animation = `morphOut 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards`;
+    modalBackdrop.style.animation = `backdropFadeOut 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards`;
+    
+    // Wait for animations to fully complete before hiding
     setTimeout(() => {
         modal.style.display = 'none';
-        modal.classList.remove('closing');
-    }, 300);
+        
+        // Reset CSS variables AFTER modal is hidden
+        // Only then clear animations for next open
+        modal.style.removeProperty('--card-x');
+        modal.style.removeProperty('--card-y');
+        modal.style.removeProperty('--card-scale');
+        modalContent.style.animation = '';
+        modalBackdrop.style.animation = '';
+        
+        lastClickedCard = null;
+    }, 650);
 }
 
 function closeFiltersModalFunc() {
@@ -2103,13 +2253,13 @@ function showLoadingScreen() {
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #000000 0%, #222222 100%);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Poppins', sans-serif;
         `;
         
         overlay.innerHTML = `
@@ -2126,7 +2276,7 @@ function showLoadingScreen() {
                     <div id="loading-progress" style="
                         width: 0%;
                         height: 100%;
-                        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
+                        background: #ef3b3b;
                         transition: width 0.3s ease;
                     "></div>
                 </div>
@@ -2136,13 +2286,24 @@ function showLoadingScreen() {
         document.body.appendChild(overlay);
     }
     overlay.style.display = 'flex';
+    overlay.style.opacity = '1';
 }
 
 
 function hideLoadingScreen() {
     const overlay = document.getElementById('loading-overlay');
     if (overlay) {
-        overlay.style.display = 'none';
+        // Wait 2 additional seconds to ensure all content has loaded
+        setTimeout(() => {
+            // Add CSS transition for fade-out
+            overlay.style.transition = 'opacity 0.6s ease-out';
+            overlay.style.opacity = '0';
+            
+            // Remove from DOM after fade is complete
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 600);
+        }, 2000);
     }
 }
 
