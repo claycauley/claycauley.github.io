@@ -63,7 +63,6 @@ const clearBtn = document.getElementById('clearBtn');
 const modal = document.getElementById('pokemonModal');
 const closeBtn = document.querySelector('.close');
 const errorContainer = document.getElementById('errorContainer');
-const loadMoreBtn = document.getElementById('loadMoreBtn');
 const viewToggleBtn = document.getElementById('viewToggleBtn');
 const viewToggleIcon = document.getElementById('viewToggleIcon');
 const generationFilter = document.getElementById('generationFilter');
@@ -1341,8 +1340,8 @@ function createPokemonCard(pokemon) {
         
         // Convert hex color to rgb format
         const rgb = hexToRgb(dominantColor);
-        // Apply gradient: extracted color at 65%, fading to #f6f6f6 at 100%
-        card.style.background = `linear-gradient(125deg, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) 65%, rgb(246, 246, 246) 100%)`;
+        // Apply gradient: extracted color at 25%, fading to white at 100%
+        card.style.background = `linear-gradient(90deg, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) 25%, rgb(255, 255, 255) 100%)`;
         
         // Determine optimal text color based on contrast
         const textColor = getOptimalTextColor(dominantColor);
