@@ -599,10 +599,10 @@ async function init() {
     await initializeFilters();
     await loadPokemonList();
     
-    // Wire up view toggle button
-    if (viewToggleBtn) {
-        viewToggleBtn.addEventListener('click', toggleViewMode);
-    }
+    // Wire up view toggle button (disabled for now - keeping code for future)
+    // if (viewToggleBtn) {
+    //     viewToggleBtn.addEventListener('click', toggleViewMode);
+    // }
     
     // Wire up form visibility toggles
     if (showMegaToggle) {
@@ -669,9 +669,6 @@ async function init() {
         }
     });
 
-    // Setup swipe gesture handling for drawer modals
-    setupDrawerSwipeGestures();
-    
     displayPage();
 }
 
@@ -1001,6 +998,285 @@ function createSkeletonCard() {
     return card;
 }
 
+// Convert hex color to RGB object
+function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : { r: 246, g: 246, b: 246 };
+}
+
+// Calculate relative luminance for WCAG contrast
+function getLuminance(r, g, b) {
+    // Convert to sRGB
+    const [rs, gs, bs] = [r, g, b].map(val => {
+        val = val / 255;
+        return val <= 0.03928 ? val / 12.92 : Math.pow((val + 0.055) / 1.055, 2.4);
+    });
+    
+    // Calculate luminance
+    return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+}
+
+// Calculate WCAG contrast ratio
+function getContrastRatio(rgb1, rgb2) {
+    const lum1 = getLuminance(rgb1.r, rgb1.g, rgb1.b);
+    const lum2 = getLuminance(rgb2.r, rgb2.g, rgb2.b);
+    
+    const lighter = Math.max(lum1, lum2);
+    const darker = Math.min(lum1, lum2);
+    
+    return (lighter + 0.05) / (darker + 0.05);
+}
+
+// Determine if text color should be white or black based on background
+function getOptimalTextColor(backgroundColor) {
+    const bgRgb = hexToRgb(backgroundColor);
+    const whiteLuminance = { r: 255, g: 255, b: 255 };
+    const blackLuminance = { r: 0, g: 0, b: 0 };
+    
+    const whiteContrast = getContrastRatio(bgRgb, whiteLuminance);
+    const blackContrast = getContrastRatio(bgRgb, blackLuminance);
+    
+    // WCAG AA standard requires 4.5:1 for normal text
+    // Use white text if contrast with white is better and meets minimum
+    if (whiteContrast >= 4.5 && whiteContrast > blackContrast) {
+        return '#ffffff';
+    }
+    
+    return '#000000';
+}
+// Extract dominant color using Vibrant.js
+async function getDominantColorFromImage(imageUrl) {
+    return new Promise((resolve) => {
+        try {
+            if (typeof Vibrant !== 'undefined') {
+                new Vibrant(imageUrl, {
+                    colorCount: 64,
+                    quality: 5
+                }).getPalette((err, palette) => {
+                    if (err || !palette) {
+                        resolve('#ffffff');
+                        return;
+                    }
+                    
+                    // Try vibrant first, then fall back to other colors
+                    if (palette.Vibrant) {
+                        const rgb = palette.Vibrant.getRgb();
+                        const hex = '#' + rgb.map(x => {
+                            const hx = Math.round(x).toString(16);
+                            return hx.length === 1 ? '0' + hx : hx;
+                        }).join('').toUpperCase();
+                        resolve(hex);
+                    } else if (palette.DarkVibrant) {
+                        const rgb = palette.DarkVibrant.getRgb();
+                        const hex = '#' + rgb.map(x => {
+                            const hx = Math.round(x).toString(16);
+                            return hx.length === 1 ? '0' + hx : hx;
+                        }).join('').toUpperCase();
+                        resolve(hex);
+                    } else if (palette.LightVibrant) {
+                        const rgb = palette.LightVibrant.getRgb();
+                        const hex = '#' + rgb.map(x => {
+                            const hx = Math.round(x).toString(16);
+                            return hx.length === 1 ? '0' + hx : hx;
+                        }).join('').toUpperCase();
+                        resolve(hex);
+                    } else {
+                        resolve('#ffffff');
+                    }
+                });
+            } else {
+                // Vibrant.js not available, use fallback
+                resolve('#ffffff');
+            }
+        } catch (error) {
+            console.error('Error in getDominantColorFromImage:', error);
+            resolve('#ffffff');
+        }
+    });
+}
+
+// Canvas-based color extraction with center bias (second fallback)
+function canvasColorExtractionWithCenterBias(imageUrl) {
+    return new Promise((resolve) => {
+        try {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            
+            img.onload = function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 150;
+                    canvas.height = 150;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, 150, 150);
+                    
+                    const imageData = ctx.getImageData(0, 0, 150, 150);
+                    const data = imageData.data;
+                    
+                    // Collect colors with frequency scoring
+                    const colorMap = {};
+                    
+                    for (let i = 0; i < data.length; i += 4) {
+                        const pixelIndex = i / 4;
+                        const x = pixelIndex % 150;
+                        const y = Math.floor(pixelIndex / 150);
+                        
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        const a = data[i + 3];
+                        
+                        // Skip transparent pixels
+                        if (a < 128) {
+                            continue;
+                        }
+                        
+                        // Calculate saturation (color intensity)
+                        const max = Math.max(r, g, b);
+                        const min = Math.min(r, g, b);
+                        const delta = max - min;
+                        const saturation = max > 0 ? delta / max : 0;
+                        
+                        // Skip if it's a near-white pixel (very low saturation and very high brightness)
+                        if (saturation < 0.05 && max > 240) {
+                            continue;
+                        }
+                        
+                        // Skip very dark pixels
+                        if (max < 50) {
+                            continue;
+                        }
+                        
+                        // Only consider colors that are saturated enough
+                        if (saturation > 0.1) {
+                            // Quantize to reduce similar colors
+                            const quantizedR = Math.round(r / 10) * 10;
+                            const quantizedG = Math.round(g / 10) * 10;
+                            const quantizedB = Math.round(b / 10) * 10;
+                            const hex = '#' + [quantizedR, quantizedG, quantizedB].map(x => {
+                                const clamped = Math.min(255, Math.max(0, x));
+                                const h = clamped.toString(16).toUpperCase();
+                                return h.length === 1 ? '0' + h : h;
+                            }).join('');
+                            
+                            // Boost scoring for center pixels (where Pokemon body typically is)
+                            const centerX = 75;
+                            const centerY = 75;
+                            const dist = Math.sqrt(Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2));
+                            const centerBoost = Math.max(0, 1 - (dist / 60));
+                            
+                            // Score: saturation * frequency * center boost
+                            const score = saturation * (1 + centerBoost);
+                            colorMap[hex] = (colorMap[hex] || 0) + score;
+                        }
+                    }
+                    
+                    // Find the color with the highest combined score
+                    let bestColor = '#ffffff';
+                    let bestScore = 0;
+                    
+                    for (const [color, score] of Object.entries(colorMap)) {
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestColor = color;
+                        }
+                    }
+                    
+                    resolve(bestColor);
+                } catch (error) {
+                    console.error('Canvas with center bias error:', error);
+                    resolve('#ffffff');
+                }
+            };
+            
+            img.onerror = () => resolve('#ffffff');
+            img.src = imageUrl;
+        } catch (error) {
+            console.error('Error in canvasColorExtractionWithCenterBias:', error);
+            resolve('#ffffff');
+        }
+    });
+}
+
+// Simple canvas-based color averaging (final fallback)
+function simpleCanvasAveraging(imageUrl) {
+    return new Promise((resolve) => {
+        try {
+            const img = new Image();
+            img.crossOrigin = 'Anonymous';
+            
+            img.onload = function() {
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 100;
+                    canvas.height = 100;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, 100, 100);
+                    
+                    const imageData = ctx.getImageData(0, 0, 100, 100);
+                    const data = imageData.data;
+                    
+                    let r = 0, g = 0, b = 0, count = 0;
+                    
+                    // Sample center 60x60 pixels, skipping white/transparent
+                    for (let i = 0; i < data.length; i += 4) {
+                        const pixelIndex = i / 4;
+                        const x = pixelIndex % 100;
+                        const y = Math.floor(pixelIndex / 100);
+                        
+                        // Only sample center
+                        if (x < 20 || x > 80 || y < 20 || y > 80) continue;
+                        
+                        const a = data[i + 3];
+                        if (a < 128) continue;
+                        
+                        const pr = data[i];
+                        const pg = data[i + 1];
+                        const pb = data[i + 2];
+                        
+                        // Skip near-white
+                        if (pr > 240 && pg > 240 && pb > 240) continue;
+                        
+                        r += pr;
+                        g += pg;
+                        b += pb;
+                        count++;
+                    }
+                    
+                    if (count === 0) {
+                        resolve('#ffffff');
+                        return;
+                    }
+                    
+                    r = Math.round(r / count);
+                    g = Math.round(g / count);
+                    b = Math.round(b / count);
+                    
+                    const hex = '#' + [r, g, b].map(x => {
+                        const h = x.toString(16);
+                        return h.length === 1 ? '0' + h : h;
+                    }).join('').toUpperCase();
+                    
+                    resolve(hex);
+                } catch (error) {
+                    console.error('Simple averaging error:', error);
+                    resolve('#ffffff');
+                }
+            };
+            
+            img.onerror = () => resolve('#ffffff');
+            img.src = imageUrl;
+        } catch (error) {
+            console.error('Error in simpleCanvasAveraging:', error);
+            resolve('#ffffff');
+        }
+    });
+}
+
 // Create a Pokemon card element
 function createPokemonCard(pokemon) {
     const card = document.createElement('div');
@@ -1023,8 +1299,8 @@ function createPokemonCard(pokemon) {
             <div>
                 <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
                 <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
+                <div class="pokemon-name">${displayName}</div>
             </div>
-            <div class="pokemon-name">${displayName}</div>
         `;
     } else {
         // Grid view layout
@@ -1045,6 +1321,42 @@ function createPokemonCard(pokemon) {
     fetchImageWithCache(imageUrl).then(cachedUrl => {
         if (cachedUrl && img.src === imageUrl) {
             img.src = cachedUrl;
+        }
+    });
+    
+    // Extract dominant color from image and apply it as a gradient background
+    img.addEventListener('load', async function() {
+        const imageToAnalyze = this.src || imageUrl;
+        let dominantColor = await getDominantColorFromImage(imageToAnalyze);
+        
+        // First fallback: try canvas with center bias
+        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+            dominantColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
+        }
+        
+        // Second fallback: try simple averaging
+        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+            dominantColor = await simpleCanvasAveraging(imageToAnalyze);
+        }
+        
+        // Convert hex color to rgb format
+        const rgb = hexToRgb(dominantColor);
+        // Apply gradient: extracted color at 65%, fading to #f6f6f6 at 100%
+        card.style.background = `linear-gradient(125deg, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) 65%, rgb(246, 246, 246) 100%)`;
+        
+        // Determine optimal text color based on contrast
+        const textColor = getOptimalTextColor(dominantColor);
+        
+        // Apply color to the ID element
+        const idElement = card.querySelector('.pokemon-id');
+        if (idElement) {
+            idElement.style.color = dominantColor;
+        }
+        
+        // Apply optimal text color to Pokemon name
+        const nameElement = card.querySelector('.pokemon-name');
+        if (nameElement) {
+            nameElement.style.color = textColor;
         }
     });
 
