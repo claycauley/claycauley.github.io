@@ -258,14 +258,20 @@ button:active {
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    overflow: visible;
+    overflow: clip;
     position: relative;
+}
+
+.pokemon-grid {
+    display: grid;
+    gap: 20px;
+    padding: 8px;
 }
 
 .favorite-heart {
     position: absolute;
-    top: 12px;
-    right: 12px;
+    top: 8px;
+    right: 8px;
     font-size: 28px;
     cursor: pointer;
     transition: all 0.3s ease;
