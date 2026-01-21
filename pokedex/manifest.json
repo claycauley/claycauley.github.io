@@ -1,13 +1,13 @@
 {
-  "name": "Pokédex Web App",
-  "short_name": "Pokédex",
-  "description": "Browse and filter Pokémon with beautiful animations and offline support",
-  "start_url": "/index.html",
-  "scope": "/",
+  "name": "PoClayDex",
+  "short_name": "PoClayDex",
+  "description": "Browse and Discover over 1000 Pokémon. Complete with weaknesses, strengths, and favorites tracking.",
+  "start_url": "/pokedex/index.html",
+  "scope": "/pokedex/",
   "display": "standalone",
   "orientation": "any",
-  "background_color": "#ffffff",
-  "theme_color": "#667eea",
+  "background_color": "#000000",
+  "theme_color": "#000000",
   "icons": [
     {
       "src": "assets/icon-192x192.png",
