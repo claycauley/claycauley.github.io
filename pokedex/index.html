@@ -7,13 +7,13 @@
     <meta name="description" content="Browse and filter Pokémon with beautiful animations and offline support">
     <title>Pokédex</title>
     <link rel="manifest" href="manifest.json">
-    <link rel="icon" type="image/png" href="assets/icon-192x192.png">
-    <link rel="apple-touch-icon" href="assets/icon-192x192.png">
+    <link rel="icon" type="image/png" href="assets/imgs/icon-192x192.png">
+    <link rel="apple-touch-icon" href="assets/imgs/icon-192x192.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://jariz.github.io/vibrant.js/dist/Vibrant.js"></script>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=1">
 </head>
 <body>
     <!-- Progress bar for background caching -->
@@ -27,10 +27,10 @@
         <div class="search-container">
             <div class="search-input-wrapper">
                 <input type="text" id="searchInput" placeholder="Search Pokémon by name or ID...">
-                <button id="clearSearchBtn" class="clear-search-btn" title="Clear search">✕</button>
+                <button id="clearSearchBtn" class="clear-search-btn" title="Clear search"><span class="icon x-mark"></span></button>
             </div>
-            <button id="openFiltersBtn" class="icon-btn" title="Open filters">🔍</button>
-            <button id="openSettingsBtn" class="icon-btn" title="Open settings">⚙️</button>
+            <button id="openFiltersBtn" class="icon-btn" title="Open filters"><span class="icon filter"></span></button>
+            <button id="openSettingsBtn" class="icon-btn" title="Open settings"><span class="icon settings"></span></button>
         </div>        <div id="errorContainer"></div>
         <div id="pokemonContainer" class="pokemon-grid"></div>
         <div id="loadingContainer" class="loading" style="display: none;">Loading...</div>
@@ -39,7 +39,7 @@
     <!-- Modal for Pokemon Details -->
     <div id="pokemonModal" class="modal">
         <div class="modal-content">
-            <span class="close" id="pokemonModalClose">&times;</span>
+            <span class="close" id="pokemonModalClose"><span class="icon x-mark"></span></span>
             <div class="modal-header-gradient">
                 <div class="modal-header">
                     <img id="modalImage" class="modal-image" src="" alt="Pokemon">
@@ -60,7 +60,7 @@
     <!-- Modal for Filters -->
     <div id="filtersModal" class="modal">
         <div class="modal-content filters-modal-content">
-            <span class="close close-filters">&times;</span>
+            <span class="close close-filters"><span class="icon x-mark"></span></span>
             <h2>Filter Pokémon</h2>
             
             <div class="filter-group">
@@ -115,7 +115,7 @@
     <!-- Modal for Settings -->
     <div id="settingsModal" class="modal">
         <div class="modal-content settings-modal-content">
-            <span class="close close-settings">&times;</span>
+            <span class="close close-settings"><span class="icon x-mark"></span></span>
             <h2>Settings</h2>
             
             <div class="filter-group">
@@ -141,6 +141,6 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=1"></script>
 </body>
 </html>

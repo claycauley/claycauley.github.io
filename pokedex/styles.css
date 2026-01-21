@@ -4,6 +4,47 @@
     box-sizing: border-box;
 }
 
+@font-face {
+    font-display: swap;
+    font-family: 'IconFont';
+    font-style: normal;
+    font-weight: normal;
+    src: url('assets/fonts/icon-font.woff2') format('woff2'),
+         url('assets/fonts/icon-font.ttf') format('truetype');
+}
+
+span.icon::before{
+    font-family: 'IconFont';
+}
+span.icon.filter::before {
+    content: '\f0b0';
+}
+span.icon.settings::before {
+    content: '\e5e9';
+}
+span.icon.x-mark::before {
+    content: '\f00d';
+}
+span.icon.heart-icon::before {
+    content: '\f004';
+}
+span.icon.circle-xmark::before {
+    content: '\f057';
+}
+
+/* Heart icon states */
+span.icon.heart-icon {
+    color: inherit;
+}
+
+span.icon.heart-icon.not-favorite {
+    filter: brightness(1.25);
+}
+
+span.icon.heart-icon.favorite {
+    filter: brightness(0.25);
+}
+
 /* Progress bar for background caching */
 .progress-bar {
     position: fixed;
@@ -76,7 +117,6 @@ body {
 header {
     text-align: center;
     color: white;
-    margin-bottom: 20px;
 }
 
 h1 {
@@ -100,10 +140,9 @@ input[type="text"] {
     border-radius: 25px;
     font-size: 16px;
     flex: 1;
-    min-width: 200px;
-    max-width: 600px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     margin: 0;
+    background: #333333;
+    color: #BBBBBB;
 }
 
 .icon-btn {
@@ -145,15 +184,15 @@ input[type="text"]:focus {
 
 .clear-search-btn {
     position: absolute;
-    right: 12px;
-    background: none;
+    right: 10px;
+    background: #555555;
     border: none;
-    color: #999;
-    font-size: 20px;
+    color: #BBBBBB;
+    font-size: 14px;
     cursor: pointer;
-    padding: 0;
-    width: 24px;
-    height: 24px;
+    padding: 12px;
+    width: 20px;
+    height: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -161,7 +200,7 @@ input[type="text"]:focus {
     opacity: 0;
     transition: all 0.2s ease;
     pointer-events: none;
-    box-shadow: none;
+    box-shadow: 0 0 32px rgba(0, 0, 0, 1);
 }
 
 .clear-search-btn:hover {
@@ -624,7 +663,7 @@ button:active {
     position: absolute;
     top: 10px;
     right: 10px;
-    font-size: 40px;
+    font-size: 32px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
@@ -656,17 +695,29 @@ button:active {
 
 .modal-favorite-heart {
     position: absolute;
-    left: 20px;
-    top: 20px;
+    left: -10px;
+    top: -15px;
     font-size: 32px;
     cursor: pointer;
     transition: all 0.3s ease;
-    filter: brightness(1);
     user-select: none;
 }
 
 .modal-favorite-heart:hover {
     transform: scale(1.15);
+}
+
+/* Modal heart icon states */
+.modal-favorite-heart span.icon.heart-icon {
+    color: inherit;
+}
+
+.modal-favorite-heart span.icon.heart-icon.not-favorite {
+    filter: brightness(1.25);
+}
+
+.modal-favorite-heart span.icon.heart-icon.favorite {
+    filter: brightness(0.25);
 }
 
 .modal-favorite-heart.filled {
@@ -1029,7 +1080,6 @@ button:active {
 
     input[type="text"] {
         width: 100%;
-        max-width: 300px;
     }
 
     .pokemon-grid {
@@ -1047,13 +1097,13 @@ button:active {
 
 /* Filters Modal and Button */
 #openFiltersBtn {
-    padding: 8px 16px;
-    background-color: #764ba2;
+    padding: 0;
+    background-color: transparent;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 0;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 32px;
     font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -1071,13 +1121,13 @@ button:active {
 
 /* Settings Button and Modal */
 #openSettingsBtn {
-    padding: 8px 16px;
-    background-color: #764ba2;
+    padding: 0;
+    background-color: transparent;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 0;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 32px;
     font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;

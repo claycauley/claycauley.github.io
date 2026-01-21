@@ -389,10 +389,10 @@ function toggleFavorite(pokemonId) {
 // Update heart icon appearance based on favorite state
 function updateHeartIcon(heartElement, pokemonId) {
     if (isFavorite(pokemonId)) {
-        heartElement.textContent = '♥';
+        heartElement.innerHTML = '<span class="icon heart-icon favorite"></span>';
         heartElement.classList.add('filled');
     } else {
-        heartElement.textContent = '♡';
+        heartElement.innerHTML = '<span class="icon heart-icon not-favorite"></span>';
         heartElement.classList.remove('filled');
     }
 }
@@ -408,15 +408,13 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     
     // Update heart appearance
     if (isFav) {
-        heartElement.textContent = '♥';
+        heartElement.innerHTML = '<span class="icon heart-icon favorite"></span>';
         heartElement.classList.add('filled');
         heartElement.style.color = extractedColor;
-        heartElement.style.filter = 'brightness(0.5)';
     } else {
-        heartElement.textContent = '♡';
+        heartElement.innerHTML = '<span class="icon heart-icon not-favorite"></span>';
         heartElement.classList.remove('filled');
-        heartElement.style.color = 'inherit';
-        heartElement.style.filter = 'brightness(1)';
+        heartElement.style.color = extractedColor;
     }
     
     // Animate
@@ -1488,7 +1486,7 @@ function createPokemonCard(pokemon) {
                 <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
                 <div class="pokemon-name">${displayName}</div>
             </div>
-            <div class="favorite-heart" data-pokemon-id="${id}">♡</div>
+            <div class="favorite-heart" data-pokemon-id="${id}"><span class="icon heart-icon"></span></div>
         `;
     } else {
         // Grid view layout
@@ -1496,7 +1494,7 @@ function createPokemonCard(pokemon) {
             <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
             <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
             <div class="pokemon-name">${displayName}</div>
-            <div class="favorite-heart" data-pokemon-id="${id}">♡</div>
+            <div class="favorite-heart" data-pokemon-id="${id}"><span class="icon heart-icon"></span></div>
         `;
     }
 
@@ -1569,6 +1567,12 @@ function createPokemonCard(pokemon) {
         const idElement = card.querySelector('.pokemon-id');
         if (idElement) {
             idElement.style.color = dominantColor;
+        }
+        
+        // Apply color to the heart icon
+        const heartElement = card.querySelector('.favorite-heart');
+        if (heartElement) {
+            heartElement.style.color = dominantColor;
         }
         
         // Apply optimal text color to Pokemon name
@@ -1767,6 +1771,12 @@ async function showPokemonDetails(pokemon) {
             
             pokemonCloseBtn.style.color = modalColor;
             pokemonCloseBtn.style.filter = 'brightness(0.5)';
+            
+            // Apply color to modal heart icon
+            const modalHeart = document.querySelector('.modal-favorite-heart');
+            if (modalHeart) {
+                modalHeart.style.color = modalColor;
+            }
             
             // Apply gradient to modal header using extracted color
             const headerGradient = document.querySelector('.modal-header-gradient');
