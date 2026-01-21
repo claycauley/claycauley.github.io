@@ -55,12 +55,19 @@ let activeFilters = {
 };
 let allTypes = []; // Store all available types
 let pokemonDataCache = {}; // Cache for Pokemon detailed data (type, generation)
+let pokemonColorCache = {}; // Cache for dominant colors extracted from images
+let favoritePokemon = new Set(); // Set of favorite Pokemon IDs
+
+const STORAGE_KEYS = {
+    FAVORITES: 'pokedex_favorites',
+    VIEW_PREFERENCE: 'pokedex_view',
+    LAST_SYNC: 'pokedex_last_sync'
+};
 
 const pokemonContainer = document.getElementById('pokemonContainer');
 const loadingContainer = document.getElementById('loadingContainer');
 const searchInput = document.getElementById('searchInput');
-const searchBtn = document.getElementById('searchBtn');
-const clearBtn = document.getElementById('clearBtn');
+const clearSearchBtn = document.getElementById('clearSearchBtn');
 const modal = document.getElementById('pokemonModal');
 const closeBtn = document.querySelector('.close');
 const errorContainer = document.getElementById('errorContainer');
@@ -82,6 +89,7 @@ const showRegionalVariantsToggle = document.getElementById('showRegionalVariants
 const settingsModal = document.getElementById('settingsModal');
 const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
+const favoritesFilter = document.getElementById('favoritesFilter');
 
 // Helper function to check if a Pokemon name is an alternate form (any form)
 function isAlternateForm(pokemonName) {
@@ -331,6 +339,97 @@ async function getCachedImage(url) {
     });
 }
 
+// Favorites Management Functions
+function loadFavorites() {
+    try {
+        const stored = localStorage.getItem(STORAGE_KEYS.FAVORITES);
+        if (stored) {
+            favoritePokemon = new Set(JSON.parse(stored));
+        } else {
+            favoritePokemon = new Set();
+        }
+    } catch (error) {
+        console.error('Error loading favorites:', error);
+        favoritePokemon = new Set();
+    }
+}
+
+function saveFavorites() {
+    try {
+        localStorage.setItem(STORAGE_KEYS.FAVORITES, JSON.stringify(Array.from(favoritePokemon)));
+    } catch (error) {
+        console.error('Error saving favorites:', error);
+    }
+}
+
+function addFavorite(pokemonId) {
+    favoritePokemon.add(String(pokemonId));
+    saveFavorites();
+}
+
+function removeFavorite(pokemonId) {
+    favoritePokemon.delete(String(pokemonId));
+    saveFavorites();
+}
+
+function isFavorite(pokemonId) {
+    return favoritePokemon.has(String(pokemonId));
+}
+
+function toggleFavorite(pokemonId) {
+    if (isFavorite(pokemonId)) {
+        removeFavorite(pokemonId);
+        return false;
+    } else {
+        addFavorite(pokemonId);
+        return true;
+    }
+}
+
+// Update heart icon appearance based on favorite state
+function updateHeartIcon(heartElement, pokemonId) {
+    if (isFavorite(pokemonId)) {
+        heartElement.textContent = '♥';
+        heartElement.classList.add('filled');
+    } else {
+        heartElement.textContent = '♡';
+        heartElement.classList.remove('filled');
+    }
+}
+
+// Toggle favorite and animate heart with color
+function toggleFavoriteWithAnimation(heartElement, pokemonId) {
+    const isFav = toggleFavorite(pokemonId);
+    
+    // Get the extracted color from the card's ID element
+    const card = heartElement.closest('.pokemon-card');
+    const idElement = card?.querySelector('.pokemon-id');
+    const extractedColor = idElement ? window.getComputedStyle(idElement).color : '#667eea';
+    
+    // Update heart appearance
+    if (isFav) {
+        heartElement.textContent = '♥';
+        heartElement.classList.add('filled');
+        heartElement.style.color = extractedColor;
+        heartElement.style.filter = 'brightness(0.5)';
+    } else {
+        heartElement.textContent = '♡';
+        heartElement.classList.remove('filled');
+        heartElement.style.color = 'inherit';
+        heartElement.style.filter = 'brightness(1)';
+    }
+    
+    // Animate
+    heartElement.style.animation = 'none';
+    void heartElement.offsetWidth; // Trigger reflow
+    heartElement.style.animation = 'heartPulse 0.4s ease-out';
+    
+    // If filtering by favorites, re-display to reflect the change
+    if (favoritesFilter && favoritesFilter.checked) {
+        displayPage();
+    }
+}
+
 // Fetch image with caching
 async function fetchImageWithCache(url) {
     try {
@@ -479,8 +578,13 @@ async function applyFilters() {
                         matches = false;
                     }
                 } else if (activeFilters.category === 'mega') {
-                    // For mega, check if pokemon name contains 'mega'
-                    if (!pokemon.name.includes('mega')) {
+                    // For mega, check if pokemon name contains '-mega'
+                    if (!pokemon.name.includes('-mega')) {
+                        matches = false;
+                    }
+                } else if (activeFilters.category === 'gmax') {
+                    // For gmax, check if pokemon name contains '-gmax' or '-gigantamax'
+                    if (!pokemon.name.includes('-gmax') && !pokemon.name.includes('-gigantamax')) {
                         matches = false;
                     }
                 }
@@ -506,11 +610,15 @@ function updateFilterBadge() {
     if (activeFilters.category) activeCount++;
     
     const filterCountEl = document.getElementById('filterCount');
-    if (activeCount > 0) {
-        filterCountEl.textContent = activeCount;
-        filterBadge.style.display = 'inline';
-    } else {
-        filterBadge.style.display = 'none';
+    const filterBadgeEl = document.getElementById('filterBadge');
+    
+    if (filterCountEl && filterBadgeEl) {
+        if (activeCount > 0) {
+            filterCountEl.textContent = activeCount;
+            filterBadgeEl.style.display = 'inline';
+        } else {
+            filterBadgeEl.style.display = 'none';
+        }
     }
 }
 
@@ -523,6 +631,9 @@ async function resetFilters() {
     generationFilter.value = '';
     typeFilter.value = '';
     categoryFilter.value = '';
+    if (favoritesFilter) {
+        favoritesFilter.checked = false;
+    }
     isSearching = false;
     searchInput.value = '';
     updateFilterBadge();
@@ -602,6 +713,7 @@ async function preloadAllData() {
 async function init() {
     await initDB();
     loadViewPreference();
+    loadFavorites(); // Load saved favorites from localStorage
     await initializeFilters();
     await loadPokemonList();
     
@@ -633,52 +745,77 @@ async function init() {
         });
     }
     // Wire up filters modal
+    // Helper function to close modal with animation
+    function closeModal(modal, modalContent) {
+        modalContent.style.animation = 'slideDownOut 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards';
+        modal.style.animation = 'backdropFadeOut 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards';
+        setTimeout(() => {
+            modal.style.display = 'none';
+            // Reset animations for next open, but keep display:none
+            void modalContent.offsetWidth; // Trigger reflow
+            modalContent.style.animation = '';
+            modal.style.animation = '';
+        }, 420);
+    }
+
     if (openFiltersBtn) {
         openFiltersBtn.addEventListener('click', () => {
-            filtersModal.style.display = 'block';
+            filtersModal.style.display = 'flex';
         });
     }
     if (closeFiltersBtn) {
         closeFiltersBtn.addEventListener('click', () => {
-            filtersModal.style.display = 'none';
+            closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
         });
     }
     if (applyFiltersBtn) {
-        applyFiltersBtn.addEventListener('click', async () => {
-            await applyFilters();
-            filtersModal.style.display = 'none';
+        applyFiltersBtn.addEventListener('click', () => {
+            applyFilters().then(() => {
+                closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
+            });
         });
     }
     if (resetFiltersBtn) {
-        resetFiltersBtn.addEventListener('click', async () => {
-            await resetFilters();
-            filtersModal.style.display = 'none';
+        resetFiltersBtn.addEventListener('click', () => {
+            resetFilters().then(() => {
+                closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
+            });
+        });
+    }
+    // Wire up favorites filter checkbox
+    if (favoritesFilter) {
+        favoritesFilter.addEventListener('change', () => {
+            displayPage();
         });
     }
     // Wire up settings modal
     if (openSettingsBtn) {
         openSettingsBtn.addEventListener('click', () => {
-            settingsModal.style.display = 'block';
+            settingsModal.style.display = 'flex';
         });
     }
     if (closeSettingsBtn) {
         closeSettingsBtn.addEventListener('click', () => {
-            settingsModal.style.display = 'none';
+            closeModal(settingsModal, settingsModal.querySelector('.modal-content'));
         });
     }
     // Global modal handlers - click outside or ESC to close
     window.addEventListener('click', (event) => {
         if (event.target === filtersModal) {
-            filtersModal.style.display = 'none';
+            closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
         }
         if (event.target === settingsModal) {
-            settingsModal.style.display = 'none';
+            closeModal(settingsModal, settingsModal.querySelector('.modal-content'));
         }
     });
     window.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            filtersModal.style.display = 'none';
-            settingsModal.style.display = 'none';
+            if (filtersModal.style.display === 'flex') {
+                closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
+            }
+            if (settingsModal.style.display === 'flex') {
+                closeModal(settingsModal, settingsModal.querySelector('.modal-content'));
+            }
         }
     });
 
@@ -847,13 +984,13 @@ function displayPage() {
     pagePokemon = pagePokemon.filter(pokemon => {
         const lowerName = pokemon.name.toLowerCase();
         
-        // Hide Megas if toggle is off
-        if (!showMegaEvolutions && lowerName.includes('-mega')) {
+        // Hide Megas if toggle is off AND not filtering by mega
+        if (!showMegaEvolutions && lowerName.includes('-mega') && activeFilters.category !== 'mega') {
             return false;
         }
         
-        // Hide Gmaxes if toggle is off
-        if (!showGigantamaxForms && (lowerName.includes('-gmax') || lowerName.includes('-gigantamax'))) {
+        // Hide Gmaxes if toggle is off AND not filtering by gmax
+        if (!showGigantamaxForms && (lowerName.includes('-gmax') || lowerName.includes('-gigantamax')) && activeFilters.category !== 'gmax') {
             return false;
         }
         
@@ -865,6 +1002,14 @@ function displayPage() {
         
         return true;
     });
+    
+    // Apply favorites filter if enabled
+    if (favoritesFilter && favoritesFilter.checked) {
+        pagePokemon = pagePokemon.filter(pokemon => {
+            const pokemonId = pokemon.url.split('/').filter(Boolean).pop();
+            return isFavorite(pokemonId);
+        });
+    }
     
     pokemonContainer.innerHTML = '';
     visibleStart = 0;
@@ -1034,7 +1179,8 @@ const pokemonColorOverrides = {
     'electivire': '#EDCC81',
     'electrode': '#e3928f',
     'electrode-hisui': '#d05915',
-    'nidoran-m': '#CBA1C9'
+    'nidoran-m': '#CBA1C9',
+    'pinsir': '#b6a6a4',
 };
 
 function getManualColorOverride(pokemon) {
@@ -1342,6 +1488,7 @@ function createPokemonCard(pokemon) {
                 <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
                 <div class="pokemon-name">${displayName}</div>
             </div>
+            <div class="favorite-heart" data-pokemon-id="${id}">♡</div>
         `;
     } else {
         // Grid view layout
@@ -1349,6 +1496,7 @@ function createPokemonCard(pokemon) {
             <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
             <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
             <div class="pokemon-name">${displayName}</div>
+            <div class="favorite-heart" data-pokemon-id="${id}">♡</div>
         `;
     }
 
@@ -1356,6 +1504,19 @@ function createPokemonCard(pokemon) {
     const img = card.querySelector('img');
     img.addEventListener('error', function() {
         this.src = this.dataset.fallback;
+    });
+    
+    // Apply a default light gradient immediately to prevent flicker
+    card.style.background = `linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(230, 230, 230) 80%)`;
+    
+    // Update heart icon state based on favorites
+    const heart = card.querySelector('.favorite-heart');
+    updateHeartIcon(heart, id);
+    
+    // Add heart click handler
+    heart.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent card click
+        toggleFavoriteWithAnimation(heart, id);
     });
     
     // Use cached image if available
@@ -1368,23 +1529,32 @@ function createPokemonCard(pokemon) {
     // Extract dominant color from image and apply it as a gradient background
     img.addEventListener('load', async function() {
         const imageToAnalyze = this.src || imageUrl;
+        const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
         
-        // Check for manual color override first (by ID to handle all forms)
-        let dominantColor = getManualColorOverride(pokemon);
+        // Check if color is already cached
+        let dominantColor = pokemonColorCache[pokemonId];
         
         if (!dominantColor) {
-            // If no override, extract color from image
-            dominantColor = await getDominantColorFromImage(imageToAnalyze);
+            // Check for manual color override first (by ID to handle all forms)
+            dominantColor = getManualColorOverride(pokemon);
             
-            // First fallback: try canvas with center bias
-            if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-                dominantColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
+            if (!dominantColor) {
+                // If no override, extract color from image
+                dominantColor = await getDominantColorFromImage(imageToAnalyze);
+                
+                // First fallback: try canvas with center bias
+                if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+                    dominantColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
+                }
+                
+                // Second fallback: try simple averaging
+                if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+                    dominantColor = await simpleCanvasAveraging(imageToAnalyze);
+                }
             }
             
-            // Second fallback: try simple averaging
-            if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-                dominantColor = await simpleCanvasAveraging(imageToAnalyze);
-            }
+            // Cache the color for future use
+            pokemonColorCache[pokemonId] = dominantColor;
         }
         
         // Convert hex color to rgb format
@@ -1490,6 +1660,30 @@ async function showPokemonDetails(pokemon) {
         } else {
             cryButton.style.display = 'none';
         }
+
+        // Setup heart icon in modal header
+        let modalHeart = document.querySelector('.modal-favorite-heart');
+        if (!modalHeart) {
+            const modalHeader = document.querySelector('.modal-header');
+            modalHeart = document.createElement('div');
+            modalHeart.className = 'modal-favorite-heart';
+            modalHeader.appendChild(modalHeart);
+        }
+        
+        updateHeartIcon(modalHeart, id);
+        modalHeart.dataset.pokemonId = id;
+        modalHeart.onclick = (e) => {
+            e.stopPropagation();
+            toggleFavoriteWithAnimation(modalHeart, id);
+            
+            // Also update the card heart if it exists
+            if (lastClickedCard) {
+                const cardHeart = lastClickedCard.querySelector('.favorite-heart');
+                if (cardHeart) {
+                    updateHeartIcon(cardHeart, id);
+                }
+            }
+        };
 
         // Display types
         modalTypes.innerHTML = data.types.map(typeObj => 
@@ -2161,29 +2355,42 @@ async function handleSearch() {
 }
 
 // Search event listeners
-searchBtn.addEventListener('click', handleSearch);
-clearBtn.addEventListener('click', () => {
-    // Only clear if there's actually something to clear
-    if (searchInput.value.trim() || isSearching || filteredPokemon.length > 0) {
-        searchInput.value = '';
-        isSearching = false;
-        filteredPokemon = [];
-        displayPage();
+// Debounce timer for live search
+let searchDebounceTimer;
+
+// Live search event listener - search as user types
+searchInput.addEventListener('input', () => {
+    // Show/hide clear button based on input value
+    if (searchInput.value.trim()) {
+        clearSearchBtn.classList.add('visible');
+    } else {
+        clearSearchBtn.classList.remove('visible');
     }
+    
+    // Clear the previous debounce timer
+    clearTimeout(searchDebounceTimer);
+    
+    // Set a new debounce timer (wait 300ms after user stops typing)
+    searchDebounceTimer = setTimeout(() => {
+        handleSearch();
+    }, 300);
 });
 
-searchInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        handleSearch();
-    }
+// Clear search button click handler
+clearSearchBtn.addEventListener('click', () => {
+    searchInput.value = '';
+    clearSearchBtn.classList.remove('visible');
+    isSearching = false;
+    filteredPokemon = [];
+    displayPage();
 });
 
 // Modal event listeners
 closeBtn.addEventListener('click', () => {
-    closeModal();
+    closePokemonModal();
 });
 
-function closeModal() {
+function closePokemonModal() {
     const modalContent = document.querySelector('.modal-content');
     const modalBackdrop = document.querySelector('.modal');
     
@@ -2217,7 +2424,7 @@ function closeFiltersModalFunc() {
 
 window.addEventListener('click', (event) => {
     if (event.target === modal) {
-        closeModal();
+        closePokemonModal();
     }
     if (event.target === filtersModal) {
         closeFiltersModalFunc();
@@ -2227,7 +2434,7 @@ window.addEventListener('click', (event) => {
 // Close modal on ESC key
 window.addEventListener('keydown', (event) => {
     if (event.key === 'Escape') {
-        closeModal();
+        closePokemonModal();
         closeFiltersModalFunc();
     }
 });
@@ -2312,6 +2519,19 @@ function showError(message) {
     setTimeout(() => {
         errorContainer.innerHTML = '';
     }, 5000);
+}
+
+// Register Service Worker for offline support
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/service-worker.js')
+            .then(registration => {
+                console.log('Service Worker registered:', registration);
+            })
+            .catch(error => {
+                console.log('Service Worker registration failed:', error);
+            });
+    });
 }
 
 // Start the app

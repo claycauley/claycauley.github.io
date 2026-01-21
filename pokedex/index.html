@@ -3,8 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#000000">
+    <meta name="theme-color" content="#667eea">
+    <meta name="description" content="Browse and filter Pokémon with beautiful animations and offline support">
     <title>Pokédex</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23667eea' width='192' height='192'/><text x='50%' y='50%' font-size='120' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>P</text></svg>">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 180 180'><rect fill='%23667eea' width='180' height='180'/><text x='90' y='90' font-size='110' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>P</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -21,13 +25,12 @@
         </header>
 
         <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Search Pokémon by name or ID...">
-            <button id="searchBtn">Search</button>
-            <button id="clearBtn">Clear</button>
-            <button id="openFiltersBtn" title="Open filters">
-                🔍 Filters<span id="filterBadge" style="display: none; margin-left: 8px;">(<span id="filterCount">0</span>)</span>
-            </button>
-            <button id="openSettingsBtn" title="Open settings">⚙️ Settings</button>
+            <div class="search-input-wrapper">
+                <input type="text" id="searchInput" placeholder="Search Pokémon by name or ID...">
+                <button id="clearSearchBtn" class="clear-search-btn" title="Clear search">✕</button>
+            </div>
+            <button id="openFiltersBtn" class="icon-btn" title="Open filters">🔍</button>
+            <button id="openSettingsBtn" class="icon-btn" title="Open settings">⚙️</button>
         </div>        <div id="errorContainer"></div>
         <div id="pokemonContainer" class="pokemon-grid"></div>
         <div id="loadingContainer" class="loading" style="display: none;">Loading...</div>
@@ -61,6 +64,13 @@
             <h2>Filter Pokémon</h2>
             
             <div class="filter-group">
+                <label>
+                    <input type="checkbox" id="favoritesFilter">
+                    <span>Show Only Favorites</span>
+                </label>
+            </div>
+
+            <div class="filter-group">
                 <label for="generationFilter">Generation:</label>
                 <select id="generationFilter">
                     <option value="">All Generations</option>
@@ -90,6 +100,7 @@
                     <option value="legendary">Legendary</option>
                     <option value="mythical">Mythical</option>
                     <option value="mega">Mega</option>
+                    <option value="gmax">Gigantamax</option>
                     <option value="baby">Baby</option>
                 </select>
             </div>
