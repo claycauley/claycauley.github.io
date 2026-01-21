@@ -678,7 +678,7 @@ button:active {
     padding: 30px 30px 20px 30px;
     border-radius: 15px 15px 0 0;
     /* Default gradient, will be overridden by JS */
-    background: linear-gradient(180deg, #667eea 0%, #ffffff 100%);
+    background: linear-gradient(180deg, #CCCCCC 0%, #ffffff 100%);
     transition: background 0.4s ease;
 }
 

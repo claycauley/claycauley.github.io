@@ -404,7 +404,7 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     // Get the extracted color from the card's ID element
     const card = heartElement.closest('.pokemon-card');
     const idElement = card?.querySelector('.pokemon-id');
-    const extractedColor = idElement ? window.getComputedStyle(idElement).color : '#667eea';
+    const extractedColor = idElement ? window.getComputedStyle(idElement).color : '#F6F6F6';
     
     // Update heart appearance
     if (isFav) {
