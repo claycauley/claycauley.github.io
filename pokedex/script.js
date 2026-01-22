@@ -1032,6 +1032,9 @@ function displayPage() {
     
     // Setup intersection observer to load more when scrolling
     setupIntersectionObserver(pagePokemon);
+    
+    // Setup card entrance animations
+    setTimeout(() => setupCardAnimations(), 300);
 }
 
 // Setup intersection observer to load more Pokemon when scrolling
@@ -1084,6 +1087,9 @@ function loadMoreCards(pokemonList) {
             card.style.transform = 'translateY(0)';
         }, index * 20);
     });
+    
+    // Setup animations for the new cards
+    setTimeout(() => setupCardAnimations(), 100);
     
     // Re-observe the new last child
     if (intersectionObserver && pokemonContainer.lastChild) {
@@ -1473,6 +1479,10 @@ function createPokemonCard(pokemon) {
     // Get the base National Dex number for display (for forms like Mega, Regional variants)
     const baseNationalDex = pokemonDataCache[id]?.baseNationalDexNumber || parseInt(id);
     
+    // Get types from cache
+    const types = pokemonDataCache[id]?.types || [];
+    const typesHtml = types.map(type => `<span class="type-badge type-${type}">${type}</span>`).join('');
+    
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
@@ -1484,7 +1494,10 @@ function createPokemonCard(pokemon) {
             <div>
                 <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
                 <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
-                <div class="pokemon-name">${displayName}</div>
+                <div class="pokemon-info">
+                    <div class="pokemon-name">${displayName}</div>
+                    <div class="pokemon-types">${typesHtml}</div>
+                </div>
             </div>
             <div class="favorite-heart" data-pokemon-id="${id}"><span class="icon heart-icon"></span></div>
         `;
@@ -1494,6 +1507,7 @@ function createPokemonCard(pokemon) {
             <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
             <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
             <div class="pokemon-name">${displayName}</div>
+            <div class="pokemon-types">${typesHtml}</div>
             <div class="favorite-heart" data-pokemon-id="${id}"><span class="icon heart-icon"></span></div>
         `;
     }
@@ -1689,10 +1703,38 @@ async function showPokemonDetails(pokemon) {
             }
         };
 
+        // Type colors for modal badges
+        const typeColors = {
+            'normal': '#A8A878',
+            'fire': '#F08030',
+            'water': '#6890F0',
+            'electric': '#F8D030',
+            'grass': '#78C850',
+            'ice': '#98D8D8',
+            'fighting': '#C03028',
+            'poison': '#A040A0',
+            'ground': '#E0C068',
+            'flying': '#A890F0',
+            'psychic': '#F85888',
+            'bug': '#A8B820',
+            'rock': '#B8A038',
+            'ghost': '#705898',
+            'dragon': '#7038F8',
+            'dark': '#705848',
+            'steel': '#B8B8D0',
+            'fairy': '#EE99AC'
+        };
+
         // Display types
-        modalTypes.innerHTML = data.types.map(typeObj => 
-            `<span class="type-badge type-${typeObj.type.name}">${typeObj.type.name}</span>`
-        ).join('');
+        const typesHtml = data.types.map(typeObj => {
+            const typeName = typeObj.type.name;
+            const typeColor = typeColors[typeName] || '#667eea';
+            return `<span class="modal-type-badge" style="background-color: ${typeColor};">
+                <span class="type-badge type-${typeName}"></span>
+                <span>${typeName}</span>
+            </span>`;
+        }).join('');
+        modalTypes.innerHTML = typesHtml;
 
         // Display stats
         const statNameMap = {
@@ -2544,5 +2586,48 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// Global card animation observer
+let cardAnimationObserver = null;
+
+// Setup card entrance animations
+function setupCardAnimations() {
+    const cards = document.querySelectorAll('.pokemon-card, .pokemon-list-item');
+    
+    // Create observer only once
+    if (!cardAnimationObserver) {
+        const observerOptions = {
+            root: null,
+            rootMargin: '50px',
+            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+        };
+        
+        cardAnimationObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                const card = entry.target;
+                const ratio = entry.intersectionRatio;
+                
+                // Calculate scale and opacity based on visibility ratio
+                const scale = 0.9 + (ratio * 0.1);
+                const opacity = 0.3 + (ratio * 0.7);
+                
+                // Apply the scale and fade smoothly
+                card.style.transform = `scale(${scale})`;
+                card.style.opacity = opacity;
+                card.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+            });
+        }, observerOptions);
+    }
+    
+    // Observe all cards (including new ones)
+    cards.forEach(card => {
+        // Only observe if not already observing
+        if (!card.dataset.observed) {
+            cardAnimationObserver.observe(card);
+            card.dataset.observed = 'true';
+        }
+    });
+}
+
 // Start the app
 init();
+setupCardAnimations();
