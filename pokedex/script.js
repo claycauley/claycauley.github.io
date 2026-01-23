@@ -1019,15 +1019,21 @@ function displayPage() {
     visiblePokemon.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
         card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
+        card.style.transform = 'translateY(20px) scale(0.9)';
+        card.style.transition = 'none';
         pokemonContainer.appendChild(card);
         
-        // Stagger animation
+        // Stagger animation - keep scale at 0.9 so scroll animation takes over
         setTimeout(() => {
             card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
             card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
+            card.style.transform = 'translateY(0) scale(0.9)';
         }, index * 20);
+        
+        // After stagger completes, remove transition so scroll animation takes over smoothly
+        setTimeout(() => {
+            card.style.transition = 'none';
+        }, (index * 20) + 400);
     });
     
     // Setup intersection observer to load more when scrolling
@@ -1077,15 +1083,21 @@ function loadMoreCards(pokemonList) {
     newPokemon.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
         card.style.opacity = '0';
-        card.style.transform = 'translateY(20px)';
+        card.style.transform = 'translateY(20px) scale(0.9)';
+        card.style.transition = 'none';
         pokemonContainer.appendChild(card);
         
-        // Stagger animation
+        // Stagger animation - keep scale at 0.9 so scroll animation takes over
         setTimeout(() => {
             card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
             card.style.opacity = '1';
-            card.style.transform = 'translateY(0)';
+            card.style.transform = 'translateY(0) scale(0.9)';
         }, index * 20);
+        
+        // After stagger completes, remove transition so scroll animation takes over smoothly
+        setTimeout(() => {
+            card.style.transition = 'none';
+        }, (index * 20) + 400);
     });
     
     // Setup animations for the new cards
@@ -1753,11 +1765,11 @@ async function showPokemonDetails(pokemon) {
                     const percentage = (stat.base_stat / maxStat) * 100;
                     const displayName = statNameMap[stat.stat.name] || stat.stat.name;
                     return `
-                        <div style="font-weight: bold; color: #333; font-size: 13px;">${displayName}</div>
+                        <div style="font-weight: bold; color: #FFF; font-size: 13px;">${displayName}</div>
                         <div class="stat-bar">
                             <div class="stat-fill" style="width: ${percentage}%"></div>
                         </div>
-                        <div style="font-weight: bold; color: #333; text-align: right; font-size: 13px;">${stat.base_stat}</div>
+                        <div style="font-weight: bold; color: #FFF; text-align: right; font-size: 13px;">${stat.base_stat}</div>
                     `;
                 }).join('')}
             </div>
@@ -1811,6 +1823,9 @@ async function showPokemonDetails(pokemon) {
                 }
             }
             
+            // Set the CSS variable for the extracted color
+            modal.style.setProperty('--extracted-color', modalColor);
+            
             pokemonCloseBtn.style.color = modalColor;
             pokemonCloseBtn.style.filter = 'brightness(0.5)';
             
@@ -1823,7 +1838,7 @@ async function showPokemonDetails(pokemon) {
             // Apply gradient to modal header using extracted color
             const headerGradient = document.querySelector('.modal-header-gradient');
             if (headerGradient) {
-                headerGradient.style.background = `linear-gradient(180deg, ${modalColor} 0%, #ffffff 100%)`;
+                headerGradient.style.background = `linear-gradient(180deg, ${modalColor} 0%, #222222 100%)`;
             }
         }
         
@@ -2611,9 +2626,13 @@ function setupCardAnimations() {
                 const opacity = 0.3 + (ratio * 0.7);
                 
                 // Apply the scale and fade smoothly
-                card.style.transform = `scale(${scale})`;
+                let transform = `scale(${scale})`;
+                
+                card.style.transform = transform;
                 card.style.opacity = opacity;
-                card.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                
+                // Use a smooth transition for scroll animations
+                card.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out';
             });
         }, observerOptions);
     }
