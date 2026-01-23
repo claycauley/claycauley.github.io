@@ -1019,18 +1019,18 @@ function displayPage() {
     visiblePokemon.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
         card.style.opacity = '0';
-        card.style.transform = 'translateY(20px) scale(0.9)';
+        card.style.transform = 'translateY(20px)';
         card.style.transition = 'none';
         pokemonContainer.appendChild(card);
         
-        // Stagger animation - keep scale at 0.9 so scroll animation takes over
+        // Stagger animation
         setTimeout(() => {
             card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
             card.style.opacity = '1';
-            card.style.transform = 'translateY(0) scale(0.9)';
+            card.style.transform = 'translateY(0)';
         }, index * 20);
         
-        // After stagger completes, remove transition so scroll animation takes over smoothly
+        // After stagger completes, remove transition
         setTimeout(() => {
             card.style.transition = 'none';
         }, (index * 20) + 400);
@@ -1083,18 +1083,18 @@ function loadMoreCards(pokemonList) {
     newPokemon.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
         card.style.opacity = '0';
-        card.style.transform = 'translateY(20px) scale(0.9)';
+        card.style.transform = 'translateY(20px)';
         card.style.transition = 'none';
         pokemonContainer.appendChild(card);
         
-        // Stagger animation - keep scale at 0.9 so scroll animation takes over
+        // Stagger animation
         setTimeout(() => {
             card.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
             card.style.opacity = '1';
-            card.style.transform = 'translateY(0) scale(0.9)';
+            card.style.transform = 'translateY(0)';
         }, index * 20);
         
-        // After stagger completes, remove transition so scroll animation takes over smoothly
+        // After stagger completes, remove transition
         setTimeout(() => {
             card.style.transition = 'none';
         }, (index * 20) + 400);
