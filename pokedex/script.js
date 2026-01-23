@@ -404,17 +404,14 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     // Get the extracted color from the card's ID element
     const card = heartElement.closest('.pokemon-card');
     const idElement = card?.querySelector('.pokemon-id');
-    const extractedColor = idElement ? window.getComputedStyle(idElement).color : '#F6F6F6';
     
     // Update heart appearance
     if (isFav) {
         heartElement.innerHTML = '<span class="icon heart-icon favorite"></span>';
         heartElement.classList.add('filled');
-        heartElement.style.color = extractedColor;
     } else {
         heartElement.innerHTML = '<span class="icon heart-icon not-favorite"></span>';
         heartElement.classList.remove('filled');
-        heartElement.style.color = extractedColor;
     }
     
     // Animate
@@ -1581,25 +1578,45 @@ function createPokemonCard(pokemon) {
             pokemonColorCache[pokemonId] = dominantColor;
         }
         
-        // Convert hex color to rgb format
-        const rgb = hexToRgb(dominantColor);
-        // Apply gradient: white from start, extracted color at 80%
-        card.style.background = `linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(${rgb.r}, ${rgb.g}, ${rgb.b}) 80%)`;
+        // Build gradient using type colors
+        const typeColors = {
+            'normal': '#AAAAAA',
+            'fire': '#F08030',
+            'water': '#6890F0',
+            'electric': '#F8D030',
+            'grass': '#78C850',
+            'ice': '#98D8D8',
+            'fighting': '#C03028',
+            'poison': '#A040A0',
+            'ground': '#E0C068',
+            'flying': '#A890F0',
+            'psychic': '#F85888',
+            'bug': '#A8B820',
+            'rock': '#B8A038',
+            'ghost': '#705898',
+            'dragon': '#7038F8',
+            'dark': '#705848',
+            'steel': '#B8B8D0',
+            'fairy': '#EE99AC'
+        };
+        
+        // Get gradient based on number of types
+        let gradient;
+        if (types.length === 2) {
+            const type1Color = typeColors[types[0]] || '#A8A878';
+            const type2Color = typeColors[types[1]] || '#A8A878';
+            gradient = `linear-gradient(150deg, rgb(255, 255, 255) 30%, ${type1Color} 60%, ${type2Color} 70%)`;
+        } else if (types.length === 1) {
+            const type1Color = typeColors[types[0]] || '#A8A878';
+            gradient = `linear-gradient(150deg, rgb(255, 255, 255) 30%, ${type1Color} 60%)`;
+        } else {
+            gradient = `linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(230, 230, 230) 80%)`;
+        }
+        
+        card.style.background = gradient;
         
         // Determine optimal text color based on contrast
         const textColor = getOptimalTextColor(dominantColor);
-        
-        // Apply color to the ID element
-        const idElement = card.querySelector('.pokemon-id');
-        if (idElement) {
-            idElement.style.color = dominantColor;
-        }
-        
-        // Apply color to the heart icon
-        const heartElement = card.querySelector('.favorite-heart');
-        if (heartElement) {
-            heartElement.style.color = dominantColor;
-        }
         
         // Apply optimal text color to Pokemon name
         const nameElement = card.querySelector('.pokemon-name');
@@ -1717,7 +1734,7 @@ async function showPokemonDetails(pokemon) {
 
         // Type colors for modal badges
         const typeColors = {
-            'normal': '#A8A878',
+            'normal': '#AAAAAA',
             'fire': '#F08030',
             'water': '#6890F0',
             'electric': '#F8D030',
@@ -1825,15 +1842,6 @@ async function showPokemonDetails(pokemon) {
             
             // Set the CSS variable for the extracted color
             modal.style.setProperty('--extracted-color', modalColor);
-            
-            pokemonCloseBtn.style.color = modalColor;
-            pokemonCloseBtn.style.filter = 'brightness(0.5)';
-            
-            // Apply color to modal heart icon
-            const modalHeart = document.querySelector('.modal-favorite-heart');
-            if (modalHeart) {
-                modalHeart.style.color = modalColor;
-            }
             
             // Apply gradient to modal header using extracted color
             const headerGradient = document.querySelector('.modal-header-gradient');

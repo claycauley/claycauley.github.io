@@ -34,15 +34,15 @@ span.icon.circle-xmark::before {
 
 /* Heart icon states */
 span.icon.heart-icon {
-    color: inherit;
+    color: rgba(0, 0, 0, 0.35);
 }
 
 span.icon.heart-icon.not-favorite {
-    filter: brightness(1.25);
+    color: rgba(0, 0, 0, 0.35);
 }
 
 span.icon.heart-icon.favorite {
-    filter: brightness(0.25);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 /* Progress bar for background caching */
@@ -330,10 +330,9 @@ button:active {
     font-size: 28px;
     cursor: pointer;
     transition: all 0.3s ease;
-    filter: brightness(1);
     z-index: 10;
     user-select: none;
-    color: inherit;
+    color: rgba(0, 0, 0, 0.35);
 }
 
 .favorite-heart:hover {
@@ -367,14 +366,13 @@ button:active {
     position: absolute;
     right: 2px;
     font-size: 40px;
-    color: inherit;
+    color: rgba(0, 0, 0, 0.35);
     font-weight: 900;
     line-height: 1;
     /* filter: brightness(.85); */
     /* opacity: .5; */
     z-index: -1;
     bottom: 0;
-    filter: brightness(.5);
 }
 
 .pokemon-grid.list-view .pokemon-id {
@@ -444,7 +442,7 @@ button:active {
     background-position: center;
 }
 
-.type-normal { background-color: #A8A878; background-image: url('assets/imgs/type-icons/normal.svg'); }
+.type-normal { background-color: #AAAAAA; background-image: url('assets/imgs/type-icons/normal.svg'); }
 .type-fire { background-color: #F08030; background-image: url('assets/imgs/type-icons/fire.svg'); }
 .type-water { background-color: #6890F0; background-image: url('assets/imgs/type-icons/water.svg'); }
 .type-electric { background-color: #F8D030; background-image: url('assets/imgs/type-icons/electric.svg'); }
@@ -712,7 +710,7 @@ button:active {
 }
 
 .close {
-    color: #ffffff;
+    color: rgba(0, 0, 0, 0.5);
     position: absolute;
     top: 10px;
     right: 10px;
@@ -764,17 +762,12 @@ button:active {
 .modal-favorite-heart span.icon.heart-icon {
     color: inherit;
 }
-
 .modal-favorite-heart span.icon.heart-icon.not-favorite {
-    filter: brightness(1.25);
+    color: rgba(0, 0, 0, 0.35);
 }
 
 .modal-favorite-heart span.icon.heart-icon.favorite {
-    filter: brightness(0.25);
-}
-
-.modal-favorite-heart.filled {
-    filter: brightness(1);
+    color: rgba(255, 255, 255, 0.75);
 }
 
 .modal-header-gradient {

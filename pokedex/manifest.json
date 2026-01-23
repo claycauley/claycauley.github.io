@@ -8,6 +8,8 @@
   "orientation": "any",
   "background_color": "#000000",
   "theme_color": "#000000",
+  "navigation_color": "#000000",
+  "navigation_color_dark_mode": "#000000",
   "icons": [
     {
       "src": "assets/imgs/icon-192x192.png",
