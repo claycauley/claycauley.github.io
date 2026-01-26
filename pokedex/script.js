@@ -447,6 +447,58 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     }
 }
 
+// Toggle moves accordion visibility with smooth animations and scroll
+function toggleMovesAccordion(contentId) {
+    const content = document.getElementById(contentId);
+    if (!content) return;
+    
+    const isHidden = content.style.display === 'none' || !content.offsetHeight;
+    
+    if (isHidden) {
+        // Opening the accordion
+        content.style.display = 'block';
+        content.style.maxHeight = '0px';
+        content.style.overflow = 'hidden';
+        content.style.transition = 'max-height 0.4s ease-out';
+        
+        // Trigger reflow to apply transition
+        void content.offsetHeight;
+        
+        // Set to actual content height
+        const scrollHeight = content.scrollHeight;
+        content.style.maxHeight = scrollHeight + 'px';
+        
+        // After animation completes, restore original overflow
+        setTimeout(() => {
+            content.style.overflow = 'auto';
+        }, 400);
+        
+        // Scroll the content into view smoothly
+        setTimeout(() => {
+            content.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+    } else {
+        // Closing the accordion
+        content.style.overflow = 'hidden';
+        content.style.transition = 'max-height 0.4s ease-out';
+        content.style.maxHeight = content.scrollHeight + 'px';
+        
+        // Trigger reflow
+        void content.offsetHeight;
+        
+        // Collapse to 0
+        content.style.maxHeight = '0px';
+        
+        // Hide after animation
+        setTimeout(() => {
+            content.style.display = 'none';
+            content.style.maxHeight = '';
+            content.style.overflow = 'auto';
+            content.style.transition = '';
+        }, 400);
+    }
+}
+
 // Fetch image with caching
 async function fetchImageWithCache(url) {
     try {
@@ -1504,10 +1556,11 @@ function createPokemonCard(pokemon) {
     const card = document.createElement('div');
     card.className = 'pokemon-card';
     
-    // Set initial scale, opacity, and blur to prevent flicker when scrolling into view
-    card.style.transform = 'scale(0.9)';
-    card.style.opacity = '0.3';
-    card.style.filter = 'blur(4px)';
+    // Don't apply initial blur - let intersection observer handle it
+    // This prevents search results from appearing blurred when they're already in view
+    card.style.transform = 'scale(1)';
+    card.style.opacity = '1';
+    card.style.filter = 'blur(0px)';
 
     // Extract Pokemon ID from URL
     const id = pokemon.url.split('/').filter(Boolean).pop();
@@ -1630,16 +1683,16 @@ function createPokemonCard(pokemon) {
         // Apply neutral dark gradient to card
         card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
         
-        // Create subtle type-color glow with 90deg gradient (left to right)
+        // Create subtle type-color glow with 135deg gradient (diagonal)
         if (types.length === 2) {
             const type1Color = typeColors[types[0]] || '#A8A878';
             const type2Color = typeColors[types[1]] || '#A8A878';
-            card.style.background = `linear-gradient(90deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 25%, rgba(${parseInt(type2Color.slice(1,3),16)}, ${parseInt(type2Color.slice(3,5),16)}, ${parseInt(type2Color.slice(5,7),16)}, 0.65) 75%), #F6F6F6`;
-            card.style.boxShadow = `inset rgba(255,255,255,0.25) 0px 4px 4px`;
+            card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type2Color.slice(1,3),16)}, ${parseInt(type2Color.slice(3,5),16)}, ${parseInt(type2Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
+            card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
         } else if (types.length === 1) {
             const type1Color = typeColors[types[0]] || '#A8A878';
-            card.style.background = `linear-gradient(90deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 25%, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 75%), #F6F6F6`;
-            card.style.boxShadow = `inset rgba(255,255,255,0.25) 0px 4px 4px`;
+            card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
+            card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
         } else {
             card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
         }
@@ -1794,7 +1847,68 @@ async function showPokemonDetails(pokemon) {
         }).join('');
         modalTypes.innerHTML = typesHtml;
 
-        // Display stats
+        // Display height and weight
+        const heightInMeters = data.height / 10;
+        const weightInKg = data.weight / 10;
+        const modalHeightWeight = document.getElementById('modalHeightWeight');
+        modalHeightWeight.innerHTML = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div>
+                    <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 5px;">Height</div>
+                    <div style="color: #CCC; font-size: 14px;">${heightInMeters.toFixed(1)} m</div>
+                </div>
+                <div>
+                    <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 5px;">Weight</div>
+                    <div style="color: #CCC; font-size: 14px;">${weightInKg.toFixed(1)} kg</div>
+                </div>
+            </div>
+        `;
+
+        // Display gender ratio
+        const speciesUrl = data.species.url;
+        const speciesResponse = await fetch(speciesUrl);
+        const speciesData = await speciesResponse.json();
+        
+        const modalGender = document.getElementById('modalGender');
+        let genderHtml = '';
+        
+        if (speciesData.gender_rate === -1) {
+            genderHtml = '<div style="color: #CCC; font-size: 14px;">Genderless</div>';
+        } else {
+            const femalePercent = (speciesData.gender_rate / 8) * 100;
+            const malePercent = 100 - femalePercent;
+            
+            genderHtml = `
+                <div>
+                    <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 8px;">Gender</div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <div style="flex: 1; height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
+                            <div style="width: ${malePercent}%; background-color: #6BA3FF; transition: width 0.3s ease;"></div>
+                            <div style="width: ${femalePercent}%; background-color: #FF6B9D; transition: width 0.3s ease;"></div>
+                        </div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
+                        <span style="color: #6BA3FF;">♂ ${malePercent.toFixed(1)}%</span>
+                        <span style="color: #FF6B9D;">♀ ${femalePercent.toFixed(1)}%</span>
+                    </div>
+                </div>
+            `;
+        }
+        
+        // Set initial state - hidden with no opacity
+        modalGender.style.opacity = '0';
+        modalGender.style.transition = 'opacity 0.4s ease-in-out';
+        modalGender.innerHTML = genderHtml;
+        
+        // Fade in after image loads
+        modalImage.onload = () => {
+            modalGender.style.opacity = '1';
+        };
+        // Also fade in after a delay if image fails or takes too long
+        setTimeout(() => {
+            modalGender.style.opacity = '1';
+        }, 400);
+
         const statNameMap = {
             'hp': 'HP',
             'attack': 'Attack',
@@ -1840,6 +1954,113 @@ async function showPokemonDetails(pokemon) {
         // Fetch and display type effectiveness
         const typeEffectiveness = await getTypeEffectiveness(data.types);
         modalEffectiveness.innerHTML = typeEffectiveness;
+
+        // Build and display moves accordion
+        const movesData = [];
+        const levelMoves = [];
+        const tmMoves = [];
+        const levelMoveMap = new Map(); // Track moves by name to avoid duplicates
+        const tmMoveMap = new Map(); // Track TM moves to avoid duplicates
+        
+        // Organize moves by type, filtering duplicates
+        data.moves.forEach(moveObj => {
+            moveObj.version_group_details.forEach(detail => {
+                if (detail.move_learn_method.name === 'level-up') {
+                    const moveName = moveObj.move.name;
+                    const level = detail.level_learned_at;
+                    
+                    // Only add if we haven't seen this move before, or keep the lowest level
+                    if (!levelMoveMap.has(moveName) || levelMoveMap.get(moveName) > level) {
+                        levelMoveMap.set(moveName, level);
+                    }
+                } else if (detail.move_learn_method.name === 'machine') {
+                    const moveName = moveObj.move.name;
+                    
+                    // Only add if we haven't seen this move before
+                    if (!tmMoveMap.has(moveName)) {
+                        tmMoveMap.set(moveName, {
+                            name: moveName
+                        });
+                    }
+                }
+            });
+        });
+        
+        // Convert maps to arrays
+        levelMoveMap.forEach((level, name) => {
+            levelMoves.push({
+                name: name,
+                level: level
+            });
+        });
+        
+        tmMoveMap.forEach((moveData) => {
+            tmMoves.push(moveData);
+        });
+        
+        // Sort level moves by level
+        levelMoves.sort((a, b) => a.level - b.level);
+        // Sort TM moves alphabetically
+        tmMoves.sort((a, b) => a.name.localeCompare(b.name));
+        
+        const modalMoves = document.getElementById('modalMoves');
+        const movesToggleId = `moves-toggle-${id}`;
+        const movesContentId = `moves-content-${id}`;
+        
+        let movesHtml = `
+            <div style="border-top: 1px solid #444; padding-top: 15px; padding-bottom: 10px;">
+                <button onclick="toggleMovesAccordion('${movesContentId}')" style="
+                    width: 100%;
+                    background-color: #333333;
+                    color: #FFF;
+                    border: 1px solid #555555;
+                    padding: 12px;
+                    border-radius: 6px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    text-align: left;
+                    transition: all 0.3s ease;
+                " onmouseover="this.style.backgroundColor='#444444'" onmouseout="this.style.backgroundColor='#333333'">
+                    Moves ${levelMoves.length > 0 || tmMoves.length > 0 ? `(${levelMoves.length + tmMoves.length})` : ''}
+                </button>
+            </div>
+            <div id="${movesContentId}" style="display: none;">
+        `;
+        
+        // Level moves section
+        if (levelMoves.length > 0) {
+            movesHtml += '<div style="margin-bottom: 15px; padding: 12px 0; border-bottom: 1px solid #444;"><strong style="color: #FFF; font-size: 13px;">Level Moves</strong><div style="margin-top: 8px;">';
+            levelMoves.forEach(move => {
+                movesHtml += `
+                    <div style="display: flex; justify-content: space-between; padding: 6px; background-color: #2a2a2a; border-radius: 4px; margin-bottom: 4px; font-size: 13px;">
+                        <span style="color: #CCC; text-transform: capitalize;">${move.name.replace('-', ' ')}</span>
+                        <span style="color: #999; font-weight: bold;">Lv. ${move.level}</span>
+                    </div>
+                `;
+            });
+            movesHtml += '</div></div>';
+        }
+        
+        // TM moves section
+        if (tmMoves.length > 0) {
+            movesHtml += '<div style="padding: 12px 0;"><strong style="color: #FFF; font-size: 13px;">TM Moves</strong><div style="margin-top: 8px;">';
+            tmMoves.forEach(move => {
+                movesHtml += `
+                    <div style="display: flex; justify-content: space-between; padding: 6px; background-color: #2a2a2a; border-radius: 4px; margin-bottom: 4px; font-size: 13px;">
+                        <span style="color: #CCC; text-transform: capitalize;">${move.name.replace('-', ' ')}</span>
+                        <span style="color: #999; font-weight: bold;">TM</span>
+                    </div>
+                `;
+            });
+            movesHtml += '</div></div>';
+        }
+        
+        movesHtml += `
+                </div>
+            </div>
+        `;
+        
+        modalMoves.innerHTML = movesHtml;
 
         modal.style.display = 'block';
         
