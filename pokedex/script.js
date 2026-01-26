@@ -91,6 +91,28 @@ const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
 const favoritesFilter = document.getElementById('favoritesFilter');
 
+// Helper function to blend two hex colors
+function blendColors(color1, color2) {
+    // Convert hex to RGB
+    const rgb1 = parseInt(color1.slice(1), 16);
+    const r1 = (rgb1 >> 16) & 255;
+    const g1 = (rgb1 >> 8) & 255;
+    const b1 = rgb1 & 255;
+    
+    const rgb2 = parseInt(color2.slice(1), 16);
+    const r2 = (rgb2 >> 16) & 255;
+    const g2 = (rgb2 >> 8) & 255;
+    const b2 = rgb2 & 255;
+    
+    // Average the colors
+    const r = Math.round((r1 + r2) / 2);
+    const g = Math.round((g1 + g2) / 2);
+    const b = Math.round((b1 + b2) / 2);
+    
+    // Convert back to hex
+    return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+
 // Helper function to check if a Pokemon name is an alternate form (any form)
 function isAlternateForm(pokemonName) {
     return ALL_FORM_SUFFIXES.some(suffix => pokemonName.endsWith(suffix));
@@ -1481,6 +1503,11 @@ let lastClickedCard = null;
 function createPokemonCard(pokemon) {
     const card = document.createElement('div');
     card.className = 'pokemon-card';
+    
+    // Set initial scale, opacity, and blur to prevent flicker when scrolling into view
+    card.style.transform = 'scale(0.9)';
+    card.style.opacity = '0.3';
+    card.style.filter = 'blur(4px)';
 
     // Extract Pokemon ID from URL
     const id = pokemon.url.split('/').filter(Boolean).pop();
@@ -1580,40 +1607,42 @@ function createPokemonCard(pokemon) {
         
         // Build gradient using type colors
         const typeColors = {
-            'normal': '#AAAAAA',
-            'fire': '#F08030',
-            'water': '#6890F0',
-            'electric': '#F8D030',
-            'grass': '#78C850',
-            'ice': '#98D8D8',
-            'fighting': '#C03028',
-            'poison': '#A040A0',
-            'ground': '#E0C068',
-            'flying': '#A890F0',
-            'psychic': '#F85888',
-            'bug': '#A8B820',
-            'rock': '#B8A038',
-            'ghost': '#705898',
-            'dragon': '#7038F8',
-            'dark': '#705848',
-            'steel': '#B8B8D0',
-            'fairy': '#EE99AC'
+            'normal': '#999999',
+            'fire': '#ED6B3A',
+            'water': '#578AC9',
+            'electric': '#F8DC4A',
+            'grass': '#6CB645',
+            'ice': '#70BAE9',
+            'fighting': '#DB963B',
+            'poison': '#7B57A1',
+            'ground': '#A47C41',
+            'flying': '#8FB8E4',
+            'psychic': '#EA797B',
+            'bug': '#9EC14D',
+            'rock': '#BCB990',
+            'ghost': '#6A486F',
+            'dragon': '#5B70B3',
+            'dark': '#595566',
+            'steel': '#6D94A5',
+            'fairy': '#DFB8D7'
         };
         
-        // Get gradient based on number of types
-        let gradient;
+        // Apply neutral dark gradient to card
+        card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
+        
+        // Create subtle type-color glow with 90deg gradient (left to right)
         if (types.length === 2) {
             const type1Color = typeColors[types[0]] || '#A8A878';
             const type2Color = typeColors[types[1]] || '#A8A878';
-            gradient = `linear-gradient(150deg, rgb(255, 255, 255) 30%, ${type1Color} 60%, ${type2Color} 70%)`;
+            card.style.background = `linear-gradient(90deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 25%, rgba(${parseInt(type2Color.slice(1,3),16)}, ${parseInt(type2Color.slice(3,5),16)}, ${parseInt(type2Color.slice(5,7),16)}, 0.65) 75%), #F6F6F6`;
+            card.style.boxShadow = `inset rgba(255,255,255,0.25) 0px 4px 4px`;
         } else if (types.length === 1) {
             const type1Color = typeColors[types[0]] || '#A8A878';
-            gradient = `linear-gradient(150deg, rgb(255, 255, 255) 30%, ${type1Color} 60%)`;
+            card.style.background = `linear-gradient(90deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 25%, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 75%), #F6F6F6`;
+            card.style.boxShadow = `inset rgba(255,255,255,0.25) 0px 4px 4px`;
         } else {
-            gradient = `linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(230, 230, 230) 80%)`;
+            card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
         }
-        
-        card.style.background = gradient;
         
         // Determine optimal text color based on contrast
         const textColor = getOptimalTextColor(dominantColor);
@@ -1734,24 +1763,24 @@ async function showPokemonDetails(pokemon) {
 
         // Type colors for modal badges
         const typeColors = {
-            'normal': '#AAAAAA',
-            'fire': '#F08030',
-            'water': '#6890F0',
-            'electric': '#F8D030',
-            'grass': '#78C850',
-            'ice': '#98D8D8',
-            'fighting': '#C03028',
-            'poison': '#A040A0',
-            'ground': '#E0C068',
-            'flying': '#A890F0',
-            'psychic': '#F85888',
-            'bug': '#A8B820',
-            'rock': '#B8A038',
-            'ghost': '#705898',
-            'dragon': '#7038F8',
-            'dark': '#705848',
-            'steel': '#B8B8D0',
-            'fairy': '#EE99AC'
+            'normal': '#999999',
+            'fire': '#ED6B3A',
+            'water': '#578AC9',
+            'electric': '#F8DC4A',
+            'grass': '#6CB645',
+            'ice': '#70BAE9',
+            'fighting': '#DB963B',
+            'poison': '#7B57A1',
+            'ground': '#A47C41',
+            'flying': '#8FB8E4',
+            'psychic': '#EA797B',
+            'bug': '#9EC14D',
+            'rock': '#BCB990',
+            'ghost': '#6A486F',
+            'dragon': '#5B70B3',
+            'dark': '#595566',
+            'steel': '#6D94A5',
+            'fairy': '#DFB8D7'
         };
 
         // Display types
@@ -2460,6 +2489,8 @@ clearSearchBtn.addEventListener('click', () => {
     displayPage();
 });
 
+
+
 // Modal event listeners
 closeBtn.addEventListener('click', () => {
     closePokemonModal();
@@ -2633,14 +2664,18 @@ function setupCardAnimations() {
                 const scale = 0.9 + (ratio * 0.1);
                 const opacity = 0.3 + (ratio * 0.7);
                 
-                // Apply the scale and fade smoothly
+                // Calculate blur based on visibility (4px blur when out of view, 0px when in focus)
+                const blur = (1 - ratio) * 4;
+                
+                // Apply the scale and fade smoothly with blur for depth of field effect
                 let transform = `scale(${scale})`;
                 
                 card.style.transform = transform;
                 card.style.opacity = opacity;
+                card.style.filter = `blur(${blur}px)`;
                 
                 // Use a smooth transition for scroll animations
-                card.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out';
+                card.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, filter 0.15s ease-out';
             });
         }, observerOptions);
     }

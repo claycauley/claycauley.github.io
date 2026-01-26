@@ -68,6 +68,8 @@ span.icon.heart-icon.favorite {
     }
 }
 
+
+
 .progress-bar.complete {
     opacity: 0;
     transition: opacity 0.5s ease 0.5s;
@@ -314,7 +316,8 @@ button:active {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     overflow: clip;
     position: relative;
-    transform-origin: center;
+    transform: scale(0.9);
+    opacity: 0.3;
 }
 
 .pokemon-grid {
@@ -442,24 +445,24 @@ button:active {
     background-position: center;
 }
 
-.type-normal { background-color: #AAAAAA; background-image: url('assets/imgs/type-icons/normal.svg'); }
-.type-fire { background-color: #F08030; background-image: url('assets/imgs/type-icons/fire.svg'); }
-.type-water { background-color: #6890F0; background-image: url('assets/imgs/type-icons/water.svg'); }
-.type-electric { background-color: #F8D030; background-image: url('assets/imgs/type-icons/electric.svg'); }
-.type-grass { background-color: #78C850; background-image: url('assets/imgs/type-icons/grass.svg'); }
-.type-ice { background-color: #98D8D8; background-image: url('assets/imgs/type-icons/ice.svg'); }
-.type-fighting { background-color: #C03028; background-image: url('assets/imgs/type-icons/fighting.svg'); }
-.type-poison { background-color: #A040A0; background-image: url('assets/imgs/type-icons/poison.svg'); }
-.type-ground { background-color: #E0C068; background-image: url('assets/imgs/type-icons/ground.svg'); }
-.type-flying { background-color: #A890F0; background-image: url('assets/imgs/type-icons/flying.svg'); }
-.type-psychic { background-color: #F85888; background-image: url('assets/imgs/type-icons/psychic.svg'); }
-.type-bug { background-color: #A8B820; background-image: url('assets/imgs/type-icons/bug.svg'); }
-.type-rock { background-color: #B8A038; background-image: url('assets/imgs/type-icons/rock.svg'); }
-.type-ghost { background-color: #705898; background-image: url('assets/imgs/type-icons/ghost.svg'); }
-.type-dragon { background-color: #7038F8; background-image: url('assets/imgs/type-icons/dragon.svg'); }
-.type-dark { background-color: #705848; background-image: url('assets/imgs/type-icons/dark.svg'); }
-.type-steel { background-color: #B8B8D0; background-image: url('assets/imgs/type-icons/steel.svg'); }
-.type-fairy { background-color: #EE99AC; background-image: url('assets/imgs/type-icons/fairy.svg'); }
+.type-normal { background-color: #999999; background-image: url('assets/imgs/type-icons/normal.svg'); }
+.type-fire { background-color: #ED6B3A; background-image: url('assets/imgs/type-icons/fire.svg'); }
+.type-water { background-color: #578AC9; background-image: url('assets/imgs/type-icons/water.svg'); }
+.type-electric { background-color: #F8DC4A; background-image: url('assets/imgs/type-icons/electric.svg'); }
+.type-grass { background-color: #6CB645; background-image: url('assets/imgs/type-icons/grass.svg'); }
+.type-ice { background-color: #70BAE9; background-image: url('assets/imgs/type-icons/ice.svg'); }
+.type-fighting { background-color: #DB963B; background-image: url('assets/imgs/type-icons/fighting.svg'); }
+.type-poison { background-color: #7B57A1; background-image: url('assets/imgs/type-icons/poison.svg'); }
+.type-ground { background-color: #A47C41; background-image: url('assets/imgs/type-icons/ground.svg'); }
+.type-flying { background-color: #8FB8E4; background-image: url('assets/imgs/type-icons/flying.svg'); }
+.type-psychic { background-color: #EA797B; background-image: url('assets/imgs/type-icons/psychic.svg'); }
+.type-bug { background-color: #9EC14D; background-image: url('assets/imgs/type-icons/bug.svg'); }
+.type-rock { background-color: #BCB990; background-image: url('assets/imgs/type-icons/rock.svg'); }
+.type-ghost { background-color: #6A486F; background-image: url('assets/imgs/type-icons/ghost.svg'); }
+.type-dragon { background-color: #5B70B3; background-image: url('assets/imgs/type-icons/dragon.svg'); }
+.type-dark { background-color: #595566 ; background-image: url('assets/imgs/type-icons/dark.svg'); }
+.type-steel { background-color: #6D94A5; background-image: url('assets/imgs/type-icons/steel.svg'); }
+.type-fairy { background-color: #DFB8D7; background-image: url('assets/imgs/type-icons/fairy.svg'); }
 
 /* Modal type badges with icon and text */
 .modal-type-badge {
