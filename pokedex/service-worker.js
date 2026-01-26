@@ -1,6 +1,6 @@
-const CACHE_NAME = 'pokedex-v8';
-const API_CACHE_NAME = 'pokedex-api-v8';
-const IMAGE_CACHE_NAME = 'pokedex-images-v8';
+const CACHE_NAME = 'pokedex-v9';
+const API_CACHE_NAME = 'pokedex-api-v9';
+const IMAGE_CACHE_NAME = 'pokedex-images-v9';
 
 const urlsToCache = [
   '/',
