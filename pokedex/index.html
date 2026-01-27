@@ -32,7 +32,12 @@
                 <input type="text" id="searchInput" placeholder="Search Pokémon by name or ID...">
                 <button id="clearSearchBtn" class="clear-search-btn" title="Clear search"><span class="icon x-mark"></span></button>
             </div>
-            <button id="openFiltersBtn" class="icon-btn" title="Open filters"><span class="icon filter"></span></button>
+            <button id="openFiltersBtn" class="icon-btn" title="Open filters" style="position: relative;">
+                <span class="icon filter"></span>
+                <div id="filterBadge" class="filter-badge" style="display: none;">
+                    <span id="filterCount">0</span>
+                </div>
+            </button>
             <button id="openSettingsBtn" class="icon-btn" title="Open settings"><span class="icon settings"></span></button>
         </div>        <div id="errorContainer"></div>
         <div id="pokemonContainer" class="pokemon-grid"></div>
@@ -48,6 +53,7 @@
                     <img id="modalImage" class="modal-image" src="" alt="Pokemon">
                     <div class="modal-name" id="modalName"></div>
                     <div class="modal-id" id="modalId"></div>
+                    <div class="modal-region" id="modalRegion"></div>
                 </div>
             </div>
             <button id="cryButton" style="margin-top: 20px; margin-bottom: 20px; padding: 8px 16px; background-color: #667eea; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease;">🔊 Cry</button>

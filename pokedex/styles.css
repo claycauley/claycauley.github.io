@@ -31,6 +31,9 @@ span.icon.heart-icon::before {
 span.icon.circle-xmark::before {
     content: '\f057';
 }
+span.icon.location::before {
+    content: '\f3c5';
+}
 
 /* Heart icon states */
 span.icon.heart-icon {
@@ -577,6 +580,25 @@ button:active {
     background-color: #222222;
     color: #ffffff;
     border: 2px solid var(--extracted-color);
+}
+
+#pokemonModal .modal-region {
+    color: #CCCCCC;
+    font-size: 12px;
+    padding: 8px 16px;
+    border: 1px solid white;
+    width: fit-content;
+    text-align: center;
+    margin: 0 auto;
+    border-radius: 24px;
+}
+
+#pokemonModal .modal-region span {
+    margin-right: 4px;
+}
+
+#pokemonModal #modalTypes .type-badge {
+    border: none;
 }
 
 /* Hide scrollbar while allowing scrolling */
@@ -1166,6 +1188,24 @@ button:active {
 
 #openFiltersBtn:active {
     transform: translateY(0);
+}
+
+/* Filter Badge */
+.filter-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: #FF4444;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+    box-shadow: 0 2px 8px rgba(255, 68, 68, 0.3);
 }
 
 /* Settings Button and Modal */

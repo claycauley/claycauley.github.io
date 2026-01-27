@@ -563,7 +563,21 @@ function getGenerationFromId(id) {
     return '';
 }
 
-// Enrich Pokemon data with type, generation, and category info
+// Map generation to region name
+function getRegionFromGeneration(generation) {
+    const regionMap = {
+        '1': 'Kanto',
+        '2': 'Johto',
+        '3': 'Hoenn',
+        '4': 'Sinnoh',
+        '5': 'Unova',
+        '6': 'Kalos',
+        '7': 'Alola',
+        '8': 'Galar',
+        '9': 'Paldea'
+    };
+    return regionMap[generation] || '';
+}// Enrich Pokemon data with type, generation, and category info
 async function enrichPokemonData(pokemon) {
     const id = pokemon.url.split('/').filter(Boolean).pop();
     
@@ -684,7 +698,7 @@ function updateFilterBadge() {
     if (filterCountEl && filterBadgeEl) {
         if (activeCount > 0) {
             filterCountEl.textContent = activeCount;
-            filterBadgeEl.style.display = 'inline';
+            filterBadgeEl.style.display = 'flex';
         } else {
             filterBadgeEl.style.display = 'none';
         }
@@ -1763,6 +1777,7 @@ async function showPokemonDetails(pokemon) {
         const modalImage = document.getElementById('modalImage');
         const modalName = document.getElementById('modalName');
         const modalId = document.getElementById('modalId');
+        const modalRegion = document.getElementById('modalRegion');
         const modalTypes = document.getElementById('modalTypes');
         const modalStats = document.getElementById('modalStats');
         const modalAbilities = document.getElementById('modalAbilities');
@@ -1776,6 +1791,11 @@ async function showPokemonDetails(pokemon) {
         modalImage.src = cachedImageUrl || imageUrl;
         modalName.textContent = formatPokemonName(data.name);
         modalId.textContent = `#${baseNationalDex.toString().padStart(3, '0')}`;
+        
+        // Set region display
+        const generation = pokemonDataCache[id]?.generation || getGenerationFromId(id);
+        const region = getRegionFromGeneration(generation);
+        modalRegion.innerHTML = `<span class="icon location"></span> ${region} Region`;
 
         // Setup cry button
         const cryButton = document.getElementById('cryButton');
@@ -1956,13 +1976,10 @@ async function showPokemonDetails(pokemon) {
         modalEffectiveness.innerHTML = typeEffectiveness;
 
         // Build and display moves accordion
-        const movesData = [];
         const levelMoves = [];
-        const tmMoves = [];
         const levelMoveMap = new Map(); // Track moves by name to avoid duplicates
-        const tmMoveMap = new Map(); // Track TM moves to avoid duplicates
         
-        // Organize moves by type, filtering duplicates
+        // Organize level-up moves, filtering duplicates
         data.moves.forEach(moveObj => {
             moveObj.version_group_details.forEach(detail => {
                 if (detail.move_learn_method.name === 'level-up') {
@@ -1973,20 +1990,11 @@ async function showPokemonDetails(pokemon) {
                     if (!levelMoveMap.has(moveName) || levelMoveMap.get(moveName) > level) {
                         levelMoveMap.set(moveName, level);
                     }
-                } else if (detail.move_learn_method.name === 'machine') {
-                    const moveName = moveObj.move.name;
-                    
-                    // Only add if we haven't seen this move before
-                    if (!tmMoveMap.has(moveName)) {
-                        tmMoveMap.set(moveName, {
-                            name: moveName
-                        });
-                    }
                 }
             });
         });
         
-        // Convert maps to arrays
+        // Convert map to array
         levelMoveMap.forEach((level, name) => {
             levelMoves.push({
                 name: name,
@@ -1994,14 +2002,8 @@ async function showPokemonDetails(pokemon) {
             });
         });
         
-        tmMoveMap.forEach((moveData) => {
-            tmMoves.push(moveData);
-        });
-        
         // Sort level moves by level
         levelMoves.sort((a, b) => a.level - b.level);
-        // Sort TM moves alphabetically
-        tmMoves.sort((a, b) => a.name.localeCompare(b.name));
         
         const modalMoves = document.getElementById('modalMoves');
         const movesToggleId = `moves-toggle-${id}`;
@@ -2021,7 +2023,7 @@ async function showPokemonDetails(pokemon) {
                     text-align: left;
                     transition: all 0.3s ease;
                 " onmouseover="this.style.backgroundColor='#444444'" onmouseout="this.style.backgroundColor='#333333'">
-                    Moves ${levelMoves.length > 0 || tmMoves.length > 0 ? `(${levelMoves.length + tmMoves.length})` : ''}
+                    Moves ${levelMoves.length > 0 ? `(${levelMoves.length})` : ''}
                 </button>
             </div>
             <div id="${movesContentId}" style="display: none;">
@@ -2029,26 +2031,11 @@ async function showPokemonDetails(pokemon) {
         
         // Level moves section
         if (levelMoves.length > 0) {
-            movesHtml += '<div style="margin-bottom: 15px; padding: 12px 0; border-bottom: 1px solid #444;"><strong style="color: #FFF; font-size: 13px;">Level Moves</strong><div style="margin-top: 8px;">';
             levelMoves.forEach(move => {
                 movesHtml += `
                     <div style="display: flex; justify-content: space-between; padding: 6px; background-color: #2a2a2a; border-radius: 4px; margin-bottom: 4px; font-size: 13px;">
                         <span style="color: #CCC; text-transform: capitalize;">${move.name.replace('-', ' ')}</span>
                         <span style="color: #999; font-weight: bold;">Lv. ${move.level}</span>
-                    </div>
-                `;
-            });
-            movesHtml += '</div></div>';
-        }
-        
-        // TM moves section
-        if (tmMoves.length > 0) {
-            movesHtml += '<div style="padding: 12px 0;"><strong style="color: #FFF; font-size: 13px;">TM Moves</strong><div style="margin-top: 8px;">';
-            tmMoves.forEach(move => {
-                movesHtml += `
-                    <div style="display: flex; justify-content: space-between; padding: 6px; background-color: #2a2a2a; border-radius: 4px; margin-bottom: 4px; font-size: 13px;">
-                        <span style="color: #CCC; text-transform: capitalize;">${move.name.replace('-', ' ')}</span>
-                        <span style="color: #999; font-weight: bold;">TM</span>
                     </div>
                 `;
             });
