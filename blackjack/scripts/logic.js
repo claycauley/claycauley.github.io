@@ -187,7 +187,7 @@ function placeBet() {
         return;
     }
 
-    // Secret code: open a balance-edit prompt if the player enters the special bet
+    // Secret code to open balance adjustment modal
     if (bet === SECRET_BALANCE_CODE) {
         showSecretBalanceModal();
         return;
@@ -221,7 +221,7 @@ function placeBet() {
     playerHand = [drawCard(), drawCard()];
     dealerHand = [drawCard(), drawCard()];
 
-    // Ensure Play Again is disabled while a hand is active
+    // Play Again disabled while a hand is active
     try {
         const playBtn = document.getElementById('playAgainButton');
         if (playBtn) {
@@ -229,7 +229,7 @@ function placeBet() {
             try { playBtn.style.display = 'none'; } catch (e) {}
         }
 
-        // Ensure the in-round action buttons are visible when a hand begins
+        // Ensure action buttons are visible when a hand begins
         const inRoundBtns = document.querySelector('.playerActions .buttonContainer');
         if (inRoundBtns) inRoundBtns.style.display = '';
     } catch (e) {}
@@ -444,8 +444,8 @@ function endGame(outcome, winAmount = 0, extraMessage = '') {
         toastClass = 'push';
         toastMessage = extraMessage || `<span class="flagIcon"></span>Push! You keep your ${formatNumber(currentBet)} chips!`;
     }
-    // show the toast and immediately swap the UI so the player can inspect
-    // the final hands and manually start the next round via Play Again.
+    
+    
     const duration = 2500;
     const playBtn = document.getElementById('playAgainButton');
 
