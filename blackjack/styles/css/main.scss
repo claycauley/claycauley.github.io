@@ -1,0 +1,287 @@
+@use 'reset';
+@use '../scss/vars';
+@use '../scss/buttons';
+@use '../scss/icons';
+@use '../scss/betModal';
+@use '../scss/rulesModal';
+@use '../scss/statsModal';
+@use '../scss/toast';
+@use '../scss/deleteData';
+@use '../scss/splash';
+@use '../scss/devEdits';
+
+
+html {
+    background-color: var(--primaryGreenDarken75);
+    color: var(--offBlack);
+}
+
+body {
+    font-family: var(--bodyFontFamily);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--headingFontFamily);
+}
+
+main {
+    background-color: var(--primaryGreenDarken50);
+}
+
+header {
+    background-color: var(--primaryGold);
+    border-radius: 0 0 1rem 1rem;
+    color: var(--offWhite);
+    display: flex;
+    gap: .5rem;
+    left: 0;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    width: 100%;
+
+    .buttonContainer {
+        display: grid;
+        gap: .5rem;
+        grid-template-columns: 1fr 1fr;
+
+        button {
+            grid-template-columns: auto;
+            padding-right: 1.25rem;
+            padding-left: 1.25rem;
+
+        }
+    }
+
+    .currentChipTotal {
+        align-items: center;
+        background-color: var(--primaryGoldLighten);
+        border-radius: .5rem;
+        border: 2px solid var(--primaryGoldDarken);
+        color: var(--primaryGoldDarken);
+        display: flex;
+        gap: .5rem;
+        justify-content: center;
+        padding: .5rem;
+        position: relative;
+        text-align: center;
+        width: 100%;
+
+        p {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .coinIcon,
+        .plusIcon {
+            &::before {
+                font-size: 1.25rem;
+            }
+        }
+
+        .plusIcon {
+            align-self: center;
+            display: grid;
+            position: absolute;
+            right: .5rem;
+        }
+    }
+}
+
+.container {
+    padding: 1rem;
+
+    &.dealerArea {
+        background-color: var(--primaryGreenDarken50);
+    }
+
+    &.playField {
+        display: grid;
+        gap: 1rem;
+        padding: 1.5rem 1rem;
+
+        .cardsContainer {
+            display: flex;
+            justify-content: center;
+            overflow: hidden;
+
+            .cardContainer {
+                -ms-overflow-style: none;
+                align-items: center;
+                display: grid;
+                gap: 1rem;
+                grid-auto-columns: max-content;
+                grid-auto-flow: column;
+                overflow-x: auto;
+                scrollbar-width: none; 
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .card {
+                    align-items: center;
+                    background-color: var(--primaryGreenDarken75);
+                    border-radius: 1rem;
+                    border: 2px solid var(--primaryGreen);
+                    display: grid;
+                    font-size: 2rem;
+                    font-weight: 700;
+                    height: 100%;
+                    justify-content: center;
+                    min-height: 9.25rem;
+                    min-width: 7rem;
+                    padding: .5rem;
+                    text-align: center;
+
+                    .blankCard {
+                        background-color: var(--primaryGreen);
+                    }
+
+                    .inPlay {
+                        background-color: var(--offWhite);
+                    }
+
+                    .playingCard {
+                        align-self: stretch;
+                        border-radius: .5rem;
+                        display: grid;
+                        gap: .5rem;
+                        align-content: center;
+                        min-width: 6.25rem;
+                    }
+                }
+            }
+        }
+
+        .handDetails {
+            align-items: center;
+            background-color: var(--primaryGreenDarken75);
+            border-radius: 5rem;
+            border: 2px solid var(--primaryGreen);
+            display: grid;
+            gap: .5rem;
+            grid-template-columns: 1fr 1fr;
+            justify-content: center;
+            padding: .5rem;
+            text-align: center;
+
+            div {
+                font-weight: 700;
+                padding: .5rem 1.5rem;
+
+                &.sectionCardTotal {
+                    background-color: var(--primaryGold);
+                    border-radius: 1.5rem;
+                    color: var(--primaryGoldDarken);
+                    display: flex;
+                    gap: .5rem;
+                    justify-content: center;
+                }
+
+                &.sectionLabel {
+                    color: var(--offWhite);
+                }
+            }
+        }
+    }
+
+    &.playerActions {
+        background-color: var(--offWhite);
+        border-radius: 0 0 1rem 1rem;
+        display: grid;
+        gap: 1rem;
+        grid-template-rows: 1fr 1fr;
+
+        button {
+            padding: 0;
+
+            &#playAgainButton {
+                grid-template-columns: auto auto;
+            }
+        }
+
+        .buttonContainer {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+
+            button {
+                align-content: center;
+                font-weight: 700;
+                grid-template-columns: 1fr;
+                grid-template-rows: auto max-content;
+
+                span {
+                    font-size: 1.5rem;
+                }
+            }
+        }
+
+        .secondaryButtonContainer {
+            display: grid;
+            gap: .5rem;
+
+            button {
+                grid-template-columns: auto max-content;
+                grid-template-rows: initial;
+
+                span {
+                    font-size: initial;
+                }
+            }
+        }
+
+        .quickTips {
+            align-items: center;
+            background-color: var(--white);
+            border: 2px solid var(--neutralGray);
+            border-radius: .5rem;
+            display: grid;
+            font-size: .875rem;
+            gap: .5rem;
+            justify-content: center;
+            height: 6.875rem;
+            padding: 1rem;
+            text-align: center;
+
+            .quickTipsHeader {
+                align-items: center;
+                display: grid;
+                gap: .5rem;
+                grid-template-columns: max-content max-content;
+                justify-content: center;
+
+                .smallHeader {
+                    font-family: var(--headingFontFamily);
+                    font-weight: 700;
+                }
+            }
+
+            strong {
+                font-weight: 700;
+            }
+        }
+    }
+
+    &.playerArea {
+        background-color: var(--primaryGreenDarken);
+
+        .sectionLabel {
+            order: 2;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    html {
+        overflow-y: hidden;
+    }
+    body{
+        max-width: 48rem;
+        margin: 0 auto;
+    }
+    .playerActions {
+        border-radius: 0 0 1rem 1rem;
+    }
+}

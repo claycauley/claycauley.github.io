@@ -1,0 +1,46 @@
+#rules-modal {
+
+    .modal-content {
+        border-radius: .5rem;
+    }
+
+    .rules-header {
+        background-color: var(--primaryGreenDarken);
+        border-radius: .5rem .5rem 0 0;
+        color: var(--offWhite);
+        display: grid;
+        font-size: 1.5rem;
+        grid-template-columns: auto max-content;
+        padding: 1rem;
+
+        .headerTextContainer {
+            display: grid;
+            gap: .5rem;
+            grid-template-columns: max-content max-content;
+
+            p {
+                font-family: var(--headingFontFamily);
+            }
+        }
+    }
+
+    .rules-content {
+        display: grid;
+        gap: 1rem;
+        padding: 1rem;
+
+        .rulesItem {
+            display: grid;
+            gap: .25rem;
+
+            .heading {
+                font-family: var(--headingFontFamily);
+                font-size: 1.25rem;
+            }
+
+            strong {
+                font-weight: 700;
+            }
+        }
+    }
+}

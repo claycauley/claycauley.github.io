@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Bitesized Blackjack</title>
+        <meta name="description" content="A very simple and quick to play, bitesized blackjack game.">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="application-name" content="Clay's Blackjack">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="Clay's Blackjack">
+        <meta name="theme-color" content="#F1AF1E">
+        <link rel="apple-touch-icon" sizes="180x180" href="assets/images/bitsizedBlackjackIcon.png">
+        <link rel="icon" type="image/png" sizes="192x192" href="assets/images/bitsizedBlackjackIcon-192.png">
+        <link rel="icon" type="image/png" sizes="512x512" href="assets/images/bitsizedBlackjackIcon-512.png">
+        <link rel="manifest" href="manifest.json">
+        <link rel="stylesheet" href="assets/styles/css/main.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,opsz,wght@0,18..144,300..900;1,18..144,300..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <script src="assets/scripts/logic.js" defer></script>
+    </head>
+    <body>
+        <div id="splash">
+            <img src="assets/images/bitsizedBlackjackIcon-512.png" alt="Bitsized Blackjack Splash screen">
+        </div>
+        <main>
+            <header>
+                <div class="currentChipTotal">
+                    <span class="coinIcon"></span>
+                    <p id="balance">10000</p>
+                </div>
+                <div class="buttonContainer">
+                    <button class="primaryButton smallButton playerStats" onclick="showStatsFromBet()">
+                        <span class="statsIcon"></span>
+                    </button>
+                    <button class="tertiaryButton smallButton gameRules" onclick="showRulesFromBet()">
+                        <span class="rulesIcon"></span>
+                    </button>
+                </div>
+            </header>
+            <section class="container dealerArea playField">
+                <div class="handDetails">
+                    <div class="sectionLabel">
+                        <p>Dealer's Hand</p>
+                    </div>
+                    <div class="sectionCardTotal">
+                        <span class="cardIcon"></span>
+                        <p id="dealer-value">0</p>
+                    </div>
+                </div>
+                <div class="cardsContainer">
+                    <div class="cardContainer" id="dealer-cards"></div>
+                </div>
+            </section>
+            <section class="container playerArea playField">
+                <div class="cardsContainer">
+                    <div class="cardContainer" id="player-cards"></div>
+                </div>
+                <div class="handDetails">
+                    <div class="sectionLabel">
+                        <p>Your Hand</p>
+                    </div>
+                    <div class="sectionCardTotal">
+                        <span class="cardIcon"></span>
+                        <p id="player-value">0</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <div class="container playerActions">
+            <button class="primaryButton" id="playAgainButton" onclick="startNewHand()">
+                <span class="repeatIcon"></span>
+                <p>Play Again</p>
+            </button>
+            <div class="buttonContainer">
+                <button class="primaryButton" id="hitButton" onclick="hit()">
+                    <span class="hitIcon"></span>
+                    <p>Hit</p>
+                </button>
+                <div class="secondaryButtonContainer">
+                    <button class="secondaryButton" id="standButton" onclick="stand()">
+                        <span class="cancelIcon"></span>
+                        <p>Stand</p>
+                    </button>
+                    <button class="tertiaryButton" id="doubleButton" onclick="doubleDown()">
+                        <span class="doubleDownIcon"></span> 
+                        <p>Double Down</p>
+                    </button>
+                </div>
+            </div>
+            <div class="quickTips">
+                <div class="quickTipsHeader">
+                    <span class="sparkleIcon"></span>
+                    <p class="smallHeader">Quick Tip</p>
+                </div>
+                <p class="randomQuickTip">The dealer is required to <strong>hit</strong> on any total of 16 or less and must <strong>stand</strong> once they reach 17 or higher.</p>
+            </div>
+        </div>
+
+        <!-- Toast Notification -->
+        <div class="toast" id="toast"></div>
+        
+        <!-- Bet Modal -->
+        <div class="modal active" id="bet-modal">
+            <div class="modal-content">
+                <div class="bet-modal-header">
+                    <div class="bet-modal-chip-balance">
+                        <span class="coinIcon"></span>
+                        <p class="bet-modal-chips"><span id="bet-modal-balance">10000</span></p>
+                    </div>
+                    <div class="bet-modal-stats-rules">
+                        <button class="primaryButton smallButton playerStats" onclick="showStatsFromBet()" title="Statistics">
+                            <span class="statsIcon"></span>
+                            <p>Stats</p>
+                        </button>
+                        <button class="tertiaryButton smallButton gameRules" onclick="showRulesFromBet()" title="Rules">
+                            <span class="rulesIcon"></span>
+                            <p>Rules</p>
+                        </button>
+                    </div>
+                </div>
+                <div class="bet-modal-content">
+                    <div class="bet-modal-text-block">
+                        <p class="bet-modal-title">Place Your Bets</p>
+                        <p class="bet-modal-subtitle">The minimum bet is <strong>100</strong> chips</p>
+                    </div>
+                    <div class="bet-input-container">
+                        <input type="number" id="bet-modal-input" class="bet-modal-input" inputmode="numeric" placeholder="100 Chip Minimum Bet" min="100" step="100" value="100">
+                        <div class="betModalButtonContainer">
+                            <button class="secondaryButton add-chips">
+                                <span class="plusIcon"></span>
+                                <p>Add Chips</p>
+                            </button>
+                            <button class="primaryButton" onclick="placeBet()">
+                                <span class="chipIcon"></span>
+                                <p>Place Bet</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Modal -->
+        <div class="modal" id="stats-modal">
+            <div class="modal-content">
+                <div class="stats-header">
+                    <div class="headerTextContainer">
+                        <span class="statsIcon"></span>
+                        <p>Player Stats</p>
+                    </div>
+                    <span class="closeIcon" onclick="closeStats()"></span>
+                </div>
+                <div class="stats-grid">
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="trophyIcon"></span>
+                            <p>Wins</p>
+                        </div>
+                        <hr>
+                        <p id="stat-wins">0</p>
+                    </div>
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="heartBreakIcon"></span>
+                            <p>Losses</p>
+                        </div>
+                        <hr>
+                        <p id="stat-losses">0</p>
+                    </div>
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="bustIcon"></span>
+                            <p>Busts</p>
+                        </div>
+                        <hr>
+                        <p id="stat-busts">0</p>
+                    </div>
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="flagIcon"></span>
+                            <p>Pushes</p>
+                        </div>
+                        <hr>
+                        <p id="stat-pushes">0</p>
+                    </div>
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="blackjackIcon"></span>
+                            <p>Naturals</p>
+                        </div>
+                        <hr>
+                        <p id="stat-blackjacks">0</p>
+                    </div>
+                    <hr class="statsDivider">
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="coinIcon"></span>
+                            <p>Won</p>
+                        </div>
+                        <hr>
+                        <p class="positive" id="stat-won">0</p>
+                    </div>
+                    <div class="stats-item">
+                        <div class="statsLabel">
+                            <span class="coinIcon"></span>
+                            <p>Lost</p>
+                        </div>
+                        <hr>
+                        <p class="negative" id="stat-lost">0</p>
+                    </div>
+                    <button class="primaryButton danger" onclick="showDeleteConfirm()">
+                        <span class="refreshIcon"></span>
+                        <p>Reset Player Stats</p>
+                    </button>
+                </div>
+                <div class="stats-footer">
+                    <p class="footerLabel">Current Chip Total</p>
+                    <div class="chipBalance">
+                        <span class="coinIcon"></span>
+                        <p id="stat-balance">10000</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide to Confirm Delete -->
+         <div class="confirmDelete" id="slide-confirm">
+            <div class="slide-track">
+                <div class="slide-fill" id="slide-fill"></div>
+                <div class="slide-text" id="slide-text">Slide to Confirm</div>
+                <div class="slide-button" id="slide-button">
+                    <span class="longRightArrowIcon"></span>
+                </div>
+            </div>
+            <button class="quaternaryButton" onclick="cancelDelete()">
+                <span class="crossMarkIcon"></span>
+                <p>Cancel</p>
+            </button>
+        </div>
+
+        <!-- Rules Modal -->
+        <div class="modal" id="rules-modal">
+            <div class="modal-content">
+                <div class="rules-header">
+                    <div class="headerTextContainer">
+                        <span class="rulesIcon"></span>
+                        <p>Game Rules</p>
+                    </div>
+                    <span class="closeIcon" onclick="closeRules()"></span>
+                </div>
+                <div class="rules-content">
+                    <div class="rulesItem">
+                        <p class="heading">Objective</p>
+                        <p>Beat the dealer by getting a count as close to 21 as possible, without going over.</p>
+                    </div>
+                    <div class="rulesItem">
+                        <p class="heading">Card Values</p>
+                        <p>An Ace can be either a 1 or 11, the value is automatically decided for you based on your hand. Face cards (J, Q, & K) count as 10. All other cards are face value.</p>
+                    </div>
+                    <div class="rulesItem">
+                        <p class="heading">How to Play</p>
+                        <p>Place your bet (minimum 100 Chips). You and the dealer each get 2 cards. One of the dealer's cards is hidden. On your turn you may:
+                            <ul>
+                                <li><strong>Hit</strong>: Take another card</li>
+                                <li><strong>Stand</strong>: Keep your current hand</li>
+                                <li><strong>Double Down</strong>: Double your bet and take one final card</li>
+                            </ul>
+                        </p>
+                    </div>
+                    <div class="rulesItem">
+                        <p class="heading">Winning</p>
+                        <p>Get closer to 21 than the dealer without busting (going over.) The dealer must hit on 16 or less & stand on 17 or higher. A hand is busted when the total is over 21. a <strong>Natural Blackjack</strong> (21 with 2 cards) pays 1.5x your bet.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TODO: Clean this up -->
+        <div class="deleting-modal" id="deleting-modal">
+            <div class="deleting-spinner" id="deleting-spinner"></div>
+            <div class="deleting-text" id="deleting-text">Deleting player data...</div>
+        </div>
+        
+        <!-- Secret Balance Modal (developer secret: 8675309) -->
+        <div class="modal" id="secret-balance-modal">
+            <div class="modal-content">
+                <div class="secret-modal-header">
+                    <div class="headerTextContainer">
+                        <span class="gearCodeIcon"></span>
+                        <p>Dev Balance</p>
+                    </div>
+                    <span class="closeIcon" id="secret-balance-close"></span>
+                </div>
+                <div class="secret-modal-content">
+                    <input type="number" id="secret-balance-input" inputmode="numeric" placeholder="Shhh! Enter your new balance." min="100" step="100">
+                    <div class="buttonContainer">
+                        <button class="secondaryButton" id="secret-balance-cancel">
+                            <span class="crossMarkIcon"></span>
+                            <p>Cancel</p>
+                        </button>
+                        <button class="primaryButton" id="secret-balance-submit">
+                            <span class="checkIcon"></span>
+                            <p>Set Balance</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!------------------------->
+    </body>
+</html>
