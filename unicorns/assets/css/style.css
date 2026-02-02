@@ -1,0 +1,98 @@
+@font-face {
+    font-display: swap;
+    font-family: 'IconFont';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/icon-font.woff2') format('woff2'),
+         url('../fonts/icon-font.ttf') format('truetype');
+}
+
+/* Main stylesheet */
+html {
+  height: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+  background: #E9442E;
+  background: linear-gradient(135deg, #E9442E 0%, #FEC774 33%, #F2DFE1 66%, #4C7BFD 100%);
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+h1 {
+  color: #F6F6F6;
+  text-align: center;
+  font-size: 3.5rem;
+  margin-bottom: 0;
+  font-weight: 700;
+}
+
+h2{
+  color: #F6F6F6;
+  font-style: italic;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 300;
+}
+
+h3 {
+  color: #555;
+  font-size: 1.5rem;
+  padding-bottom: 15px;
+  border-bottom: 3px solid #667eea;
+  display: inline-block;
+}
+
+.container {
+  background: #f6f6f6;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  padding: 1rem;
+  max-width: 960px;
+  width: 100%;
+  display: grid;
+  gap: 1.5rem;
+}
+
+header{
+  background-color: #222222;
+  border-radius: 10px;
+  display: grid;
+  gap: 1rem;
+  padding: 1rem;
+  text-align: center;
+}
+
+.demoContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #CCCCCC;
+  min-height: 200px;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 2.5rem 1.5rem;
+  margin-top: 20px;
+}
+
+.infoText {
+  color: #777;
+  font-size: 0.95rem;
+  margin-top: 15px;
+  font-style: italic;
+}
+
+.icon::before {
+    font-family: 'IconFont';
+}

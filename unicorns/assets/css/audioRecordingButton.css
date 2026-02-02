@@ -1,0 +1,78 @@
+.audioRecordButtonWrapper {
+    background: #F6F6F6;
+    border-radius: 50%;
+    border: 2px solid #BBBBBB;
+    display: grid;
+    height: 140px;
+    overflow: hidden;
+    padding: 1rem;
+    position: relative;
+    width: 140px;
+}
+
+.audioRecordButton {
+    background: #DDDDDD;
+    background: linear-gradient(135deg,rgba(255, 255, 255, 1) 0%, rgba(221, 221, 221, 1) 100%);
+    border-radius: 50%;
+    border: 2px solid #CCCCCC;
+    position: relative;
+    transition: all 0.2s ease-out;
+    z-index: 2;
+}
+
+.audioRecordButton:hover {
+    box-shadow: rgba(0,0,0,0.25) 0px 0px 8px;
+}
+
+.audioRecordButton:active {
+    background: linear-gradient(135deg,rgba(221, 221, 221, 1) 0%, rgba(255, 255, 255, 1) 100%);
+    box-shadow: none;
+}
+
+.audioRecordButton.recording {
+    background: linear-gradient(135deg,#FF7B87 0%, #FF4757 100%);
+    border: 2px solid #FF4B5A;
+    transition: background 0.3s ease-out;
+}
+
+.audioRecordButton.recording .microphone::before {
+    color: #F6F6F6;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
+.audioRecordButton.recording::after {
+    animation: recordingPulse 1.5s ease-out infinite;
+    background: radial-gradient(circle, rgba(255, 71, 87, 0.4) 0%, rgba(255, 71, 87, 0) 70%);
+    border-radius: 50%;
+    content: '';
+    height: 100%;
+    left: 50%;
+    pointer-events: none;
+    position: absolute;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    z-index: 1;
+}
+
+@keyframes recordingPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.7);
+    }
+    50% {
+        box-shadow: 0 0 0 20px rgba(255, 71, 87, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 0 40px rgba(255, 71, 87, 0);
+    }
+}
+
+.microphone::before {
+    color: #AAAAAA;
+    content: '\f130';
+    font-size: 2.5rem;
+}
