@@ -1,6 +1,6 @@
-const CACHE_NAME = 'pokedex-v9';
-const API_CACHE_NAME = 'pokedex-api-v9';
-const IMAGE_CACHE_NAME = 'pokedex-images-v9';
+const CACHE_NAME = 'pokedex-v11';
+const API_CACHE_NAME = 'pokedex-api-v11';
+const IMAGE_CACHE_NAME = 'pokedex-images-v11';
 
 const urlsToCache = [
   '/',
@@ -43,7 +43,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - serve from cache, fallback to network
+// Fetch event - Cache FIRST for API, then network
 self.addEventListener('fetch', event => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -52,24 +52,33 @@ self.addEventListener('fetch', event => {
 
   const url = event.request.url;
   
-  // Handle API requests
+  // Handle API requests - CACHE FIRST strategy
   if (url.includes('pokeapi.co')) {
     event.respondWith(
-      caches.match(event.request).then(response => {
-        if (response) {
-          return response;
-        }
-        return fetch(event.request).then(response => {
-          if (!response || response.status !== 200) {
+      caches.open(API_CACHE_NAME).then(cache => {
+        return cache.match(event.request).then(response => {
+          // Return cached response if available
+          if (response) {
             return response;
           }
-          const responseToCache = response.clone();
-          caches.open(API_CACHE_NAME).then(cache => {
+          // If not in cache, fetch from network
+          return fetch(event.request).then(networkResponse => {
+            if (!networkResponse || networkResponse.status !== 200) {
+              return networkResponse;
+            }
+            // Cache the new response
+            const responseToCache = networkResponse.clone();
             cache.put(event.request, responseToCache);
+            return networkResponse;
+          }).catch(error => {
+            // Return cached response if network fails
+            console.log('Network fetch failed, attempting cached response:', error);
+            return cache.match(event.request) || 
+              new Response(JSON.stringify({ error: 'Network unavailable' }), {
+                status: 503,
+                statusText: 'Service Unavailable'
+              });
           });
-          return response;
-        }).catch(() => {
-          return caches.match(event.request);
         });
       })
     );

@@ -51,12 +51,12 @@
             <div class="modal-header-gradient">
                 <div class="modal-header">
                     <img id="modalImage" class="modal-image" src="" alt="Pokemon">
-                    <div class="modal-name" id="modalName"></div>
                     <div class="modal-id" id="modalId"></div>
+                    <div class="modal-name" id="modalName"></div>
                     <div class="modal-region" id="modalRegion"></div>
+                    <button id="cryButton" class="cry-button" title="Play Cry"><span class="icon play"></span> Cry</button>
                 </div>
             </div>
-            <button id="cryButton" style="margin-top: 20px; margin-bottom: 20px; padding: 8px 16px; background-color: #667eea; color: white; border: none; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: bold; transition: all 0.3s ease;">🔊 Cry</button>
             <div id="modalTypes" class="pokemon-types" style="margin-bottom: 20px;"></div>
             <div id="modalHeightWeight" style="margin-bottom: 20px;"></div>
             <div id="modalGender" style="margin-bottom: 20px;"></div>
@@ -129,6 +129,18 @@
         <div class="modal-content settings-modal-content">
             <span class="close close-settings"><span class="icon x-mark"></span></span>
             <h2>Settings</h2>
+            
+            <div class="filter-group">
+                <label>View Pokédex as:</label>
+                <div class="view-toggle-group">
+                    <button id="viewToggleList" class="view-toggle-btn active" title="List View">
+                        <span class="icon list"></span>
+                    </button>
+                    <button id="viewToggleGrid" class="view-toggle-btn" title="Grid View">
+                        <span class="icon grid"></span>
+                    </button>
+                </div>
+            </div>
             
             <div class="filter-group">
                 <label>Form Visibility:</label>

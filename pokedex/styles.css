@@ -34,6 +34,21 @@ span.icon.circle-xmark::before {
 span.icon.location::before {
     content: '\f3c5';
 }
+span.icon.list::before {
+    content: '\f03a';
+}
+span.icon.grid::before {
+    content: '\e195';
+}
+span.icon.play::before {
+    content: '\f6a8';
+}
+span.icon.height::before {
+    content: '\f545';
+}
+span.icon.weight::before {
+    content: '\f496';
+}
 
 /* Heart icon states */
 span.icon.heart-icon {
@@ -132,6 +147,7 @@ body {
     overflow-y: auto;
     padding: 8px;
     min-width: 0;
+    scrollbar-width: none;
 }
 
 header {
@@ -410,6 +426,16 @@ button:active {
     gap: 8px;
 }
 
+.pokemon-grid.list-view .pokemon-info {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pokemon-grid.list-view .pokemon-types {
+    justify-content: flex-start;
+}
+
 .pokemon-name {
     font-size: 18px;
     font-weight: bold;
@@ -589,7 +615,7 @@ button:active {
     border: 1px solid white;
     width: fit-content;
     text-align: center;
-    margin: 0 auto;
+    margin: 0 auto 10px;
     border-radius: 24px;
 }
 
@@ -743,7 +769,6 @@ button:active {
     font-size: 32px;
     font-weight: bold;
     cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
     z-index: 1001;
     line-height: 1;
     display: flex;
@@ -753,15 +778,6 @@ button:active {
 
 .modal[style*="display: flex"] .close {
     display: flex;
-}
-
-.close:hover {
-    color: #f0f0f0;
-    transform: scale(1.15) rotate(90deg);
-}
-
-.close:active {
-    transform: scale(0.95);
 }
 
 .modal-header {
@@ -797,7 +813,7 @@ button:active {
 }
 
 .modal-header-gradient {
-    margin: -30px -30px 20px -30px;
+    margin: -30px -30px .5rem -30px;
     padding: 30px 30px 20px 30px;
     border-radius: 15px 15px 0 0;
     /* Gradient applied inline with extracted color */
@@ -818,14 +834,44 @@ button:active {
     font-weight: bold;
     color: #ffffff;
     text-transform: capitalize;
-    margin-bottom: 10px;
     letter-spacing: -0.5px;
+}
+
+.modal-name-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+}
+
+.cry-button {
+    background-color: #f6f6f6;
+    border: none;
+    color: #222222;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: max-content;
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+    padding: .5rem 1rem;
+    font-size: 12px;
+}
+
+.cry-button span.icon.play::before {
+    color: #222222;
+    font-size: 14px;
+    margin-right: .25rem;
+}
+
+.cry-button:active, .cry-button:hover {
+    background-color: #f6f6f6;
 }
 
 .modal-id {
     color: #ffffff;
     font-weight: bold;
-    margin-bottom: 20px;
     font-size: 16px;
     letter-spacing: 1px;
 }
@@ -1296,6 +1342,40 @@ button:active {
 
 .mobile-toggle input:checked + .toggle-slider::before {
     left: 26px;
+}
+
+/* View toggle group */
+.view-toggle-group {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 8px;
+}
+
+.view-toggle-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 2px solid #555;
+    background-color: #1a1a1a;
+    color: #aaa;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 20px;
+}
+
+.view-toggle-btn:hover {
+    border-color: #888;
+    color: #ddd;
+}
+
+.view-toggle-btn.active {
+    border-color: #667eea;
+    background-color: #667eea;
+    color: white;
 }
 
 .filters-modal-content {

@@ -61,7 +61,10 @@ let favoritePokemon = new Set(); // Set of favorite Pokemon IDs
 const STORAGE_KEYS = {
     FAVORITES: 'pokedex_favorites',
     VIEW_PREFERENCE: 'pokedex_view',
-    LAST_SYNC: 'pokedex_last_sync'
+    LAST_SYNC: 'pokedex_last_sync',
+    POKEMON_LIST: 'pokedex_pokemon_list',
+    POKEMON_DATA: 'pokedex_pokemon_data',
+    CACHE_VERSION: 'pokedex_cache_v11'
 };
 
 const pokemonContainer = document.getElementById('pokemonContainer');
@@ -90,6 +93,8 @@ const settingsModal = document.getElementById('settingsModal');
 const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
 const favoritesFilter = document.getElementById('favoritesFilter');
+const viewToggleList = document.getElementById('viewToggleList');
+const viewToggleGrid = document.getElementById('viewToggleGrid');
 
 // Helper function to blend two hex colors
 function blendColors(color1, color2) {
@@ -882,6 +887,30 @@ async function init() {
             closeModal(settingsModal, settingsModal.querySelector('.modal-content'));
         });
     }
+    
+    // View toggle buttons
+    if (viewToggleList) {
+        viewToggleList.addEventListener('click', () => {
+            isListView = true;
+            pokemonContainer.classList.add('list-view');
+            viewToggleList.classList.add('active');
+            viewToggleGrid.classList.remove('active');
+            localStorage.setItem('pokemonViewMode', 'list');
+            displayPage();
+        });
+    }
+    
+    if (viewToggleGrid) {
+        viewToggleGrid.addEventListener('click', () => {
+            isListView = false;
+            pokemonContainer.classList.remove('list-view');
+            viewToggleGrid.classList.add('active');
+            viewToggleList.classList.remove('active');
+            localStorage.setItem('pokemonViewMode', 'grid');
+            displayPage();
+        });
+    }
+    
     // Global modal handlers - click outside or ESC to close
     window.addEventListener('click', (event) => {
         if (event.target === filtersModal) {
@@ -908,10 +937,49 @@ async function init() {
 // Load the list of all Pokemon
 async function loadPokemonList() {
     try {
-        // Check if we already have all Pokemon cached
+        // Check if we already have all Pokemon cached in memory
         if (allPokemon.length > 0) {
             // We already have the data, skip loading
             return;
+        }
+        
+        // Try to load from localStorage first
+        const cachedData = localStorage.getItem(STORAGE_KEYS.POKEMON_LIST);
+        const cacheVersion = localStorage.getItem(STORAGE_KEYS.CACHE_VERSION);
+        
+        if (cachedData && cacheVersion === STORAGE_KEYS.CACHE_VERSION) {
+            try {
+                const parsedData = JSON.parse(cachedData);
+                allPokemon = parsedData;
+                totalPokemonCount = allPokemon.length;
+                
+                // Rebuild pokemonDataCache from the cached data
+                // This is necessary so types and other data display correctly
+                allPokemon.forEach(pokemon => {
+                    const id = pokemon.url.split('/').filter(Boolean).pop();
+                    if (!pokemonDataCache[id]) {
+                        pokemonDataCache[id] = {
+                            types: pokemon.types || [],
+                            generation: pokemon.generation || '',
+                            isLegendary: pokemon.isLegendary || false,
+                            isMythical: pokemon.isMythical || false,
+                            isBaby: pokemon.isBaby || false,
+                            baseNationalDexNumber: pokemon.baseNationalDexNumber || parseInt(id)
+                        };
+                    }
+                });
+                
+                // Load from cache - show immediately
+                hideLoadingScreen();
+                displayPage();
+                
+                // Verify cache is fresh by checking API in background (optional - remove if too slow)
+                // skipBackgroundVerification = true;
+                return;
+            } catch (e) {
+                console.warn('Failed to parse cached Pokemon data:', e);
+                localStorage.removeItem(STORAGE_KEYS.POKEMON_LIST);
+            }
         }
         
         showLoadingScreen();
@@ -944,6 +1012,30 @@ async function loadPokemonList() {
         
         // Keep ALL Pokemon (don't filter here, filter on display instead)
         allPokemon = sortedPokemon;
+        
+        // Enrich allPokemon with metadata for caching
+        const enrichedPokemon = allPokemon.map(pokemon => {
+            const id = pokemon.url.split('/').filter(Boolean).pop();
+            const cache = pokemonDataCache[id];
+            return {
+                ...pokemon,
+                types: cache?.types || [],
+                generation: cache?.generation || '',
+                isLegendary: cache?.isLegendary || false,
+                isMythical: cache?.isMythical || false,
+                isBaby: cache?.isBaby || false,
+                baseNationalDexNumber: cache?.baseNationalDexNumber || parseInt(id)
+            };
+        });
+        
+        // Cache to localStorage
+        try {
+            localStorage.setItem(STORAGE_KEYS.POKEMON_LIST, JSON.stringify(enrichedPokemon));
+            localStorage.setItem(STORAGE_KEYS.CACHE_VERSION, STORAGE_KEYS.CACHE_VERSION);
+        } catch (e) {
+            console.warn('Failed to cache Pokemon list to localStorage:', e);
+            // Continue anyway - app will still work, just slower on reload
+        }
         
         updateProgress(100);
         completeProgress();
@@ -1220,6 +1312,25 @@ function loadViewPreference() {
         pokemonContainer.classList.add('list-view');
         if (viewToggleIcon) {
             viewToggleIcon.textContent = '⊞'; // Grid icon - shows what you can switch to
+        }
+        if (viewToggleList) {
+            viewToggleList.classList.add('active');
+        }
+        if (viewToggleGrid) {
+            viewToggleGrid.classList.remove('active');
+        }
+    } else if (savedMode === 'grid') {
+        // Grid view
+        isListView = false;
+        pokemonContainer.classList.remove('list-view');
+        if (viewToggleIcon) {
+            viewToggleIcon.textContent = '≡'; // List icon - shows what you can switch to
+        }
+        if (viewToggleGrid) {
+            viewToggleGrid.classList.add('active');
+        }
+        if (viewToggleList) {
+            viewToggleList.classList.remove('active');
         }
     }
 }
@@ -1562,6 +1673,75 @@ function simpleCanvasAveraging(imageUrl) {
     });
 }
 
+// Apply gradient background to card based on Pokemon type
+async function applyCardGradient(card, pokemonId, imageUrl, types) {
+    // Check if color is already cached
+    let dominantColor = pokemonColorCache[pokemonId];
+    
+    if (!dominantColor) {
+        // Extract color from image
+        dominantColor = await getDominantColorFromImage(imageUrl);
+        
+        // First fallback: try canvas with center bias
+        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+            dominantColor = await canvasColorExtractionWithCenterBias(imageUrl);
+        }
+        
+        // Second fallback: try simple averaging
+        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
+            dominantColor = await simpleCanvasAveraging(imageUrl);
+        }
+        
+        // Cache the color for future use
+        pokemonColorCache[pokemonId] = dominantColor;
+    }
+    
+    // Build gradient using type colors
+    const typeColors = {
+        'normal': '#999999',
+        'fire': '#ED6B3A',
+        'water': '#578AC9',
+        'electric': '#F8DC4A',
+        'grass': '#6CB645',
+        'ice': '#70BAE9',
+        'fighting': '#DB963B',
+        'poison': '#7B57A1',
+        'ground': '#A47C41',
+        'flying': '#8FB8E4',
+        'psychic': '#EA797B',
+        'bug': '#9EC14D',
+        'rock': '#BCB990',
+        'ghost': '#6A486F',
+        'dragon': '#5B70B3',
+        'dark': '#595566',
+        'steel': '#6D94A5',
+        'fairy': '#DFB8D7'
+    };
+    
+    // Apply neutral dark gradient to card
+    card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
+    
+    // Create subtle type-color glow with 135deg gradient (diagonal)
+    if (types.length === 2) {
+        const type1Color = typeColors[types[0]] || '#A8A878';
+        const type2Color = typeColors[types[1]] || '#A8A878';
+        card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type2Color.slice(1,3),16)}, ${parseInt(type2Color.slice(3,5),16)}, ${parseInt(type2Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
+        card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
+    } else if (types.length === 1) {
+        const type1Color = typeColors[types[0]] || '#A8A878';
+        card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
+        card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
+    } else {
+        card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
+    }
+    
+    // Apply optimal text color to Pokemon name
+    const nameElement = card.querySelector('.pokemon-name');
+    if (nameElement) {
+        nameElement.style.color = '#000000';
+    }
+}
+
 // Store card animation data for morph effect
 let lastClickedCard = null;
 
@@ -1645,81 +1825,14 @@ function createPokemonCard(pokemon) {
     img.addEventListener('load', async function() {
         const imageToAnalyze = this.src || imageUrl;
         const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
-        
-        // Check if color is already cached
-        let dominantColor = pokemonColorCache[pokemonId];
-        
-        if (!dominantColor) {
-            // Check for manual color override first (by ID to handle all forms)
-            dominantColor = getManualColorOverride(pokemon);
-            
-            if (!dominantColor) {
-                // If no override, extract color from image
-                dominantColor = await getDominantColorFromImage(imageToAnalyze);
-                
-                // First fallback: try canvas with center bias
-                if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-                    dominantColor = await canvasColorExtractionWithCenterBias(imageToAnalyze);
-                }
-                
-                // Second fallback: try simple averaging
-                if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-                    dominantColor = await simpleCanvasAveraging(imageToAnalyze);
-                }
-            }
-            
-            // Cache the color for future use
-            pokemonColorCache[pokemonId] = dominantColor;
-        }
-        
-        // Build gradient using type colors
-        const typeColors = {
-            'normal': '#999999',
-            'fire': '#ED6B3A',
-            'water': '#578AC9',
-            'electric': '#F8DC4A',
-            'grass': '#6CB645',
-            'ice': '#70BAE9',
-            'fighting': '#DB963B',
-            'poison': '#7B57A1',
-            'ground': '#A47C41',
-            'flying': '#8FB8E4',
-            'psychic': '#EA797B',
-            'bug': '#9EC14D',
-            'rock': '#BCB990',
-            'ghost': '#6A486F',
-            'dragon': '#5B70B3',
-            'dark': '#595566',
-            'steel': '#6D94A5',
-            'fairy': '#DFB8D7'
-        };
-        
-        // Apply neutral dark gradient to card
-        card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
-        
-        // Create subtle type-color glow with 135deg gradient (diagonal)
-        if (types.length === 2) {
-            const type1Color = typeColors[types[0]] || '#A8A878';
-            const type2Color = typeColors[types[1]] || '#A8A878';
-            card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type2Color.slice(1,3),16)}, ${parseInt(type2Color.slice(3,5),16)}, ${parseInt(type2Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
-            card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
-        } else if (types.length === 1) {
-            const type1Color = typeColors[types[0]] || '#A8A878';
-            card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
-            card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
-        } else {
-            card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
-        }
-        
-        // Determine optimal text color based on contrast
-        const textColor = getOptimalTextColor(dominantColor);
-        
-        // Apply optimal text color to Pokemon name
-        const nameElement = card.querySelector('.pokemon-name');
-        if (nameElement) {
-            nameElement.style.color = '#000000';
-        }
+        await applyCardGradient(card, pokemonId, imageToAnalyze, types);
     });
+    
+    // Handle case where image is cached and loads before event listener is attached
+    if (img.complete && img.naturalHeight !== 0) {
+        const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
+        applyCardGradient(card, pokemonId, img.src || imageUrl, types);
+    }
 
     card.addEventListener('click', () => {
         lastClickedCard = card;
@@ -1872,13 +1985,13 @@ async function showPokemonDetails(pokemon) {
         const weightInKg = data.weight / 10;
         const modalHeightWeight = document.getElementById('modalHeightWeight');
         modalHeightWeight.innerHTML = `
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                <div>
-                    <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 5px;">Height</div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div style="display: grid; grid-template-columns: max-content max-content; gap: .5rem;">
+                    <div style="font-weight: bold; color: #FFF; font-size: 14px; margin-bottom: 5px;"><span class="icon height" style="margin-right:4px;"></span> Height:</div>
                     <div style="color: #CCC; font-size: 14px;">${heightInMeters.toFixed(1)} m</div>
                 </div>
-                <div>
-                    <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 5px;">Weight</div>
+                <div style="display: grid; grid-template-columns: max-content max-content; gap: .5rem;">
+                    <div style="font-weight: bold; color: #FFF; font-size: 14px; margin-bottom: 5px;"><span class="icon weight" style="margin-right:4px;"></span> Weight:</div>
                     <div style="color: #CCC; font-size: 14px;">${weightInKg.toFixed(1)} kg</div>
                 </div>
             </div>
@@ -2838,7 +2951,7 @@ function showError(message) {
 // Register Service Worker for offline support
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
+        navigator.serviceWorker.register('/pokedex/service-worker.js')
             .then(registration => {
                 console.log('Service Worker registered:', registration);
             })
