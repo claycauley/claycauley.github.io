@@ -64,7 +64,7 @@ const STORAGE_KEYS = {
     LAST_SYNC: 'pokedex_last_sync',
     POKEMON_LIST: 'pokedex_pokemon_list',
     POKEMON_DATA: 'pokedex_pokemon_data',
-    CACHE_VERSION: 'pokedex_cache_v12'
+    CACHE_VERSION: 'pokedex_cache_v13'
 };
 
 const pokemonContainer = document.getElementById('pokemonContainer');

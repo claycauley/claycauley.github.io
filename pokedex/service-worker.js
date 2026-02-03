@@ -1,6 +1,6 @@
-const CACHE_NAME = 'pokedex-v13';
-const API_CACHE_NAME = 'pokedex-api-v13';
-const IMAGE_CACHE_NAME = 'pokedex-images-v13';
+const CACHE_NAME = 'pokedex-v14';
+const API_CACHE_NAME = 'pokedex-api-v14';
+const IMAGE_CACHE_NAME = 'pokedex-images-v14';
 
 const urlsToCache = [
   '/',
@@ -43,7 +43,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - Cache FIRST for API, then network
+// Fetch event - Stale-while-revalidate for API, then network
 self.addEventListener('fetch', event => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -52,33 +52,27 @@ self.addEventListener('fetch', event => {
 
   const url = event.request.url;
   
-  // Handle API requests - CACHE FIRST strategy
+  // Handle API requests - STALE-WHILE-REVALIDATE strategy
   if (url.includes('pokeapi.co')) {
     event.respondWith(
       caches.open(API_CACHE_NAME).then(cache => {
         return cache.match(event.request).then(response => {
-          // Return cached response if available
-          if (response) {
-            return response;
-          }
-          // If not in cache, fetch from network
-          return fetch(event.request).then(networkResponse => {
+          // Always fetch fresh data in background
+          const fetchPromise = fetch(event.request).then(networkResponse => {
             if (!networkResponse || networkResponse.status !== 200) {
               return networkResponse;
             }
-            // Cache the new response
+            // Update cache with fresh response
             const responseToCache = networkResponse.clone();
             cache.put(event.request, responseToCache);
             return networkResponse;
           }).catch(error => {
-            // Return cached response if network fails
-            console.log('Network fetch failed, attempting cached response:', error);
-            return cache.match(event.request) || 
-              new Response(JSON.stringify({ error: 'Network unavailable' }), {
-                status: 503,
-                statusText: 'Service Unavailable'
-              });
+            console.log('Network fetch failed:', error);
+            return null;
           });
+          
+          // Return cached response immediately, or wait for network if no cache
+          return response || fetchPromise;
         });
       })
     );
