@@ -897,6 +897,44 @@ async function init() {
         });
     }
     
+    // Force refresh button
+    const forceRefreshBtn = document.getElementById('forceRefreshBtn');
+    if (forceRefreshBtn) {
+        forceRefreshBtn.addEventListener('click', async () => {
+            forceRefreshBtn.classList.add('loading');
+            forceRefreshBtn.textContent = 'Refreshing...';
+            
+            try {
+                // Clear all caches
+                if ('caches' in window) {
+                    const cacheNames = await caches.keys();
+                    await Promise.all(cacheNames.map(name => caches.delete(name)));
+                }
+                
+                // Clear localStorage
+                localStorage.clear();
+                
+                // Clear in-memory caches
+                allPokemon = [];
+                filteredPokemon = [];
+                pokemonDataCache = {};
+                pokemonColorCache = {};
+                
+                // Close settings modal
+                closeModal(settingsModal, settingsModal.querySelector('.modal-content'));
+                
+                // Reload the page to fetch fresh data
+                setTimeout(() => {
+                    window.location.reload();
+                }, 500);
+            } catch (error) {
+                console.error('Error clearing cache:', error);
+                forceRefreshBtn.classList.remove('loading');
+                forceRefreshBtn.textContent = '⚠️ Force Refresh Data';
+            }
+        });
+    }
+    
     // View toggle buttons
     if (viewToggleList) {
         viewToggleList.addEventListener('click', () => {
