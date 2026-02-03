@@ -990,7 +990,9 @@ async function loadPokemonList() {
             return;
         }
         
-        // Try to load from localStorage first
+        // Disabled: Try to load from localStorage first
+        // Always fetch fresh from API to avoid stale data issues
+        /*
         const cachedData = localStorage.getItem(STORAGE_KEYS.POKEMON_LIST);
         const cacheVersion = localStorage.getItem(STORAGE_KEYS.CACHE_VERSION);
         
@@ -1029,6 +1031,7 @@ async function loadPokemonList() {
                 localStorage.removeItem(STORAGE_KEYS.POKEMON_LIST);
             }
         }
+        */
         
         showLoadingScreen();
         updateProgress(0);
@@ -1077,7 +1080,9 @@ async function loadPokemonList() {
             };
         });
         
-        // Cache to localStorage
+        // Disabled: Cache to localStorage
+        // Always fetch fresh from API to avoid stale data issues
+        /*
         try {
             localStorage.setItem(STORAGE_KEYS.POKEMON_LIST, JSON.stringify(enrichedPokemon));
             localStorage.setItem(STORAGE_KEYS.CACHE_VERSION, STORAGE_KEYS.CACHE_VERSION);
@@ -1085,6 +1090,7 @@ async function loadPokemonList() {
             console.warn('Failed to cache Pokemon list to localStorage:', e);
             // Continue anyway - app will still work, just slower on reload
         }
+        */
         
         updateProgress(100);
         completeProgress();

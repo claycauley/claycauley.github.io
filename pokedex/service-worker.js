@@ -1,6 +1,6 @@
-const CACHE_NAME = 'pokedex-v15';
-const API_CACHE_NAME = 'pokedex-api-v15';
-const IMAGE_CACHE_NAME = 'pokedex-images-v15';
+const CACHE_NAME = 'pokedex-v16';
+const API_CACHE_NAME = 'pokedex-api-v16';
+const IMAGE_CACHE_NAME = 'pokedex-images-v16';
 
 const urlsToCache = [
   '/',
@@ -43,7 +43,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - NETWORK FIRST for API (always try fresh), cache for images
+// Fetch event - NO caching for API, cache only images and static assets
 self.addEventListener('fetch', event => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -52,35 +52,14 @@ self.addEventListener('fetch', event => {
 
   const url = event.request.url;
   
-  // Handle API requests - NETWORK FIRST strategy (always get fresh data)
+  // Handle API requests - NO CACHING, always fetch from network
   if (url.includes('pokeapi.co')) {
-    event.respondWith(
-      // Try network first
-      fetch(event.request)
-        .then(networkResponse => {
-          if (!networkResponse || networkResponse.status !== 200) {
-            return networkResponse;
-          }
-          // Cache the fresh response
-          const responseToCache = networkResponse.clone();
-          caches.open(API_CACHE_NAME).then(cache => {
-            cache.put(event.request, responseToCache);
-          });
-          return networkResponse;
-        })
-        .catch(error => {
-          // If network fails, try cache as fallback
-          console.log('Network unavailable, trying cache:', error);
-          return caches.open(API_CACHE_NAME).then(cache => {
-            return cache.match(event.request);
-          });
-        })
-    );
+    event.respondWith(fetch(event.request));
     return;
   }
 
-  // Handle image requests
-  if (url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.gif')) {
+  // Handle image requests - cache them
+  if (url.endsWith('.png') || url.endsWith('.jpg') || url.endsWith('.jpeg') || url.endsWith('.gif') || url.endsWith('.webp')) {
     event.respondWith(
       caches.match(event.request).then(response => {
         if (response) {
@@ -96,7 +75,6 @@ self.addEventListener('fetch', event => {
           });
           return response;
         }).catch(() => {
-          // Return a placeholder if offline
           return new Response('Image unavailable offline', {
             status: 503,
             statusText: 'Service Unavailable'
@@ -123,7 +101,6 @@ self.addEventListener('fetch', event => {
         });
         return response;
       }).catch(() => {
-        // Offline fallback - return cached response if available
         return caches.match(event.request);
       });
     })
