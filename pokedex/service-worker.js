@@ -43,7 +43,7 @@ self.addEventListener('activate', event => {
   self.clients.claim();
 });
 
-// Fetch event - Stale-while-revalidate for API, then network
+// Fetch event - NETWORK FIRST for API (always try fresh), cache for images
 self.addEventListener('fetch', event => {
   // Skip non-GET requests
   if (event.request.method !== 'GET') {
@@ -52,29 +52,29 @@ self.addEventListener('fetch', event => {
 
   const url = event.request.url;
   
-  // Handle API requests - STALE-WHILE-REVALIDATE strategy
+  // Handle API requests - NETWORK FIRST strategy (always get fresh data)
   if (url.includes('pokeapi.co')) {
     event.respondWith(
-      caches.open(API_CACHE_NAME).then(cache => {
-        return cache.match(event.request).then(response => {
-          // Always fetch fresh data in background
-          const fetchPromise = fetch(event.request).then(networkResponse => {
-            if (!networkResponse || networkResponse.status !== 200) {
-              return networkResponse;
-            }
-            // Update cache with fresh response
-            const responseToCache = networkResponse.clone();
-            cache.put(event.request, responseToCache);
+      // Try network first
+      fetch(event.request)
+        .then(networkResponse => {
+          if (!networkResponse || networkResponse.status !== 200) {
             return networkResponse;
-          }).catch(error => {
-            console.log('Network fetch failed:', error);
-            return null;
+          }
+          // Cache the fresh response
+          const responseToCache = networkResponse.clone();
+          caches.open(API_CACHE_NAME).then(cache => {
+            cache.put(event.request, responseToCache);
           });
-          
-          // Return cached response immediately, or wait for network if no cache
-          return response || fetchPromise;
-        });
-      })
+          return networkResponse;
+        })
+        .catch(error => {
+          // If network fails, try cache as fallback
+          console.log('Network unavailable, trying cache:', error);
+          return caches.open(API_CACHE_NAME).then(cache => {
+            return cache.match(event.request);
+          });
+        })
     );
     return;
   }
