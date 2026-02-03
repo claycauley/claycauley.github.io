@@ -64,7 +64,7 @@ const STORAGE_KEYS = {
     LAST_SYNC: 'pokedex_last_sync',
     POKEMON_LIST: 'pokedex_pokemon_list',
     POKEMON_DATA: 'pokedex_pokemon_data',
-    CACHE_VERSION: 'pokedex_cache_v11'
+    CACHE_VERSION: 'pokedex_cache_v12'
 };
 
 const pokemonContainer = document.getElementById('pokemonContainer');
@@ -731,10 +731,11 @@ async function resetFilters() {
 // Update progress bar
 function updateProgress(percent) {
     progressBar.style.width = percent + '%';
-    // Also update loading screen progress if visible
-    const loadingProgress = document.getElementById('loading-progress');
-    if (loadingProgress) {
-        loadingProgress.style.width = percent + '%';
+    
+    // Also update splash screen progress bar if visible
+    const splashProgressBar = document.querySelector('.splash-progress-bar');
+    if (splashProgressBar) {
+        splashProgressBar.style.width = percent + '%';
     }
 }
 
@@ -742,10 +743,11 @@ function updateProgress(percent) {
 function completeProgress() {
     progressBar.style.width = '100%';
     progressBar.classList.add('complete');
-    // Also complete loading screen progress
-    const loadingProgress = document.getElementById('loading-progress');
-    if (loadingProgress) {
-        loadingProgress.style.width = '100%';
+    
+    // Also complete splash screen progress bar
+    const splashProgressBar = document.querySelector('.splash-progress-bar');
+    if (splashProgressBar) {
+        splashProgressBar.style.width = '100%';
     }
 }
 
@@ -810,7 +812,7 @@ async function init() {
     //     viewToggleBtn.addEventListener('click', toggleViewMode);
     // }
     
-    // Wire up form visibility toggles
+    // Wire up form visibility toggles BEFORE setting checked state
     if (showMegaToggle) {
         showMegaToggle.addEventListener('change', (e) => {
             showMegaEvolutions = e.target.checked;
@@ -832,6 +834,13 @@ async function init() {
             displayPage();
         });
     }
+    
+    // Initialize form visibility checkboxes to match default state (all true/checked)
+    // Do this AFTER setting up event listeners so displayPage is called initially
+    if (showMegaToggle) showMegaToggle.checked = showMegaEvolutions;
+    if (showGmaxToggle) showGmaxToggle.checked = showGigantamaxForms;
+    if (showRegionalVariantsToggle) showRegionalVariantsToggle.checked = showRegionalVariants;
+    
     // Wire up filters modal
     // Helper function to close modal with animation
     function closeModal(modal, modalContent) {
@@ -958,9 +967,10 @@ async function loadPokemonList() {
                 allPokemon.forEach(pokemon => {
                     const id = pokemon.url.split('/').filter(Boolean).pop();
                     if (!pokemonDataCache[id]) {
+                        const generation = pokemon.generation || getGenerationFromId(parseInt(id));
                         pokemonDataCache[id] = {
                             types: pokemon.types || [],
-                            generation: pokemon.generation || '',
+                            generation: generation,
                             isLegendary: pokemon.isLegendary || false,
                             isMythical: pokemon.isMythical || false,
                             isBaby: pokemon.isBaby || false,
@@ -1017,10 +1027,11 @@ async function loadPokemonList() {
         const enrichedPokemon = allPokemon.map(pokemon => {
             const id = pokemon.url.split('/').filter(Boolean).pop();
             const cache = pokemonDataCache[id];
+            const generation = cache?.generation || getGenerationFromId(id);
             return {
                 ...pokemon,
                 types: cache?.types || [],
-                generation: cache?.generation || '',
+                generation: generation,
                 isLegendary: cache?.isLegendary || false,
                 isMythical: cache?.isMythical || false,
                 isBaby: cache?.isBaby || false,
@@ -1146,6 +1157,7 @@ async function sortPokemonByNationalDex(pokemonList, onlyFirstHalf = false) {
 
 function displayPage() {
     let pagePokemon = filteredPokemon.length > 0 ? filteredPokemon : allPokemon;
+    console.log('displayPage called - allPokemon count:', allPokemon.length, 'filteredPokemon count:', filteredPokemon.length, 'initial pagePokemon count:', pagePokemon.length);
     
     // Filter out non-visible forms (Alola, Galar, Hisui, Paldea, etc.) from main display
     // These forms should only appear in the modal/details view
@@ -1177,6 +1189,7 @@ function displayPage() {
         
         return true;
     });
+
     
     // Apply favorites filter if enabled
     if (favoritesFilter && favoritesFilter.checked) {
@@ -1762,8 +1775,13 @@ function createPokemonCard(pokemon) {
     // Get the base National Dex number for display (for forms like Mega, Regional variants)
     const baseNationalDex = pokemonDataCache[id]?.baseNationalDexNumber || parseInt(id);
     
-    // Get types from cache
-    const types = pokemonDataCache[id]?.types || [];
+    // Get types from cache, but ensure they're enriched if missing
+    let types = pokemonDataCache[id]?.types || [];
+    
+    // If types are missing, schedule enrichment (don't wait, just queue it)
+    if (!types || types.length === 0) {
+        enrichPokemonData(pokemon).catch(err => console.error('Error enriching:', err));
+    }
     const typesHtml = types.map(type => `<span class="type-badge type-${type}">${type}</span>`).join('');
     
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
@@ -1825,13 +1843,16 @@ function createPokemonCard(pokemon) {
     img.addEventListener('load', async function() {
         const imageToAnalyze = this.src || imageUrl;
         const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
-        await applyCardGradient(card, pokemonId, imageToAnalyze, types);
+        // Get fresh types in case they were just enriched
+        const freshTypes = pokemonDataCache[pokemonId]?.types || types;
+        await applyCardGradient(card, pokemonId, imageToAnalyze, freshTypes);
     });
     
     // Handle case where image is cached and loads before event listener is attached
     if (img.complete && img.naturalHeight !== 0) {
         const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
-        applyCardGradient(card, pokemonId, img.src || imageUrl, types);
+        const freshTypes = pokemonDataCache[pokemonId]?.types || types;
+        applyCardGradient(card, pokemonId, img.src || imageUrl, freshTypes);
     }
 
     card.addEventListener('click', () => {
@@ -2874,71 +2895,20 @@ function showLoading() {
 function hideLoading() {
     loadingContainer.style.display = 'none';
 }
-
 function showLoadingScreen() {
-    // Create a full-screen loading overlay
-    let overlay = document.getElementById('loading-overlay');
-    if (!overlay) {
-        overlay = document.createElement('div');
-        overlay.id = 'loading-overlay';
-        overlay.style.cssText = `
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: linear-gradient(135deg, #000000 0%, #222222 100%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            font-family: 'Poppins', sans-serif;
-        `;
-        
-        overlay.innerHTML = `
-            <div style="text-align: center; width: 80%; max-width: 400px;">
-                <h1 style="color: white; font-size: 48px; margin-bottom: 40px; text-shadow: 2px 2px 4px rgba(0,0,0,0.3);">🔴 Pokédex</h1>
-                <div style="
-                    width: 100%;
-                    height: 6px;
-                    background: rgba(255,255,255,0.2);
-                    border-radius: 3px;
-                    overflow: hidden;
-                    margin-bottom: 20px;
-                ">
-                    <div id="loading-progress" style="
-                        width: 0%;
-                        height: 100%;
-                        background: #ef3b3b;
-                        transition: width 0.3s ease;
-                    "></div>
-                </div>
-                <p id="loading-text" style="color: white; font-size: 18px; margin-top: 20px;">Loading Pokémon...</p>
-            </div>
-        `;
-        document.body.appendChild(overlay);
-    }
-    overlay.style.display = 'flex';
-    overlay.style.opacity = '1';
+    loadingContainer.style.display = 'flex';
 }
 
 
 function hideLoadingScreen() {
-    const overlay = document.getElementById('loading-overlay');
-    if (overlay) {
-        // Wait 2 additional seconds to ensure all content has loaded
+    // Wait for color extraction to complete before fading out
+    setTimeout(() => {
+        loadingContainer.classList.add('complete');
+        // Wait for the animation (0.5s delay + 0.5s animation = 1s total)
         setTimeout(() => {
-            // Add CSS transition for fade-out
-            overlay.style.transition = 'opacity 0.6s ease-out';
-            overlay.style.opacity = '0';
-            
-            // Remove from DOM after fade is complete
-            setTimeout(() => {
-                overlay.style.display = 'none';
-            }, 600);
-        }, 2000);
-    }
+            loadingContainer.style.display = 'none';
+        }, 1000);
+    }, 3500);
 }
 
 function showError(message) {
