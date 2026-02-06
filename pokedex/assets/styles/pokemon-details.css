@@ -147,6 +147,7 @@
 .pokemonTypings .type-badge {
     border: none;
     height: 100%;
+    width: 1rem;
 }
 
 .type1, .type2 {
