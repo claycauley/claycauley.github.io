@@ -428,10 +428,6 @@ function updateHeartIcon(heartElement, pokemonId) {
 function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     const isFav = toggleFavorite(pokemonId);
     
-    // Get the extracted color from the card's ID element
-    const card = heartElement.closest('.pokemon-card');
-    const idElement = card?.querySelector('.pokemon-id');
-    
     // Update heart appearance
     if (isFav) {
         heartElement.innerHTML = '<span class="icon heart-icon favorite"></span>';
@@ -440,11 +436,6 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
         heartElement.innerHTML = '<span class="icon heart-icon not-favorite"></span>';
         heartElement.classList.remove('filled');
     }
-    
-    // Animate
-    heartElement.style.animation = 'none';
-    void heartElement.offsetWidth; // Trigger reflow
-    heartElement.style.animation = 'heartPulse 0.4s ease-out';
     
     // If filtering by favorites, re-display to reflect the change
     if (favoritesFilter && favoritesFilter.checked) {
@@ -1501,6 +1492,9 @@ function getOptimalTextColor(backgroundColor) {
     
     return '#000000';
 }
+
+/*
+// COMMENTED OUT: Color extraction functions (Vibrant.js removed, using type colors only)
 // Extract dominant color using Vibrant.js
 async function getDominantColorFromImage(imageUrl) {
     return new Promise((resolve) => {
@@ -1729,73 +1723,54 @@ function simpleCanvasAveraging(imageUrl) {
         }
     });
 }
+*/
+
+// Type color mapping
+const typeColors = {
+    'normal': '#999999',
+    'fire': '#ED6B3A',
+    'water': '#578AC9',
+    'electric': '#F8DC4A',
+    'grass': '#6CB645',
+    'ice': '#70BAE9',
+    'fighting': '#DB963B',
+    'poison': '#7B57A1',
+    'ground': '#A47C41',
+    'flying': '#8FB8E4',
+    'psychic': '#EA797B',
+    'bug': '#9EC14D',
+    'rock': '#BCB990',
+    'ghost': '#6A486F',
+    'dragon': '#5B70B3',
+    'dark': '#595566',
+    'steel': '#6D94A5',
+    'fairy': '#DFB8D7'
+};
+
+// Helper function to convert hex to rgba
+function hexToRgba(hex, opacity) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+}
 
 // Apply gradient background to card based on Pokemon type
-async function applyCardGradient(card, pokemonId, imageUrl, types) {
-    // Check if color is already cached
-    let dominantColor = pokemonColorCache[pokemonId];
-    
-    if (!dominantColor) {
-        // Extract color from image
-        dominantColor = await getDominantColorFromImage(imageUrl);
-        
-        // First fallback: try canvas with center bias
-        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-            dominantColor = await canvasColorExtractionWithCenterBias(imageUrl);
-        }
-        
-        // Second fallback: try simple averaging
-        if (dominantColor === '#ffffff' || dominantColor === '#f6f6f6') {
-            dominantColor = await simpleCanvasAveraging(imageUrl);
-        }
-        
-        // Cache the color for future use
-        pokemonColorCache[pokemonId] = dominantColor;
-    }
-    
-    // Build gradient using type colors
-    const typeColors = {
-        'normal': '#999999',
-        'fire': '#ED6B3A',
-        'water': '#578AC9',
-        'electric': '#F8DC4A',
-        'grass': '#6CB645',
-        'ice': '#70BAE9',
-        'fighting': '#DB963B',
-        'poison': '#7B57A1',
-        'ground': '#A47C41',
-        'flying': '#8FB8E4',
-        'psychic': '#EA797B',
-        'bug': '#9EC14D',
-        'rock': '#BCB990',
-        'ghost': '#6A486F',
-        'dragon': '#5B70B3',
-        'dark': '#595566',
-        'steel': '#6D94A5',
-        'fairy': '#DFB8D7'
-    };
-    
-    // Apply neutral dark gradient to card
-    card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
-    
-    // Create subtle type-color glow with 135deg gradient (diagonal)
+function applyCardGradient(card, pokemonId, imageUrl, types) {
+    // Create subtle type-color gradient with 135deg angle
     if (types.length === 2) {
         const type1Color = typeColors[types[0]] || '#A8A878';
         const type2Color = typeColors[types[1]] || '#A8A878';
-        card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type2Color.slice(1,3),16)}, ${parseInt(type2Color.slice(3,5),16)}, ${parseInt(type2Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
-        card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
+        const type1Rgba = hexToRgba(type1Color, 0.65);
+        const type2Rgba = hexToRgba(type2Color, 0.65);
+        card.style.background = `linear-gradient(135deg, ${type1Rgba} 0%, ${type2Rgba} 75%), #F6F6F6`;
     } else if (types.length === 1) {
         const type1Color = typeColors[types[0]] || '#A8A878';
-        card.style.background = `linear-gradient(135deg, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 15%, rgba(${parseInt(type1Color.slice(1,3),16)}, ${parseInt(type1Color.slice(3,5),16)}, ${parseInt(type1Color.slice(5,7),16)}, 0.65) 65%), rgb(246, 246, 246)`;
-        card.style.boxShadow = `rgba(255, 255, 255, 0.45) 0px 5px 5px inset, #000000 0px 2px 2px`;
+        const type1Rgba = hexToRgba(type1Color, 0.65);
+        card.style.background = `linear-gradient(135deg, ${type1Rgba} 0%, ${type1Rgba} 75%), #F6F6F6`;
     } else {
-        card.style.background = `linear-gradient(90deg, #111111 0%, #333333 100%)`;
-    }
-    
-    // Apply optimal text color to Pokemon name
-    const nameElement = card.querySelector('.pokemon-name');
-    if (nameElement) {
-        nameElement.style.color = '#000000';
+        // Fallback if no types available
+        card.style.background = '#F6F6F6';
     }
 }
 
@@ -1863,8 +1838,8 @@ function createPokemonCard(pokemon) {
         this.src = this.dataset.fallback;
     });
     
-    // Apply a default light gradient immediately to prevent flicker
-    card.style.background = `linear-gradient(90deg, rgb(255, 255, 255) 20%, rgb(230, 230, 230) 80%)`;
+    // Apply type-based gradient immediately based on card's types
+    applyCardGradient(card, id, imageUrl, types);
     
     // Update heart icon state based on favorites
     const heart = card.querySelector('.favorite-heart');
@@ -1882,26 +1857,11 @@ function createPokemonCard(pokemon) {
             img.src = cachedUrl;
         }
     });
-    
-    // Extract dominant color from image and apply it as a gradient background
-    img.addEventListener('load', async function() {
-        const imageToAnalyze = this.src || imageUrl;
-        const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
-        // Get fresh types in case they were just enriched
-        const freshTypes = pokemonDataCache[pokemonId]?.types || types;
-        await applyCardGradient(card, pokemonId, imageToAnalyze, freshTypes);
-    });
-    
-    // Handle case where image is cached and loads before event listener is attached
-    if (img.complete && img.naturalHeight !== 0) {
-        const pokemonId = pokemon.id || pokemon.url.split('/').filter(Boolean).pop();
-        const freshTypes = pokemonDataCache[pokemonId]?.types || types;
-        applyCardGradient(card, pokemonId, img.src || imageUrl, freshTypes);
-    }
 
     card.addEventListener('click', () => {
         lastClickedCard = card;
-        showPokemonDetails(pokemon);
+        // Open the new detail panel instead of modal
+        populateDetailPanel(pokemon);
     });
     return card;
 }
@@ -3025,6 +2985,182 @@ function setupCardAnimations() {
     });
 }
 
+// Pokemon Detail Panel Functions
+const pokemonDetailPanel = document.getElementById('pokemonDetailPanel');
+const pokemonDetailContent = document.getElementById('pokemonDetailContent');
+const pokemonDetailName = document.getElementById('pokemonDetailName');
+const detailCloseBtn = document.getElementById('detailCloseBtn');
+const testCard = document.getElementById('testCard');
+
+function openDetailPanel() {
+    // Remove closing class to reset state
+    pokemonDetailPanel.classList.remove('closing');
+    // Force reflow to ensure the DOM is updated before adding open class
+    void pokemonDetailPanel.offsetWidth;
+    // Now add open class for animation
+    pokemonDetailPanel.classList.add('open');
+}
+
+function closeDetailPanel() {
+    pokemonDetailPanel.classList.add('closing');
+    pokemonDetailPanel.classList.remove('open');
+    setTimeout(() => {
+        pokemonDetailPanel.style.display = 'none';
+    }, 400);
+}
+
+// Function to populate detail panel with Pokemon data
+// Pokemon IDs that should use the latest cry instead of legacy
+const pokemonUsingLatestCry = [5]; // Charmeleon
+
+// Helper function to get type gradient
+function getTypeGradient(types) {
+    if (types.length === 2) {
+        const type1Color = typeColors[types[0]] || '#A8A878';
+        const type2Color = typeColors[types[1]] || '#A8A878';
+        const type1Rgba = hexToRgba(type1Color, 1);
+        const type2Rgba = hexToRgba(type2Color, 1);
+        return `linear-gradient(135deg, ${type1Rgba} 0%, ${type2Rgba} 65%)`;
+    } else if (types.length === 1) {
+        const type1Color = typeColors[types[0]] || '#A8A878';
+        const type1Rgba = hexToRgba(type1Color, 1);
+        return `linear-gradient(135deg, ${type1Rgba} 0%, ${type1Rgba} 65%)`;
+    } else {
+        return '#A8A878';
+    }
+}
+
+async function populateDetailPanel(pokemon) {
+    try {
+        const response = await fetch(pokemon.url);
+        const data = await response.json();
+        
+        // Get the base National Dex number for this Pokemon form
+        let baseNationalDex = data.id;
+        if (data.species && data.species.url) {
+            try {
+                const speciesResponse = await fetch(data.species.url);
+                if (speciesResponse.ok) {
+                    const speciesData = await speciesResponse.json();
+                    baseNationalDex = speciesData.id;
+                }
+            } catch (error) {
+                console.error('Error fetching species data:', error);
+            }
+        }
+        
+        // Update the Pokemon name using the same formatting as elsewhere
+        if (pokemonDetailName) {
+            pokemonDetailName.textContent = formatPokemonName(data.name);
+        }
+        
+        // Setup cry button for detail panel
+        const cryButton = document.getElementById('cryButton');
+        if (cryButton && data.cries) {
+            // Check if this Pokemon should use latest cry
+            const useLatest = pokemonUsingLatestCry.includes(data.id);
+            const cryUrl = useLatest ? (data.cries.latest || data.cries.legacy) : (data.cries.legacy || data.cries.latest);
+            if (cryUrl) {
+                cryButton.style.display = 'inline-flex';
+                cryButton.onclick = (e) => {
+                    e.preventDefault();
+                    const audio = new Audio(cryUrl);
+                    audio.play().catch(error => {
+                        console.error(`Error playing cry for ${pokemon.name}:`, error);
+                    });
+                };
+            } else {
+                cryButton.style.display = 'none';
+            }
+        }
+        
+        // Setup favorite heart in detail panel
+        const favoriteHeart = document.querySelector('.pokemon-detail-panel .favorite-heart');
+        if (favoriteHeart) {
+            // Initialize heart state based on current favorite status
+            updateHeartIcon(favoriteHeart, data.id);
+            
+            // Add click handler for favorite toggle
+            favoriteHeart.onclick = (e) => {
+                e.stopPropagation();
+                toggleFavoriteWithAnimation(favoriteHeart, data.id);
+            };
+        }
+        
+        // Load pokemon.html content
+        try {
+            const contentResponse = await fetch('pokemon.html');
+            const contentHtml = await contentResponse.text();
+            pokemonDetailContent.innerHTML = contentHtml;
+            
+            // Apply type gradient to pokemonDetails section after content is loaded
+            if (data.types) {
+                const types = data.types.map(t => t.type.name);
+                const typeGradient = getTypeGradient(types);
+                
+                const pokemonDetailsSection = pokemonDetailContent.querySelector('.pokemonDetails');
+                if (pokemonDetailsSection) {
+                    pokemonDetailsSection.style.background = typeGradient;
+                }
+            }
+            
+            // Insert Pokemon image into .pokemonImage element
+            const imageUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+            const cachedImageUrl = await fetchImageWithCache(imageUrl);
+            const pokemonImageElement = pokemonDetailContent.querySelector('.pokemonImage img');
+            if (pokemonImageElement) {
+                pokemonImageElement.src = cachedImageUrl || imageUrl;
+                pokemonImageElement.alt = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+            }
+            
+            // Populate Pokemon National ID
+            const pokemonNationalID = pokemonDetailContent.querySelector('.pokemonNationalID');
+            if (pokemonNationalID) {
+                pokemonNationalID.textContent = baseNationalDex.toString().padStart(3, '0');
+            }
+        } catch (error) {
+            console.error('Error loading pokemon detail content:', error);
+        }
+        
+        // Show the detail panel
+        pokemonDetailPanel.style.display = 'block';
+        openDetailPanel();
+    } catch (error) {
+        console.error('Error loading Pokemon details:', error);
+    }
+}
+
+// Test card click handler
+if (testCard) {
+    testCard.addEventListener('click', async () => {
+        // Fetch the pokemon.html content
+        try {
+            const response = await fetch('pokemon.html');
+            const html = await response.text();
+            pokemonDetailContent.innerHTML = html;
+            pokemonDetailPanel.style.display = 'block';
+            openDetailPanel();
+        } catch (error) {
+            console.error('Error loading detail panel:', error);
+        }
+    });
+}
+
+// Close button handler
+if (detailCloseBtn) {
+    detailCloseBtn.addEventListener('click', closeDetailPanel);
+}
+
+// Close on background click (optional)
+if (pokemonDetailPanel) {
+    pokemonDetailPanel.addEventListener('click', (e) => {
+        if (e.target === pokemonDetailPanel) {
+            closeDetailPanel();
+        }
+    });
+}
+
 // Start the app
 init();
 setupCardAnimations();
+

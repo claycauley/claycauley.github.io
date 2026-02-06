@@ -15,8 +15,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <script src="https://jariz.github.io/vibrant.js/dist/Vibrant.js"></script>
-    <link rel="stylesheet" href="styles.css?v=9">
+    <link rel="stylesheet" href="assets/styles/styles.css?v=17">
+    <link rel="stylesheet" href="assets/styles/pokemon-details.css?v=17">
 </head>
 <body>
     <!-- Progress bar for background caching -->
@@ -40,7 +40,28 @@
             </button>
             <button id="openSettingsBtn" class="icon-btn" title="Open settings"><span class="icon settings"></span></button>
         </div>        <div id="errorContainer"></div>
+        
         <div id="pokemonContainer" class="pokemon-grid"></div>
+    </div>
+
+    <!-- Pokemon Detail Panel (slides up from bottom) -->
+    <div id="pokemonDetailPanel" class="pokemon-detail-panel">
+    
+        <div class="detailHeader">
+            <button id="detailCloseBtn" class="icon-btn back-btn" title="Go back">
+                <span class="icon back-arrow"></span>
+            </button>
+            <h1 id="pokemonDetailName"></h1>
+            <div class="additionalActions">
+                <button id="cryButton" class="cry-button" title="Play Cry">
+                    <span class="icon play"></span>
+                </button>
+                <div class="favorite-heart"><span class="icon heart-icon not-favorite"></span></div>
+            </div>
+        </div>
+        <div id="pokemonDetailContent">
+            <!-- Content will be loaded from pokemon.html -->
+        </div>
     </div>
 
     <!-- Loading/Splash Screen -->
@@ -59,7 +80,6 @@
                     <div class="modal-id" id="modalId"></div>
                     <div class="modal-name" id="modalName"></div>
                     <div class="modal-region" id="modalRegion"></div>
-                    <button id="cryButton" class="cry-button" title="Play Cry"><span class="icon play"></span> Cry</button>
                 </div>
             </div>
             <div id="modalTypes" class="pokemon-types" style="margin-bottom: 20px;"></div>

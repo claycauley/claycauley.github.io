@@ -5,7 +5,7 @@
   "start_url": "/pokedex/index.html",
   "scope": "/pokedex/",
   "display": "standalone",
-  "orientation": "any",
+  "orientation": "portrait",
   "background_color": "#000000",
   "theme_color": "#000000",
   "categories": ["reference"],

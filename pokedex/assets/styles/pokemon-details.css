@@ -1,0 +1,145 @@
+.detailHeader {
+    position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem .5rem;
+    background-color: #222222;
+    z-index: 5001;
+    display: grid;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+    transition: background 0.3s ease;
+}
+
+#pokemonDetailContent {
+    padding: .5rem;
+}
+
+.detailHeader h1 {
+    color: #F6F6F6;
+    font-size: 1.25rem;
+    letter-spacing: .5px;
+    line-height: 100%;
+    margin-bottom: 0;
+}
+
+.detailHeader {
+    align-items: center;
+    display: grid;
+    grid-template-columns: max-content 1fr max-content max-content;
+    text-align: center;
+}
+
+.detailHeader .back-btn {
+    box-shadow: none;
+    color: #F6F6F6;
+    padding: 0;
+    text-shadow: none;
+}
+
+.detailHeader .icon-btn {
+    min-width: inherit;
+}
+
+.detailHeader .additionalActions {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: auto auto;
+}
+
+.detailHeader .cry-button {
+    align-self: center;
+    background: transparent;
+    border: 1px solid #F6F6F6;
+    border-radius: 64px;
+    display: block;
+    height: 40px;
+    margin-left: auto;
+    padding: 0;
+    width: 40px;
+}
+
+.cry-button span.icon.play::before {
+    color: #F6F6F6;
+    font-size: 1.25rem;
+}
+
+.detailHeader .favorite-heart {
+    position: unset;
+}
+
+.detailHeader .additionalActions span.icon.heart-icon.not-favorite {
+    color: #F6F6F6;
+}
+
+.detailHeader .additionalActions span.icon.heart-icon.favorite {
+    color: #D6546A;
+}
+
+#pokemonDetailPanel {
+    background-color: #222222;
+}
+
+.pokemonDetails {
+    margin: -.5rem;
+    padding: .5rem;
+}
+
+.pokemonDetails .container {
+    color: #F6F6F6;
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: .75fr 1.25fr;
+    height: fit-content;
+}
+
+.pokemonIDandImage {
+    display: grid;
+    gap: .5rem;
+}
+
+.pokemonID {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #FFFFFF;
+    border-radius: .5rem;
+    display: grid;
+    font-weight: 700;
+    padding: .5rem;
+    justify-content: center;
+    text-align: center;
+}
+
+.pokemonImage {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #FFFFFF;
+    border-radius: .5rem;
+    padding: .5rem;
+}
+
+.pokemonImage img {
+    display: block;
+    width: 100%;
+}
+
+.pokemonInfo {
+    border: 1px solid #FFFFFF;
+    padding: .5rem;
+    border-radius: .5rem;
+    background-color: rgba(0, 0, 0, .5);
+}
+
+.paragraphGrid {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: max-content 1fr;
+    align-content: center;
+}
+
+.paragraphGrid .label {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: max-content 1fr;
+    align-content: center;
+}
