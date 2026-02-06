@@ -3118,6 +3118,14 @@ async function populateDetailPanel(pokemon) {
             if (pokemonNationalID) {
                 pokemonNationalID.textContent = baseNationalDex.toString().padStart(3, '0');
             }
+            
+            // Populate Pokemon Region
+            const pokemonDetailRegion = pokemonDetailContent.querySelector('#pokemonDetailRegion');
+            if (pokemonDetailRegion) {
+                const generation = pokemonDataCache[baseNationalDex]?.generation || getGenerationFromId(baseNationalDex);
+                const region = getRegionFromGeneration(generation);
+                pokemonDetailRegion.textContent = `${region} Region`;
+            }
         } catch (error) {
             console.error('Error loading pokemon detail content:', error);
         }
