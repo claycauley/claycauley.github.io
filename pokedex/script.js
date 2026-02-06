@@ -3126,6 +3126,40 @@ async function populateDetailPanel(pokemon) {
                 const region = getRegionFromGeneration(generation);
                 pokemonDetailRegion.textContent = `${region} Region`;
             }
+            
+            // Populate Pokemon Types
+            if (data.types) {
+                const type1Display = pokemonDetailContent.querySelector('#pokemonType1Display');
+                const type2Display = pokemonDetailContent.querySelector('#pokemonType2Display');
+                const type1Container = type1Display?.closest('.type1');
+                const type2Container = type2Display?.closest('.type2');
+                
+                if (type1Display && data.types[0]) {
+                    const type1Name = data.types[0].type.name;
+                    const type1Color = typeColors[type1Name] || '#A8A878';
+                    type1Display.innerHTML = `<span class="type-badge type-${type1Name}"></span><strong>${type1Name.charAt(0).toUpperCase() + type1Name.slice(1)}</strong>`;
+                    if (type1Container) {
+                        type1Container.style.backgroundColor = type1Color;
+                    }
+                }
+                
+                if (type2Display) {
+                    if (data.types[1]) {
+                        const type2Name = data.types[1].type.name;
+                        const type2Color = typeColors[type2Name] || '#A8A878';
+                        type2Display.innerHTML = `<span class="type-badge type-${type2Name}"></span><strong>${type2Name.charAt(0).toUpperCase() + type2Name.slice(1)}</strong>`;
+                        if (type2Container) {
+                            type2Container.style.backgroundColor = type2Color;
+                        }
+                    } else {
+                        // If no second type, hide the type2 section and make type1 span 2 columns
+                        type2Container.style.display = 'none';
+                        if (type1Container) {
+                            type1Container.style.gridColumn = 'span 2';
+                        }
+                    }
+                }
+            }
         } catch (error) {
             console.error('Error loading pokemon detail content:', error);
         }

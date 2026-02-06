@@ -130,6 +130,33 @@
     background-color: rgba(0, 0, 0, .5);
 }
 
+.pokemonTypings {
+    border: 1px solid #FFFFFF;
+    padding: .5rem;
+    border-radius: .5rem;
+    background-color: rgba(0, 0, 0, .5);
+    grid-column: span 2;
+}
+
+.dualTyping {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: 1fr 1fr;
+}
+
+.pokemonTypings .type-badge {
+    border: none;
+    height: 100%;
+}
+
+.type1, .type2 {
+    background-color: var(--type-bg-color, rgba(0, 0, 0, 0.3));
+    padding: .25rem;
+    border-radius: .25rem;
+    justify-content: center;
+    display: grid;
+}
+
 .paragraphGrid {
     display: grid;
     gap: .5rem;
