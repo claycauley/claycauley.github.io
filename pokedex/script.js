@@ -437,6 +437,12 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
         heartElement.classList.remove('filled');
     }
     
+    // Also update the corresponding heart on the list (if it exists)
+    const listHeart = document.querySelector(`.pokemon-card .favorite-heart[data-pokemon-id="${pokemonId}"]`);
+    if (listHeart) {
+        updateHeartIcon(listHeart, pokemonId);
+    }
+    
     // If filtering by favorites, re-display to reflect the change
     if (favoritesFilter && favoritesFilter.checked) {
         displayPage();
@@ -3009,6 +3015,14 @@ function closeDetailPanel() {
     }, 400);
 }
 
+function filterByType(typeName) {
+    // Set the type filter dropdown to the selected type
+    if (typeFilter) {
+        typeFilter.value = typeName;
+        applyFilters();
+    }
+}
+
 // Function to populate detail panel with Pokemon data
 // Pokemon IDs that should use the latest cry instead of legacy
 const pokemonUsingLatestCry = [5]; // Charmeleon
@@ -3020,7 +3034,7 @@ function getTypeGradient(types) {
         const type2Color = typeColors[types[1]] || '#A8A878';
         const type1Rgba = hexToRgba(type1Color, 1);
         const type2Rgba = hexToRgba(type2Color, 1);
-        return `linear-gradient(135deg, ${type1Rgba} 0%, ${type2Rgba} 65%)`;
+        return `linear-gradient(145deg, ${type1Rgba} 0%, ${type2Rgba} 65%)`;
     } else if (types.length === 1) {
         const type1Color = typeColors[types[0]] || '#A8A878';
         const type1Rgba = hexToRgba(type1Color, 1);
@@ -3102,6 +3116,24 @@ async function populateDetailPanel(pokemon) {
                 if (pokemonDetailsSection) {
                     pokemonDetailsSection.style.background = typeGradient;
                 }
+                
+                // Apply gradient to detailHeader (90 degree with 0.15 opacity)
+                const detailHeader = document.querySelector('.pokemon-detail-panel .detailHeader');
+                if (detailHeader && types.length > 0) {
+                    if (types.length === 2) {
+                        const type1Color = typeColors[types[0]] || '#A8A878';
+                        const type2Color = typeColors[types[1]] || '#A8A878';
+                        const type1Rgba = hexToRgba(type1Color, 0.15);
+                        const type2Rgba = hexToRgba(type2Color, 0.15);
+                        const headerGradient = `linear-gradient(90deg, ${type1Rgba} 0%, ${type2Rgba} 75%)`;
+                        detailHeader.style.background = headerGradient;
+                    } else if (types.length === 1) {
+                        const type1Color = typeColors[types[0]] || '#A8A878';
+                        const type1Rgba = hexToRgba(type1Color, 0.15);
+                        const headerGradient = `linear-gradient(90deg, ${type1Rgba} 0%, ${type1Rgba} 75%)`;
+                        detailHeader.style.background = headerGradient;
+                    }
+                }
             }
             
             // Insert Pokemon image into .pokemonImage element
@@ -3119,12 +3151,52 @@ async function populateDetailPanel(pokemon) {
                 pokemonNationalID.textContent = baseNationalDex.toString().padStart(3, '0');
             }
             
+            // Populate Pokemon Species (genus) from species data
+            const pokemonSpeciesFull = pokemonDetailContent.querySelector('.pokemonSpeciesFull');
+            if (pokemonSpeciesFull) {
+                try {
+                    const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${baseNationalDex}`;
+                    const speciesResponse = await fetch(speciesUrl);
+                    const speciesData = await speciesResponse.json();
+                    
+                    // Get English genus
+                    const englishGenus = speciesData.genera?.find(g => g.language.name === 'en')?.genus;
+                    if (englishGenus) {
+                        pokemonSpeciesFull.textContent = englishGenus;
+                    }
+                } catch (error) {
+                    console.error('Error fetching species genus:', error);
+                }
+            }
+            
             // Populate Pokemon Region
             const pokemonDetailRegion = pokemonDetailContent.querySelector('#pokemonDetailRegion');
             if (pokemonDetailRegion) {
                 const generation = pokemonDataCache[baseNationalDex]?.generation || getGenerationFromId(baseNationalDex);
                 const region = getRegionFromGeneration(generation);
                 pokemonDetailRegion.textContent = region;
+            }
+            
+            // Populate Pokemon Height and Weight
+            const pokemonDetailHeight = pokemonDetailContent.querySelector('#pokemonDetailHeight');
+            const pokemonDetailWeight = pokemonDetailContent.querySelector('#pokemonDetailWeight');
+            
+            if (pokemonDetailHeight && data.height) {
+                // Height is in decimeters, convert to meters
+                const heightInMeters = data.height / 10;
+                // Convert meters to feet and inches
+                const totalInches = heightInMeters / 0.0254;
+                const feet = Math.floor(totalInches / 12);
+                const inches = Math.round(totalInches % 12);
+                pokemonDetailHeight.innerHTML = `${feet}'${inches}" <span class="metricHeight">(${heightInMeters.toFixed(2)} m)</span>`;
+            }
+            
+            if (pokemonDetailWeight && data.weight) {
+                // Weight is in hectograms, convert to kilograms
+                const weightInKg = data.weight / 10;
+                // Convert kilograms to pounds
+                const weightInLbs = Math.round(weightInKg * 2.20462);
+                pokemonDetailWeight.innerHTML = `${weightInLbs} lbs <span class="metricWeight">(${weightInKg.toFixed(2)} kg)</span>`;
             }
             
             // Populate Pokemon Types
@@ -3140,6 +3212,12 @@ async function populateDetailPanel(pokemon) {
                     type1Display.innerHTML = `<span class="type-badge type-${type1Name}"></span><strong>${type1Name.charAt(0).toUpperCase() + type1Name.slice(1)}</strong>`;
                     if (type1Container) {
                         type1Container.style.backgroundColor = type1Color;
+                        // Add click handler to filter by type1
+                        type1Container.style.cursor = 'pointer';
+                        type1Container.onclick = () => {
+                            closeDetailPanel();
+                            filterByType(type1Name);
+                        };
                     }
                 }
                 
@@ -3150,6 +3228,12 @@ async function populateDetailPanel(pokemon) {
                         type2Display.innerHTML = `<span class="type-badge type-${type2Name}"></span><strong>${type2Name.charAt(0).toUpperCase() + type2Name.slice(1)}</strong>`;
                         if (type2Container) {
                             type2Container.style.backgroundColor = type2Color;
+                            // Add click handler to filter by type2
+                            type2Container.style.cursor = 'pointer';
+                            type2Container.onclick = () => {
+                                closeDetailPanel();
+                                filterByType(type2Name);
+                            };
                         }
                     } else {
                         // If no second type, hide the type2 section and make type1 span 2 columns

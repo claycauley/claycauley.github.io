@@ -1,12 +1,15 @@
 <section class="pokemonDetails">
+    <div class="pokemonIDAndSpecies">
+        <div class="pokemonID">
+            <p class="paragraphGrid"><span class="icon idBadge"></span><strong class="pokemonNationalID"></strong></p>
+        </div>
+        <div class="pokemonSpecies">
+            <p class="paragraphGrid"><strong class="pokemonSpeciesFull">Seed Pokemon</strong></p>
+        </div>
+    </div>
     <div class="container">
-        <div class="pokemonIDandImage">
-            <div class="pokemonID">
-                <p class="paragraphGrid"><span class="icon idBadge"></span><strong class="pokemonNationalID"></strong></p>
-            </div>
-            <div class="pokemonImage">
-                <img src="https://placehold.co/140" alt="Pokemon Detail Background">
-            </div>
+        <div class="pokemonImage">
+            <img src="https://placehold.co/140" alt="Pokemon Detail Background">
         </div>
         <div class="pokemonInfo">
             <p class="paragraphGrid">
@@ -15,8 +18,21 @@
                 </span>
                 <span id="pokemonDetailRegion"></span>
             </p>
+            <p class="paragraphGrid">
+                <span class="label">
+                    <span class="icon height"></span><strong>Height:</strong>
+                </span>
+                <span id="pokemonDetailHeight"></span>
+            </p>
+            <p class="paragraphGrid">
+                <span class="label">
+                    <span class="icon weight"></span><strong>Weight:</strong>
+                </span>
+                <span id="pokemonDetailWeight"></span>
+            </p>
         </div>
-        <div class="pokemonTypings">
+    </div>
+    <div class="pokemonTypings">
             <div class="dualTyping">
                 <div class="type1">
                     <p class="paragraphGrid" id="pokemonType1Display">
@@ -29,6 +45,5 @@
                     </p>
                 </div>
             </div>
-        </div>
     </div>
 </section>

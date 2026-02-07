@@ -19,14 +19,16 @@
 
 .detailHeader h1 {
     color: #F6F6F6;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     letter-spacing: .5px;
     line-height: 100%;
     margin-bottom: 0;
+    text-shadow: none;
 }
 
 .detailHeader {
     align-items: center;
+    border-bottom: 2px solid #000000;
     display: grid;
     grid-template-columns: max-content 1fr max-content max-content;
     text-align: center;
@@ -83,6 +85,9 @@
 }
 
 .pokemonDetails {
+    display: grid;
+    color: #F6F6F6;
+    gap: .5rem;
     margin: -.5rem;
     padding: .5rem;
 }
@@ -95,25 +100,37 @@
     height: fit-content;
 }
 
-.pokemonIDandImage {
+.pokemonIDAndSpecies {
     display: grid;
     gap: .5rem;
+    grid-template-columns: max-content auto;
+}
+
+.pokemonSpecies {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid #F6F6F6;
+    border-radius: .5rem;
+    display: grid;
+    font-weight: 700;
+    padding: .5rem 1.5rem;
+    justify-content: center;
+    text-align: center;
 }
 
 .pokemonID {
     background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid #FFFFFF;
+    border: 1px solid #F6F6F6;
     border-radius: .5rem;
     display: grid;
     font-weight: 700;
-    padding: .5rem;
+    padding: .5rem 1.5rem;
     justify-content: center;
     text-align: center;
 }
 
 .pokemonImage {
     background-color: rgba(0, 0, 0, 0.5);
-    border: 1px solid #FFFFFF;
+    border: 1px solid #F6F6F6;
     border-radius: .5rem;
     padding: .5rem;
 }
@@ -124,19 +141,25 @@
 }
 
 .pokemonInfo {
-    border: 1px solid #FFFFFF;
-    padding: .5rem;
-    border-radius: .5rem;
-    background-color: rgba(0, 0, 0, .5);
     align-content: center;
+    background-color: rgba(0, 0, 0, .5);
+    border-radius: .5rem;
+    border: 1px solid #F6F6F6;
+    display: grid;
+    gap: .5rem;
+    padding: .5rem;
+}
+
+.metricHeight,
+.metricWeight {
+    font-size: .75rem;
 }
 
 .pokemonTypings {
-    border: 1px solid #FFFFFF;
+    border: 1px solid #F6F6F6;
     padding: .5rem;
     border-radius: .5rem;
     background-color: rgba(0, 0, 0, .5);
-    grid-column: span 2;
 }
 
 .dualTyping {
@@ -168,7 +191,7 @@
 
 .paragraphGrid .label {
     display: grid;
-    gap: .5rem;
-    grid-template-columns: max-content 1fr;
+    gap: .25rem;
+    grid-template-columns: 1.25rem 1fr;
     align-content: center;
 }
