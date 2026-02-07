@@ -3124,7 +3124,7 @@ async function populateDetailPanel(pokemon) {
             if (pokemonDetailRegion) {
                 const generation = pokemonDataCache[baseNationalDex]?.generation || getGenerationFromId(baseNationalDex);
                 const region = getRegionFromGeneration(generation);
-                pokemonDetailRegion.textContent = `${region} Region`;
+                pokemonDetailRegion.textContent = region;
             }
             
             // Populate Pokemon Types
