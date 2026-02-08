@@ -4,10 +4,10 @@
     border-bottom: 2px solid #000000;
     display: grid;
     gap: .5rem;
-    grid-template-columns: max-content 1fr max-content max-content;
+    grid-template-columns: max-content 1fr max-content;
     justify-content: flex-start;
     left: 0;
-    padding: 1rem .5rem;
+    padding: .75rem .5rem;
     position: sticky;
     right: 0;
     text-align: center;
@@ -23,7 +23,7 @@
 
 .detailHeader h1 {
     color: #F6F6F6;
-    font-size: 1.5rem;
+    font-size: 1.375rem;
     letter-spacing: .5px;
     line-height: 100%;
     margin-bottom: 0;
@@ -31,9 +31,13 @@
 }
 
 .detailHeader .back-btn {
+    align-self: stretch;
+    border-radius: 8px;
+    border: 1px solid #f6f6f6;
     box-shadow: none;
     color: #F6F6F6;
-    padding: 0;
+    height: unset;
+    padding: 0 1rem;
     text-shadow: none;
 }
 
@@ -43,20 +47,19 @@
 
 .detailHeader .additionalActions {
     display: grid;
-    gap: 1rem;
+    gap: .5rem;
     grid-template-columns: auto auto;
 }
 
 .detailHeader .cry-button {
-    align-self: center;
+    align-self: stretch;
     background: transparent;
     border: 1px solid #F6F6F6;
-    border-radius: 64px;
+    border-radius: .5rem;
     display: block;
     height: 40px;
     margin-left: auto;
-    padding: 0;
-    width: 40px;
+    padding: 0 1rem;
 }
 
 .cry-button span.icon.play::before {
@@ -84,7 +87,7 @@
     display: grid;
     color: #F6F6F6;
     gap: .5rem;
-    margin: -.5rem;
+    margin: -.5rem -.5rem auto -.5rem;
     padding: .5rem;
 }
 
@@ -148,7 +151,7 @@
 
 .metricHeight,
 .metricWeight {
-    font-size: .75rem;
+    font-size: .65rem;
 }
 
 .pokemonTypings {
@@ -192,11 +195,18 @@
     align-content: center;
 }
 
+.paragraphGrid.reverse {
+    gap: .25rem;
+    grid-template-columns: 1fr max-content;
+}
+
 .additionalPokemonInfo {
     border: 1px solid #F6F6F6;
     border-radius: .5rem;
     color: #F6F6F6;
+    display: grid;
     font-size: .875rem;
+    gap: .5rem;
     padding: 1.5rem .5rem;
     position: relative;
 }
@@ -211,4 +221,69 @@
     padding: .5rem;
     position: absolute;
     top: -1.25rem;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.genderBreakdownContainer {
+    display: grid;
+    gap: .5rem;
+}
+
+.genderless {
+    color: #F6F6F6;
+    font-size: .875rem;
+    font-weight: 700;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    justify-items: center;
+    text-align: center;
+}
+
+.genderBar {
+    border-radius: .25rem; 
+    display: flex;
+    flex: 1; 
+    height: 2rem; 
+    overflow: hidden; 
+}
+
+.genderPercentage {
+    display: flex;
+    font-size: .875rem;
+    font-weight: 700;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+}
+
+.dexEntryVersionSelectorContainer {
+    align-items: center;
+    border-top: 1px solid #f6f6f6;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: max-content 1fr;
+    margin-top: .5rem;
+    padding-top: 1.5rem;
+}
+
+.dexEntryVersionSelectorContainer h3 {
+    font-size: .875rem;
+}
+
+.dexEntryVersionSelector {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #222222;
+    border-radius: .25rem;
+    border: 1px solid #F6F6F6;
+    color: #F6F6F6;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-size: .875rem;
+    font-weight: 700;
+    outline: none;
+    padding: .5rem;
+    text-align: center;
+    width: 100%;
 }

@@ -55,6 +55,15 @@ span.icon.weight::before {
 span.icon.idBadge::before {
     content: '\f47f';
 }
+span.icon.male::before {
+    content: '\f222';
+}
+span.icon.female::before {
+    content: '\f221';
+}
+span.icon.genderless::before {
+    content: '\f224';
+}
 
 /* Heart icon states */
 span.icon.heart-icon {

@@ -191,7 +191,7 @@ function formatPokemonName(name) {
         const displayName = baseName.split('-').map(word => 
             word.charAt(0).toUpperCase() + word.slice(1)
         ).join(' ');
-        return `Gmax ${displayName}`;
+        return `GMAX ${displayName}`;
     }
     
     // Handle multi-word form suffixes (e.g., pikachu-original-cap -> Original Cap Pikachu)
@@ -1945,7 +1945,6 @@ async function showPokemonDetails(pokemon) {
         const cryButton = document.getElementById('cryButton');
         const cryUrl = data.cries.legacy || data.cries.latest;
         if (cryUrl) {
-            cryButton.style.display = 'inline-block';
             cryButton.onclick = () => {
                 const audio = new Audio(cryUrl);
                 audio.play();
@@ -2047,13 +2046,13 @@ async function showPokemonDetails(pokemon) {
                     <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 8px;">Gender</div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div style="flex: 1; height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
-                            <div style="width: ${malePercent}%; background-color: #6BA3FF; transition: width 0.3s ease;"></div>
-                            <div style="width: ${femalePercent}%; background-color: #FF6B9D; transition: width 0.3s ease;"></div>
+                            <div style="width: ${malePercent}%; background-color: #578AC9; transition: width 0.3s ease;"></div>
+                            <div style="width: ${femalePercent}%; background-color: #EA797B; transition: width 0.3s ease;"></div>
                         </div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
-                        <span style="color: #6BA3FF;">♂ ${malePercent.toFixed(1)}%</span>
-                        <span style="color: #FF6B9D;">♀ ${femalePercent.toFixed(1)}%</span>
+                    <div class="genderPercentage">
+                        <span style="color: #578AC9;"><span class="icon male"></span> ${malePercent.toFixed(1)}%</span>
+                        <span style="color: #EA797B;"><span class="icon female"></span> ${femalePercent.toFixed(1)}%</span>
                     </div>
                 </div>
             `;
@@ -3075,7 +3074,6 @@ async function populateDetailPanel(pokemon) {
             const useLatest = pokemonUsingLatestCry.includes(data.id);
             const cryUrl = useLatest ? (data.cries.latest || data.cries.legacy) : (data.cries.legacy || data.cries.latest);
             if (cryUrl) {
-                cryButton.style.display = 'inline-flex';
                 cryButton.onclick = (e) => {
                     e.preventDefault();
                     const audio = new Audio(cryUrl);
@@ -3245,22 +3243,131 @@ async function populateDetailPanel(pokemon) {
                 }
             }
             
-            // Populate Pokédex Entry (latest entry)
+            // Populate Pokédex Entry with version selector
             const dexEntryText = pokemonDetailContent.querySelector('.dexEntryText');
-            if (dexEntryText) {
+            const dexEntryVersionSelector = pokemonDetailContent.querySelector('.dexEntryVersionSelector');
+            
+            if (dexEntryText && dexEntryVersionSelector) {
                 try {
                     const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${baseNationalDex}`;
                     const speciesResponse = await fetch(speciesUrl);
                     const speciesData = await speciesResponse.json();
                     
-                    // Get the latest English flavor text entry
+                    // Get all English flavor text entries with version info
                     const englishEntries = speciesData.flavor_text_entries?.filter(entry => entry.language.name === 'en') || [];
+                    
                     if (englishEntries.length > 0) {
-                        // Get the last entry (latest game)
-                        const latestEntry = englishEntries[englishEntries.length - 1].flavor_text;
-                        // Clean up the text (remove newlines and form feeds)
-                        const cleanedText = latestEntry.replace(/[\n\f]/g, ' ').trim();
+                        // Build a map of version names to entries, preserving the first occurrence of each version
+                        const versionMap = {};
+                        const versionOrder = [];
+                        
+                        englishEntries.forEach(entry => {
+                            const versionName = entry.version.name;
+                            if (!versionMap[versionName]) {
+                                versionMap[versionName] = entry;
+                                versionOrder.push(versionName);
+                            }
+                        });
+                        
+                        // Version display names mapping
+                        const versionDisplayNames = {
+                            'red': 'Red & Blue',
+                            'blue': 'Red & Blue',
+                            'yellow': 'Yellow',
+                            'gold': 'Gold & Silver',
+                            'silver': 'Gold & Silver',
+                            'crystal': 'Crystal',
+                            'ruby': 'Ruby & Sapphire',
+                            'sapphire': 'Ruby & Sapphire',
+                            'emerald': 'Emerald',
+                            'firered': 'FireRed & LeafGreen',
+                            'leafgreen': 'FireRed & LeafGreen',
+                            'diamond': 'Diamond & Pearl',
+                            'pearl': 'Diamond & Pearl',
+                            'platinum': 'Platinum',
+                            'heartgold': 'HeartGold & SoulSilver',
+                            'soulsilver': 'HeartGold & SoulSilver',
+                            'black': 'Black & White',
+                            'white': 'Black & White',
+                            'black-2': 'Black 2 & White 2',
+                            'white-2': 'Black 2 & White 2',
+                            'x': 'X & Y',
+                            'y': 'X & Y',
+                            'omega-ruby': 'Omega Ruby & Alpha Sapphire',
+                            'alpha-sapphire': 'Omega Ruby & Alpha Sapphire',
+                            'sun': 'Sun & Moon',
+                            'moon': 'Sun & Moon',
+                            'ultra-sun': 'Ultra Sun & Ultra Moon',
+                            'ultra-moon': 'Ultra Sun & Ultra Moon',
+                            'lets-go-pikachu': 'Let\'s Go Pikachu',
+                            'lets-go-eevee': 'Let\'s Go Eevee',
+                            'sword': 'Sword & Shield',
+                            'shield': 'Sword & Shield',
+                            'brilliant-diamond': 'Brilliant Diamond & Shining Pearl',
+                            'shining-pearl': 'Brilliant Diamond & Shining Pearl',
+                            'legends-arceus': 'Legends: Arceus',
+                            'scarlet': 'Scarlet & Violet',
+                            'violet': 'Scarlet & Violet'
+                        };
+                        
+                        // Generation to original game version mapping
+                        const generationToOriginalVersion = {
+                            'generation-i': 'red',        // Red/Blue
+                            'generation-ii': 'gold',      // Gold/Silver
+                            'generation-iii': 'ruby',     // Ruby/Sapphire
+                            'generation-iv': 'diamond',   // Diamond/Pearl
+                            'generation-v': 'black',      // Black/White
+                            'generation-vi': 'x',         // X/Y
+                            'generation-vii': 'sun',      // Sun/Moon
+                            'generation-viii': 'sword',   // Sword/Shield
+                            'generation-ix': 'scarlet'    // Scarlet/Violet
+                        };
+                        
+                        // Clear existing options (except the first one as it's a template)
+                        while (dexEntryVersionSelector.options.length > 1) {
+                            dexEntryVersionSelector.remove(1);
+                        }
+                        
+                        // Build unique display names and add options in order
+                        const addedDisplayNames = new Set();
+                        versionOrder.forEach(versionName => {
+                            const displayName = versionDisplayNames[versionName] || versionName;
+                            
+                            // Only add each display name once (to avoid duplicates like "Red/Blue" twice)
+                            if (!addedDisplayNames.has(displayName)) {
+                                const option = document.createElement('option');
+                                option.value = versionName;
+                                option.textContent = displayName;
+                                dexEntryVersionSelector.appendChild(option);
+                                addedDisplayNames.add(displayName);
+                            }
+                        });
+                        
+                        // Determine which version to select: original generation's game, or fallback to latest
+                        let selectedVersionName = versionOrder[versionOrder.length - 1]; // default to latest
+                        const generationName = speciesData.generation.name;
+                        const originalGameVersion = generationToOriginalVersion[generationName];
+                        
+                        // Check if the Pokémon has an entry for its original generation's game
+                        if (originalGameVersion && versionMap[originalGameVersion]) {
+                            selectedVersionName = originalGameVersion;
+                        }
+                        
+                        // Set the selected entry and dropdown value
+                        const selectedEntry = versionMap[selectedVersionName].flavor_text;
+                        const cleanedText = selectedEntry.replace(/[\n\f]/g, ' ').trim();
                         dexEntryText.textContent = cleanedText;
+                        dexEntryVersionSelector.value = selectedVersionName;
+                        
+                        // Add event listener for dropdown changes
+                        dexEntryVersionSelector.addEventListener('change', function() {
+                            const selectedVersion = this.value;
+                            const selectedEntry = versionMap[selectedVersion];
+                            if (selectedEntry) {
+                                const cleanedText = selectedEntry.flavor_text.replace(/[\n\f]/g, ' ').trim();
+                                dexEntryText.textContent = cleanedText;
+                            }
+                        });
                     }
                 } catch (error) {
                     console.error('Error fetching Pokédex entry:', error);
@@ -3278,7 +3385,7 @@ async function populateDetailPanel(pokemon) {
                     let genderHtml = '';
                     
                     if (speciesData.gender_rate === -1) {
-                        genderHtml = '<div style="color: #CCC; font-size: 14px;">Genderless</div>';
+                        genderHtml = '<p class="paragraphGrid genderless"><span class="icon genderless"></span>Genderless</p>';
                     } else {
                         const femalePercent = (speciesData.gender_rate / 8) * 100;
                         const malePercent = 100 - femalePercent;
@@ -3286,16 +3393,14 @@ async function populateDetailPanel(pokemon) {
                         const femaleColor = typeColors['psychic'];
                         
                         genderHtml = `
-                            <div>
-                                <div style="display: flex; align-items: center; gap: 10px;">
-                                    <div style="flex: 1; height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
-                                        <div style="width: ${malePercent}%; background-color: ${maleColor}; transition: width 0.3s ease;"></div>
-                                        <div style="width: ${femalePercent}%; background-color: ${femaleColor}; transition: width 0.3s ease;"></div>
-                                    </div>
+                            <div class="genderBreakdownContainer">
+                                <div class="genderPercentage">
+                                    <p class="paragraphGrid reverse">${malePercent.toFixed(1)}% Male<span class="icon male"></span></p>
+                                    <p class="paragraphGrid reverse">${femalePercent.toFixed(1)}% Female<span class="icon female"></span></p>
                                 </div>
-                                <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
-                                    <span style="color: ${maleColor};">♂ ${malePercent.toFixed(1)}%</span>
-                                    <span style="color: ${femaleColor};">♀ ${femalePercent.toFixed(1)}%</span>
+                                <div class="genderBar">
+                                    <div style="width: ${malePercent}%; background-color: ${maleColor};"></div>
+                                    <div style="width: ${femalePercent}%; background-color: ${femaleColor};"></div>
                                 </div>
                             </div>
                         `;
@@ -3337,15 +3442,6 @@ if (testCard) {
 // Close button handler
 if (detailCloseBtn) {
     detailCloseBtn.addEventListener('click', closeDetailPanel);
-}
-
-// Close on background click (optional)
-if (pokemonDetailPanel) {
-    pokemonDetailPanel.addEventListener('click', (e) => {
-        if (e.target === pokemonDetailPanel) {
-            closeDetailPanel();
-        }
-    });
 }
 
 // Start the app
