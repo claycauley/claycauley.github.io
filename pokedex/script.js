@@ -1767,12 +1767,12 @@ function applyCardGradient(card, pokemonId, imageUrl, types) {
     if (types.length === 2) {
         const type1Color = typeColors[types[0]] || '#A8A878';
         const type2Color = typeColors[types[1]] || '#A8A878';
-        const type1Rgba = hexToRgba(type1Color, 0.8);
-        const type2Rgba = hexToRgba(type2Color, 0.8);
+        const type1Rgba = hexToRgba(type1Color, 0.65);
+        const type2Rgba = hexToRgba(type2Color, 0.65);
         card.style.background = `linear-gradient(135deg, ${type1Rgba} 40%, ${type2Rgba} 60%), #F6F6F6`;
     } else if (types.length === 1) {
         const type1Color = typeColors[types[0]] || '#A8A878';
-        const type1Rgba = hexToRgba(type1Color, 0.8);
+        const type1Rgba = hexToRgba(type1Color, 0.65);
         card.style.background = `linear-gradient(90deg, ${type1Rgba} 0%, ${type1Rgba} 80%), #F6F6F6`;
     } else {
         // Fallback if no types available
