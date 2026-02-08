@@ -3125,12 +3125,12 @@ async function populateDetailPanel(pokemon) {
                         const type2Color = typeColors[types[1]] || '#A8A878';
                         const type1Rgba = hexToRgba(type1Color, 0.15);
                         const type2Rgba = hexToRgba(type2Color, 0.15);
-                        const headerGradient = `linear-gradient(135deg, ${type1Rgba} 45%, ${type2Rgba} 55%)`;
+                        const headerGradient = `linear-gradient(135deg, ${type1Rgba} 45%, ${type2Rgba} 55%), #222222`;
                         detailHeader.style.background = headerGradient;
                     } else if (types.length === 1) {
                         const type1Color = typeColors[types[0]] || '#A8A878';
                         const type1Rgba = hexToRgba(type1Color, 0.15);
-                        const headerGradient = `linear-gradient(90deg, ${type1Rgba} 0%, ${type1Rgba} 100%)`;
+                        const headerGradient = `linear-gradient(90deg, ${type1Rgba} 0%, ${type1Rgba} 100%), #222222`;
                         detailHeader.style.background = headerGradient;
                     }
                 }
@@ -3242,6 +3242,68 @@ async function populateDetailPanel(pokemon) {
                             type1Container.style.gridColumn = 'span 2';
                         }
                     }
+                }
+            }
+            
+            // Populate Pokédex Entry (latest entry)
+            const dexEntryText = pokemonDetailContent.querySelector('.dexEntryText');
+            if (dexEntryText) {
+                try {
+                    const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${baseNationalDex}`;
+                    const speciesResponse = await fetch(speciesUrl);
+                    const speciesData = await speciesResponse.json();
+                    
+                    // Get the latest English flavor text entry
+                    const englishEntries = speciesData.flavor_text_entries?.filter(entry => entry.language.name === 'en') || [];
+                    if (englishEntries.length > 0) {
+                        // Get the last entry (latest game)
+                        const latestEntry = englishEntries[englishEntries.length - 1].flavor_text;
+                        // Clean up the text (remove newlines and form feeds)
+                        const cleanedText = latestEntry.replace(/[\n\f]/g, ' ').trim();
+                        dexEntryText.textContent = cleanedText;
+                    }
+                } catch (error) {
+                    console.error('Error fetching Pokédex entry:', error);
+                }
+            }
+            
+            // Populate Gender Breakdown
+            const pokemonGenderBreakdown = pokemonDetailContent.querySelector('.pokemonGenderBreakdown');
+            if (pokemonGenderBreakdown) {
+                try {
+                    const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${baseNationalDex}`;
+                    const speciesResponse = await fetch(speciesUrl);
+                    const speciesData = await speciesResponse.json();
+                    
+                    let genderHtml = '';
+                    
+                    if (speciesData.gender_rate === -1) {
+                        genderHtml = '<div style="color: #CCC; font-size: 14px;">Genderless</div>';
+                    } else {
+                        const femalePercent = (speciesData.gender_rate / 8) * 100;
+                        const malePercent = 100 - femalePercent;
+                        const maleColor = typeColors['water'];
+                        const femaleColor = typeColors['psychic'];
+                        
+                        genderHtml = `
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <div style="flex: 1; height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
+                                        <div style="width: ${malePercent}%; background-color: ${maleColor}; transition: width 0.3s ease;"></div>
+                                        <div style="width: ${femalePercent}%; background-color: ${femaleColor}; transition: width 0.3s ease;"></div>
+                                    </div>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; margin-top: 6px; font-size: 12px;">
+                                    <span style="color: ${maleColor};">♂ ${malePercent.toFixed(1)}%</span>
+                                    <span style="color: ${femaleColor};">♀ ${femalePercent.toFixed(1)}%</span>
+                                </div>
+                            </div>
+                        `;
+                    }
+                    
+                    pokemonGenderBreakdown.innerHTML += genderHtml;
+                } catch (error) {
+                    console.error('Error fetching gender data:', error);
                 }
             }
         } catch (error) {
