@@ -66,6 +66,12 @@ span.icon.female::before {
 span.icon.genderless::before {
     content: '\f224';
 }
+span.icon.sparkle::before {
+    content: '\f890';
+}
+span.icon.sparkle.reverse {
+    transform: rotate(180deg);
+}
 
 /* Heart icon states */
 span.icon.heart-icon {

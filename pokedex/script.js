@@ -3208,11 +3208,6 @@ async function populateDetailPanel(pokemon) {
                 const pokemonDetailsSection = pokemonDetailContent.querySelector('.pokemonDetails');
                 if (pokemonDetailsSection) {
                     pokemonDetailsSection.style.background = typeGradient;
-                    
-                    // Apply box-shadow with TYPE 1 color
-                    const type1Color = typeColors[types[0]] || '#A8A878';
-                    const type1Rgba = hexToRgba(type1Color, 0.5);
-                    pokemonDetailsSection.style.boxShadow = `0 2px 16px 8px ${type1Rgba}`;
                 }
                 
                 // Apply gradient to detailHeader (90 degree with 0.15 opacity)
@@ -3601,10 +3596,10 @@ async function populateDetailPanel(pokemon) {
         // Show the detail panel
         pokemonDetailPanel.style.display = 'block';
         
-        // Scroll detail panel content to top
-        if (pokemonDetailContent) {
-            pokemonDetailContent.scrollTop = 0;
-        }
+        // Scroll detail panel to top (use requestAnimationFrame to ensure DOM is ready)
+        requestAnimationFrame(() => {
+            pokemonDetailPanel.scrollTop = 0;
+        });
         
         openDetailPanel();
     } catch (error) {

@@ -98,7 +98,7 @@
     color: #F6F6F6;
     display: grid;
     gap: .5rem;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.25fr 1fr;
     height: fit-content;
 }
 
@@ -131,11 +131,24 @@
 }
 
 .pokemonImage,
-.pokemonImageShiny {
+.shinyLabel,
+.pokemonImageShiny img {
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid #F6F6F6;
     border-radius: .5rem;
     padding: .5rem;
+}
+
+.pokemonImageShiny {
+    display: grid;
+    gap: .5rem;
+}
+
+.shinyLabel {
+    display: grid;
+    gap: .5rem;
+    grid-template-columns: auto 1fr auto;
+    justify-items: center;
 }
 
 .pokemonImage img,
