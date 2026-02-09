@@ -3,11 +3,11 @@ const LOAD_MORE_COUNT = 50; // Load 50 more as you scroll
 const MILESTONE_151 = 151; // Show button at 151
 const SCROLL_TRIGGER_THRESHOLD = 0.5; // Load when 50% of next batch is visible
 const DB_NAME = 'PokedexDB';
-const DB_VERSION = 1;
+const DB_VERSION = 2;
 const IMAGE_STORE = 'pokemonImages';
 
 // Forms to keep in main Pokedex display
-const VISIBLE_FORM_SUFFIXES = ['-alola', '-galar', '-hisui', '-paldea', '-gmax', '-gigantamax', '-mega'];
+const VISIBLE_FORM_SUFFIXES = ['-alola', '-galar', '-hisui', '-paldea', '-gmax', '-gigantamax', '-mega', '-disguised'];
 
 // All forms (for finding alternate forms in modals)
 const ALL_FORM_SUFFIXES = ['-alola', '-galar', '-hisui', '-paldea', '-gmax', '-gigantamax', '-mega', 
@@ -127,6 +127,11 @@ function isAlternateForm(pokemonName) {
 function shouldHideFromMainDisplay(pokemonName) {
     const lowerName = pokemonName.toLowerCase();
     
+    // Special case: Always hide totem forms (they can be in the middle of the name like "raticate-totem-alola")
+    if (lowerName.includes('-totem-') || lowerName.includes('-totem')) {
+        return true;
+    }
+    
     // Check if it's a hidden form
     const isHiddenForm = ALL_FORM_SUFFIXES.some(suffix => pokemonName.endsWith(suffix)) &&
                         !VISIBLE_FORM_SUFFIXES.some(suffix => pokemonName.endsWith(suffix));
@@ -158,8 +163,48 @@ function filterOutForms(pokemonList) {
 }
 
 // Format Pokemon name for display (convert POKEMON-Mega to Mega POKEMON, etc.)
-function formatPokemonName(name) {
+function formatPokemonName(name, speciesName = null) {
     const lowerName = name.toLowerCase();
+    const lowerSpeciesName = speciesName ? speciesName.toLowerCase() : null;
+    
+    // If we have the species name, use it as the base (handles cases like mimikyu-disguised -> Mimikyu)
+    if (lowerSpeciesName && lowerSpeciesName !== lowerName) {
+        // The form name is different from the species name, so format accordingly
+        // For Mega, Gmax, etc., still use special formatting
+        if (lowerName.includes('-mega')) {
+            const parts = lowerName.split('-mega');
+            const megaVariant = parts[1] ? parts[1].replace('-', ' ').toUpperCase() : '';
+            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            
+            if (megaVariant) {
+                return `Mega ${displaySpeciesName} ${megaVariant}`;
+            } else {
+                return `Mega ${displaySpeciesName}`;
+            }
+        } else if (lowerName.includes('-gmax') || lowerName.includes('-gigantamax')) {
+            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            return `GMAX ${displaySpeciesName}`;
+        } else if (lowerName.endsWith('-disguised')) {
+            // -disguised is the base form (like Mimikyu-disguised), so just use the species name
+            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            return displaySpeciesName;
+        } else {
+            // For other forms, show the form name before the base species name
+            const parts = lowerName.split('-');
+            const formName = parts[parts.length - 1];
+            const displayFormName = formName.charAt(0).toUpperCase() + formName.slice(1);
+            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            return `${displayFormName} ${displaySpeciesName}`;
+        }
+    }
     
     // Handle Nidoran gender forms: nidoran-f -> Nidoran♀, nidoran-m -> Nidoran♂
     if (lowerName === 'nidoran-f') {
@@ -598,11 +643,12 @@ async function enrichPokemonData(pokemon) {
                 isLegendary: speciesData.is_legendary,
                 isMythical: speciesData.is_mythical,
                 isBaby: speciesData.is_baby,
-                baseNationalDexNumber: speciesData.id
+                baseNationalDexNumber: speciesData.id,
+                speciesName: speciesData.name // Store the true species name for filtering
             };
         } catch (error) {
             console.error('Error enriching Pokemon data for', pokemon.name, ':', error);
-            pokemonDataCache[id] = { types: [], generation: '', isLegendary: false, isMythical: false, isBaby: false, baseNationalDexNumber: id };
+            pokemonDataCache[id] = { types: [], generation: '', isLegendary: false, isMythical: false, isBaby: false, baseNationalDexNumber: id, speciesName: pokemon.name };
         }
     }
     
@@ -1136,11 +1182,13 @@ async function sortPokemonByNationalDex(pokemonList, onlyFirstHalf = false) {
                     let isBaby = false;
                     
                     // Fetch species data to get the actual base National Dex number and category info
+                    let speciesName = data.name; // Default to form name
                     if (data.species) {
                         try {
                             const speciesResponse = await fetch(data.species.url);
                             const speciesData = await speciesResponse.json();
                             baseNationalDex = speciesData.id;
+                            speciesName = speciesData.name; // Store the true species name (e.g., "mimikyu" instead of "mimikyu-disguised")
                             isLegendary = speciesData.is_legendary;
                             isMythical = speciesData.is_mythical;
                             isBaby = speciesData.is_baby;
@@ -1156,7 +1204,8 @@ async function sortPokemonByNationalDex(pokemonList, onlyFirstHalf = false) {
                         isLegendary: isLegendary,
                         isMythical: isMythical,
                         isBaby: isBaby,
-                        baseNationalDexNumber: baseNationalDex
+                        baseNationalDexNumber: baseNationalDex,
+                        speciesName: speciesName // Store the species name for filtering and display
                     };
                 } catch (error) {
                     console.error(`Error fetching Pokemon ${pokemon.name}:`, error);
@@ -1203,6 +1252,10 @@ function displayPage() {
     // Filter out non-visible forms (Alola, Galar, Hisui, Paldea, etc.) from main display
     // These forms should only appear in the modal/details view
     pagePokemon = pagePokemon.filter(pokemon => {
+        const id = pokemon.url.split('/').filter(Boolean).pop();
+        const speciesName = pokemonDataCache[id]?.speciesName || pokemon.name;
+        
+        // Check if the form name (not species name) has a hidden suffix
         const isHiddenForm = ALL_FORM_SUFFIXES.some(suffix => pokemon.name.endsWith(suffix)) &&
                             !VISIBLE_FORM_SUFFIXES.some(suffix => pokemon.name.endsWith(suffix));
         return !isHiddenForm; // Show only if NOT a hidden form
@@ -1211,6 +1264,11 @@ function displayPage() {
     // Apply form visibility toggles (for Mega/Gmax which ARE in visible forms)
     pagePokemon = pagePokemon.filter(pokemon => {
         const lowerName = pokemon.name.toLowerCase();
+        
+        // Always hide totem forms (they're never shown in main list)
+        if (lowerName.includes('-totem')) {
+            return false;
+        }
         
         // Hide Megas if toggle is off AND not filtering by mega
         if (!showMegaEvolutions && lowerName.includes('-mega') && activeFilters.category !== 'mega') {
@@ -1812,7 +1870,8 @@ function createPokemonCard(pokemon) {
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
-    const displayName = formatPokemonName(pokemon.name);
+    const speciesName = pokemonDataCache[id]?.speciesName || pokemon.name;
+    const displayName = formatPokemonName(pokemon.name, speciesName);
     
     if (isListView) {
         // List view layout
@@ -1882,10 +1941,12 @@ async function showPokemonDetails(pokemon) {
         
         // Get the base National Dex number for display
         let baseNationalDex = id;
+        let speciesName = data.name; // Default to form name
         if (data.species) {
             const speciesResponse = await fetch(data.species.url);
             const speciesData = await speciesResponse.json();
             baseNationalDex = speciesData.id;
+            speciesName = speciesData.name; // Get the true species name
             // Cache it for future use
             pokemonDataCache[id] = pokemonDataCache[id] || {};
             pokemonDataCache[id].baseNationalDexNumber = baseNationalDex;
@@ -1933,7 +1994,7 @@ async function showPokemonDetails(pokemon) {
         // Use cached image if available, otherwise use direct URL
         const cachedImageUrl = await fetchImageWithCache(imageUrl);
         modalImage.src = cachedImageUrl || imageUrl;
-        modalName.textContent = formatPokemonName(data.name);
+        modalName.textContent = formatPokemonName(data.name, speciesName);
         modalId.textContent = `#${baseNationalDex.toString().padStart(3, '0')}`;
         
         // Set region display
@@ -3009,6 +3070,7 @@ function openDetailPanel() {
 function closeDetailPanel() {
     pokemonDetailPanel.classList.add('closing');
     pokemonDetailPanel.classList.remove('open');
+    
     setTimeout(() => {
         pokemonDetailPanel.style.display = 'none';
     }, 400);
@@ -3050,12 +3112,14 @@ async function populateDetailPanel(pokemon) {
         
         // Get the base National Dex number for this Pokemon form
         let baseNationalDex = data.id;
+        let speciesName = data.name; // Default to form name
         if (data.species && data.species.url) {
             try {
                 const speciesResponse = await fetch(data.species.url);
                 if (speciesResponse.ok) {
                     const speciesData = await speciesResponse.json();
                     baseNationalDex = speciesData.id;
+                    speciesName = speciesData.name; // Get the true species name
                 }
             } catch (error) {
                 console.error('Error fetching species data:', error);
@@ -3064,7 +3128,7 @@ async function populateDetailPanel(pokemon) {
         
         // Update the Pokemon name using the same formatting as elsewhere
         if (pokemonDetailName) {
-            pokemonDetailName.textContent = formatPokemonName(data.name);
+            pokemonDetailName.textContent = formatPokemonName(data.name, speciesName);
         }
         
         // Setup cry button for detail panel
@@ -3488,6 +3552,12 @@ async function populateDetailPanel(pokemon) {
         
         // Show the detail panel
         pokemonDetailPanel.style.display = 'block';
+        
+        // Scroll detail panel content to top
+        if (pokemonDetailContent) {
+            pokemonDetailContent.scrollTop = 0;
+        }
+        
         openDetailPanel();
     } catch (error) {
         console.error('Error loading Pokemon details:', error);
