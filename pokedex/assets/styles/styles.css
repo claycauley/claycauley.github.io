@@ -57,9 +57,11 @@ span.icon.idBadge::before {
 }
 span.icon.male::before {
     content: '\f222';
+    color: inherit;
 }
 span.icon.female::before {
     content: '\f221';
+    color: inherit;
 }
 span.icon.genderless::before {
     content: '\f224';
@@ -178,7 +180,7 @@ h1 {
 
 .search-container {
     display: flex;
-    gap: 8px;
+    gap: 0;
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 0;
@@ -187,14 +189,14 @@ h1 {
 
 input[type="text"] {
     background: #222222;
-    border-radius: 25px;
+    border-radius: 4rem;
     border: none;
     color: #F6F6F6;
     flex: 1;
     font-family: 'Poppins', sans-serif;
     font-size: .875rem;
     margin: 0;
-    padding: 12px 40px 12px 20px;
+    padding: .5rem 2.5rem .5rem 1rem;
 }
 
 .icon-btn {
@@ -1221,7 +1223,7 @@ button {
     border: none;
     border-radius: 0;
     cursor: pointer;
-    font-size: 32px;
+    font-size: 1.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -1263,7 +1265,7 @@ button {
     border: none;
     border-radius: 0;
     cursor: pointer;
-    font-size: 32px;
+    font-size: 1.5rem;
     font-weight: 600;
     transition: all 0.3s ease;
     white-space: nowrap;

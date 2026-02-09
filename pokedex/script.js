@@ -167,6 +167,24 @@ function formatPokemonName(name, speciesName = null) {
     const lowerName = name.toLowerCase();
     const lowerSpeciesName = speciesName ? speciesName.toLowerCase() : null;
     
+    // Special Pokémon names that need custom formatting (official names with hyphens or special characters)
+    const specialNames = {
+        'mr-mime': 'Mr. Mime',
+        'mime-jr': 'Mime Jr.',
+        'porygon2': 'Porygon2',
+        'type-null': 'Type: Null',
+        'ho-oh': 'Ho-Oh',
+        'nidoran-f': 'Nidoran <span class="icon female" style="display: inline; margin-left: 4px;"></span>',
+        'nidoran-m': 'Nidoran <span class="icon male" style="display: inline; margin-left: 4px;"></span>',
+        'farfetchd': 'Farfetch\'d',
+        'fletchling': 'Fletchling'
+    };
+    
+    // If we have the species name and it's in our special names list, use it
+    if (lowerSpeciesName && specialNames[lowerSpeciesName]) {
+        return specialNames[lowerSpeciesName];
+    }
+    
     // If we have the species name, use it as the base (handles cases like mimikyu-disguised -> Mimikyu)
     if (lowerSpeciesName && lowerSpeciesName !== lowerName) {
         // The form name is different from the species name, so format accordingly
@@ -174,7 +192,7 @@ function formatPokemonName(name, speciesName = null) {
         if (lowerName.includes('-mega')) {
             const parts = lowerName.split('-mega');
             const megaVariant = parts[1] ? parts[1].replace('-', ' ').toUpperCase() : '';
-            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+            const displaySpeciesName = specialNames[lowerSpeciesName] || lowerSpeciesName.split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
             
@@ -184,13 +202,13 @@ function formatPokemonName(name, speciesName = null) {
                 return `Mega ${displaySpeciesName}`;
             }
         } else if (lowerName.includes('-gmax') || lowerName.includes('-gigantamax')) {
-            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+            const displaySpeciesName = specialNames[lowerSpeciesName] || lowerSpeciesName.split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
             return `GMAX ${displaySpeciesName}`;
         } else if (lowerName.endsWith('-disguised')) {
             // -disguised is the base form (like Mimikyu-disguised), so just use the species name
-            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+            const displaySpeciesName = specialNames[lowerSpeciesName] || lowerSpeciesName.split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
             return displaySpeciesName;
@@ -199,19 +217,30 @@ function formatPokemonName(name, speciesName = null) {
             const parts = lowerName.split('-');
             const formName = parts[parts.length - 1];
             const displayFormName = formName.charAt(0).toUpperCase() + formName.slice(1);
-            const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+            const displaySpeciesName = specialNames[lowerSpeciesName] || lowerSpeciesName.split('-').map(word => 
                 word.charAt(0).toUpperCase() + word.slice(1)
             ).join(' ');
             return `${displayFormName} ${displaySpeciesName}`;
         }
     }
     
+    // For base Pokemon (no dash in name), if we have a species name, just use it directly
+    if (lowerSpeciesName && !lowerName.includes('-')) {
+        if (specialNames[lowerSpeciesName]) {
+            return specialNames[lowerSpeciesName];
+        }
+        const displaySpeciesName = lowerSpeciesName.split('-').map(word => 
+            word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+        return displaySpeciesName;
+    }
+    
     // Handle Nidoran gender forms: nidoran-f -> Nidoran♀, nidoran-m -> Nidoran♂
     if (lowerName === 'nidoran-f') {
-        return 'Nidoran♀';
+        return 'Nidoran <span class="icon female" style="display: inline;"></span>';
     }
     if (lowerName === 'nidoran-m') {
-        return 'Nidoran♂';
+        return 'Nidoran <span class="icon male" style="display: inline;"></span>';
     }
     
     // Handle Mega Evolutions: pokemon-mega, pokemon-mega-x, pokemon-mega-y, pokemon-mega-z
@@ -1215,7 +1244,8 @@ async function sortPokemonByNationalDex(pokemonList, onlyFirstHalf = false) {
                         isLegendary: false,
                         isMythical: false,
                         isBaby: false,
-                        baseNationalDexNumber: parseInt(id)
+                        baseNationalDexNumber: parseInt(id),
+                        speciesName: pokemon.name
                     };
                 }
             }
@@ -1950,6 +1980,7 @@ async function showPokemonDetails(pokemon) {
             // Cache it for future use
             pokemonDataCache[id] = pokemonDataCache[id] || {};
             pokemonDataCache[id].baseNationalDexNumber = baseNationalDex;
+            pokemonDataCache[id].speciesName = speciesName; // Store species name in cache
         }
         
         // Calculate morph animation from card to modal
@@ -3210,6 +3241,23 @@ async function populateDetailPanel(pokemon) {
             if (pokemonImageElement) {
                 pokemonImageElement.src = cachedImageUrl || imageUrl;
                 pokemonImageElement.alt = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
+            }
+            
+            // Insert shiny Pokemon image into .pokemonImageShiny element
+            const shinyImageUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
+            if (shinyImageUrl) {
+                const cachedShinyImageUrl = await fetchImageWithCache(shinyImageUrl);
+                const pokemonShinyImageElement = pokemonDetailContent.querySelector('.pokemonImageShiny img');
+                if (pokemonShinyImageElement) {
+                    pokemonShinyImageElement.src = cachedShinyImageUrl || shinyImageUrl;
+                    pokemonShinyImageElement.alt = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1) + ' Shiny';
+                }
+            } else {
+                // Hide shiny image container if shiny doesn't exist
+                const pokemonShinyImageContainer = pokemonDetailContent.querySelector('.pokemonImageShiny');
+                if (pokemonShinyImageContainer) {
+                    pokemonShinyImageContainer.style.display = 'none';
+                }
             }
             
             // Populate Pokemon National ID
