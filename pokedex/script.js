@@ -3113,6 +3113,11 @@ async function populateDetailPanel(pokemon) {
                 const pokemonDetailsSection = pokemonDetailContent.querySelector('.pokemonDetails');
                 if (pokemonDetailsSection) {
                     pokemonDetailsSection.style.background = typeGradient;
+                    
+                    // Apply box-shadow with TYPE 1 color
+                    const type1Color = typeColors[types[0]] || '#A8A878';
+                    const type1Rgba = hexToRgba(type1Color, 0.5);
+                    pokemonDetailsSection.style.boxShadow = `0 2px 16px 8px ${type1Rgba}`;
                 }
                 
                 // Apply gradient to detailHeader (90 degree with 0.15 opacity)
@@ -3123,12 +3128,12 @@ async function populateDetailPanel(pokemon) {
                         const type2Color = typeColors[types[1]] || '#A8A878';
                         const type1Rgba = hexToRgba(type1Color, 0.15);
                         const type2Rgba = hexToRgba(type2Color, 0.15);
-                        const headerGradient = `linear-gradient(135deg, ${type1Rgba} 45%, ${type2Rgba} 55%), #222222`;
+                        const headerGradient = `linear-gradient(135deg, ${type1Rgba} 45%, ${type2Rgba} 55%), #000000`;
                         detailHeader.style.background = headerGradient;
                     } else if (types.length === 1) {
                         const type1Color = typeColors[types[0]] || '#A8A878';
                         const type1Rgba = hexToRgba(type1Color, 0.15);
-                        const headerGradient = `linear-gradient(90deg, ${type1Rgba} 0%, ${type1Rgba} 100%), #222222`;
+                        const headerGradient = `linear-gradient(90deg, ${type1Rgba} 0%, ${type1Rgba} 100%), #000000`;
                         detailHeader.style.background = headerGradient;
                     }
                 }

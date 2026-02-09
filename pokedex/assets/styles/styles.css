@@ -84,11 +84,11 @@ span.icon.heart-icon.favorite {
     bottom: 1rem;
     left: 0;
     height: 2px;
-    background-color: #ff4757;
+    background-color: #D6546A;
     width: 0%;
     transition: width 0.2s ease;
     z-index: 9999;
-    box-shadow: 0 0 10px rgba(255, 71, 87, 0.6), 0 0 20px rgba(255, 71, 87, 0.3);
+    box-shadow: 0 0 10px rgba(214, 84, 106, 0.6), 0 0 20px rgba(214, 84, 106, 0.3);
     animation: glow-pulse 1.5s ease-in-out infinite;
 }
 
@@ -117,7 +117,7 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #000000 0%, #222222 100%);
+    background: linear-gradient(180deg, #000000 50%, #222222 100%);
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport height */
     padding: 0;
@@ -186,14 +186,15 @@ h1 {
 }
 
 input[type="text"] {
-    padding: 12px 40px 12px 20px;
-    border: none;
+    background: #222222;
     border-radius: 25px;
-    font-size: 16px;
+    border: none;
+    color: #F6F6F6;
     flex: 1;
+    font-family: 'Poppins', sans-serif;
+    font-size: .875rem;
     margin: 0;
-    background: #333333;
-    color: #BBBBBB;
+    padding: 12px 40px 12px 20px;
 }
 
 .icon-btn {
@@ -916,19 +917,21 @@ button {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100%;
-    height: 100%;
+    width: 100vw;
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     background-color: #000000;
     z-index: 10000;
+    overflow: hidden;
 }
 
 .splash-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
 }
 
 .splash-progress-bar {
@@ -1616,18 +1619,19 @@ button {
 
 /* Pokemon Detail Panel Styles */
 .pokemon-detail-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    height: 100dvh;
     background-color: #f6f6f6;
-    z-index: 5000;
+    bottom: 0;
+    height: 100dvh;
+    left: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: fixed;
+    scrollbar-width: none;
+    top: 0;
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    overflow-y: auto;
-    overflow-x: hidden;
+    width: 100%;
+    z-index: 5000;
 }
 
 .pokemon-detail-panel.open {
