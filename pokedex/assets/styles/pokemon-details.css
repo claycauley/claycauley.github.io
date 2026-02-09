@@ -256,6 +256,45 @@
     justify-content: space-between;
 }
 
+.baseStatsContainer {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: max-content 1fr max-content;
+}
+
+.statsLabel,
+.statsGraph,
+.statsValue {
+    display: grid;
+    font-size: 12px;
+    font-weight: 700;
+    gap: .25rem;
+}
+
+.statName {
+    font-size: 12px;
+}
+
+.statBar {
+    background-color: #000000;
+    border: 1px solid #444444;
+    border-radius: 4rem;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.statBar::before {
+    background: var(--stat-bar-color, #999999);
+    border-radius: 4rem;
+    content: '';
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: var(--stat-width, 50%);
+}
+
 .dexEntryVersionSelectorContainer {
     align-items: center;
     border-top: 1px solid #f6f6f6;

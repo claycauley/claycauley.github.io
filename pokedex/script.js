@@ -3351,6 +3351,13 @@ async function populateDetailPanel(pokemon) {
                         // Check if the Pokémon has an entry for its original generation's game
                         if (originalGameVersion && versionMap[originalGameVersion]) {
                             selectedVersionName = originalGameVersion;
+                        } else if (generationName === 'generation-vii') {
+                            // For generation-vii, check for ultra-sun or ultra-moon as fallback
+                            if (versionMap['ultra-sun']) {
+                                selectedVersionName = 'ultra-sun';
+                            } else if (versionMap['ultra-moon']) {
+                                selectedVersionName = 'ultra-moon';
+                            }
                         }
                         
                         // Set the selected entry and dropdown value
@@ -3409,6 +3416,65 @@ async function populateDetailPanel(pokemon) {
                     pokemonGenderBreakdown.innerHTML += genderHtml;
                 } catch (error) {
                     console.error('Error fetching gender data:', error);
+                }
+            }
+            
+            // Populate Base Stats
+            const pokemonBaseStats = pokemonDetailContent.querySelector('.pokemonBaseStats');
+            if (pokemonBaseStats && data.stats) {
+                try {
+                    // Map stat names to their corresponding element IDs and order
+                    const statMapping = {
+                        'hp': 'hpStatBar',
+                        'attack': 'atkStatBar',
+                        'defense': 'defStatBar',
+                        'special-attack': 'spAtkStatBar',
+                        'special-defense': 'spDefStatBar',
+                        'speed': 'speedStatBar'
+                    };
+                    
+                    const statValueMapping = {
+                        'hp': 'hpStatValue',
+                        'attack': 'atkStatValue',
+                        'defense': 'defStatValue',
+                        'special-attack': 'spAtkStatValue',
+                        'special-defense': 'spDefStatValue',
+                        'speed': 'speedStatValue'
+                    };
+                    
+                    // Find the max stat value for scaling (typically 255 is the max)
+                    const maxStatValue = 255;
+                    
+                    // Get Type 1 color for stat bars
+                    let statBarColor = '#999999'; // Default fallback
+                    if (data.types && data.types.length > 0) {
+                        const type1 = data.types[0].type.name;
+                        statBarColor = typeColors[type1] || '#A8A878';
+                    }
+                    
+                    // Populate each stat
+                    data.stats.forEach(statObj => {
+                        const statName = statObj.stat.name;
+                        const statValue = statObj.base_stat;
+                        
+                        // Calculate the width percentage for the bar (based on max 255)
+                        const barWidth = (statValue / maxStatValue) * 100;
+                        
+                        // Update the stat bar width and color
+                        const statBar = pokemonDetailContent.querySelector(`#${statMapping[statName]}`);
+                        if (statBar) {
+                            statBar.style.setProperty('--stat-width', `${barWidth}%`);
+                            statBar.style.setProperty('--stat-bar-color', statBarColor);
+                        }
+                        
+                        // Update the stat value
+                        const statValueElement = pokemonDetailContent.querySelector(`#${statValueMapping[statName]}`);
+                        if (statValueElement) {
+                            statValueElement.textContent = statValue;
+                        }
+                    });
+                } catch (error) {
+                    console.error('Error populating base stats:', error);
                 }
             }
         } catch (error) {
