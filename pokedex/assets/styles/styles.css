@@ -538,6 +538,13 @@ button {
     justify-content: center;
 }
 
+.modal[style*="display: block"],
+.modal[style*="display: flex"] {
+    display: flex !important;
+    background-color: rgba(0, 0, 0, 0.7) !important;
+    backdrop-filter: blur(8px) !important;
+}
+
 #pokemonModal {
     align-items: center;
     justify-content: center;
@@ -545,6 +552,8 @@ button {
 
 .modal[style*="display: block"] {
     display: flex !important;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
 }
 
 @keyframes fadeIn {
@@ -1665,8 +1674,47 @@ button {
     transform: scale(1.02);
 }
 
+/* Filters and Settings Panels */
+.filters-panel,
+.settings-panel {
+    background-color: #000000;
+    bottom: 0;
+    flex-direction: column;
+    height: 100dvh;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 5000;
+    overflow-y: auto;
+    scrollbar-width: none;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+}
 
+.filters-panel::-webkit-scrollbar,
+.settings-panel::-webkit-scrollbar {
+    display: none;
+}
 
+.filters-panel.open,
+.settings-panel.open {
+    transform: translateX(0);
+}
 
+.filters-panel.closing,
+.settings-panel.closing {
+    transform: translateX(100%);
+}
 
-
+#filtersPanelContent,
+#settingsPanelContent {
+    display: grid;
+    gap: 2.5rem;
+    padding-bottom: 1.5rem;
+    padding-left: .5rem;
+    padding-right: .5rem;
+    padding-top: .5rem;
+}

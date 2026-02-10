@@ -55,11 +55,15 @@
 }
 
 .detailHeader .cry-button {
-    align-self: stretch;
+    align-content: center;
+    align-items: center;
     background: transparent;
-    border: 1px solid #F6F6F6;
     border-radius: .5rem;
-    display: block;
+    border: 1px solid #F6F6F6;
+    display: grid;
+    font-size: .75rem;
+    gap: .25rem;
+    grid-template-columns: auto 1fr;
     height: 40px;
     margin-left: auto;
     padding: 0 1rem;
@@ -98,14 +102,37 @@
     color: #F6F6F6;
     display: grid;
     gap: .5rem;
-    grid-template-columns: 1.25fr 1fr;
+    grid-template-columns: 1.5fr 1fr;
     height: fit-content;
 }
 
-.pokemonIDAndSpecies {
+.pokemonIDSpeciesAndFavorite {
     display: grid;
     gap: .5rem;
-    grid-template-columns: max-content auto;
+    grid-template-columns: max-content auto max-content;
+}
+
+.favoriteHeartsContainer {
+    background-color: rgba(0, 0, 0, .5);
+    border: 1px solid #F6F6F6;
+    border-radius: .5rem;
+    padding: 0 .5rem;
+}
+
+.favoriteHeartsContainer .favorite-heart {
+    position: unset;
+    cursor: pointer;
+    font-size: 28px;
+}
+
+.favoriteHeartsContainer .favorite-heart span.icon.heart-icon.not-favorite {
+    color: #F6F6F6;
+    opacity: .5;
+}
+
+.favoriteHeartsContainer .favorite-heart span.icon.heart-icon.favorite {
+    color: #D6546A;
+    opacity: 1;
 }
 
 .pokemonSpecies {
@@ -125,14 +152,13 @@
     border-radius: .5rem;
     display: grid;
     font-weight: 700;
-    padding: .5rem 1.5rem;
+    padding: .5rem 1rem;
     justify-content: center;
     text-align: center;
 }
 
 .pokemonImage,
-.shinyLabel,
-.pokemonImageShiny img {
+.pokemonImageShiny {
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid #F6F6F6;
     border-radius: .5rem;
@@ -140,21 +166,28 @@
 }
 
 .pokemonImageShiny {
+    align-items: center;
     display: grid;
-    gap: .5rem;
 }
 
 .shinyLabel {
+    align-items: center;
+    border-top: 1px solid #F6F6F6;
     display: grid;
-    gap: .5rem;
     grid-template-columns: auto 1fr auto;
+    padding-top: .5rem;
     justify-items: center;
+    align-self: flex-end;
 }
 
 .pokemonImage img,
 .pokemonImageShiny img {
     display: block;
     width: 100%;
+}
+
+.pokemonImageShiny img {
+    align-self: flex-end;
 }
 
 .pokemonInfo {

@@ -2025,7 +2025,7 @@ async function showPokemonDetails(pokemon) {
         // Use cached image if available, otherwise use direct URL
         const cachedImageUrl = await fetchImageWithCache(imageUrl);
         modalImage.src = cachedImageUrl || imageUrl;
-        modalName.textContent = formatPokemonName(data.name, speciesName);
+        modalName.innerHTML = formatPokemonName(data.name, speciesName);
         modalId.textContent = `#${baseNationalDex.toString().padStart(3, '0')}`;
         
         // Set region display
@@ -3107,6 +3107,54 @@ function closeDetailPanel() {
     }, 400);
 }
 
+// Filters Panel Functions
+const filtersPanel = document.getElementById('filtersPanel');
+const filtersPanelContent = document.getElementById('filtersPanelContent');
+const filtersPanelCloseBtn = document.getElementById('filtersPanelCloseBtn');
+
+function openFiltersPanel() {
+    filtersPanel.classList.add('open');
+    // Scroll to top when opening
+    filtersPanel.scrollTop = 0;
+}
+
+function closeFiltersPanel() {
+    filtersPanel.classList.add('closing');
+    filtersPanel.classList.remove('open');
+    
+    setTimeout(() => {
+        filtersPanel.classList.remove('closing');
+    }, 350);
+}
+
+if (filtersPanelCloseBtn) {
+    filtersPanelCloseBtn.addEventListener('click', closeFiltersPanel);
+}
+
+// Settings Panel Functions
+const settingsPanel = document.getElementById('settingsPanel');
+const settingsPanelContent = document.getElementById('settingsPanelContent');
+const settingsPanelCloseBtn = document.getElementById('settingsPanelCloseBtn');
+
+function openSettingsPanel() {
+    settingsPanel.classList.add('open');
+    // Scroll to top when opening
+    settingsPanel.scrollTop = 0;
+}
+
+function closeSettingsPanel() {
+    settingsPanel.classList.add('closing');
+    settingsPanel.classList.remove('open');
+    
+    setTimeout(() => {
+        settingsPanel.classList.remove('closing');
+    }, 350);
+}
+
+if (settingsPanelCloseBtn) {
+    settingsPanelCloseBtn.addEventListener('click', closeSettingsPanel);
+}
+
 function filterByType(typeName) {
     // Set the type filter dropdown to the selected type
     if (typeFilter) {
@@ -3159,7 +3207,7 @@ async function populateDetailPanel(pokemon) {
         
         // Update the Pokemon name using the same formatting as elsewhere
         if (pokemonDetailName) {
-            pokemonDetailName.textContent = formatPokemonName(data.name, speciesName);
+            pokemonDetailName.innerHTML = formatPokemonName(data.name, speciesName);
         }
         
         // Setup cry button for detail panel
@@ -3181,24 +3229,24 @@ async function populateDetailPanel(pokemon) {
             }
         }
         
-        // Setup favorite heart in detail panel
-        const favoriteHeart = document.querySelector('.pokemon-detail-panel .favorite-heart');
-        if (favoriteHeart) {
-            // Initialize heart state based on current favorite status
-            updateHeartIcon(favoriteHeart, data.id);
-            
-            // Add click handler for favorite toggle
-            favoriteHeart.onclick = (e) => {
-                e.stopPropagation();
-                toggleFavoriteWithAnimation(favoriteHeart, data.id);
-            };
-        }
-        
         // Load pokemon.html content
         try {
             const contentResponse = await fetch('pokemon.html');
             const contentHtml = await contentResponse.text();
             pokemonDetailContent.innerHTML = contentHtml;
+            
+            // Setup favorite heart in detail panel (after content is loaded)
+            const favoriteHeart = document.querySelector('.pokemon-detail-panel .favorite-heart');
+            if (favoriteHeart) {
+                // Initialize heart state based on current favorite status
+                updateHeartIcon(favoriteHeart, data.id);
+                
+                // Add click handler for favorite toggle
+                favoriteHeart.onclick = (e) => {
+                    e.stopPropagation();
+                    toggleFavoriteWithAnimation(favoriteHeart, data.id);
+                };
+            }
             
             // Apply type gradient to pokemonDetails section after content is loaded
             if (data.types) {
