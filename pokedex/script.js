@@ -2138,13 +2138,13 @@ async function showPokemonDetails(pokemon) {
                     <div style="font-weight: bold; color: #FFF; font-size: 13px; margin-bottom: 8px;">Gender</div>
                     <div style="display: flex; align-items: center; gap: 10px;">
                         <div style="flex: 1; height: 16px; border-radius: 8px; overflow: hidden; display: flex;">
-                            <div style="width: ${malePercent}%; background-color: #578AC9; transition: width 0.3s ease;"></div>
+                            <div style="width: ${malePercent}%; background-color: #1a4e7b; transition: width 0.3s ease;"></div>
                             <div style="width: ${femalePercent}%; background-color: #EA797B; transition: width 0.3s ease;"></div>
                         </div>
                     </div>
                     <div class="genderPercentage">
-                        <span style="color: #578AC9;"><span class="icon male"></span> ${malePercent.toFixed(1)}%</span>
-                        <span style="color: #EA797B;"><span class="icon female"></span> ${femalePercent.toFixed(1)}%</span>
+                        <span style="color: #1a4e7b;"><span class="icon male"></span> ${malePercent.toFixed(1)}%</span>
+                        <span style="color: #be2d86;"><span class="icon female"></span> ${femalePercent.toFixed(1)}%</span>
                     </div>
                 </div>
             `;
@@ -3624,8 +3624,8 @@ async function populateDetailPanel(pokemon) {
                     } else {
                         const femalePercent = (speciesData.gender_rate / 8) * 100;
                         const malePercent = 100 - femalePercent;
-                        const maleColor = typeColors['water'];
-                        const femaleColor = typeColors['psychic'];
+                        const maleColor = '#1a4e7b';
+                        const femaleColor = '#be2d86';
                         
                         genderHtml = `
                             <div class="genderBreakdownContainer">

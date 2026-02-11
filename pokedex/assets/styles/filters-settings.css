@@ -54,12 +54,13 @@
 #filtersPanelContent,
 #settingsPanelContent {
     display: grid;
-    gap: 1rem;
-    padding: 1.5rem .5rem;
+    gap: 1.875rem;
+    padding: 1.875rem 1rem;
 }
 
 #filtersPanel .detailHeader,
 #settingsPanel .detailHeader {
+    border-bottom: 1px solid #666666;
     grid-template-columns: auto max-content;
     justify-content: stretch;
 }
@@ -74,19 +75,107 @@
     margin-bottom: 0;
 }
 
+#filtersPanelContent select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #222222;
+    border-radius: .25rem;
+    border: 1px solid #666666;
+    color: #F6F6F6;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-size: .875rem;
+    font-weight: 700;
+    outline: none;
+    padding: .5rem;
+    text-align: center;
+    width: 100%;
+}
+
 #filtersPanel .filter-group.favorites {
-    border: 1px solid #F6F6F6;
+    border: 1px solid #666666;
     padding: 1rem;
     border-radius: .5rem;
 }
 
 #filtersPanel .filter-group.favorites label {
+    align-content: center;
     color: #F6F6F6;
     display: grid;
     font-size: 1rem;
     grid-template-columns: 1fr auto;
 }
 
+#filtersPanel .filter-group.favorites .paragraphGrid {
+    align-items: center;
+}
+
 #filtersPanel .filter-group.favorites label .icon {
-    color: #D6546A;
+    color: #be2d3a;
+    font-size: 1.5rem;
+}
+
+#filtersPanelContent hr {
+    background-color: #F6F6F6;
+    height: 1px;
+    border: none;
+    outline: none;
+}
+
+#filtersPanel .filter-group {
+    align-items: center;
+    border: 1px solid #666666;
+    border-radius: .5rem;
+    color: #F6F6F6;
+    display: grid;
+    font-size: .875rem;
+    gap: .5rem;
+    padding: .5rem;
+    position: relative;
+}
+
+#filtersPanel .filter-group.favorites {
+    grid-template-columns: unset;
+}
+
+#filtersPanel .filter-group input[type="checkbox"] {
+    accent-color: #be2d3a;
+    height: 24px;
+    width: 24px;
+}
+
+#filtersPanel .filter-group label.dropdown {
+    border-radius: .25rem;
+    color: #F6F6F6;
+    font-size: .875rem;
+}
+
+#filtersPanel .filter-buttons {
+    margin-top: 0;
+    grid-template-columns: 1fr 1fr;
+    display: grid;
+}
+
+#filtersPanel .filter-buttons button {
+    display: unset;
+    border-radius: .5rem;
+    padding: 1rem .5rem;
+    transition: none;
+}
+
+#filtersPanel .filter-buttons #resetFiltersBtn {
+    background-color: #be2d3a;
+    border: none;
+    color: #F6F6F6;
+    cursor: pointer;
+    font-family: 'Poppins';
+    font-size: .875rem;
+    font-weight: 700;
+    padding: .75rem;
+}
+
+#filtersPanel .filter-buttons #applyFiltersBtn {
+    background-color: #1a4e7b;
+    transform: none;
 }
