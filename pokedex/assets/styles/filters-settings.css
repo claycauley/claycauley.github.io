@@ -1,0 +1,92 @@
+.filters-panel,
+.settings-panel {
+    background-color: #000000;
+    bottom: 0;
+    border-left: 1px solid #222222;
+    flex-direction: column;
+    height: 100dvh;
+    left: 5%;
+    position: fixed;
+    top: 0;
+    width: 95dvw;
+    z-index: 5001;
+    overflow-y: auto;
+    scrollbar-width: none;
+    transform: translateX(100%);
+    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
+}
+
+.panel-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(.5rem);
+    z-index: 5000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.panel-backdrop.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.filters-panel::-webkit-scrollbar,
+.settings-panel::-webkit-scrollbar {
+    display: none;
+}
+
+.filters-panel.open,
+.settings-panel.open {
+    transform: translateX(0);
+}
+
+.filters-panel.closing,
+.settings-panel.closing {
+    transform: translateX(100%);
+}
+
+#filtersPanelContent,
+#settingsPanelContent {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem .5rem;
+}
+
+#filtersPanel .detailHeader,
+#settingsPanel .detailHeader {
+    grid-template-columns: auto max-content;
+    justify-content: stretch;
+}
+
+#filtersPanelCloseBtn,
+#settingsPanelCloseBtn {
+    height: 40px;
+}
+
+#filtersPanel .filter-group,
+#settingsPanel .filter-group {
+    margin-bottom: 0;
+}
+
+#filtersPanel .filter-group.favorites {
+    border: 1px solid #F6F6F6;
+    padding: 1rem;
+    border-radius: .5rem;
+}
+
+#filtersPanel .filter-group.favorites label {
+    color: #F6F6F6;
+    display: grid;
+    font-size: 1rem;
+    grid-template-columns: 1fr auto;
+}
+
+#filtersPanel .filter-group.favorites label .icon {
+    color: #D6546A;
+}

@@ -929,25 +929,25 @@ async function init() {
 
     if (openFiltersBtn) {
         openFiltersBtn.addEventListener('click', () => {
-            filtersModal.style.display = 'flex';
+            openFiltersPanel();
         });
     }
     if (closeFiltersBtn) {
         closeFiltersBtn.addEventListener('click', () => {
-            closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
+            closeFiltersPanel();
         });
     }
     if (applyFiltersBtn) {
         applyFiltersBtn.addEventListener('click', () => {
             applyFilters().then(() => {
-                closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
+                closeFiltersPanel();
             });
         });
     }
     if (resetFiltersBtn) {
         resetFiltersBtn.addEventListener('click', () => {
             resetFilters().then(() => {
-                closeModal(filtersModal, filtersModal.querySelector('.modal-content'));
+                closeFiltersPanel();
             });
         });
     }
@@ -960,12 +960,12 @@ async function init() {
     // Wire up settings modal
     if (openSettingsBtn) {
         openSettingsBtn.addEventListener('click', () => {
-            settingsModal.style.display = 'flex';
+            openSettingsPanel();
         });
     }
     if (closeSettingsBtn) {
         closeSettingsBtn.addEventListener('click', () => {
-            closeModal(settingsModal, settingsModal.querySelector('.modal-content'));
+            closeSettingsPanel();
         });
     }
     
@@ -3112,15 +3112,49 @@ const filtersPanel = document.getElementById('filtersPanel');
 const filtersPanelContent = document.getElementById('filtersPanelContent');
 const filtersPanelCloseBtn = document.getElementById('filtersPanelCloseBtn');
 
-function openFiltersPanel() {
-    filtersPanel.classList.add('open');
-    // Scroll to top when opening
-    filtersPanel.scrollTop = 0;
+async function openFiltersPanel() {
+    try {
+        const backdrop = document.getElementById('filtersBackdrop');
+        const filtersPanel = document.getElementById('filtersPanel');
+        
+        filtersPanel.classList.add('open');
+        if (backdrop) {
+            backdrop.classList.add('active');
+        }
+        filtersPanel.scrollTop = 0;
+        
+        // Add backdrop click handler
+        if (backdrop) {
+            const handleBackdropClick = () => {
+                closeFiltersPanel();
+            };
+            backdrop.addEventListener('click', handleBackdropClick);
+            backdrop.backdropClickHandler = handleBackdropClick;
+        }
+    } catch (error) {
+        console.error('Error in openFiltersPanel:', error);
+    }
 }
 
 function closeFiltersPanel() {
+    const backdrop = document.getElementById('filtersBackdrop');
+    const filtersPanel = document.getElementById('filtersPanel');
+    
+    if (!filtersPanel) {
+        return;
+    }
+    
+    // Remove backdrop click handler
+    if (backdrop && backdrop.backdropClickHandler) {
+        backdrop.removeEventListener('click', backdrop.backdropClickHandler);
+        delete backdrop.backdropClickHandler;
+    }
+    
     filtersPanel.classList.add('closing');
     filtersPanel.classList.remove('open');
+    if (backdrop) {
+        backdrop.classList.remove('active');
+    }
     
     setTimeout(() => {
         filtersPanel.classList.remove('closing');
@@ -3136,15 +3170,49 @@ const settingsPanel = document.getElementById('settingsPanel');
 const settingsPanelContent = document.getElementById('settingsPanelContent');
 const settingsPanelCloseBtn = document.getElementById('settingsPanelCloseBtn');
 
-function openSettingsPanel() {
-    settingsPanel.classList.add('open');
-    // Scroll to top when opening
-    settingsPanel.scrollTop = 0;
+async function openSettingsPanel() {
+    try {
+        const backdrop = document.getElementById('settingsBackdrop');
+        const settingsPanel = document.getElementById('settingsPanel');
+        
+        settingsPanel.classList.add('open');
+        if (backdrop) {
+            backdrop.classList.add('active');
+        }
+        settingsPanel.scrollTop = 0;
+        
+        // Add backdrop click handler
+        if (backdrop) {
+            const handleBackdropClick = () => {
+                closeSettingsPanel();
+            };
+            backdrop.addEventListener('click', handleBackdropClick);
+            backdrop.backdropClickHandler = handleBackdropClick;
+        }
+    } catch (error) {
+        console.error('Error in openSettingsPanel:', error);
+    }
 }
 
 function closeSettingsPanel() {
+    const backdrop = document.getElementById('settingsBackdrop');
+    const settingsPanel = document.getElementById('settingsPanel');
+    
+    if (!settingsPanel) {
+        return;
+    }
+    
+    // Remove backdrop click handler
+    if (backdrop && backdrop.backdropClickHandler) {
+        backdrop.removeEventListener('click', backdrop.backdropClickHandler);
+        delete backdrop.backdropClickHandler;
+    }
+    
     settingsPanel.classList.add('closing');
     settingsPanel.classList.remove('open');
+    if (backdrop) {
+        backdrop.classList.remove('active');
+    }
     
     setTimeout(() => {
         settingsPanel.classList.remove('closing');

@@ -28,6 +28,9 @@ span.icon.x-mark::before {
 span.icon.heart-icon::before {
     content: '\e4ff';
 }
+span.icon.heart::before {
+    content: '\f004';
+}
 span.icon.circle-xmark::before {
     content: '\f057';
 }
@@ -1672,49 +1675,4 @@ button {
 .test-card:hover {
     opacity: 1;
     transform: scale(1.02);
-}
-
-/* Filters and Settings Panels */
-.filters-panel,
-.settings-panel {
-    background-color: #000000;
-    bottom: 0;
-    flex-direction: column;
-    height: 100dvh;
-    left: 0;
-    position: fixed;
-    right: 0;
-    top: 0;
-    width: 100%;
-    z-index: 5000;
-    overflow-y: auto;
-    scrollbar-width: none;
-    transform: translateX(100%);
-    transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-    display: flex;
-}
-
-.filters-panel::-webkit-scrollbar,
-.settings-panel::-webkit-scrollbar {
-    display: none;
-}
-
-.filters-panel.open,
-.settings-panel.open {
-    transform: translateX(0);
-}
-
-.filters-panel.closing,
-.settings-panel.closing {
-    transform: translateX(100%);
-}
-
-#filtersPanelContent,
-#settingsPanelContent {
-    display: grid;
-    gap: 2.5rem;
-    padding-bottom: 1.5rem;
-    padding-left: .5rem;
-    padding-right: .5rem;
-    padding-top: .5rem;
 }

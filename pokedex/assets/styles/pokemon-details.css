@@ -127,11 +127,10 @@
 
 .favoriteHeartsContainer .favorite-heart span.icon.heart-icon.not-favorite {
     color: #F6F6F6;
-    opacity: .5;
+    opacity: .35;
 }
 
 .favoriteHeartsContainer .favorite-heart span.icon.heart-icon.favorite {
-    color: #D6546A;
     opacity: 1;
 }
 
