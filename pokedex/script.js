@@ -506,6 +506,8 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     if (isFav) {
         heartElement.innerHTML = '<span class="icon heart-icon favorite"></span>';
         heartElement.classList.add('filled');
+        // Show toast for favorited pokemon
+        showFavoriteToast(pokemonId);
     } else {
         heartElement.innerHTML = '<span class="icon heart-icon not-favorite"></span>';
         heartElement.classList.remove('filled');
@@ -521,6 +523,90 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     if (favoritesFilter && favoritesFilter.checked) {
         displayPage();
     }
+}
+
+// Toast management for favorites
+let toastTimeout = null;
+let toastIsVisible = false;
+
+function showFavoriteToast(pokemonId) {
+    console.log('=== showFavoriteToast called ===', 'pokemonId:', pokemonId, 'toastIsVisible:', toastIsVisible);
+    
+    const toast = document.getElementById('pokemonFavoritesToast');
+    const nameElement = document.getElementById('favoritePokemonName');
+    
+    if (!toast || !nameElement) {
+        console.warn('Toast elements not found');
+        return;
+    }
+    
+    // If toast is already visible, clear the pending timeout
+    // and keep the generic "Pokémon" text (don't queue up names)
+    if (toastIsVisible) {
+        console.log('Toast already visible - just extending timeout');
+        clearTimeout(toastTimeout);
+        // Keep the generic "Pokémon" text by resetting it
+        nameElement.textContent = 'Pokémon';
+        // Restart the timeout for hiding
+        toastTimeout = setTimeout(() => {
+            console.log('Timeout fired - hiding toast');
+            hideToast(toast, nameElement);
+        }, 5000);
+        return;
+    }
+    
+    // Toast is not visible, so show it with the pokemon name
+    toastIsVisible = true;
+    console.log('Toast not visible - showing it now');
+    
+    // Get the pokemon data from cache (which has speciesName)
+    // Try both string and number keys since cache might use either
+    const cachedData = pokemonDataCache[pokemonId] || pokemonDataCache[String(pokemonId)];
+    console.log('cachedData for', pokemonId, ':', cachedData);
+    console.log('cachedData keys:', cachedData ? Object.keys(cachedData) : 'none');
+    let displayName = 'Pokémon';
+    
+    if (cachedData) {
+        // Check what properties are available
+        const nameToUse = cachedData.speciesName || cachedData.name || cachedData.displayName;
+        console.log('nameToUse:', nameToUse, 'speciesName:', cachedData.speciesName, 'name:', cachedData.name);
+        
+        if (nameToUse) {
+            // Simple formatting: capitalize each word
+            displayName = nameToUse.split('-').map(word => 
+                word.charAt(0).toUpperCase() + word.slice(1)
+            ).join(' ');
+            console.log('Display name calculated:', displayName);
+        } else {
+            console.log('No name properties found in cachedData');
+        }
+    } else {
+        console.log('No cachedData found');
+    }
+    
+    console.log('Setting name to:', displayName);
+    nameElement.textContent = displayName;
+    console.log('Current name element text:', nameElement.textContent);
+    console.log('Adding show class to toast');
+    toast.classList.add('show');
+    console.log('Toast classes after add:', toast.className);
+    
+    // Auto-hide after 5 seconds
+    toastTimeout = setTimeout(() => {
+        console.log('Timeout fired - hiding toast');
+        hideToast(toast, nameElement);
+    }, 5000);
+}
+
+function hideToast(toast, nameElement) {
+    console.log('=== hideToast called ===');
+    // Remove the show class to trigger the slide-up animation
+    toast.classList.remove('show');
+    toastIsVisible = false;
+    // Reset to default text after animation completes (0.8s animation + buffer)
+    setTimeout(() => {
+        nameElement.textContent = 'Pokémon';
+    }, 900);
 }
 
 // Toggle moves accordion visibility with smooth animations and scroll
@@ -3090,17 +3176,39 @@ const detailCloseBtn = document.getElementById('detailCloseBtn');
 const testCard = document.getElementById('testCard');
 
 function openDetailPanel() {
+    const backdrop = document.getElementById('pokemonDetailBackdrop');
     // Remove closing class to reset state
     pokemonDetailPanel.classList.remove('closing');
     // Force reflow to ensure the DOM is updated before adding open class
     void pokemonDetailPanel.offsetWidth;
     // Now add open class for animation
     pokemonDetailPanel.classList.add('open');
+    if (backdrop) {
+        backdrop.classList.add('active');
+        
+        // Add backdrop click handler
+        const handleBackdropClick = () => {
+            closeDetailPanel();
+        };
+        backdrop.addEventListener('click', handleBackdropClick);
+        backdrop.detailBackdropClickHandler = handleBackdropClick;
+    }
 }
 
 function closeDetailPanel() {
+    const backdrop = document.getElementById('pokemonDetailBackdrop');
     pokemonDetailPanel.classList.add('closing');
     pokemonDetailPanel.classList.remove('open');
+    
+    // Remove backdrop click handler
+    if (backdrop && backdrop.detailBackdropClickHandler) {
+        backdrop.removeEventListener('click', backdrop.detailBackdropClickHandler);
+        delete backdrop.detailBackdropClickHandler;
+    }
+    
+    if (backdrop) {
+        backdrop.classList.remove('active');
+    }
     
     setTimeout(() => {
         pokemonDetailPanel.style.display = 'none';

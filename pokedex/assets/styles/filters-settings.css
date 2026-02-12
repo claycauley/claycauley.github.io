@@ -5,10 +5,9 @@
     border-left: 1px solid #222222;
     flex-direction: column;
     height: 100dvh;
-    left: 5%;
     position: fixed;
     top: 0;
-    width: 95dvw;
+    width: 100dvw;
     z-index: 5001;
     overflow-y: auto;
     scrollbar-width: none;
@@ -125,13 +124,14 @@
 
 #filtersPanel .filter-group {
     align-items: center;
-    border: 1px solid #666666;
     border-radius: .5rem;
+    border: 1px solid #666666;
     color: #F6F6F6;
     display: grid;
     font-size: .875rem;
     gap: .5rem;
-    padding: .5rem;
+    grid-template-columns: 1fr 2fr;
+    padding: 1rem;
     position: relative;
 }
 

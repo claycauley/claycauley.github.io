@@ -75,6 +75,9 @@ span.icon.sparkle::before {
 span.icon.sparkle.reverse {
     transform: rotate(180deg);
 }
+span.icon.heart-check::before {
+    content: '\e4fd';
+}
 
 /* Heart icon states */
 span.icon.heart-icon {
@@ -86,7 +89,7 @@ span.icon.heart-icon.not-favorite::before {
 }
 
 span.icon.heart-icon.favorite {
-    color: rgba(255, 255, 255, 0.75);
+    color: #FFFFFF;
 }
 
 /* Progress bar for background caching */
@@ -1651,7 +1654,7 @@ button {
     transform: translateX(100%);
     transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     width: 100%;
-    z-index: 5000;
+    z-index: 5001;
 }
 
 .pokemon-detail-panel.open {
@@ -1662,17 +1665,33 @@ button {
     transform: translateX(100%);
 }
 
-.test-card {
-    cursor: pointer;
-    margin-bottom: 16px;
-    margin-left: 16px;
-    margin-right: 16px;
-    margin-top: 16px;
-    border: 2px dashed #ff4757;
-    opacity: 0.8;
+.pokemon-favorites-toast {
+    background: linear-gradient(180deg, #FFFFFF 0%, #CCCCCC 100%);
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: 0 1.5rem 4rem .5rem rgba(0, 0, 0, 0);
+    display: grid;
+    font-size: 1.25rem;
+    justify-content: center;
+    padding: 1.5rem 1rem;
+    position: fixed;
+    text-shadow: 0 1px 1px #FFFFFF;
+    top: -100%;
+    width: 100%;
+    z-index: 9999;
+    transition: top 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
 }
 
-.test-card:hover {
-    opacity: 1;
-    transform: scale(1.02);
+.pokemon-favorites-toast.show {
+    top: 0;
+    box-shadow: 0 1.5rem 4rem .5rem rgba(0, 0, 0, 0.3);
+}
+
+.pokemon-favorites-toast .paragraphGrid {
+    align-items: center;
+    gap: 1rem;
+}
+
+.pokemon-favorites-toast .heart-check::before {
+    color: #D6546A;
+    font-size: 1.55em;
 }

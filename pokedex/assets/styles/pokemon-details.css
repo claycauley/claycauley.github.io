@@ -78,11 +78,11 @@
     position: unset;
 }
 
-.detailHeader .additionalActions span.icon.heart-icon.not-favorite {
+.favoriteHeartsContainer span.icon.heart-icon.not-favorite {
     color: #F6F6F6;
 }
 
-.detailHeader .additionalActions span.icon.heart-icon.favorite {
+.favoriteHeartsContainer span.icon.heart-icon.favorite {
     color: #D6546A;
 }
 
@@ -113,7 +113,7 @@
 }
 
 .favoriteHeartsContainer {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .75);
     border: 1px solid #F6F6F6;
     border-radius: .5rem;
     padding: 0 .5rem;
