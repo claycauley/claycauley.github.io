@@ -78,6 +78,9 @@ span.icon.sparkle.reverse {
 span.icon.heart-check::before {
     content: '\e4fd';
 }
+span.icon.heart-broken::before {
+    content: '\f7a9';
+}
 
 /* Heart icon states */
 span.icon.heart-icon {
@@ -1667,23 +1670,26 @@ button {
 
 .pokemon-favorites-toast {
     background: linear-gradient(180deg, #FFFFFF 0%, #CCCCCC 100%);
-    border-radius: 0 0 1rem 1rem;
-    box-shadow: 0 1.5rem 4rem .5rem rgba(0, 0, 0, 0);
+    border-radius: 4rem;
+    bottom: 2dvh;
+    box-shadow: 0 0 4rem rgba(0, 0, 0, 0.75);
     display: grid;
-    font-size: 1.25rem;
+    font-size: 1rem;
+    font-weight: 700;
     justify-content: center;
-    padding: 1.5rem 1rem;
+    left: 50%;
+    opacity: 0;
+    padding: 1rem 3rem;
     position: fixed;
     text-shadow: 0 1px 1px #FFFFFF;
-    top: -100%;
-    width: 100%;
+    transform: translateX(-50%);
+    transition: opacity 0.25s ease-in-out;
+    width: max-content;
     z-index: 9999;
-    transition: top 0.8s ease-in-out, box-shadow 0.8s ease-in-out;
 }
 
 .pokemon-favorites-toast.show {
-    top: 0;
-    box-shadow: 0 1.5rem 4rem .5rem rgba(0, 0, 0, 0.3);
+    opacity: 1;
 }
 
 .pokemon-favorites-toast .paragraphGrid {
@@ -1691,7 +1697,8 @@ button {
     gap: 1rem;
 }
 
-.pokemon-favorites-toast .heart-check::before {
+.pokemon-favorites-toast .heart-check::before,
+.pokemon-favorites-toast .heart-broken::before {
     color: #D6546A;
     font-size: 1.55em;
 }

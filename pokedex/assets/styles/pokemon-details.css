@@ -225,6 +225,10 @@
     background-color: rgba(0, 0, 0, .5);
 }
 
+.pokemonTypings strong {
+    color: #F6F6F6;
+}
+
 .dualTyping {
     display: grid;
     gap: .5rem;

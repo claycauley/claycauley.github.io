@@ -511,6 +511,8 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     } else {
         heartElement.innerHTML = '<span class="icon heart-icon not-favorite"></span>';
         heartElement.classList.remove('filled');
+        // Show toast for removed pokemon
+        showRemovalToast(pokemonId);
     }
     
     // Also update the corresponding heart on the list (if it exists)
@@ -528,85 +530,87 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
 // Toast management for favorites
 let toastTimeout = null;
 let toastIsVisible = false;
+let removalToastTimeout = null;
+let removalToastIsVisible = false;
 
 function showFavoriteToast(pokemonId) {
-    console.log('=== showFavoriteToast called ===', 'pokemonId:', pokemonId, 'toastIsVisible:', toastIsVisible);
-    
     const toast = document.getElementById('pokemonFavoritesToast');
-    const nameElement = document.getElementById('favoritePokemonName');
+    const removalToast = document.getElementById('pokemonFavoritesToastRemoval');
     
-    if (!toast || !nameElement) {
-        console.warn('Toast elements not found');
+    if (!toast) {
         return;
     }
     
-    // If toast is already visible, clear the pending timeout
-    // and keep the generic "Pokémon" text (don't queue up names)
+    // Hide the removal toast if it's showing
+    if (removalToastIsVisible) {
+        removalToast.classList.remove('show');
+        clearTimeout(removalToastTimeout);
+        removalToastIsVisible = false;
+    }
+    
+    // If toast is already visible, clear the pending timeout and restart it
     if (toastIsVisible) {
-        console.log('Toast already visible - just extending timeout');
         clearTimeout(toastTimeout);
-        // Keep the generic "Pokémon" text by resetting it
-        nameElement.textContent = 'Pokémon';
-        // Restart the timeout for hiding
         toastTimeout = setTimeout(() => {
-            console.log('Timeout fired - hiding toast');
-            hideToast(toast, nameElement);
-        }, 5000);
+            hideToast(toast);
+        }, 3000);
         return;
     }
     
-    // Toast is not visible, so show it with the pokemon name
+    // Toast is not visible, so show it
     toastIsVisible = true;
-    console.log('Toast not visible - showing it now');
-    
-    // Get the pokemon data from cache (which has speciesName)
-    // Try both string and number keys since cache might use either
-    const cachedData = pokemonDataCache[pokemonId] || pokemonDataCache[String(pokemonId)];
-    console.log('cachedData for', pokemonId, ':', cachedData);
-    console.log('cachedData keys:', cachedData ? Object.keys(cachedData) : 'none');
-    let displayName = 'Pokémon';
-    
-    if (cachedData) {
-        // Check what properties are available
-        const nameToUse = cachedData.speciesName || cachedData.name || cachedData.displayName;
-        console.log('nameToUse:', nameToUse, 'speciesName:', cachedData.speciesName, 'name:', cachedData.name);
-        
-        if (nameToUse) {
-            // Simple formatting: capitalize each word
-            displayName = nameToUse.split('-').map(word => 
-                word.charAt(0).toUpperCase() + word.slice(1)
-            ).join(' ');
-            console.log('Display name calculated:', displayName);
-        } else {
-            console.log('No name properties found in cachedData');
-        }
-    } else {
-        console.log('No cachedData found');
-    }
-    
-    console.log('Setting name to:', displayName);
-    nameElement.textContent = displayName;
-    console.log('Current name element text:', nameElement.textContent);
-    console.log('Adding show class to toast');
     toast.classList.add('show');
-    console.log('Toast classes after add:', toast.className);
     
-    // Auto-hide after 5 seconds
+    // Auto-hide after 3 seconds
     toastTimeout = setTimeout(() => {
-        console.log('Timeout fired - hiding toast');
-        hideToast(toast, nameElement);
-    }, 5000);
+        hideToast(toast);
+    }, 3000);
 }
 
-function hideToast(toast, nameElement) {
-    console.log('=== hideToast called ===');
+function showRemovalToast(pokemonId) {
+    const toast = document.getElementById('pokemonFavoritesToastRemoval');
+    const additionToast = document.getElementById('pokemonFavoritesToast');
+    
+    if (!toast) {
+        return;
+    }
+    
+    // Hide the addition toast if it's showing
+    if (toastIsVisible) {
+        additionToast.classList.remove('show');
+        clearTimeout(toastTimeout);
+        toastIsVisible = false;
+    }
+    
+    // If removal toast is already visible, clear the pending timeout and restart it
+    if (removalToastIsVisible) {
+        clearTimeout(removalToastTimeout);
+        removalToastTimeout = setTimeout(() => {
+            hideRemovalToast(toast);
+        }, 3000);
+        return;
+    }
+    
+    // Toast is not visible, so show it
+    removalToastIsVisible = true;
+    toast.classList.add('show');
+    
+    // Auto-hide after 3 seconds
+    removalToastTimeout = setTimeout(() => {
+        hideRemovalToast(toast);
+    }, 3000);
+}
+
+function hideToast(toast) {
     // Remove the show class to trigger the slide-up animation
     toast.classList.remove('show');
     toastIsVisible = false;
-    // Reset to default text after animation completes (0.8s animation + buffer)
-    setTimeout(() => {
-        nameElement.textContent = 'Pokémon';
-    }, 900);
+}
+
+function hideRemovalToast(toast) {
+    // Remove the show class to trigger the slide-up animation
+    toast.classList.remove('show');
+    removalToastIsVisible = false;
 }
 
 // Toggle moves accordion visibility with smooth animations and scroll
