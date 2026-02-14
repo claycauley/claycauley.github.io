@@ -1669,19 +1669,19 @@ button {
 }
 
 .pokemon-favorites-toast {
-    background: linear-gradient(180deg, #FFFFFF 0%, #CCCCCC 100%);
+    background: linear-gradient(180deg, #FFFFFF 0%, #AAAAAA 100%);
     border-radius: 4rem;
     bottom: 2dvh;
     box-shadow: 0 0 4rem rgba(0, 0, 0, 0.75);
     display: grid;
-    font-size: 1rem;
+    font-size: .875rem;
     font-weight: 700;
     justify-content: center;
     left: 50%;
     opacity: 0;
-    padding: 1rem 3rem;
+    padding: .5rem 2rem;
     position: fixed;
-    text-shadow: 0 1px 1px #FFFFFF;
+    text-shadow: 0 1px 1px #DDDDDD;
     transform: translateX(-50%);
     transition: opacity 0.25s ease-in-out;
     width: max-content;
