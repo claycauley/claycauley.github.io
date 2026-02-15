@@ -81,6 +81,12 @@ span.icon.heart-check::before {
 span.icon.heart-broken::before {
     content: '\f7a9';
 }
+span.icon.trash::before {
+    content: '\f1f8';
+}
+span.icon.circle-checkmark::before {
+    content: '\f058';
+}
 
 /* Heart icon states */
 span.icon.heart-icon {
@@ -1698,7 +1704,15 @@ button {
 }
 
 .pokemon-favorites-toast .heart-check::before,
+.pokemon-favorites-toast .heart-broken::before,
+.pokemon-favorites-toast .circle-checkmark::before {
+    font-size: 1.45rem;
+}
+
+.pokemon-favorites-toast .heart-check::before,
 .pokemon-favorites-toast .heart-broken::before {
     color: #D6546A;
-    font-size: 1.55em;
+}
+.pokemon-favorites-toast .circle-checkmark::before {
+    color: #378d35;
 }

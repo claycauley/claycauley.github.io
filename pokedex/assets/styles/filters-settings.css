@@ -115,6 +115,23 @@
     font-size: 1.5rem;
 }
 
+.clear-favorites-btn {
+    background-color: transparent;
+    border: 1px solid #be2d3a;
+    border-radius: .25rem;
+    color: #F6F6F6;
+    font-size: .875rem;
+    padding: 1rem;
+}
+
+.clear-favorites-btn .icon {
+    margin-right: .5rem;
+}
+
+#filtersPanel .filter-group.favorites hr {
+    margin: .5rem 0;
+}
+
 #filtersPanelContent hr {
     background-color: #F6F6F6;
     height: 1px;

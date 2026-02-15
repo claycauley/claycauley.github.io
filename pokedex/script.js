@@ -466,11 +466,13 @@ function saveFavorites() {
 function addFavorite(pokemonId) {
     favoritePokemon.add(String(pokemonId));
     saveFavorites();
+    updateClearFavoritesVisibility();
 }
 
 function removeFavorite(pokemonId) {
     favoritePokemon.delete(String(pokemonId));
     saveFavorites();
+    updateClearFavoritesVisibility();
 }
 
 function isFavorite(pokemonId) {
@@ -532,6 +534,19 @@ let toastTimeout = null;
 let toastIsVisible = false;
 let removalToastTimeout = null;
 let removalToastIsVisible = false;
+let clearedToastTimeout = null;
+let clearedToastIsVisible = false;
+
+function updateClearFavoritesVisibility() {
+    const clearFavoritesBtn = document.getElementById('clearFavoritesBtn');
+    const hiddenElements = document.querySelectorAll('.hiddenUnlessFavorites');
+    
+    if (favoritePokemon.size > 0) {
+        hiddenElements.forEach(el => el.style.display = '');
+    } else {
+        hiddenElements.forEach(el => el.style.display = 'none');
+    }
+}
 
 function showFavoriteToast(pokemonId) {
     const toast = document.getElementById('pokemonFavoritesToast');
@@ -611,6 +626,57 @@ function hideRemovalToast(toast) {
     // Remove the show class to trigger the slide-up animation
     toast.classList.remove('show');
     removalToastIsVisible = false;
+}
+
+function showClearedToast() {
+    const toast = document.getElementById('pokemonFavoritesToastCleared');
+    
+    if (!toast) {
+        return;
+    }
+    
+    // Hide other toasts if they're showing
+    if (toastIsVisible) {
+        const additionToast = document.getElementById('pokemonFavoritesToast');
+        if (additionToast) {
+            additionToast.classList.remove('show');
+            clearTimeout(toastTimeout);
+        }
+        toastIsVisible = false;
+    }
+    
+    if (removalToastIsVisible) {
+        const removalToast = document.getElementById('pokemonFavoritesToastRemoval');
+        if (removalToast) {
+            removalToast.classList.remove('show');
+            clearTimeout(removalToastTimeout);
+        }
+        removalToastIsVisible = false;
+    }
+    
+    // If cleared toast is already visible, clear the pending timeout and restart it
+    if (clearedToastIsVisible) {
+        clearTimeout(clearedToastTimeout);
+        clearedToastTimeout = setTimeout(() => {
+            hideClearedToast(toast);
+        }, 3000);
+        return;
+    }
+    
+    // Toast is not visible, so show it
+    clearedToastIsVisible = true;
+    toast.classList.add('show');
+    
+    // Auto-hide after 3 seconds
+    clearedToastTimeout = setTimeout(() => {
+        hideClearedToast(toast);
+    }, 3000);
+}
+
+function hideClearedToast(toast) {
+    // Remove the show class to trigger the slide-up animation
+    toast.classList.remove('show');
+    clearedToastIsVisible = false;
 }
 
 // Toggle moves accordion visibility with smooth animations and scroll
@@ -966,6 +1032,7 @@ async function init() {
     await initDB();
     loadViewPreference();
     loadFavorites(); // Load saved favorites from localStorage
+    updateClearFavoritesVisibility(); // Update visibility of clear favorites button
     await initializeFilters();
     await loadPokemonList();
     
@@ -1045,6 +1112,37 @@ async function init() {
     if (favoritesFilter) {
         favoritesFilter.addEventListener('change', () => {
             displayPage();
+        });
+    }
+    // Wire up clear favorites button
+    const clearFavoritesBtn = document.getElementById('clearFavoritesBtn');
+    if (clearFavoritesBtn) {
+        clearFavoritesBtn.addEventListener('click', () => {
+            if (favoritePokemon.size > 0) {
+                // Clear all favorites
+                favoritePokemon.clear();
+                saveFavorites();
+                
+                // Update all heart icons
+                document.querySelectorAll('.favorite-heart').forEach(heart => {
+                    updateHeartIcon(heart, heart.dataset.pokemonId);
+                });
+                
+                // Update clear button visibility
+                updateClearFavoritesVisibility();
+                
+                // Close the filters panel
+                closeFiltersPanel();
+                
+                // Show the cleared toast
+                showClearedToast();
+                
+                // Re-display the page if favorites filter is active
+                if (favoritesFilter && favoritesFilter.checked) {
+                    favoritesFilter.checked = false;
+                    displayPage();
+                }
+            }
         });
     }
     // Wire up settings modal
