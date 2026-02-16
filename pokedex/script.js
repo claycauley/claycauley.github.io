@@ -3890,6 +3890,12 @@ async function populateDetailPanel(pokemon) {
                         statBarColor = typeColors[type1] || '#A8A878';
                     }
                     
+                    // Set the Type 1 color on all .additionalPokemonInfo sections
+                    const additionalInfoSections = pokemonDetailContent.querySelectorAll('.additionalPokemonInfo');
+                    additionalInfoSections.forEach(section => {
+                        section.style.setProperty('--type-1-color', statBarColor);
+                    });
+                    
                     // Populate each stat
                     data.stats.forEach(statObj => {
                         const statName = statObj.stat.name;
@@ -3914,6 +3920,270 @@ async function populateDetailPanel(pokemon) {
                 } catch (error) {
                     console.error('Error populating base stats:', error);
                 }
+            }
+            
+            // Populate type effectiveness (double damage to)
+            try {
+                const doubleDamageToContainer = pokemonDetailContent.querySelector('.doubleDamageTo');
+                const doubleDamageToList = doubleDamageToContainer.querySelector('.pokemonTypes');
+                if (doubleDamageToList && data.types) {
+                    const offensiveEffectiveness = new Set();
+                    
+                    // Fetch data for each type to get what they're strong against
+                    for (const typeObj of data.types) {
+                        try {
+                            const typeResponse = await fetch(typeObj.type.url);
+                            if (!typeResponse.ok) continue;
+                            
+                            const typeData = await typeResponse.json();
+                            const relations = typeData.damage_relations;
+                            
+                            // Add types this pokemon deals double damage to
+                            if (relations.double_damage_to) {
+                                relations.double_damage_to.forEach(t => offensiveEffectiveness.add(t.name));
+                            }
+                        } catch (error) {
+                            console.error('Error fetching type data:', error);
+                        }
+                    }
+                    
+                    // Clear the list and populate with type badges
+                    doubleDamageToList.innerHTML = '';
+                    if (offensiveEffectiveness.size > 0) {
+                        Array.from(offensiveEffectiveness).sort().forEach(type => {
+                            const li = document.createElement('li');
+                            li.className = `type-${type}`;
+                            li.style.backgroundColor = typeColors[type] || '#A8A878';
+                            li.innerHTML = `<span class="icon type-badge type-${type}"></span>${type}`;
+                            doubleDamageToList.appendChild(li);
+                        });
+                        doubleDamageToContainer.classList.remove('hidden');
+                    } else {
+                        doubleDamageToContainer.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating type effectiveness:', error);
+            }
+            
+            // Populate type effectiveness (half damage to)
+            try {
+                const halfDamageToContainer = pokemonDetailContent.querySelector('.halfDamageTo');
+                const halfDamageToList = halfDamageToContainer.querySelector('.pokemonTypes');
+                if (halfDamageToList && data.types) {
+                    const offensiveEffectiveness = new Set();
+                    
+                    // Fetch data for each type to get what they're not very effective against
+                    for (const typeObj of data.types) {
+                        try {
+                            const typeResponse = await fetch(typeObj.type.url);
+                            if (!typeResponse.ok) continue;
+                            
+                            const typeData = await typeResponse.json();
+                            const relations = typeData.damage_relations;
+                            
+                            // Add types this pokemon deals half damage to
+                            if (relations.half_damage_to) {
+                                relations.half_damage_to.forEach(t => offensiveEffectiveness.add(t.name));
+                            }
+                        } catch (error) {
+                            console.error('Error fetching type data:', error);
+                        }
+                    }
+                    
+                    // Clear the list and populate with type badges
+                    halfDamageToList.innerHTML = '';
+                    if (offensiveEffectiveness.size > 0) {
+                        Array.from(offensiveEffectiveness).sort().forEach(type => {
+                            const li = document.createElement('li');
+                            li.className = `type-${type}`;
+                            li.style.backgroundColor = typeColors[type] || '#A8A878';
+                            li.innerHTML = `<span class="icon type-badge type-${type}"></span>${type}`;
+                            halfDamageToList.appendChild(li);
+                        });
+                        halfDamageToContainer.classList.remove('hidden');
+                    } else {
+                        halfDamageToContainer.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating half damage to:', error);
+            }
+            
+            // Populate type effectiveness (no damage to)
+            try {
+                const noDamageToContainer = pokemonDetailContent.querySelector('.noDamageTo');
+                const noDamageToList = noDamageToContainer.querySelector('.pokemonTypes');
+                if (noDamageToList && data.types) {
+                    const offensiveEffectiveness = new Set();
+                    
+                    // Fetch data for each type to get what they have no effect against
+                    for (const typeObj of data.types) {
+                        try {
+                            const typeResponse = await fetch(typeObj.type.url);
+                            if (!typeResponse.ok) continue;
+                            
+                            const typeData = await typeResponse.json();
+                            const relations = typeData.damage_relations;
+                            
+                            // Add types this pokemon has no effect against
+                            if (relations.no_damage_to) {
+                                relations.no_damage_to.forEach(t => offensiveEffectiveness.add(t.name));
+                            }
+                        } catch (error) {
+                            console.error('Error fetching type data:', error);
+                        }
+                    }
+                    
+                    // Clear the list and populate with type badges
+                    noDamageToList.innerHTML = '';
+                    if (offensiveEffectiveness.size > 0) {
+                        Array.from(offensiveEffectiveness).sort().forEach(type => {
+                            const li = document.createElement('li');
+                            li.className = `type-${type}`;
+                            li.style.backgroundColor = typeColors[type] || '#A8A878';
+                            li.innerHTML = `<span class="icon type-badge type-${type}"></span>${type}`;
+                            noDamageToList.appendChild(li);
+                        });
+                        noDamageToContainer.classList.remove('hidden');
+                    } else {
+                        noDamageToContainer.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating no damage to:', error);
+            }
+            
+            // Populate type effectiveness (double damage from)
+            try {
+                const doubleDamageFromContainer = pokemonDetailContent.querySelector('.doubleDamageFrom');
+                const doubleDamageFromList = doubleDamageFromContainer.querySelector('.pokemonTypes');
+                if (doubleDamageFromList && data.types) {
+                    const defensiveEffectiveness = new Set();
+                    
+                    // Fetch data for each type to get what's strong against them
+                    for (const typeObj of data.types) {
+                        try {
+                            const typeResponse = await fetch(typeObj.type.url);
+                            if (!typeResponse.ok) continue;
+                            
+                            const typeData = await typeResponse.json();
+                            const relations = typeData.damage_relations;
+                            
+                            // Add types that deal double damage to this pokemon
+                            if (relations.double_damage_from) {
+                                relations.double_damage_from.forEach(t => defensiveEffectiveness.add(t.name));
+                            }
+                        } catch (error) {
+                            console.error('Error fetching type data:', error);
+                        }
+                    }
+                    
+                    // Clear the list and populate with type badges
+                    doubleDamageFromList.innerHTML = '';
+                    if (defensiveEffectiveness.size > 0) {
+                        Array.from(defensiveEffectiveness).sort().forEach(type => {
+                            const li = document.createElement('li');
+                            li.className = `type-${type}`;
+                            li.style.backgroundColor = typeColors[type] || '#A8A878';
+                            li.innerHTML = `<span class="icon type-badge type-${type}"></span>${type}`;
+                            doubleDamageFromList.appendChild(li);
+                        });
+                        doubleDamageFromContainer.classList.remove('hidden');
+                    } else {
+                        doubleDamageFromContainer.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating double damage from:', error);
+            }
+            
+            // Populate type effectiveness (half damage from)
+            try {
+                const halfDamageFromContainer = pokemonDetailContent.querySelector('.halfDamageFrom');
+                const halfDamageFromList = halfDamageFromContainer.querySelector('.pokemonTypes');
+                if (halfDamageFromList && data.types) {
+                    const defensiveEffectiveness = new Set();
+                    
+                    // Fetch data for each type to get what's weak against them
+                    for (const typeObj of data.types) {
+                        try {
+                            const typeResponse = await fetch(typeObj.type.url);
+                            if (!typeResponse.ok) continue;
+                            
+                            const typeData = await typeResponse.json();
+                            const relations = typeData.damage_relations;
+                            
+                            // Add types that deal half damage to this pokemon
+                            if (relations.half_damage_from) {
+                                relations.half_damage_from.forEach(t => defensiveEffectiveness.add(t.name));
+                            }
+                        } catch (error) {
+                            console.error('Error fetching type data:', error);
+                        }
+                    }
+                    
+                    // Clear the list and populate with type badges
+                    halfDamageFromList.innerHTML = '';
+                    if (defensiveEffectiveness.size > 0) {
+                        Array.from(defensiveEffectiveness).sort().forEach(type => {
+                            const li = document.createElement('li');
+                            li.className = `type-${type}`;
+                            li.style.backgroundColor = typeColors[type] || '#A8A878';
+                            li.innerHTML = `<span class="icon type-badge type-${type}"></span>${type}`;
+                            halfDamageFromList.appendChild(li);
+                        });
+                        halfDamageFromContainer.classList.remove('hidden');
+                    } else {
+                        halfDamageFromContainer.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating half damage from:', error);
+            }
+            
+            // Populate type effectiveness (no damage from)
+            try {
+                const noDamageFromContainer = pokemonDetailContent.querySelector('.noDamageFrom');
+                const noDamageFromList = noDamageFromContainer.querySelector('.pokemonTypes');
+                if (noDamageFromList && data.types) {
+                    const defensiveEffectiveness = new Set();
+                    
+                    // Fetch data for each type to get what doesn't affect them
+                    for (const typeObj of data.types) {
+                        try {
+                            const typeResponse = await fetch(typeObj.type.url);
+                            if (!typeResponse.ok) continue;
+                            
+                            const typeData = await typeResponse.json();
+                            const relations = typeData.damage_relations;
+                            
+                            // Add types that have no effect on this pokemon
+                            if (relations.no_damage_from) {
+                                relations.no_damage_from.forEach(t => defensiveEffectiveness.add(t.name));
+                            }
+                        } catch (error) {
+                            console.error('Error fetching type data:', error);
+                        }
+                    }
+                    
+                    // Clear the list and populate with type badges
+                    noDamageFromList.innerHTML = '';
+                    if (defensiveEffectiveness.size > 0) {
+                        Array.from(defensiveEffectiveness).sort().forEach(type => {
+                            const li = document.createElement('li');
+                            li.className = `type-${type}`;
+                            li.style.backgroundColor = typeColors[type] || '#A8A878';
+                            li.innerHTML = `<span class="icon type-badge type-${type}"></span>${type}`;
+                            noDamageFromList.appendChild(li);
+                        });
+                        noDamageFromContainer.classList.remove('hidden');
+                    } else {
+                        noDamageFromContainer.classList.add('hidden');
+                    }
+                }
+            } catch (error) {
+                console.error('Error populating no damage from:', error);
             }
         } catch (error) {
             console.error('Error loading pokemon detail content:', error);
