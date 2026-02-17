@@ -434,13 +434,13 @@
     background-image: none;
     border-radius: .25rem;
     display: grid;
-    flex: 1 0 0;
+    flex-grow: 1;
     font-weight: 600;
     gap: .5rem;
     grid-template-columns: max-content max-content;
     line-height: 1;
     justify-content: center;
-    padding: .5rem 1rem;
+    padding: .5rem .875em;
     text-transform: capitalize;
     width: fit-content;
 }
@@ -451,8 +451,9 @@
 }
 
 .pokemonTypes li .type-badge {
-    height: 1rem;
+    height: 100%;
     width: 1rem;
+    border-radius: 0;
 }
 
 .hidden {
