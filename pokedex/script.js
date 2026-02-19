@@ -3488,30 +3488,30 @@ async function populateDetailPanel(pokemon) {
             pokemonDetailName.innerHTML = formatPokemonName(data.name, speciesName);
         }
         
-        // Setup cry button for detail panel
-        const cryButton = document.getElementById('cryButton');
-        if (cryButton && data.cries) {
-            // Check if this Pokemon should use latest cry
-            const useLatest = pokemonUsingLatestCry.includes(data.id);
-            const cryUrl = useLatest ? (data.cries.latest || data.cries.legacy) : (data.cries.legacy || data.cries.latest);
-            if (cryUrl) {
-                cryButton.onclick = (e) => {
-                    e.preventDefault();
-                    const audio = new Audio(cryUrl);
-                    audio.play().catch(error => {
-                        console.error(`Error playing cry for ${pokemon.name}:`, error);
-                    });
-                };
-            } else {
-                cryButton.style.display = 'none';
-            }
-        }
-        
         // Load pokemon.html content
         try {
             const contentResponse = await fetch('pokemon.html');
             const contentHtml = await contentResponse.text();
             pokemonDetailContent.innerHTML = contentHtml;
+            
+            // Setup cry button for detail panel (after content is loaded)
+            const cryButton = document.getElementById('cryButton');
+            if (cryButton && data.cries) {
+                // Check if this Pokemon should use latest cry
+                const useLatest = pokemonUsingLatestCry.includes(data.id);
+                const cryUrl = useLatest ? (data.cries.latest || data.cries.legacy) : (data.cries.legacy || data.cries.latest);
+                if (cryUrl) {
+                    cryButton.onclick = (e) => {
+                        e.preventDefault();
+                        const audio = new Audio(cryUrl);
+                        audio.play().catch(error => {
+                            console.error(`Error playing cry for ${pokemon.name}:`, error);
+                        });
+                    };
+                } else {
+                    cryButton.style.display = 'none';
+                }
+            }
             
             // Setup favorite heart in detail panel (after content is loaded)
             const favoriteHeart = document.querySelector('.pokemon-detail-panel .favorite-heart');
@@ -3895,6 +3895,12 @@ async function populateDetailPanel(pokemon) {
                     additionalInfoSections.forEach(section => {
                         section.style.setProperty('--type-1-color', statBarColor);
                     });
+                    
+                    // Set the Type 1 color on the detail header
+                    const detailHeader = pokemonDetailContent.closest('#pokemonDetailPanel').querySelector('.detailHeader');
+                    if (detailHeader) {
+                        detailHeader.style.setProperty('--type-1-color', statBarColor);
+                    }
                     
                     // Populate each stat
                     data.stats.forEach(statObj => {

@@ -67,7 +67,7 @@ span.icon.female::before {
     color: inherit;
 }
 span.icon.genderless::before {
-    content: '\f224';
+    content: '\f22d';
 }
 span.icon.sparkle::before {
     content: '\f890';
@@ -107,7 +107,7 @@ span.icon.heart-icon.favorite {
     bottom: 1rem;
     left: 0;
     height: 2px;
-    background-color: #D6546A;
+    background-color: #be2d3a;
     width: 0%;
     transition: width 0.2s ease;
     z-index: 9999;
@@ -178,6 +178,10 @@ body {
 .container > #errorContainer {
     flex-shrink: 0;
     padding: 8px;
+}
+
+.container > .search-container {
+    padding-bottom: 0;
 }
 
 .container > #pokemonContainer {
@@ -1711,7 +1715,7 @@ button {
 
 .pokemon-favorites-toast .heart-check::before,
 .pokemon-favorites-toast .heart-broken::before {
-    color: #D6546A;
+    color: #be2d3a;
 }
 .pokemon-favorites-toast .circle-checkmark::before {
     color: #378d35;
