@@ -36,7 +36,7 @@
 .detailHeader .back-btn {
     align-self: stretch;
     border-radius: 8px;
-    border: 1px solid #f6f6f6;
+    border: 1px solid var(--type-1-color);
     box-shadow: none;
     color: #F6F6F6;
     font-size: 24px;
@@ -114,10 +114,8 @@
 }
 
 .favoriteHeartsContainer {
-    background-color: rgba(0, 0, 0, .75);
-    border: 1px solid #F6F6F6;
     border-radius: .5rem;
-    padding: .25rem 1rem;
+    padding: .25rem 0;
 }
 
 .favoriteHeartsContainer .favorite-heart {
@@ -310,14 +308,14 @@
 .genderPercentage {
     display: flex;
     font-size: .875rem;
-    font-weight: 700;
+    font-weight: 600;
     grid-template-columns: 1fr 1fr;
     justify-content: space-between;
 }
 
 .baseStatsContainer {
     display: grid;
-    gap: .75rem;
+    gap: 1rem;
     grid-template-columns: max-content 1fr max-content;
 }
 
@@ -326,7 +324,7 @@
 .statsValue {
     display: grid;
     font-size: .875rem;
-    font-weight: 700;
+    font-weight: 600;
     gap: .5rem;
 }
 
@@ -335,8 +333,8 @@
 }
 
 .statBar {
-    background-color: #000000;
-    border: 1px solid #444444;
+    background-color: #121212;
+    border: 1px solid #000000;
     border-radius: 4rem;
     overflow: hidden;
     position: relative;
@@ -356,7 +354,7 @@
 
 .dexEntryVersionSelectorContainer {
     align-items: center;
-    border-top: 1px solid #f6f6f6;
+    border-top: 1px solid var(--type-1-color);
     display: grid;
     gap: 1rem;
     grid-template-columns: max-content 1fr;
@@ -379,7 +377,7 @@
     appearance: none;
     background-color: #000000;
     border-radius: .25rem;
-    border: 1px solid #666666;
+    border: 1px solid var(--type-1-color);
     color: #F6F6F6;
     cursor: pointer;
     font-family: 'Poppins';
@@ -389,6 +387,14 @@
     padding: .5rem;
     text-align: center;
     width: 100%;
+}
+
+.dexEntryVersionSelector::before {
+    content: '▼';
+    font-size: .625rem;
+    position: absolute;
+    right: 1rem;
+    pointer-events: none;
 }
 
 .pokemonStrengthWeakness {
