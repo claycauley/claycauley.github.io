@@ -15,9 +15,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles/styles.css?v=45">
-    <link rel="stylesheet" href="assets/styles/pokemon-details.css?v=45">
-    <link rel="stylesheet" href="assets/styles/filters-settings.css?v=45">
+    <link rel="stylesheet" href="assets/styles/styles.css?v=46">
+    <link rel="stylesheet" href="assets/styles/pokemon-details.css?v=46">
+    <link rel="stylesheet" href="assets/styles/filters-settings.css?v=46">
 </head>
 <body>
     <!-- Progress bar for background caching -->
@@ -40,9 +40,32 @@
                 </div>
             </button>
             <button id="openSettingsBtn" class="icon-btn" title="Open settings"><span class="icon settings"></span></button>
-        </div>        <div id="errorContainer"></div>
+        </div>        
         
-        <div id="pokemonContainer" class="pokemon-grid"></div>
+        <div id="errorContainer"></div>
+        
+        <div id="pokemonContainer" class="pokemon-grid">
+            <!-- <div class="pokemonCard" data-template>
+                <div class="pokemonImage">
+                    <img src="https://placehold.co/140" alt="Pokemon Image">
+                </div>
+                <div class="pokemonInfo">
+                    <p class="pokemonName">Blubasaur</p>
+                    <ul class="pokemonTyping">
+                        <li class="typeOne"><span class="icon grassType"></span>Grass</li>
+                        <li class="typeTwo"><span class="icon poisonType"></span>Poison</li>
+                    </ul>
+                </div>
+                <div class="additionalInfo">
+                    <div class="favorite-heart" data-pokemon-id="1">
+                        <span class="icon heart-icon not-favorite"></span>
+                    </div>
+                    <div class="pokemonID">
+                        <p class="nationalDexNumber">001</p>
+                    </div>
+                </div>
+            </div> -->
+        </div>
     </div>
 
     <!-- Pokemon Detail Panel (slides up from bottom) -->
@@ -213,6 +236,6 @@
         <p class="paragraphGrid"><span class="icon circle-checkmark"></span>Favorites Cleared!</strong></p>
     </section>
 
-    <script src="script.js?v=45"></script>
+    <script src="script.js?v=46"></script>
 </body>
 </html>

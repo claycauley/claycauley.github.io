@@ -518,7 +518,7 @@ function toggleFavoriteWithAnimation(heartElement, pokemonId) {
     }
     
     // Also update the corresponding heart on the list (if it exists)
-    const listHeart = document.querySelector(`.pokemon-card .favorite-heart[data-pokemon-id="${pokemonId}"]`);
+    const listHeart = document.querySelector(`.pokemonCard .favorite-heart[data-pokemon-id="${pokemonId}"]`);
     if (listHeart) {
         updateHeartIcon(listHeart, pokemonId);
     }
@@ -1516,7 +1516,7 @@ function displayPage() {
         });
     }
     
-    pokemonContainer.innerHTML = '';
+    pokemonContainer.querySelectorAll(':scope > :not([data-template])').forEach(el => el.remove());
     visibleStart = 0;
     
     // Only render the first batch of Pokemon
@@ -1669,7 +1669,7 @@ function loadViewPreference() {
 function displayPageWithAnimation() {
     const pagePokemon = filteredPokemon.length > 0 ? filteredPokemon : allPokemon;
 
-    pokemonContainer.innerHTML = '';
+    pokemonContainer.querySelectorAll(':scope > :not([data-template])').forEach(el => el.remove());
 
     pagePokemon.forEach((pokemon, index) => {
         const card = createPokemonCard(pokemon);
@@ -2062,7 +2062,7 @@ let lastClickedCard = null;
 // Create a Pokemon card element
 function createPokemonCard(pokemon) {
     const card = document.createElement('div');
-    card.className = 'pokemon-card';
+    card.className = 'pokemonCard';
     
     // Don't apply initial blur - let intersection observer handle it
     // This prevents search results from appearing blurred when they're already in view
@@ -2083,7 +2083,17 @@ function createPokemonCard(pokemon) {
     if (!types || types.length === 0) {
         enrichPokemonData(pokemon).catch(err => console.error('Error enriching:', err));
     }
-    const typesHtml = types.map(type => `<span class="type-badge type-${type}">${type}</span>`).join('');
+
+    // Build typing list items with icon + name
+    const type1 = types[0] || '';
+    const type2 = types[1] || '';
+    let typesHtml = '';
+    if (type1) {
+        typesHtml += `<li class="typeOne"><span class="icon ${type1}Type"></span>${type1.charAt(0).toUpperCase() + type1.slice(1)}</li>`;
+    }
+    if (type2) {
+        typesHtml += `<li class="typeTwo"><span class="icon ${type2}Type"></span>${type2.charAt(0).toUpperCase() + type2.slice(1)}</li>`;
+    }
     
     const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
@@ -2091,38 +2101,37 @@ function createPokemonCard(pokemon) {
     const speciesName = pokemonDataCache[id]?.speciesName || pokemon.name;
     const displayName = formatPokemonName(pokemon.name, speciesName);
     
-    if (isListView) {
-        // List view layout
-        card.innerHTML = `
-            <div>
-                <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
-                <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
-                <div class="pokemon-info">
-                    <div class="pokemon-name">${displayName}</div>
-                    <div class="pokemon-types">${typesHtml}</div>
-                </div>
+    card.innerHTML = `
+        <div class="pokemonImage">
+            <img src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
+        </div>
+        <div class="pokemonInfo">
+            <p class="pokemonName">${displayName}</p>
+            <ul class="pokemonTyping">
+                ${typesHtml}
+            </ul>
+        </div>
+        <div class="additionalInfo">
+            <div class="favorite-heart" data-pokemon-id="${id}">
+                <span class="icon heart-icon"></span>
             </div>
-            <div class="favorite-heart" data-pokemon-id="${id}"><span class="icon heart-icon"></span></div>
-        `;
-    } else {
-        // Grid view layout
-        card.innerHTML = `
-            <div class="pokemon-id">#${baseNationalDex.toString().padStart(3, '0')}</div>
-            <img class="pokemon-image" src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
-            <div class="pokemon-name">${displayName}</div>
-            <div class="pokemon-types">${typesHtml}</div>
-            <div class="favorite-heart" data-pokemon-id="${id}"><span class="icon heart-icon"></span></div>
-        `;
-    }
+            <div class="pokemonID">
+                <p class="nationalDexNumber">${baseNationalDex.toString().padStart(3, '0')}</p>
+            </div>
+        </div>
+    `;
+
+    // Set type color CSS variables
+    const type1Color = typeColors[type1] || '#A8A878';
+    const type2Color = typeColors[type2] || type1Color;
+    card.style.setProperty('--type-1-color', type1Color);
+    card.style.setProperty('--type-2-color', type2Color);
 
     // Load image with caching
     const img = card.querySelector('img');
     img.addEventListener('error', function() {
         this.src = this.dataset.fallback;
     });
-    
-    // Apply type-based gradient immediately based on card's types
-    applyCardGradient(card, id, imageUrl, types);
     
     // Update heart icon state based on favorites
     const heart = card.querySelector('.favorite-heart');
@@ -3225,7 +3234,7 @@ let cardAnimationObserver = null;
 
 // Setup card entrance animations
 function setupCardAnimations() {
-    const cards = document.querySelectorAll('.pokemon-card, .pokemon-list-item');
+    const cards = document.querySelectorAll('.pokemonCard:not([data-template]), .pokemon-list-item');
     
     // Create observer only once
     if (!cardAnimationObserver) {
@@ -3885,21 +3894,23 @@ async function populateDetailPanel(pokemon) {
                     
                     // Get Type 1 color for stat bars
                     let statBarColor = '#999999'; // Default fallback
+                    let type2Color = '#999999'; // Default fallback
                     if (data.types && data.types.length > 0) {
                         const type1 = data.types[0].type.name;
                         statBarColor = typeColors[type1] || '#A8A878';
+                        if (data.types.length > 1) {
+                            const type2 = data.types[1].type.name;
+                            type2Color = typeColors[type2] || '#A8A878';
+                        } else {
+                            type2Color = statBarColor;
+                        }
                     }
                     
-                    // Set the Type 1 color on all .additionalPokemonInfo sections
-                    const additionalInfoSections = pokemonDetailContent.querySelectorAll('.additionalPokemonInfo');
-                    additionalInfoSections.forEach(section => {
-                        section.style.setProperty('--type-1-color', statBarColor);
-                    });
-                    
-                    // Set the Type 1 color on the detail header
-                    const detailHeader = pokemonDetailContent.closest('#pokemonDetailPanel').querySelector('.detailHeader');
-                    if (detailHeader) {
-                        detailHeader.style.setProperty('--type-1-color', statBarColor);
+                    // Set type colors on the detail panel root so they're available everywhere
+                    const detailPanel = pokemonDetailContent.closest('#pokemonDetailPanel');
+                    if (detailPanel) {
+                        detailPanel.style.setProperty('--type-1-color', statBarColor);
+                        detailPanel.style.setProperty('--type-2-color', type2Color);
                     }
                     
                     // Populate each stat
@@ -4233,4 +4244,56 @@ if (detailCloseBtn) {
 // Start the app
 init();
 setupCardAnimations();
+
+// Populate the template .pokemonCard with a random Pokemon
+(async function populateTemplateCard() {
+    const templateCard = document.querySelector('.pokemonCard[data-template]');
+    if (!templateCard) return;
+
+    const randomId = Math.floor(Math.random() * 1025) + 1;
+    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randomId}.png`;
+    const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${randomId}.png`;
+
+    const img = templateCard.querySelector('.pokemonImage img');
+    if (img) {
+        img.src = imageUrl;
+        img.alt = `Pokemon #${randomId}`;
+        img.addEventListener('error', function() {
+            this.src = fallbackUrl;
+        });
+    }
+
+    // Also populate the name and ID from the API
+    try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${randomId}`);
+        if (!response.ok) return;
+        const data = await response.json();
+
+        const nameEl = templateCard.querySelector('.pokemonName');
+        if (nameEl) nameEl.textContent = data.name.charAt(0).toUpperCase() + data.name.slice(1);
+
+        const idEl = templateCard.querySelector('.nationalDexNumber');
+        if (idEl) idEl.textContent = `${randomId.toString().padStart(3, '0')}`;
+
+        // Populate typing with icon + name, matching the template layout
+        const typingList = templateCard.querySelector('.pokemonTyping');
+        if (typingList) {
+            const type1 = data.types[0]?.type.name;
+            const type2 = data.types[1]?.type.name;
+            let typesHtml = `<li class="typeOne"><span class="icon ${type1}Type"></span>${type1.charAt(0).toUpperCase() + type1.slice(1)}</li>`;
+            if (type2) {
+                typesHtml += `<li class="typeTwo"><span class="icon ${type2}Type"></span>${type2.charAt(0).toUpperCase() + type2.slice(1)}</li>`;
+            }
+            typingList.innerHTML = typesHtml;
+        }
+
+        // Set type color variables on the template card
+        const type1Name = data.types[0]?.type.name;
+        const type2Name = data.types[1]?.type.name || type1Name;
+        templateCard.style.setProperty('--type-1-color', typeColors[type1Name] || '#A8A878');
+        templateCard.style.setProperty('--type-2-color', typeColors[type2Name] || '#A8A878');
+    } catch (error) {
+        console.error('Error populating template card:', error);
+    }
+})();
 

@@ -88,6 +88,58 @@ span.icon.circle-checkmark::before {
     content: '\f058';
 }
 
+/* Type Icons (SVG-based, mask approach for color flexibility) */
+span.icon.normalType::before,
+span.icon.fireType::before,
+span.icon.waterType::before,
+span.icon.electricType::before,
+span.icon.grassType::before,
+span.icon.iceType::before,
+span.icon.fightingType::before,
+span.icon.poisonType::before,
+span.icon.groundType::before,
+span.icon.flyingType::before,
+span.icon.psychicType::before,
+span.icon.bugType::before,
+span.icon.rockType::before,
+span.icon.ghostType::before,
+span.icon.dragonType::before,
+span.icon.darkType::before,
+span.icon.steelType::before,
+span.icon.fairyType::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    font-family: unset;
+}
+
+span.icon.normalType::before   { -webkit-mask-image: url('../imgs/type-icons/normal.svg');   mask-image: url('../imgs/type-icons/normal.svg'); }
+span.icon.fireType::before     { -webkit-mask-image: url('../imgs/type-icons/fire.svg');     mask-image: url('../imgs/type-icons/fire.svg'); }
+span.icon.waterType::before    { -webkit-mask-image: url('../imgs/type-icons/water.svg');    mask-image: url('../imgs/type-icons/water.svg'); }
+span.icon.electricType::before { -webkit-mask-image: url('../imgs/type-icons/electric.svg'); mask-image: url('../imgs/type-icons/electric.svg'); }
+span.icon.grassType::before    { -webkit-mask-image: url('../imgs/type-icons/grass.svg');    mask-image: url('../imgs/type-icons/grass.svg'); }
+span.icon.iceType::before      { -webkit-mask-image: url('../imgs/type-icons/ice.svg');      mask-image: url('../imgs/type-icons/ice.svg'); }
+span.icon.fightingType::before { -webkit-mask-image: url('../imgs/type-icons/fighting.svg'); mask-image: url('../imgs/type-icons/fighting.svg'); }
+span.icon.poisonType::before   { -webkit-mask-image: url('../imgs/type-icons/poison.svg');   mask-image: url('../imgs/type-icons/poison.svg'); }
+span.icon.groundType::before   { -webkit-mask-image: url('../imgs/type-icons/ground.svg');   mask-image: url('../imgs/type-icons/ground.svg'); }
+span.icon.flyingType::before   { -webkit-mask-image: url('../imgs/type-icons/flying.svg');   mask-image: url('../imgs/type-icons/flying.svg'); }
+span.icon.psychicType::before  { -webkit-mask-image: url('../imgs/type-icons/psychic.svg');  mask-image: url('../imgs/type-icons/psychic.svg'); }
+span.icon.bugType::before      { -webkit-mask-image: url('../imgs/type-icons/bug.svg');      mask-image: url('../imgs/type-icons/bug.svg'); }
+span.icon.rockType::before     { -webkit-mask-image: url('../imgs/type-icons/rock.svg');     mask-image: url('../imgs/type-icons/rock.svg'); }
+span.icon.ghostType::before    { -webkit-mask-image: url('../imgs/type-icons/ghost.svg');    mask-image: url('../imgs/type-icons/ghost.svg'); }
+span.icon.dragonType::before   { -webkit-mask-image: url('../imgs/type-icons/dragon.svg');   mask-image: url('../imgs/type-icons/dragon.svg'); }
+span.icon.darkType::before     { -webkit-mask-image: url('../imgs/type-icons/dark.svg');     mask-image: url('../imgs/type-icons/dark.svg'); }
+span.icon.steelType::before    { -webkit-mask-image: url('../imgs/type-icons/steel.svg');    mask-image: url('../imgs/type-icons/steel.svg'); }
+span.icon.fairyType::before    { -webkit-mask-image: url('../imgs/type-icons/fairy.svg');    mask-image: url('../imgs/type-icons/fairy.svg'); }
+
 /* Heart icon states */
 span.icon.heart-icon {
     color: rgba(0, 0, 0, 0.35);
@@ -1719,4 +1771,91 @@ button {
 }
 .pokemon-favorites-toast .circle-checkmark::before {
     color: #378d35;
+}
+
+#pokemonContainer .pokemonCard {
+    align-items: center;
+    background:linear-gradient(90deg, #FFFFFF 5%, var(--type-1-color) 40%, var(--type-2-color) 80%);
+    border-radius: .5rem;
+    display: grid;
+    grid-template-columns: 5rem 1fr 1fr;
+    overflow: clip;
+    padding: .5rem;
+    position: relative;
+    gap: .5rem;
+}
+
+#pokemonContainer .pokemonCard .pokemonImage,
+#pokemonContainer .pokemonCard .pokemonInfo,
+#pokemonContainer .pokemonCard .pokemonID {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo {
+    grid-template-columns: 1fr;
+    gap: .25rem;
+    justify-items: flex-start;
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo p{
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: #000000;
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li {
+    align-items: center;
+    border-radius: .25rem;
+    border: 1px solid rgba(0, 0, 0, .35);
+    color: rgba(0, 0, 0, .75);
+    display: grid;
+    font-size: .75rem;
+    font-weight: 600;
+    gap: .325rem;
+    grid-template-columns: auto auto;
+    justify-content: center;
+    line-height: 1;
+    list-style-type: none;
+    padding: .35rem;
+    text-transform: uppercase;
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li span {
+    font-size: 1rem;
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li:first-child {
+    background-color: var(--type-1-color);
+}
+
+#pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li:last-child {
+    background-color: var(--type-2-color);
+}
+
+#pokemonContainer .pokemonCard .additionalInfo {
+    display: grid;
+    position: relative;
+    height: stretch;
+}
+
+#pokemonContainer .pokemonCard .additionalInfo .favorite-heart {
+    top: 0;
+    right: 0;
+}
+
+#pokemonContainer .pokemonCard .additionalInfo .nationalDexNumber {
+    font-size: 4rem;
+    position: absolute;
+    letter-spacing: -.225rem;
+    bottom: -2.5rem;
+    right: -.5rem;
+    opacity: .25;
 }
