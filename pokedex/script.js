@@ -3323,8 +3323,121 @@ function closeDetailPanel() {
     
     setTimeout(() => {
         pokemonDetailPanel.style.display = 'none';
+        // Reset any inline transform from swipe gesture
+        pokemonDetailPanel.style.transform = '';
     }, 400);
 }
+
+// Swipe-to-close gesture for detail panel
+(function setupDetailPanelSwipeGesture() {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchCurrentX = 0;
+    let isSwiping = false;
+    let isScrolling = null; // null = undecided, true = vertical scroll, false = horizontal swipe
+
+    const SWIPE_THRESHOLD = window.innerWidth * 0.75; // 75% of screen width to trigger close
+    const VELOCITY_THRESHOLD = 0.6; // px/ms for fast flick
+    let touchStartTime = 0;
+
+    pokemonDetailPanel.addEventListener('touchstart', (e) => {
+        if (!pokemonDetailPanel.classList.contains('open')) return;
+        
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchCurrentX = touch.clientX;
+        touchStartTime = Date.now();
+        isSwiping = false;
+        isScrolling = null;
+
+        // Disable the CSS transition so the panel tracks the finger exactly
+        pokemonDetailPanel.style.transition = 'none';
+    }, { passive: true });
+
+    pokemonDetailPanel.addEventListener('touchmove', (e) => {
+        if (!pokemonDetailPanel.classList.contains('open')) return;
+
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        // On the first significant move, decide: vertical scroll or horizontal swipe
+        if (isScrolling === null) {
+            if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+                isScrolling = Math.abs(deltaY) > Math.abs(deltaX);
+            }
+        }
+
+        // If user is scrolling vertically, bail out
+        if (isScrolling) return;
+
+        // Only allow swiping to the right (positive deltaX)
+        if (deltaX <= 0) {
+            touchCurrentX = touchStartX;
+            return;
+        }
+
+        // We're swiping horizontally — prevent vertical scroll
+        e.preventDefault();
+        isSwiping = true;
+        touchCurrentX = touch.clientX;
+
+        const translateX = Math.max(0, deltaX);
+        pokemonDetailPanel.style.transform = `translateX(${translateX}px)`;
+
+        // Fade backdrop in proportion to swipe progress
+        const backdrop = document.getElementById('pokemonDetailBackdrop');
+        if (backdrop) {
+            const progress = Math.min(translateX / window.innerWidth, 1);
+            backdrop.style.opacity = 1 - progress;
+        }
+    }, { passive: false });
+
+    pokemonDetailPanel.addEventListener('touchend', (e) => {
+        if (!pokemonDetailPanel.classList.contains('open')) return;
+
+        // Restore CSS transition
+        pokemonDetailPanel.style.transition = '';
+
+        const backdrop = document.getElementById('pokemonDetailBackdrop');
+        if (backdrop) {
+            backdrop.style.opacity = '';
+        }
+
+        if (!isSwiping) {
+            // Reset transform in case we barely moved
+            pokemonDetailPanel.style.transform = '';
+            return;
+        }
+
+        const deltaX = touchCurrentX - touchStartX;
+        const elapsed = Date.now() - touchStartTime;
+        const velocity = deltaX / elapsed; // px/ms
+
+        if (deltaX > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
+            // Swipe far enough or fast enough — close the panel
+            closeDetailPanel();
+        } else {
+            // Snap back to open position
+            pokemonDetailPanel.style.transform = '';
+        }
+
+        isSwiping = false;
+        isScrolling = null;
+    }, { passive: true });
+
+    pokemonDetailPanel.addEventListener('touchcancel', () => {
+        pokemonDetailPanel.style.transition = '';
+        pokemonDetailPanel.style.transform = '';
+        const backdrop = document.getElementById('pokemonDetailBackdrop');
+        if (backdrop) {
+            backdrop.style.opacity = '';
+        }
+        isSwiping = false;
+        isScrolling = null;
+    }, { passive: true });
+})();
 
 // Filters Panel Functions
 const filtersPanel = document.getElementById('filtersPanel');

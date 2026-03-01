@@ -35,10 +35,11 @@
 
 .detailHeader .back-btn {
     align-self: stretch;
-    border-radius: 8px;
+    background-color: var(--type-1-color);
+    border-radius: .5rem;
     border: 1px solid var(--type-1-color);
     box-shadow: none;
-    color: #F6F6F6;
+    color: rgba(0, 0, 0, .75);
     font-size: 24px;
     height: unset;
     padding: 0 1rem;
