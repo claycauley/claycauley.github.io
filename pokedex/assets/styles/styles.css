@@ -1779,7 +1779,7 @@ button {
     border-radius: 1rem;
     box-shadow: inset -4px 8px 8px rgba(255, 255, 255, .25);
     display: grid;
-    grid-template-columns: 5rem 1fr 1fr;
+    grid-template-columns: 5rem auto 1fr;
     overflow: clip;
     padding: .5rem;
     position: relative;
