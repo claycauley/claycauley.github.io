@@ -1776,7 +1776,8 @@ button {
 #pokemonContainer .pokemonCard {
     align-items: center;
     background:linear-gradient(90deg, #FFFFFF 5%, var(--type-1-color) 40%, var(--type-2-color) 80%);
-    border-radius: .5rem;
+    border-radius: 1rem;
+    box-shadow: inset -4px 8px 8px rgba(255, 255, 255, .25);
     display: grid;
     grid-template-columns: 5rem 1fr 1fr;
     overflow: clip;
@@ -1813,7 +1814,7 @@ button {
 
 #pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li {
     align-items: center;
-    border-radius: .25rem;
+    border-radius: .5rem;
     border: 1px solid rgba(0, 0, 0, .35);
     color: rgba(0, 0, 0, .75);
     display: grid;
