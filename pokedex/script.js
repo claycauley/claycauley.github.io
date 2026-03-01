@@ -3336,7 +3336,7 @@ function closeDetailPanel() {
     let isSwiping = false;
     let isScrolling = null; // null = undecided, true = vertical scroll, false = horizontal swipe
 
-    const SWIPE_THRESHOLD = window.innerWidth * 0.75; // 75% of screen width to trigger close
+    const SWIPE_THRESHOLD = window.innerWidth * 0.5; // 50% of screen width to trigger close
     const VELOCITY_THRESHOLD = 0.6; // px/ms for fast flick
     let touchStartTime = 0;
 
@@ -3416,8 +3416,42 @@ function closeDetailPanel() {
         const velocity = deltaX / elapsed; // px/ms
 
         if (deltaX > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
-            // Swipe far enough or fast enough — close the panel
-            closeDetailPanel();
+            // Swipe far enough or fast enough — slide off to the right gracefully
+            // Keep the panel at its current position, then animate to fully off-screen
+            pokemonDetailPanel.style.transform = `translateX(${deltaX}px)`;
+            // Re-enable transition for the smooth slide-out
+            pokemonDetailPanel.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
+            
+            // Force reflow so the browser registers the current position before animating
+            void pokemonDetailPanel.offsetWidth;
+            
+            // Now animate to fully off-screen
+            pokemonDetailPanel.style.transform = 'translateX(100%)';
+            
+            // Fade backdrop smoothly
+            const backdrop = document.getElementById('pokemonDetailBackdrop');
+            if (backdrop) {
+                backdrop.style.transition = 'opacity 0.3s ease';
+                backdrop.style.opacity = '0';
+            }
+            
+            // After the slide-out animation, do the actual cleanup
+            setTimeout(() => {
+                pokemonDetailPanel.classList.remove('open');
+                pokemonDetailPanel.style.display = 'none';
+                pokemonDetailPanel.style.transform = '';
+                pokemonDetailPanel.style.transition = '';
+                
+                if (backdrop) {
+                    backdrop.classList.remove('active');
+                    backdrop.style.opacity = '';
+                    backdrop.style.transition = '';
+                    if (backdrop.detailBackdropClickHandler) {
+                        backdrop.removeEventListener('click', backdrop.detailBackdropClickHandler);
+                        delete backdrop.detailBackdropClickHandler;
+                    }
+                }
+            }, 300);
         } else {
             // Snap back to open position
             pokemonDetailPanel.style.transform = '';
