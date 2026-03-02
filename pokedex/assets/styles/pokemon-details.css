@@ -33,17 +33,18 @@
     text-shadow: none;
 }
 
-.detailHeader .back-btn {
+#pokemonDetailPanel .detailHeader .back-btn {
     align-self: stretch;
-    background-color: var(--type-1-color);
+    background: var(--type-1-color);
+    background: linear-gradient(var(--type-1-color) 0%, color-mix(in srgb, var(--type-1-color), black 30%) 100%);
     border-radius: .5rem;
-    border: 1px solid var(--type-1-color);
-    box-shadow: none;
-    color: rgba(0, 0, 0, .75);
+    border: 1px solid color-mix(in srgb, var(--type-1-color), black 90%);
+    box-shadow: inset 0 4px 4px rgba(255, 255, 255, 0.25);
+    color: color-mix(in srgb, var(--type-1-color), black 75%);
     font-size: 24px;
     height: unset;
     padding: 0 1rem;
-    text-shadow: none;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
 }
 
 .detailHeader .icon-btn {
@@ -98,7 +99,27 @@
     gap: .5rem;
     margin: -.5rem -.5rem auto -.5rem;
     padding: .5rem;
+    /* position: relative;
+    overflow: hidden; */
 }
+
+/* .pokemonDetails::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: var(--pokemon-bg-image);
+    background-size: 200%;
+    background-position: center;
+    background-repeat: no-repeat;
+    filter: blur(.25rem);
+    z-index: 0;
+    pointer-events: none;
+}
+
+.pokemonDetails > * {
+    position: relative;
+    z-index: 1;
+} */
 
 .pokemonDetails .container {
     color: #F6F6F6;
@@ -138,6 +159,7 @@
 .pokemonID,
 .cry-button {
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(.5rem);
     border: 1px solid #F6F6F6;
     border-radius: .5rem;
     display: grid;
@@ -150,6 +172,7 @@
 .pokemonImage,
 .pokemonImageShiny {
     background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(.5rem);
     border: 1px solid #F6F6F6;
     border-radius: .5rem;
     padding: .5rem;
@@ -182,7 +205,8 @@
 
 .pokemonInfo {
     align-content: center;
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(.5rem);
     border-radius: .5rem;
     border: 1px solid #F6F6F6;
     display: grid;
@@ -208,10 +232,11 @@
 }
 
 .pokemonTypings {
+    backdrop-filter: blur(.5rem);
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: .5rem;
     border: 1px solid #F6F6F6;
     padding: .5rem;
-    border-radius: .5rem;
-    background-color: rgba(0, 0, 0, .5);
 }
 
 .pokemonTypings strong {
