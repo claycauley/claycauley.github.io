@@ -2121,7 +2121,7 @@ function createPokemonCard(pokemon) {
     
     card.innerHTML = `
         <div class="pokemonImage">
-            <img src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
+            <img src="" alt="${pokemon.name}" data-src="${imageUrl}" data-fallback="${fallbackUrl}">
         </div>
         <div class="pokemonInfo">
             <p class="pokemonName">${displayName}</p>
@@ -2145,10 +2145,12 @@ function createPokemonCard(pokemon) {
     card.style.setProperty('--type-1-color', type1Color);
     card.style.setProperty('--type-2-color', type2Color);
 
-    // Load image with caching
+    // Load image with caching — single fetch path, no double-loading
     const img = card.querySelector('img');
     img.addEventListener('error', function() {
-        this.src = this.dataset.fallback;
+        if (this.dataset.fallback && this.src !== this.dataset.fallback) {
+            this.src = this.dataset.fallback;
+        }
     });
     
     // Update heart icon state based on favorites
@@ -2161,11 +2163,9 @@ function createPokemonCard(pokemon) {
         toggleFavoriteWithAnimation(heart, id);
     });
     
-    // Use cached image if available
+    // Use cached image if available, otherwise fall back to direct URL
     fetchImageWithCache(imageUrl).then(cachedUrl => {
-        if (cachedUrl && img.src === imageUrl) {
-            img.src = cachedUrl;
-        }
+        img.src = cachedUrl || imageUrl;
     });
 
     card.addEventListener('click', () => {
