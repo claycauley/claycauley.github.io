@@ -42,8 +42,8 @@ let showMegaEvolutions = false;
 let showGigantamaxForms = false;
 let showRegionalVariants = false;
 
-// Image style toggle
-let useHomeSprites = false;
+// Image style toggle (disabled for now — kept for future use)
+// let useHomeSprites = false;
 
 // Virtualization for lazy rendering
 let visibleStart = 0;
@@ -92,7 +92,7 @@ const progressBar = document.getElementById('progressBar');
 const showMegaToggle = document.getElementById('showMegaToggle');
 const showGmaxToggle = document.getElementById('showGmaxToggle');
 const showRegionalVariantsToggle = document.getElementById('showRegionalVariantsToggle');
-const useHomeSpriteToggle = document.getElementById('useHomeSpriteToggle');
+// const useHomeSpriteToggle = document.getElementById('useHomeSpriteToggle');
 const settingsModal = document.getElementById('settingsModal');
 const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
@@ -1067,14 +1067,14 @@ async function init() {
             displayPage();
         });
     }
-    if (useHomeSpriteToggle) {
-        useHomeSpriteToggle.addEventListener('change', (e) => {
-            useHomeSprites = e.target.checked;
-            localStorage.setItem('useHomeSprites', useHomeSprites);
-            // Re-render the current Pokemon list without reloading
-            displayPage();
-        });
-    }
+    // Home sprite toggle (disabled for now — kept for future use)
+    // if (useHomeSpriteToggle) {
+    //     useHomeSpriteToggle.addEventListener('change', (e) => {
+    //         useHomeSprites = e.target.checked;
+    //         localStorage.setItem('useHomeSprites', useHomeSprites);
+    //         displayPage();
+    //     });
+    // }
     
     // Initialize form visibility checkboxes to match default state (all true/checked)
     // Do this AFTER setting up event listeners so displayPage is called initially
@@ -1082,9 +1082,9 @@ async function init() {
     if (showGmaxToggle) showGmaxToggle.checked = showGigantamaxForms;
     if (showRegionalVariantsToggle) showRegionalVariantsToggle.checked = showRegionalVariants;
     
-    // Restore image style preference from localStorage
-    useHomeSprites = localStorage.getItem('useHomeSprites') === 'true';
-    if (useHomeSpriteToggle) useHomeSpriteToggle.checked = useHomeSprites;
+    // Restore image style preference (disabled for now)
+    // useHomeSprites = localStorage.getItem('useHomeSprites') === 'true';
+    // if (useHomeSpriteToggle) useHomeSpriteToggle.checked = useHomeSprites;
     
     // Wire up filters modal
     // Helper function to close modal with animation
@@ -2111,9 +2111,7 @@ function createPokemonCard(pokemon) {
         typesHtml += `<li class="typeTwo"><span class="icon ${type2}Type"></span>${type2.charAt(0).toUpperCase() + type2.slice(1)}</li>`;
     }
     
-    const imageUrl = useHomeSprites
-        ? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${id}.png`
-        : `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
     const speciesName = pokemonDataCache[id]?.speciesName || pokemon.name;
@@ -3727,9 +3725,7 @@ async function populateDetailPanel(pokemon) {
             }
             
             // Insert Pokemon image into .pokemonImage element
-            const imageUrl = useHomeSprites
-                ? (data.sprites.other?.home?.front_default || data.sprites.other['official-artwork'].front_default || data.sprites.front_default)
-                : (data.sprites.other['official-artwork'].front_default || data.sprites.front_default);
+            const imageUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
             const cachedImageUrl = await fetchImageWithCache(imageUrl);
             const pokemonImageElement = pokemonDetailContent.querySelector('.pokemonImage img');
             if (pokemonImageElement) {
@@ -3737,16 +3733,14 @@ async function populateDetailPanel(pokemon) {
                 pokemonImageElement.alt = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
             }
             
-            // Set the pokemon image as a zoomed/blurred background on .pokemonDetails
-            const detailsBgSection = pokemonDetailContent.querySelector('.pokemonDetails');
-            if (detailsBgSection) {
-                detailsBgSection.style.setProperty('--pokemon-bg-image', `url(${cachedImageUrl || imageUrl})`);
-            }
+            // Set the pokemon image as a zoomed/blurred background on .pokemonDetails (disabled for now)
+            // const detailsBgSection = pokemonDetailContent.querySelector('.pokemonDetails');
+            // if (detailsBgSection) {
+            //     detailsBgSection.style.setProperty('--pokemon-bg-image', `url(${cachedImageUrl || imageUrl})`);
+            // }
             
             // Insert shiny Pokemon image into .pokemonImageShiny element
-            const shinyImageUrl = useHomeSprites
-                ? (data.sprites.other?.home?.front_shiny || data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny)
-                : (data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny);
+            const shinyImageUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
             if (shinyImageUrl) {
                 const cachedShinyImageUrl = await fetchImageWithCache(shinyImageUrl);
                 const pokemonShinyImageElement = pokemonDetailContent.querySelector('.pokemonImageShiny img');
