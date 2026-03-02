@@ -3328,21 +3328,21 @@ function closeDetailPanel() {
     }, 400);
 }
 
-// Swipe-to-close gesture for detail panel
-(function setupDetailPanelSwipeGesture() {
+// Reusable swipe-to-close gesture for any slide-in panel
+function setupPanelSwipeGesture(panel, backdropId, cleanupFn) {
     let touchStartX = 0;
     let touchStartY = 0;
     let touchCurrentX = 0;
     let isSwiping = false;
-    let isScrolling = null; // null = undecided, true = vertical scroll, false = horizontal swipe
+    let isScrolling = null;
 
-    const SWIPE_THRESHOLD = window.innerWidth * 0.5; // 50% of screen width to trigger close
-    const VELOCITY_THRESHOLD = 0.6; // px/ms for fast flick
+    const SWIPE_THRESHOLD = window.innerWidth * 0.5;
+    const VELOCITY_THRESHOLD = 0.6;
     let touchStartTime = 0;
 
-    pokemonDetailPanel.addEventListener('touchstart', (e) => {
-        if (!pokemonDetailPanel.classList.contains('open')) return;
-        
+    panel.addEventListener('touchstart', (e) => {
+        if (!panel.classList.contains('open')) return;
+
         const touch = e.touches[0];
         touchStartX = touch.clientX;
         touchStartY = touch.clientY;
@@ -3351,127 +3351,124 @@ function closeDetailPanel() {
         isSwiping = false;
         isScrolling = null;
 
-        // Disable the CSS transition so the panel tracks the finger exactly
-        pokemonDetailPanel.style.transition = 'none';
+        panel.style.transition = 'none';
     }, { passive: true });
 
-    pokemonDetailPanel.addEventListener('touchmove', (e) => {
-        if (!pokemonDetailPanel.classList.contains('open')) return;
+    panel.addEventListener('touchmove', (e) => {
+        if (!panel.classList.contains('open')) return;
 
         const touch = e.touches[0];
         const deltaX = touch.clientX - touchStartX;
         const deltaY = touch.clientY - touchStartY;
 
-        // On the first significant move, decide: vertical scroll or horizontal swipe
         if (isScrolling === null) {
             if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
                 isScrolling = Math.abs(deltaY) > Math.abs(deltaX);
             }
         }
 
-        // If user is scrolling vertically, bail out
         if (isScrolling) return;
 
-        // Only allow swiping to the right (positive deltaX)
         if (deltaX <= 0) {
             touchCurrentX = touchStartX;
             return;
         }
 
-        // We're swiping horizontally — prevent vertical scroll
         e.preventDefault();
         isSwiping = true;
         touchCurrentX = touch.clientX;
 
         const translateX = Math.max(0, deltaX);
-        pokemonDetailPanel.style.transform = `translateX(${translateX}px)`;
+        panel.style.transform = `translateX(${translateX}px)`;
 
-        // Fade backdrop in proportion to swipe progress
-        const backdrop = document.getElementById('pokemonDetailBackdrop');
+        const backdrop = document.getElementById(backdropId);
         if (backdrop) {
             const progress = Math.min(translateX / window.innerWidth, 1);
             backdrop.style.opacity = 1 - progress;
         }
     }, { passive: false });
 
-    pokemonDetailPanel.addEventListener('touchend', (e) => {
-        if (!pokemonDetailPanel.classList.contains('open')) return;
+    panel.addEventListener('touchend', (e) => {
+        if (!panel.classList.contains('open')) return;
 
-        // Restore CSS transition
-        pokemonDetailPanel.style.transition = '';
+        panel.style.transition = '';
 
-        const backdrop = document.getElementById('pokemonDetailBackdrop');
+        const backdrop = document.getElementById(backdropId);
         if (backdrop) {
             backdrop.style.opacity = '';
         }
 
         if (!isSwiping) {
-            // Reset transform in case we barely moved
-            pokemonDetailPanel.style.transform = '';
+            panel.style.transform = '';
             return;
         }
 
         const deltaX = touchCurrentX - touchStartX;
         const elapsed = Date.now() - touchStartTime;
-        const velocity = deltaX / elapsed; // px/ms
+        const velocity = deltaX / elapsed;
 
         if (deltaX > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
-            // Swipe far enough or fast enough — slide off to the right gracefully
-            // Keep the panel at its current position, then animate to fully off-screen
-            pokemonDetailPanel.style.transform = `translateX(${deltaX}px)`;
-            // Re-enable transition for the smooth slide-out
-            pokemonDetailPanel.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
-            
-            // Force reflow so the browser registers the current position before animating
-            void pokemonDetailPanel.offsetWidth;
-            
-            // Now animate to fully off-screen
-            pokemonDetailPanel.style.transform = 'translateX(100%)';
-            
-            // Fade backdrop smoothly
-            const backdrop = document.getElementById('pokemonDetailBackdrop');
+            panel.style.transform = `translateX(${deltaX}px)`;
+            panel.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 0.3s ease';
+
+            void panel.offsetWidth;
+
+            panel.style.transform = 'translateX(100%)';
+
+            const backdrop = document.getElementById(backdropId);
             if (backdrop) {
                 backdrop.style.transition = 'opacity 0.3s ease';
                 backdrop.style.opacity = '0';
             }
-            
-            // After the slide-out animation, do the actual cleanup
+
             setTimeout(() => {
-                pokemonDetailPanel.classList.remove('open');
-                pokemonDetailPanel.style.display = 'none';
-                pokemonDetailPanel.style.transform = '';
-                pokemonDetailPanel.style.transition = '';
-                
+                panel.classList.remove('open');
+                panel.style.transform = '';
+                panel.style.transition = '';
+
                 if (backdrop) {
                     backdrop.classList.remove('active');
                     backdrop.style.opacity = '';
                     backdrop.style.transition = '';
+                    if (backdrop.backdropClickHandler) {
+                        backdrop.removeEventListener('click', backdrop.backdropClickHandler);
+                        delete backdrop.backdropClickHandler;
+                    }
                     if (backdrop.detailBackdropClickHandler) {
                         backdrop.removeEventListener('click', backdrop.detailBackdropClickHandler);
                         delete backdrop.detailBackdropClickHandler;
                     }
                 }
+
+                // Run any panel-specific cleanup
+                if (cleanupFn) cleanupFn();
             }, 300);
         } else {
-            // Snap back to open position
-            pokemonDetailPanel.style.transform = '';
+            panel.style.transform = '';
         }
 
         isSwiping = false;
         isScrolling = null;
     }, { passive: true });
 
-    pokemonDetailPanel.addEventListener('touchcancel', () => {
-        pokemonDetailPanel.style.transition = '';
-        pokemonDetailPanel.style.transform = '';
-        const backdrop = document.getElementById('pokemonDetailBackdrop');
+    panel.addEventListener('touchcancel', () => {
+        panel.style.transition = '';
+        panel.style.transform = '';
+        const backdrop = document.getElementById(backdropId);
         if (backdrop) {
             backdrop.style.opacity = '';
         }
         isSwiping = false;
         isScrolling = null;
     }, { passive: true });
-})();
+}
+
+// Apply swipe-to-close on all three panels
+setupPanelSwipeGesture(pokemonDetailPanel, 'pokemonDetailBackdrop', () => {
+    pokemonDetailPanel.style.display = 'none';
+});
+setupPanelSwipeGesture(document.getElementById('filtersPanel'), 'filtersBackdrop');
+setupPanelSwipeGesture(document.getElementById('settingsPanel'), 'settingsBackdrop');
 
 // Filters Panel Functions
 const filtersPanel = document.getElementById('filtersPanel');
