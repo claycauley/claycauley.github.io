@@ -2103,7 +2103,7 @@ function createPokemonCard(pokemon) {
     
     card.innerHTML = `
         <div class="pokemonImage">
-            <img src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
+            <img src="" alt="${pokemon.name}" data-src="${imageUrl}" data-fallback="${fallbackUrl}">
         </div>
         <div class="pokemonInfo">
             <p class="pokemonName">${displayName}</p>
@@ -2127,10 +2127,12 @@ function createPokemonCard(pokemon) {
     card.style.setProperty('--type-1-color', type1Color);
     card.style.setProperty('--type-2-color', type2Color);
 
-    // Load image with caching
+    // Load image with caching — single fetch path only
     const img = card.querySelector('img');
     img.addEventListener('error', function() {
-        this.src = this.dataset.fallback;
+        if (this.dataset.fallback && this.src !== this.dataset.fallback) {
+            this.src = this.dataset.fallback;
+        }
     });
     
     // Update heart icon state based on favorites
@@ -2143,11 +2145,9 @@ function createPokemonCard(pokemon) {
         toggleFavoriteWithAnimation(heart, id);
     });
     
-    // Use cached image if available
+    // Single fetch path: check IndexedDB cache first, then network
     fetchImageWithCache(imageUrl).then(cachedUrl => {
-        if (cachedUrl && img.src === imageUrl) {
-            img.src = cachedUrl;
-        }
+        img.src = cachedUrl || imageUrl;
     });
 
     card.addEventListener('click', () => {
@@ -3241,30 +3241,26 @@ function setupCardAnimations() {
         const observerOptions = {
             root: null,
             rootMargin: '50px',
-            threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1]
+            threshold: [0, 1]
         };
         
         cardAnimationObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const card = entry.target;
-                const ratio = entry.intersectionRatio;
                 
-                // Calculate scale and opacity based on visibility ratio
-                const scale = 0.9 + (ratio * 0.1);
-                const opacity = 0.3 + (ratio * 0.7);
+                if (entry.isIntersecting) {
+                    // Card is visible — show it
+                    card.style.transform = 'scale(1)';
+                    card.style.opacity = '1';
+                    card.style.filter = 'blur(0px)';
+                } else {
+                    // Card is off-screen — subtle scale down
+                    card.style.transform = 'scale(0.95)';
+                    card.style.opacity = '0.5';
+                    card.style.filter = 'blur(2px)';
+                }
                 
-                // Calculate blur based on visibility (4px blur when out of view, 0px when in focus)
-                const blur = (1 - ratio) * 4;
-                
-                // Apply the scale and fade smoothly with blur for depth of field effect
-                let transform = `scale(${scale})`;
-                
-                card.style.transform = transform;
-                card.style.opacity = opacity;
-                card.style.filter = `blur(${blur}px)`;
-                
-                // Use a smooth transition for scroll animations
-                card.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out, filter 0.15s ease-out';
+                card.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out, filter 0.2s ease-out';
             });
         }, observerOptions);
     }
