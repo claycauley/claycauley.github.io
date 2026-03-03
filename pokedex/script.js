@@ -3465,6 +3465,123 @@ function closeDetailPanel() {
     }, { passive: true });
 })();
 
+// Reusable swipe-to-close for slide-in panels (filters, settings)
+function setupPanelSwipeGesture(panel, backdropId, closeFn) {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchCurrentX = 0;
+    let isSwiping = false;
+    let isScrolling = null;
+
+    const SWIPE_THRESHOLD = window.innerWidth * 0.5;
+    const VELOCITY_THRESHOLD = 0.6;
+    let touchStartTime = 0;
+
+    panel.addEventListener('touchstart', (e) => {
+        if (!panel.classList.contains('open')) return;
+
+        const touch = e.touches[0];
+        touchStartX = touch.clientX;
+        touchStartY = touch.clientY;
+        touchCurrentX = touch.clientX;
+        touchStartTime = Date.now();
+        isSwiping = false;
+        isScrolling = null;
+
+        panel.style.transition = 'none';
+    }, { passive: true });
+
+    panel.addEventListener('touchmove', (e) => {
+        if (!panel.classList.contains('open')) return;
+
+        const touch = e.touches[0];
+        const deltaX = touch.clientX - touchStartX;
+        const deltaY = touch.clientY - touchStartY;
+
+        if (isScrolling === null) {
+            if (Math.abs(deltaX) > 10 || Math.abs(deltaY) > 10) {
+                isScrolling = Math.abs(deltaY) > Math.abs(deltaX);
+            }
+        }
+
+        if (isScrolling) return;
+
+        if (deltaX <= 0) {
+            touchCurrentX = touchStartX;
+            return;
+        }
+
+        e.preventDefault();
+        isSwiping = true;
+        touchCurrentX = touch.clientX;
+
+        const translateX = Math.max(0, deltaX);
+        panel.style.transform = `translateX(${translateX}px)`;
+
+        const backdrop = document.getElementById(backdropId);
+        if (backdrop) {
+            const progress = Math.min(translateX / window.innerWidth, 1);
+            backdrop.style.opacity = 1 - progress;
+        }
+    }, { passive: false });
+
+    panel.addEventListener('touchend', (e) => {
+        if (!panel.classList.contains('open')) return;
+
+        panel.style.transition = '';
+
+        const backdrop = document.getElementById(backdropId);
+        if (backdrop) {
+            backdrop.style.opacity = '';
+        }
+
+        if (!isSwiping) {
+            panel.style.transform = '';
+            return;
+        }
+
+        const deltaX = touchCurrentX - touchStartX;
+        const elapsed = Date.now() - touchStartTime;
+        const velocity = deltaX / elapsed;
+
+        if (deltaX > SWIPE_THRESHOLD || velocity > VELOCITY_THRESHOLD) {
+            panel.style.transform = `translateX(${deltaX}px)`;
+            panel.style.transition = 'transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+
+            void panel.offsetWidth;
+
+            panel.style.transform = 'translateX(100%)';
+
+            if (backdrop) {
+                backdrop.style.transition = 'opacity 0.3s ease';
+                backdrop.style.opacity = '0';
+            }
+
+            setTimeout(() => {
+                panel.style.transform = '';
+                panel.style.transition = '';
+                closeFn();
+            }, 300);
+        } else {
+            panel.style.transform = '';
+        }
+
+        isSwiping = false;
+        isScrolling = null;
+    }, { passive: true });
+
+    panel.addEventListener('touchcancel', () => {
+        panel.style.transition = '';
+        panel.style.transform = '';
+        const backdrop = document.getElementById(backdropId);
+        if (backdrop) {
+            backdrop.style.opacity = '';
+        }
+        isSwiping = false;
+        isScrolling = null;
+    }, { passive: true });
+}
+
 // Filters Panel Functions
 const filtersPanel = document.getElementById('filtersPanel');
 const filtersPanelContent = document.getElementById('filtersPanelContent');
@@ -3580,6 +3697,10 @@ function closeSettingsPanel() {
 if (settingsPanelCloseBtn) {
     settingsPanelCloseBtn.addEventListener('click', closeSettingsPanel);
 }
+
+// Setup swipe-to-close on filters and settings panels
+setupPanelSwipeGesture(filtersPanel, 'filtersBackdrop', closeFiltersPanel);
+setupPanelSwipeGesture(settingsPanel, 'settingsBackdrop', closeSettingsPanel);
 
 function filterByType(typeName) {
     // Set the type filter dropdown to the selected type
