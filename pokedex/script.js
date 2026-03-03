@@ -42,9 +42,6 @@ let showMegaEvolutions = false;
 let showGigantamaxForms = false;
 let showRegionalVariants = false;
 
-// Image style toggle (disabled for now — kept for future use)
-// let useHomeSprites = false;
-
 // Virtualization for lazy rendering
 let visibleStart = 0;
 let visibleCount = 50; // Show 50 at a time
@@ -92,7 +89,6 @@ const progressBar = document.getElementById('progressBar');
 const showMegaToggle = document.getElementById('showMegaToggle');
 const showGmaxToggle = document.getElementById('showGmaxToggle');
 const showRegionalVariantsToggle = document.getElementById('showRegionalVariantsToggle');
-// const useHomeSpriteToggle = document.getElementById('useHomeSpriteToggle');
 const settingsModal = document.getElementById('settingsModal');
 const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
@@ -1067,24 +1063,12 @@ async function init() {
             displayPage();
         });
     }
-    // Home sprite toggle (disabled for now — kept for future use)
-    // if (useHomeSpriteToggle) {
-    //     useHomeSpriteToggle.addEventListener('change', (e) => {
-    //         useHomeSprites = e.target.checked;
-    //         localStorage.setItem('useHomeSprites', useHomeSprites);
-    //         displayPage();
-    //     });
-    // }
     
     // Initialize form visibility checkboxes to match default state (all true/checked)
     // Do this AFTER setting up event listeners so displayPage is called initially
     if (showMegaToggle) showMegaToggle.checked = showMegaEvolutions;
     if (showGmaxToggle) showGmaxToggle.checked = showGigantamaxForms;
     if (showRegionalVariantsToggle) showRegionalVariantsToggle.checked = showRegionalVariants;
-    
-    // Restore image style preference (disabled for now)
-    // useHomeSprites = localStorage.getItem('useHomeSprites') === 'true';
-    // if (useHomeSpriteToggle) useHomeSpriteToggle.checked = useHomeSprites;
     
     // Wire up filters modal
     // Helper function to close modal with animation
@@ -2119,7 +2103,7 @@ function createPokemonCard(pokemon) {
     
     card.innerHTML = `
         <div class="pokemonImage">
-            <img src="" alt="${pokemon.name}" data-src="${imageUrl}" data-fallback="${fallbackUrl}">
+            <img src="${imageUrl}" alt="${pokemon.name}" data-fallback="${fallbackUrl}">
         </div>
         <div class="pokemonInfo">
             <p class="pokemonName">${displayName}</p>
@@ -2143,12 +2127,10 @@ function createPokemonCard(pokemon) {
     card.style.setProperty('--type-1-color', type1Color);
     card.style.setProperty('--type-2-color', type2Color);
 
-    // Load image with caching — single fetch path, no double-loading
+    // Load image with caching
     const img = card.querySelector('img');
     img.addEventListener('error', function() {
-        if (this.dataset.fallback && this.src !== this.dataset.fallback) {
-            this.src = this.dataset.fallback;
-        }
+        this.src = this.dataset.fallback;
     });
     
     // Update heart icon state based on favorites
@@ -2161,9 +2143,11 @@ function createPokemonCard(pokemon) {
         toggleFavoriteWithAnimation(heart, id);
     });
     
-    // Use cached image if available, otherwise fall back to direct URL
+    // Use cached image if available
     fetchImageWithCache(imageUrl).then(cachedUrl => {
-        img.src = cachedUrl || imageUrl;
+        if (cachedUrl && img.src === imageUrl) {
+            img.src = cachedUrl;
+        }
     });
 
     card.addEventListener('click', () => {
@@ -3732,12 +3716,6 @@ async function populateDetailPanel(pokemon) {
                 pokemonImageElement.src = cachedImageUrl || imageUrl;
                 pokemonImageElement.alt = pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1);
             }
-            
-            // Set the pokemon image as a zoomed/blurred background on .pokemonDetails (disabled for now)
-            // const detailsBgSection = pokemonDetailContent.querySelector('.pokemonDetails');
-            // if (detailsBgSection) {
-            //     detailsBgSection.style.setProperty('--pokemon-bg-image', `url(${cachedImageUrl || imageUrl})`);
-            // }
             
             // Insert shiny Pokemon image into .pokemonImageShiny element
             const shinyImageUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
