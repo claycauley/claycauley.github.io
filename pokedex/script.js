@@ -41,6 +41,7 @@ let isListView = true; // Track current view mode
 let showMegaEvolutions = false;
 let showGigantamaxForms = false;
 let showRegionalVariants = false;
+let useHomeSprites = false; // Use Pokémon Home 3D sprites instead of Official Artwork
 
 // Virtualization for lazy rendering
 let visibleStart = 0;
@@ -89,6 +90,7 @@ const progressBar = document.getElementById('progressBar');
 const showMegaToggle = document.getElementById('showMegaToggle');
 const showGmaxToggle = document.getElementById('showGmaxToggle');
 const showRegionalVariantsToggle = document.getElementById('showRegionalVariantsToggle');
+const useHomeSpriteToggle = document.getElementById('useHomeSpriteToggle');
 const settingsModal = document.getElementById('settingsModal');
 const openSettingsBtn = document.getElementById('openSettingsBtn');
 const closeSettingsBtn = document.querySelector('#settingsModal .close');
@@ -116,6 +118,30 @@ function blendColors(color1, color2) {
     
     // Convert back to hex
     return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, '0')}`;
+}
+
+// Helper: Get the artwork URL for a given Pokemon ID (card grid / template URL)
+function getArtworkUrl(id) {
+    const source = useHomeSprites ? 'home' : 'official-artwork';
+    return `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/${source}/${id}.png`;
+}
+
+// Helper: Get artwork from a sprites object (API response)
+function getArtworkFromSprites(sprites) {
+    if (!sprites) return null;
+    if (useHomeSprites) {
+        return sprites.other?.home?.front_default || sprites.other?.['official-artwork']?.front_default || sprites.front_default;
+    }
+    return sprites.other?.['official-artwork']?.front_default || sprites.front_default;
+}
+
+// Helper: Get shiny artwork from a sprites object (API response)
+function getShinyArtworkFromSprites(sprites) {
+    if (!sprites) return null;
+    if (useHomeSprites) {
+        return sprites.other?.home?.front_shiny || sprites.other?.['official-artwork']?.front_shiny || sprites.front_shiny;
+    }
+    return sprites.other?.['official-artwork']?.front_shiny || sprites.front_shiny;
 }
 
 // Helper function to check if a Pokemon name is an alternate form (any form)
@@ -1064,11 +1090,28 @@ async function init() {
         });
     }
     
+    // Wire up artwork style toggle
+    if (useHomeSpriteToggle) {
+        useHomeSpriteToggle.addEventListener('change', (e) => {
+            useHomeSprites = e.target.checked;
+            localStorage.setItem('useHomeSprites', useHomeSprites);
+            // Re-render all cards with the new artwork source
+            displayPage();
+        });
+    }
+    
     // Initialize form visibility checkboxes to match default state (all true/checked)
     // Do this AFTER setting up event listeners so displayPage is called initially
     if (showMegaToggle) showMegaToggle.checked = showMegaEvolutions;
     if (showGmaxToggle) showGmaxToggle.checked = showGigantamaxForms;
     if (showRegionalVariantsToggle) showRegionalVariantsToggle.checked = showRegionalVariants;
+    
+    // Initialize artwork style toggle from localStorage
+    const savedHomeSprites = localStorage.getItem('useHomeSprites');
+    if (savedHomeSprites === 'true') {
+        useHomeSprites = true;
+    }
+    if (useHomeSpriteToggle) useHomeSpriteToggle.checked = useHomeSprites;
     
     // Wire up filters modal
     // Helper function to close modal with animation
@@ -2095,7 +2138,7 @@ function createPokemonCard(pokemon) {
         typesHtml += `<li class="typeTwo"><span class="icon ${type2}Type"></span>${type2.charAt(0).toUpperCase() + type2.slice(1)}</li>`;
     }
     
-    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+    const imageUrl = getArtworkUrl(id);
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
 
     const speciesName = pokemonDataCache[id]?.speciesName || pokemon.name;
@@ -2217,7 +2260,7 @@ async function showPokemonDetails(pokemon) {
         const modalEvolutions = document.getElementById('modalEvolutions');
         const modalEffectiveness = document.getElementById('modalEffectiveness');
 
-        const imageUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+        const imageUrl = getArtworkFromSprites(data.sprites);
         
         // Use cached image if available, otherwise use direct URL
         const cachedImageUrl = await fetchImageWithCache(imageUrl);
@@ -2496,7 +2539,7 @@ async function showPokemonDetails(pokemon) {
             modalColor = getManualColorOverride(pokemon);
             
             if (!modalColor) {
-                // Extract color from the image
+                // Extract color from the image (always use official artwork for consistent colors)
                 const imageToAnalyze = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
                 modalColor = await getDominantColorFromImage(imageToAnalyze);
                 
@@ -2562,7 +2605,7 @@ async function getEvolutions(speciesUrl) {
             html += evolutionChain.map((pokemon, index) => {
                 let html = `
                     <div class="evolution-item" onclick="showPokemonByName('${pokemon.name}')">
-                        <img class="evolution-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png" alt="${pokemon.name}" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png'">
+                        <img class="evolution-image" src="${getArtworkUrl(pokemon.id)}" alt="${pokemon.name}" onerror="this.src='https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png'">
                         <div class="evolution-name">${pokemon.name}</div>
                 `;
                 if (pokemon.condition) {
@@ -2714,7 +2757,7 @@ async function getAlternateForms(pokemonName, baseId) {
             if (baseForm) {
                 html += '<div class="other-forms-section"><h4>Original Form</h4><div class="forms-grid">';
                 const displayName = formatPokemonName(baseForm.name);
-                const imageUrl = baseForm.sprites.other['official-artwork']?.front_default || baseForm.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(baseForm.sprites);
                 const types = baseForm.types.map(t => t.type.name).join('/');
                 html += `
                     <div class="form-item" onclick="showPokemonByName('${baseForm.name}')">
@@ -2734,7 +2777,7 @@ async function getAlternateForms(pokemonName, baseId) {
             html += '<div class="other-forms-section"><h4>Alola Forms</h4><div class="forms-grid">';
             html += alolaForms.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
                         <img class="form-image" src="${imageUrl}" alt="${form.name}" 
@@ -2751,7 +2794,7 @@ async function getAlternateForms(pokemonName, baseId) {
             html += '<div class="other-forms-section"><h4>Galar Forms</h4><div class="forms-grid">';
             html += galarForms.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
                         <img class="form-image" src="${imageUrl}" alt="${form.name}"
@@ -2768,7 +2811,7 @@ async function getAlternateForms(pokemonName, baseId) {
             html += '<div class="other-forms-section"><h4>Hisui Forms</h4><div class="forms-grid">';
             html += hisuiForms.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
                         <img class="form-image" src="${imageUrl}" alt="${form.name}"
@@ -2785,7 +2828,7 @@ async function getAlternateForms(pokemonName, baseId) {
             html += '<div class="other-forms-section"><h4>Paldea Forms</h4><div class="forms-grid">';
             html += paldeanForms.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
                         <img class="form-image" src="${imageUrl}" alt="${form.name}"
@@ -2804,7 +2847,7 @@ async function getAlternateForms(pokemonName, baseId) {
             // Add mega forms
             html += megas.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 const types = form.types.map(t => t.type.name).join('/');
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
@@ -2825,7 +2868,7 @@ async function getAlternateForms(pokemonName, baseId) {
             // Add gmax forms
             html += gmaxes.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
                         <img class="form-image" src="${imageUrl}" alt="${form.name}"
@@ -2842,7 +2885,7 @@ async function getAlternateForms(pokemonName, baseId) {
             html += '<div class="other-forms-section"><h4>Other Forms</h4><div class="forms-grid">';
             html += otherForms.map(form => {
                 const displayName = formatPokemonName(form.name);
-                const imageUrl = form.sprites.other['official-artwork']?.front_default || form.sprites.front_default;
+                const imageUrl = getArtworkFromSprites(form.sprites);
                 return `
                     <div class="form-item" onclick="showPokemonByName('${form.name}')">
                         <img class="form-image" src="${imageUrl}" alt="${form.name}"
@@ -3825,7 +3868,7 @@ async function populateDetailPanel(pokemon) {
             }
             
             // Insert Pokemon image into .pokemonImage element
-            const imageUrl = data.sprites.other['official-artwork'].front_default || data.sprites.front_default;
+            const imageUrl = getArtworkFromSprites(data.sprites);
             const cachedImageUrl = await fetchImageWithCache(imageUrl);
             const pokemonImageElement = pokemonDetailContent.querySelector('.pokemonImage img');
             if (pokemonImageElement) {
@@ -3834,7 +3877,7 @@ async function populateDetailPanel(pokemon) {
             }
             
             // Insert shiny Pokemon image into .pokemonImageShiny element
-            const shinyImageUrl = data.sprites.other['official-artwork'].front_shiny || data.sprites.front_shiny;
+            const shinyImageUrl = getShinyArtworkFromSprites(data.sprites);
             if (shinyImageUrl) {
                 const cachedShinyImageUrl = await fetchImageWithCache(shinyImageUrl);
                 const pokemonShinyImageElement = pokemonDetailContent.querySelector('.pokemonImageShiny img');
@@ -4511,7 +4554,7 @@ setupCardAnimations();
     if (!templateCard) return;
 
     const randomId = Math.floor(Math.random() * 1025) + 1;
-    const imageUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${randomId}.png`;
+    const imageUrl = getArtworkUrl(randomId);
     const fallbackUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${randomId}.png`;
 
     const img = templateCard.querySelector('.pokemonImage img');

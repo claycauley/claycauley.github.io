@@ -1358,13 +1358,9 @@ button {
     transition: background-color 0.3s ease;
 }
 
-.mobile-toggle:hover {
-    background-color: rgba(102, 126, 234, 0.2);
-}
-
 .mobile-toggle span {
     font-weight: 500;
-    color: #333;
+    color: #F6F6F6;
 }
 
 .mobile-toggle input {
@@ -1375,14 +1371,14 @@ button {
     position: relative;
     width: 48px;
     height: 24px;
-    background-color: #ccc;
+    background-color: #222222;
     border-radius: 12px;
     transition: background-color 0.3s ease;
     flex-shrink: 0;
 }
 
 .mobile-toggle input:checked + .toggle-slider {
-    background-color: #667eea;
+    background-color: #1a4e7b;
 }
 
 .toggle-slider::before {
@@ -1403,20 +1399,18 @@ button {
 
 /* View toggle group */
 .view-toggle-group {
-    display: flex;
-    gap: 12px;
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr 1fr;
     align-items: center;
-    margin-top: 8px;
 }
 
 .view-toggle-btn {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    border: 2px solid #555;
-    background-color: #1a1a1a;
+    border: 1px solid #666666;
+    background-color: #222222;
     color: #aaa;
     border-radius: 8px;
     cursor: pointer;
@@ -1424,15 +1418,10 @@ button {
     font-size: 20px;
 }
 
-.view-toggle-btn:hover {
-    border-color: #888;
-    color: #ddd;
-}
-
 .view-toggle-btn.active {
-    border-color: #667eea;
-    background-color: #667eea;
-    color: white;
+    background-color: #1a4e7b;
+    border-color: #1a4e7b;
+    color: #F6F6F6;
 }
 
 .filters-modal-content {
@@ -1497,7 +1486,7 @@ button {
 .toggle-slider {
     width: 50px;
     height: 28px;
-    background-color: #ccc;
+    background-color: #be2d3a;
     border-radius: 14px;
     position: relative;
     transition: background-color 0.3s ease;
@@ -1507,18 +1496,18 @@ button {
 .toggle-slider::after {
     content: '';
     position: absolute;
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     background-color: white;
     border-radius: 50%;
-    top: 2px;
-    left: 2px;
+    top: 0;
+    left: 0;
     transition: left 0.3s ease;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .mobile-toggle input[type="checkbox"]:checked + .toggle-slider {
-    background-color: #667eea;
+    background-color: #1a4e7b;
 }
 
 .mobile-toggle input[type="checkbox"]:checked + .toggle-slider::after {
@@ -1527,7 +1516,7 @@ button {
 
 .filter-group select {
     padding: 10px 12px;
-    border: 2px solid #667eea;
+    border: 2px solid #1a4e7b;
     border-radius: 6px;
     background-color: white;
     color: #333;
@@ -1772,41 +1761,46 @@ button {
     font-weight: 700;
     font-size: 1.5rem;
     color: #000000;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.45);
 }
 
 #pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    gap: .25rem;
 }
 
 #pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li {
     align-items: center;
-    border-radius: .5rem;
-    border: 1px solid rgba(0, 0, 0, .35);
+    border-radius: .25rem;
     color: rgba(0, 0, 0, .75);
     display: grid;
-    font-size: .75rem;
-    font-weight: 600;
-    gap: .325rem;
+    font-size: .675rem;
+    font-weight: 700;
+    gap: .25rem;
     grid-template-columns: auto auto;
     justify-content: center;
     line-height: 1;
     list-style-type: none;
-    padding: .35rem;
+    padding: .25rem;
     text-transform: uppercase;
 }
 
 #pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li span {
-    font-size: 1rem;
+    font-size: .875rem;
+    text-shadow: 0 1px 1px color-mix(in srgb, var(--type-1-color), #FFFFFF 50%);
 }
 
 #pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li:first-child {
-    background-color: var(--type-1-color);
+    background: var(--type-1-color);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--type-1-color), #FFFFFF 35%), color-mix(in srgb, var(--type-1-color), #000000 25%));
+    border: 1px solid color-mix(in srgb, var(--type-1-color), #000000 25%);
 }
 
 #pokemonContainer .pokemonCard .pokemonInfo .pokemonTyping li:last-child {
-    background-color: var(--type-2-color);
+    background: var(--type-2-color);
+    background: linear-gradient(180deg, color-mix(in srgb, var(--type-2-color), #FFFFFF 35%), color-mix(in srgb, var(--type-2-color), #000000 25%));
+    border: 1px solid color-mix(in srgb, var(--type-2-color), #000000 25%);
 }
 
 #pokemonContainer .pokemonCard .additionalInfo {
@@ -1821,10 +1815,12 @@ button {
 }
 
 #pokemonContainer .pokemonCard .additionalInfo .nationalDexNumber {
-    font-size: 4rem;
+    font-size: 3.75rem;
     position: absolute;
     letter-spacing: -.225rem;
-    bottom: -2.5rem;
+    bottom: -2.25rem;
     right: -.5rem;
-    opacity: .25;
+    opacity: .75;
+    color: color-mix(in srgb, var(--type-2-color), #000000 25%);
+    text-shadow: 0 -2px 1px color-mix(in srgb, var(--type-2-color), #000000 50%);
 }

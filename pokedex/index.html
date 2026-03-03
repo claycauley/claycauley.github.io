@@ -15,9 +15,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/styles/styles.css?v=62">
-    <link rel="stylesheet" href="assets/styles/pokemon-details.css?v=62">
-    <link rel="stylesheet" href="assets/styles/filters-settings.css?v=62">
+    <link rel="stylesheet" href="assets/styles/styles.css?v=63">
+    <link rel="stylesheet" href="assets/styles/pokemon-details.css?v=63">
+    <link rel="stylesheet" href="assets/styles/filters-settings.css?v=63">
 </head>
 <body>
     <!-- Progress bar for background caching -->
@@ -160,19 +160,17 @@
         </div>
         <div id="settingsPanelContent">
             <div class="filter-group">
-                <label>View Pokédex as:</label>
                 <div class="view-toggle-group">
                     <button id="viewToggleList" class="view-toggle-btn active" title="List View">
-                        <span class="icon list"></span>
+                        <p class="paragraphGrid"><span class="icon list"></span>List View</p>
                     </button>
                     <button id="viewToggleGrid" class="view-toggle-btn" title="Grid View">
-                        <span class="icon grid"></span>
+                        <p class="paragraphGrid"><span class="icon grid"></span>Grid View</p>
                     </button>
                 </div>
             </div>
 
             <div class="filter-group">
-                <label>Form Visibility:</label>
                 <div class="toggles-group">
                     <label class="mobile-toggle">
                         <span>Show Mega Evolutions</span>
@@ -187,6 +185,11 @@
                     <label class="mobile-toggle">
                         <span>Show Regional Variants</span>
                         <input type="checkbox" id="showRegionalVariantsToggle">
+                        <div class="toggle-slider"></div>
+                    </label>
+                    <label class="mobile-toggle">
+                        <span>Use Pokémon Home Sprites</span>
+                        <input type="checkbox" id="useHomeSpriteToggle">
                         <div class="toggle-slider"></div>
                     </label>
                 </div>
@@ -236,6 +239,6 @@
         <p class="paragraphGrid"><span class="icon circle-checkmark"></span>Favorites Cleared!</strong></p>
     </section>
 
-    <script src="script.js?v=62"></script>
+    <script src="script.js?v=63"></script>
 </body>
 </html>

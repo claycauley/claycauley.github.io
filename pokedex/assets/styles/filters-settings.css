@@ -204,3 +204,31 @@
     background-color: #1a4e7b;
     transform: none;
 }
+
+#settingsPanel .toggles-group {
+    gap: 1rem;
+    margin-top: 0;
+}
+
+#settingsPanel label.mobile-toggle {
+    background-color: transparent;
+    border: 1px solid #666666;
+    border-radius: .5rem;
+    font-size: .875rem;
+    padding: 1rem;
+}
+
+#settingsPanel label.mobile-toggle span {
+    color: #F6F6F6;
+}
+
+#settingsPanel .view-toggle-group p.paragraphGrid {
+    align-items: center;
+    font-size: .875rem;
+}
+
+#settingsPanel .view-toggle-group p span{
+    align-self: center;
+    display: grid;
+    font-size: 1.25rem;
+}
