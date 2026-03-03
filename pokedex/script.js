@@ -3241,26 +3241,22 @@ function setupCardAnimations() {
         const observerOptions = {
             root: null,
             rootMargin: '50px',
-            threshold: [0, 1]
+            threshold: [0, 0.25, 0.5, 0.75, 1]
         };
         
         cardAnimationObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 const card = entry.target;
+                const ratio = entry.intersectionRatio;
                 
-                if (entry.isIntersecting) {
-                    // Card is visible — show it
-                    card.style.transform = 'scale(1)';
-                    card.style.opacity = '1';
-                    card.style.filter = 'blur(0px)';
-                } else {
-                    // Card is off-screen — subtle scale down
-                    card.style.transform = 'scale(0.95)';
-                    card.style.opacity = '0.5';
-                    card.style.filter = 'blur(2px)';
-                }
+                // Scale from 0.9 (off-screen) to 1.0 (fully visible)
+                const scale = 0.9 + (ratio * 0.1);
+                // Opacity from 0.3 (off-screen) to 1.0 (fully visible)
+                const opacity = 0.3 + (ratio * 0.7);
                 
-                card.style.transition = 'transform 0.2s ease-out, opacity 0.2s ease-out, filter 0.2s ease-out';
+                card.style.transform = `scale(${scale})`;
+                card.style.opacity = opacity;
+                card.style.transition = 'transform 0.15s ease-out, opacity 0.15s ease-out';
             });
         }, observerOptions);
     }
