@@ -3254,8 +3254,10 @@ function hideLoadingScreen() {
 
 function showError(message) {
     errorContainer.innerHTML = `<div class="error">${message}</div>`;
+    errorContainer.style.display = '';
     setTimeout(() => {
         errorContainer.innerHTML = '';
+        errorContainer.style.display = 'none';
     }, 5000);
 }
 

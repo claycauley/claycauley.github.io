@@ -192,7 +192,7 @@ html {
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(180deg, #000000 50%, #222222 100%);
+    background: #333333;
     min-height: 100vh;
     min-height: 100dvh; /* Dynamic viewport height */
     padding: 0;
@@ -225,28 +225,35 @@ body {
     }
 }
 
-.container > header,
-.container > .search-container,
-.container > #errorContainer {
+.container > .main-heading header,
+.container > .main-heading .search-container,
+.container > .main-heading #errorContainer {
     flex-shrink: 0;
     padding: 8px;
 }
 
-.container > .search-container {
+.container > .main-heading .search-container {
     padding-bottom: 0;
 }
 
 .container > #pokemonContainer {
     flex: 1;
     overflow-y: auto;
-    padding: 8px;
+    padding: 1rem .25rem .25rem;
     min-width: 0;
     scrollbar-width: none;
 }
 
-header {
+.container > .main-heading header {
     text-align: center;
     color: white;
+    padding-top: 1rem;
+}
+
+.main-heading {
+    background-color: #111111;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #666666;
 }
 
 h1 {
@@ -256,8 +263,9 @@ h1 {
 }
 
 .search-container {
-    display: flex;
+    display: grid;
     gap: 0;
+    grid-template-columns: 1fr auto auto;
     align-items: center;
     justify-content: flex-start;
     margin-bottom: 0;
@@ -265,9 +273,9 @@ h1 {
 }
 
 input[type="text"] {
-    background: #222222;
+    background: #333333;
     border-radius: 4rem;
-    border: none;
+    border: 1px solid #666666;
     color: #F6F6F6;
     flex: 1;
     font-family: 'Poppins', sans-serif;
@@ -348,8 +356,6 @@ button {
     cursor: pointer;
     background-color: #ff6b6b;
     color: white;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -396,7 +402,7 @@ button {
 .pokemon-grid.list-view {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: .5rem;
 }
 
 .pokemon-card {
@@ -1732,15 +1738,24 @@ button {
 
 #pokemonContainer .pokemonCard {
     align-items: center;
-    background:linear-gradient(90deg, #FFFFFF 5%, var(--type-1-color) 40%, var(--type-2-color) 80%);
-    border-radius: 1rem;
-    box-shadow: inset -4px 8px 8px rgba(255, 255, 255, .25);
+    background:linear-gradient(90deg, color-mix(in srgb, var(--type-1-color), #FFFFFF 80%), var(--type-1-color) 45%, var(--type-2-color) 75%);
+    border: 1px solid rgba(0, 0, 0, .75);
+    border-radius: .5rem;
+    box-shadow: inset 0 4px 4px rgba(255, 255, 255, .5), inset 0 -2px 4px rgba(0, 0, 0, .5), 0 4px 8px rgba(0, 0, 0, .75);
     display: grid;
     grid-template-columns: 5rem auto 1fr;
     overflow: clip;
     padding: .5rem;
     position: relative;
     gap: .5rem;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+#pokemonContainer .pokemonCard:active {
+    border-radius: 1rem;
+    transform: scale(0.95) !important;
+    transition: transform 0.1s ease-out, border-radius 0.1s ease-out !important;
 }
 
 #pokemonContainer .pokemonCard .pokemonImage,
@@ -1775,7 +1790,7 @@ button {
     border-radius: .25rem;
     color: rgba(0, 0, 0, .75);
     display: grid;
-    font-size: .675rem;
+    font-size: .75rem;
     font-weight: 700;
     gap: .25rem;
     grid-template-columns: auto auto;
