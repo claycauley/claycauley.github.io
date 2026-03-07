@@ -2194,6 +2194,7 @@ function createPokemonCard(pokemon) {
     });
 
     card.addEventListener('click', () => {
+        if ('vibrate' in navigator) navigator.vibrate(15);
         lastClickedCard = card;
         // Open the new detail panel instead of modal
         populateDetailPanel(pokemon);
