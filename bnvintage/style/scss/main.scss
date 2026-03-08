@@ -1,0 +1,536 @@
+// ============================================
+// BN Vintage — Main SCSS
+// ============================================
+
+@use 'sass:color';
+
+// --------------------------------------------
+// Variables
+// --------------------------------------------
+$bn-vintage-red: #b92227;
+$bn-vintage-red-darken: #85191c;
+$bn-vintage-red-lighten: #df5256;
+$bn-vintage-blue: #004467;
+$bn-vintage-blue-darken: #002538;
+$bn-vintage-blue-lighten: #2cb7ff;
+$white: #ffffff;
+$black: #000000;
+$gray-light: #f5f5f5;
+$gray-dark: #333333;
+
+$font-stack: 'Roboto', system-ui, -apple-system, 'Segoe UI',
+  'Helvetica Neue', Arial, sans-serif;
+
+$montserrat: 'Montserrat', system-ui, sans-serif;
+$roboto: 'Roboto', system-ui, sans-serif;
+
+$base-font-size: 16px;
+$base-line-height: 1.2;
+
+$gap: 2.5rem; // 40px
+$bar-height: 1.5rem; // 24px
+$border-radius: 1rem;
+$border-radius-small: 0.5rem;
+$border-radius-xsmall: 0.25rem;
+$transition-speed: 0.3s;
+
+// --------------------------------------------
+// Mixins
+// --------------------------------------------
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'sm' {
+    @media (max-width: 36rem) { @content; } // ~576px
+  } @else if $breakpoint == 'md' {
+    @media (max-width: 48rem) { @content; } // ~768px
+  } @else if $breakpoint == 'lg' {
+    @media (max-width: 62rem) { @content; } // ~992px
+  }
+}
+
+// --------------------------------------------
+// Reset / Base
+// --------------------------------------------
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: $base-font-size;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: $font-stack;
+  line-height: $base-line-height;
+  color: $gray-dark;
+  background-color: $white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+// --------------------------------------------
+// Header
+// --------------------------------------------
+.site-header {
+  position: relative;
+  width: 100%;
+  background-color: $white;
+
+  &__inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    height: 100%;
+    max-width: 80rem;
+    margin: 0 auto;
+    padding: 0 2rem;
+
+    @include respond-to('md') {
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+  }
+
+  &__logo {
+    height: 4.5rem;
+    width: auto;
+  }
+}
+
+// --------------------------------------------
+// Accent Bars
+// --------------------------------------------
+.accent-bars {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+
+  &__red {
+    height: $bar-height;
+    background-color: $bn-vintage-red;
+  }
+
+  &__spacer {
+    height: $gap;
+    background-color: $white;
+  }
+
+  &__blue {
+    height: $bar-height;
+    background-color: $bn-vintage-blue;
+  }
+}
+
+// --------------------------------------------
+// Hero / Main Content
+// --------------------------------------------
+.hero {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  overflow: hidden;
+
+  // Blurred background
+  &__bg {
+    position: absolute;
+    inset: 0;
+    background: url('../../img/hero.jpg') center / cover no-repeat;
+    filter: blur(1rem);
+    transform: scale(1.1); // prevent white edges from blur
+    z-index: 0;
+  }
+
+  // Dark overlay for readability
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background-color: rgba($black, 0.45);
+    z-index: 1;
+  }
+
+  // Content block
+  &__content {
+    background-color: rgba($black, 0.5);
+    border-radius: $border-radius;
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    justify-content: center;
+    max-width: 72rem;
+    margin: 5rem auto;
+    padding: 0;
+    overflow: hidden;
+    min-height: 35rem;
+
+    @include respond-to('md') {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  // Square hero image
+  &__image-wrapper {
+    display: grid;
+    width: auto;
+    height: 100%;
+    overflow: hidden;
+    position: relative;
+    padding: 2rem;
+
+    @include respond-to('md') {
+      width: 18rem;
+      height: 18rem;
+    }
+
+    @include respond-to('sm') {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+  }
+
+  &__image {
+    height: 100%;
+    left: 0;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+  }  
+
+  &__title-container {
+    align-self: end;
+    background-color: rgba($black, 0.5);
+    border-radius: $border-radius-small;
+    backdrop-filter: blur(.5rem);
+    padding: 1rem;
+  }
+
+  &__title {
+    font-family: $montserrat;
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 2.5rem;
+    line-height: 1;
+    color: $white;
+    margin-bottom: .5rem;
+  }
+
+  &__subheading {
+    color: $white;
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+}
+
+// --------------------------------------------
+// Contact Form
+// --------------------------------------------
+.contact {
+  flex: 1;
+  width: 100%;
+  padding: 2rem;
+
+  @include respond-to('md') {
+    max-width: 100%;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  &__label {
+    display: none;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $white;
+    letter-spacing: 0.02em;
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    font-family: $font-stack;
+    font-size: 1rem;
+    color: $gray-dark;
+    background-color: $white;
+    border: 0.125rem solid transparent;
+    border-radius: $border-radius-xsmall;
+    outline: none;
+    transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
+
+    &::placeholder {
+      color: #aaa;
+    }
+
+    &:focus {
+      border-color: $bn-vintage-blue;
+      box-shadow: 0 0 0.5rem 0.125rem $bn-vintage-blue-lighten;
+    }
+
+    &.is-error {
+      border-color: $bn-vintage-red;
+      box-shadow: 0 0 0.5rem 0.125rem $bn-vintage-red-lighten;
+    }
+
+    // Clear the error glow when the user starts typing
+    &.is-error:focus {
+      border-color: $bn-vintage-blue;
+      box-shadow: 0 0 0.5rem 0.125rem $bn-vintage-blue-lighten;
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  // Hide the default reCAPTCHA v3 floating badge (attribution is in the footer)
+  // See: https://developers.google.com/recaptcha/docs/faq#id-like-to-hide-the-recaptcha-badge
+  &__recaptcha-notice {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: rgba($white, 0.6);
+    line-height: 1.4;
+
+    a {
+      color: rgba($white, 0.8);
+      text-decoration: underline;
+
+      &:hover {
+        color: $white;
+      }
+    }
+  }
+
+  &__submit {
+    align-self: flex-start;
+    padding: 0.75rem 2.5rem;
+    font-family: $font-stack;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $white;
+    background-color: $bn-vintage-red;
+    border: none;
+    border-radius: $border-radius-xsmall;
+    cursor: pointer;
+    transition: background-color $transition-speed ease;
+
+    &:hover {
+      background-color: $bn-vintage-red-darken;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus-visible {
+      outline: 0.175rem solid $bn-vintage-blue;
+      outline-offset: 0.175rem;
+    }
+  }
+
+  // ------------------------------------------
+  // Result message (after submission)
+  // ------------------------------------------
+  &__result {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    width: 100%;
+    padding: 3rem 1rem;
+    text-align: center;
+
+    &.is-visible {
+      display: flex;
+    }
+  }
+
+  &__result-text {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: $white;
+    letter-spacing: 0.03em;
+    line-height: 1.5;
+  }
+
+  &__retry {
+    padding: 0.75rem 2.5rem;
+    font-family: $font-stack;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $white;
+    background-color: $bn-vintage-blue;
+    border: none;
+    border-radius: $border-radius-xsmall;
+    cursor: pointer;
+    transition: background-color $transition-speed ease;
+
+    &:hover {
+      background-color: $bn-vintage-blue-darken;
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+
+    &:focus-visible {
+      outline: 0.175rem solid $bn-vintage-red;
+      outline-offset: 0.175rem;
+    }
+  }
+
+  // Form & heading hide
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  &__heading {
+    font-size: 2rem;
+    font-weight: 900;
+    color: $white;
+    font-family: $montserrat;
+    text-transform: uppercase;
+    margin-bottom: .5rem;
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+
+  &__subheading {
+    margin-bottom: 1.5rem;
+    color: $white;
+    font-size: .875rem;
+
+    &.is-hidden {
+      display: none;
+    }
+  }
+}
+
+// --------------------------------------------
+// Hide reCAPTCHA v3 floating badge (required
+// attribution is provided inline in the form)
+// --------------------------------------------
+.grecaptcha-badge {
+  visibility: hidden !important;
+}
+
+// --------------------------------------------
+// Footer
+// --------------------------------------------
+.site-footer {
+  width: 100%;
+  background-color: $black;
+  padding: 2rem;
+
+  &__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    max-width: 80rem;
+    margin: 0 auto;
+  }
+
+  &__left {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1.25rem;
+  }
+
+  &__logo {
+    height: 6rem;
+    width: auto;
+
+    @include respond-to('sm') {
+      height: 4rem;
+    }
+  }
+
+  &__copy {
+    font-family: $roboto;
+    font-size: 0.875rem;
+    color: rgba($white, 0.7);
+    white-space: nowrap;
+  }
+
+  &__callout {
+    font-family: $montserrat;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $white;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    justify-self: end;
+
+    @include respond-to('sm') {
+      font-size: 0.75rem;
+    }
+  }
+
+  @include respond-to('md') {
+    &__inner {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      justify-items: center;
+      text-align: center;
+    }
+
+    &__left {
+      justify-items: center;
+      grid-template-columns: 1fr;
+    }
+
+    &__callout {
+      justify-self: center;
+    }
+  }
+}

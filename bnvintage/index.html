@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- ======== Meta ======== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <title>Brand New Vintage — Coming Soon</title>
+  <meta name="description" content="Brand New Vintage — Coming Soon">
+  <meta name="author" content="Brand New Vintage">
+  <meta name="robots" content="index, follow">
+  <meta name="theme-color" content="#004467">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Brand New Vintage">
+  <meta property="og:description" content="Brand New Vintage — Coming Soon">
+  <meta property="og:image" content="img/hero.jpg">
+  <meta property="og:url" content="">
+  <meta property="og:site_name" content="Brand New Vintage">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Brand New Vintage">
+  <meta name="twitter:description" content="Brand New Vintage — Coming Soon">
+  <meta name="twitter:image" content="img/hero.jpg">
+
+  <!-- Favicon (swap in a real favicon when ready) -->
+  <link rel="icon" href="img/favicon.png" type="image/png">
+  <link rel="apple-touch-icon" href="img/favicon.png">
+
+  <!-- Google Fonts — Montserrat, Playfair Display, Roboto -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&family=Roboto:wght@400;500;700&display=swap">
+
+  <!-- Compiled CSS (source of truth: style/scss/main.scss) -->
+  <link rel="stylesheet" href="style/css/main.css">
+
+  <!-- Google reCAPTCHA v3 -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LfFpYMsAAAAALNoPc-2mOkjHfnpSPegkIfruIJ6"></script>
+</head>
+
+<body>
+
+  <!-- ======== Header ======== -->
+  <header class="site-header" role="banner">
+    <div class="accent-bars" aria-hidden="true">
+      <div class="accent-bars__red"></div>
+      <div class="accent-bars__spacer"></div>
+      <div class="accent-bars__blue"></div>
+    </div>
+    <div class="site-header__inner">
+      <a href="/" aria-label="BN Vintage home">
+        <img
+          class="site-header__logo"
+          src="img/bnv-logo.svg"
+          alt="Brand New Vintage logo"
+          width="300"
+          height="80"
+          loading="eager"
+        >
+      </a>
+    </div>
+  </header>
+
+  <!-- ======== Main Content / Hero ======== -->
+  <main class="hero" role="main">
+    <!-- Blurred background -->
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__overlay" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <!-- Square hero image -->
+      <div class="hero__image-wrapper">
+        <img class="hero__image" src="img/hero.jpg" alt="BN Vintage featured image" width="600" height="600" loading="eager">
+        <div class="hero__title-container" aria-hidden="true">
+            <h2 class="hero__title">Custom Dyed Garment Program.</h2>
+            <p class="hero__subheading">Blanks that stand out.</p>
+        </div>
+      </div>
+
+      <!-- Contact form -->
+      <section class="contact" aria-labelledby="contactHeading">
+        <h2 class="contact__heading" id="contactHeading">Drop Us a Line</h2>
+        <p class="contact__subheading">We're working hard to bring you high quality apparel. Want to learn more? Send us a message!</p>
+
+        <!-- The form -->
+        <form class="contact__form" id="contactForm" novalidate>
+          <div class="contact__field">
+            <label class="contact__label" for="name">Name</label>
+            <input
+              class="contact__input"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Your Name"
+              required
+              autocomplete="name"
+            >
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__label" for="email">Email Address</label>
+            <input
+              class="contact__input"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Email Address"
+              required
+              autocomplete="email"
+            >
+          </div>
+
+          <div class="contact__field">
+            <label class="contact__label" for="message">Message</label>
+            <textarea
+              class="contact__textarea"
+              id="message"
+              name="message"
+              placeholder="What's on your mind?"
+              required
+            ></textarea>
+          </div>
+
+          <button class="contact__submit" type="submit">Send Message</button>
+
+          <p class="contact__recaptcha-notice">
+            This site is protected by reCAPTCHA and the Google
+            <a href="https://policies.google.com/privacy" target="_blank" rel="noopener">Privacy&nbsp;Policy</a> and
+            <a href="https://policies.google.com/terms" target="_blank" rel="noopener">Terms&nbsp;of&nbsp;Service</a> apply.
+          </p>
+        </form>
+
+        <!-- Result message (hidden by default, shown after submission) -->
+        <div class="contact__result" id="contactResult" aria-live="polite">
+          <p class="contact__result-text" id="resultText"></p>
+          <button class="contact__retry" id="retryBtn" type="button" style="display:none;">Try Again</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ======== Footer ======== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="site-footer__inner">
+      <div class="site-footer__left">
+        <img
+          class="site-footer__logo"
+          src="img/bnv-logo.svg"
+          alt="Brand New Vintage logo"
+          width="300"
+          height="80"
+          loading="lazy"
+        >
+        <p class="site-footer__copy">&copy; <span id="footerYear"></span> Brand New Vintage. All rights reserved.</p>
+      </div>
+      <p class="site-footer__callout">Full Site Coming Soon</p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="script/main.js" defer></script>
+</body>
+</html>
