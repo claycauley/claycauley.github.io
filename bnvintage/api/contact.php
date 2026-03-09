@@ -19,8 +19,8 @@ define('DEV_MODE', false);
 
 define('RECAPTCHA_SECRET_KEY', '6LfFpYMsAAAAAPT9WYKBTDSQvJd5rGUIw5d6Q4_M');   // <-- your reCAPTCHA v3 secret key
 define('RECAPTCHA_SCORE_THRESHOLD', 0.5);                 // 0.0 (bot) → 1.0 (human)
-define('MAIL_TO', 'clay.cauley87@gmail.com');             // <-- where form emails go
-define('MAIL_SUBJECT', 'New Contact Form Submission — BN Vintage');
+define('MAIL_TO', 'tony@bnvintage.com');             // <-- where form emails go
+define('MAIL_SUBJECT', 'Brand New Vintage Contact Form Submission');
 
 // =============================================
 // Headers
@@ -62,9 +62,9 @@ if (json_last_error() !== JSON_ERROR_NONE || !is_array($data)) {
 // =============================================
 // Extract & sanitise fields
 // =============================================
-$name    = trim(filter_var($data['name']    ?? '', FILTER_SANITIZE_SPECIAL_CHARS));
+$name    = trim($data['name']    ?? '');
 $email   = trim(filter_var($data['email']   ?? '', FILTER_SANITIZE_EMAIL));
-$message = trim(filter_var($data['message'] ?? '', FILTER_SANITIZE_SPECIAL_CHARS));
+$message = trim($data['message'] ?? '');
 $token   = trim($data['g-recaptcha-response'] ?? '');
 
 // =============================================
@@ -87,27 +87,47 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
 // =============================================
 $recaptchaUrl = 'https://www.google.com/recaptcha/api/siteverify';
 
-$recaptchaPayload = http_build_query([
+$recaptchaPayload = [
     'secret'   => RECAPTCHA_SECRET_KEY,
     'response' => $token,
     'remoteip' => $_SERVER['REMOTE_ADDR'] ?? '',
-]);
+];
 
-$context = stream_context_create([
-    'http' => [
-        'method'  => 'POST',
-        'header'  => 'Content-Type: application/x-www-form-urlencoded',
-        'content' => $recaptchaPayload,
-        'timeout' => 10,
-    ],
-]);
+// Use cURL (widely supported) with file_get_contents as fallback
+if (function_exists('curl_init')) {
+    $ch = curl_init($recaptchaUrl);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => http_build_query($recaptchaPayload),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+    ]);
+    $recaptchaResult = curl_exec($ch);
+    $curlError = curl_error($ch);
+    curl_close($ch);
 
-$recaptchaResult = @file_get_contents($recaptchaUrl, false, $context);
+    if ($recaptchaResult === false) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Could not verify reCAPTCHA (cURL): ' . $curlError]);
+        exit;
+    }
+} else {
+    $context = stream_context_create([
+        'http' => [
+            'method'  => 'POST',
+            'header'  => 'Content-Type: application/x-www-form-urlencoded',
+            'content' => http_build_query($recaptchaPayload),
+            'timeout' => 10,
+        ],
+    ]);
 
-if ($recaptchaResult === false) {
-    http_response_code(500);
-    echo json_encode(['success' => false, 'error' => 'Could not verify reCAPTCHA. Please try again.']);
-    exit;
+    $recaptchaResult = @file_get_contents($recaptchaUrl, false, $context);
+
+    if ($recaptchaResult === false) {
+        http_response_code(500);
+        echo json_encode(['success' => false, 'error' => 'Could not verify reCAPTCHA. Please try again.']);
+        exit;
+    }
 }
 
 $recaptchaJson = json_decode($recaptchaResult, true);
@@ -139,9 +159,8 @@ if ($score < RECAPTCHA_SCORE_THRESHOLD) {
 // Send email (or log in dev mode)
 // =============================================
 $emailBody  = "Name:    {$name}\n";
-$emailBody .= "Email:   {$email}\n";
-$emailBody .= "Score:   {$score}\n\n";
-$emailBody .= "Message:\n{$message}\n";
+$emailBody .= "Email:   {$email}\n\n";
+$emailBody .= "Begin Message:\n\n{$message}\n";
 
 if (DEV_MODE) {
     // In dev mode, write to a local log file instead of sending email

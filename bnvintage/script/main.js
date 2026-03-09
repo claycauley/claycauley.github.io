@@ -37,16 +37,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!form) return;
 
-  // ---- If already submitted this session, keep showing success ----
-  if (sessionStorage.getItem('bnv-form-sent') === 'true') {
-    heading.classList.add('is-hidden');
-    subheading.classList.add('is-hidden');
-    form.classList.add('is-hidden');
-    resultText.textContent = 'Thank you! Your message has been sent.';
-    result.classList.add('is-visible');
-    return; // nothing else to wire up
-  }
-
   // ---- Retry button — show the form again ----
   retryBtn.addEventListener('click', () => {
     result.classList.remove('is-visible');
@@ -132,14 +122,13 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await response.json();
 
       if (response.ok && data.success) {
-        // ---- SUCCESS: hide form, show message permanently ----
-        sessionStorage.setItem('bnv-form-sent', 'true');
+        // ---- SUCCESS: hide form, show message ----
         heading.classList.add('is-hidden');
         subheading.classList.add('is-hidden');
         form.classList.add('is-hidden');
         form.reset();
 
-        resultText.textContent = 'Thank you! Your message has been sent.';
+        resultText.textContent = 'Thank you! Your message has been sent. Someone will be in touch soon.';
         result.classList.add('is-visible');
       } else {
         // ---- FAIL: hide form, show error + retry ----
