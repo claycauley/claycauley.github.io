@@ -108,11 +108,12 @@ ol {
 }
 .hero__content {
   background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(2rem);
   border-radius: 1rem;
   position: relative;
   z-index: 2;
   display: grid;
-  grid-template-columns: 1.25fr 1fr;
+  grid-template-columns: 1.5fr 1fr;
   align-items: center;
   justify-content: center;
   max-width: 72rem;
@@ -403,3 +404,5 @@ ol {
     justify-self: center;
   }
 }
+
+/*# sourceMappingURL=main.css.map */
