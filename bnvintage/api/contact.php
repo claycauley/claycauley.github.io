@@ -19,7 +19,7 @@ define('DEV_MODE', false);
 
 define('RECAPTCHA_SECRET_KEY', '6LfFpYMsAAAAAPT9WYKBTDSQvJd5rGUIw5d6Q4_M');   // <-- your reCAPTCHA v3 secret key
 define('RECAPTCHA_SCORE_THRESHOLD', 0.5);                 // 0.0 (bot) → 1.0 (human)
-define('MAIL_TO', 'tony@bnvintage.com');             // <-- where form emails go
+define('MAIL_TO', 'clay.cauley87@gmail.com');             // <-- where form emails go
 define('MAIL_SUBJECT', 'Brand New Vintage Contact Form Submission');
 
 // =============================================
@@ -176,9 +176,8 @@ if (DEV_MODE) {
     exit;
 }
 
-$headers  = "From: {$name} <{$email}>\r\n";
-$headers .= "Reply-To: {$email}\r\n";
-$headers .= "X-Mailer: PHP/" . phpversion() . "\r\n";
+$headers  = "From: Brand New Vintage <noreply@bnvintage.com>\r\n";
+$headers .= "Reply-To: {$name} <{$email}>\r\n";
 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
 
 $mailSent = mail(MAIL_TO, MAIL_SUBJECT, $emailBody, $headers);
