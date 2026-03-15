@@ -3265,7 +3265,7 @@ function showError(message) {
 // Register Service Worker for offline support
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/pokedex/service-worker.js')
+        navigator.serviceWorker.register('/poclaydex/service-worker.js')
             .then(registration => {
                 console.log('Service Worker registered:', registration);
             })
