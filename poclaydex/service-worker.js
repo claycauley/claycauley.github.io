@@ -1,13 +1,13 @@
-const CACHE_NAME = 'poclaydex-v68';
-const API_CACHE_NAME = 'poclaydex-api-v68';
-const IMAGE_CACHE_NAME = 'poclaydex-images-v68';
+const CACHE_NAME = 'poclaydex-v69';
+const API_CACHE_NAME = 'poclaydex-api-v69';
+const IMAGE_CACHE_NAME = 'poclaydex-images-v69';
 
 const urlsToCache = [
-  '/poclaydex/',
-  '/poclaydex/index.html',
-  '/poclaydex/assets/styles/styles.css',
-  '/poclaydex/script.js',
-  '/poclaydex/manifest.json'
+  '/',
+  '/index.html',
+  '/assets/styles/styles.css',
+  '/script.js',
+  '/manifest.json'
 ];
 
 // Install event - cache essential files
