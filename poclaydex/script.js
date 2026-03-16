@@ -4167,6 +4167,24 @@ async function populateDetailPanel(pokemon) {
                     }
                     
                     pokemonGenderBreakdown.innerHTML += genderHtml;
+
+                    // Populate Catch Rates
+                    const captureRate = speciesData.capture_rate;
+                    if (captureRate !== undefined) {
+                        const calcCatchPercent = (ballMultiplier) => {
+                            // Gen 3+ formula at full HP, no status condition
+                            const raw = ((1 / 3) * captureRate * ballMultiplier) / 255 * 100;
+                            return Math.min(Math.round(raw), 100);
+                        };
+
+                        const pokeballEl = pokemonDetailContent.querySelector('#pokeballCatchRateValue');
+                        const greatballEl = pokemonDetailContent.querySelector('#greatballCatchRateValue');
+                        const ultraballEl = pokemonDetailContent.querySelector('#ultraballCatchRateValue');
+
+                        if (pokeballEl) pokeballEl.textContent = `${calcCatchPercent(1)}%`;
+                        if (greatballEl) greatballEl.textContent = `${calcCatchPercent(1.5)}%`;
+                        if (ultraballEl) ultraballEl.textContent = `${calcCatchPercent(2)}%`;
+                    }
                 } catch (error) {
                     console.error('Error fetching gender data:', error);
                 }
