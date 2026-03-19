@@ -2665,7 +2665,10 @@ function getEvolutionCondition(evolutionDetails) {
     if (details.min_level) conditions.push(`Level ${details.min_level}`);
     if (details.min_happiness) conditions.push(`Happiness ${details.min_happiness}`);
     if (details.min_affection) conditions.push(`Affection ${details.min_affection}`);
-    if (details.item) conditions.push(`Use ${details.item.name}`);
+    if (details.item) {
+        const itemName = details.item.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        conditions.push(itemName);
+    }
     if (details.known_move) conditions.push(`Knows ${details.known_move.name}`);
     if (details.known_move_type) conditions.push(`Knows ${details.known_move_type.name} Move`);
     if (details.location) conditions.push(`At ${details.location.name}`);
@@ -4189,7 +4192,66 @@ async function populateDetailPanel(pokemon) {
                     console.error('Error fetching gender data:', error);
                 }
             }
-            
+
+            // Populate Evolution Line
+            const pokemonEvolutionLine = pokemonDetailContent.querySelector('.pokemonEvolutionLine');
+            if (pokemonEvolutionLine) {
+                try {
+                    const speciesUrl = `https://pokeapi.co/api/v2/pokemon-species/${baseNationalDex}`;
+                    const speciesRes = await fetch(speciesUrl);
+                    const speciesJson = await speciesRes.json();
+                    const chainRes = await fetch(speciesJson.evolution_chain.url);
+                    const chainJson = await chainRes.json();
+
+                    // Walk only the first branch at each stage (mainline, no splits)
+                    const stages = [];
+                    let node = chainJson.chain;
+                    while (node) {
+                        const id = node.species.url.split('/').filter(Boolean).pop();
+                        const condition = getEvolutionCondition(node.evolution_details);
+                        stages.push({ name: node.species.name, id, condition });
+                        node = node.evolves_to.length > 0 ? node.evolves_to[0] : null;
+                    }
+
+                    const evoItems = pokemonEvolutionLine.querySelectorAll('.evolutionLine li');
+
+                    stages.forEach((stage, i) => {
+                        if (!evoItems[i]) return;
+                        const img = evoItems[i].querySelector('img');
+                        const nameEl = evoItems[i].querySelector('.pokemonEvolutionName');
+                        const conditionEl = evoItems[i].querySelector('.pokemonEvolutionCondition');
+                        const artworkUrl = getArtworkUrl(stage.id);
+                        if (img) {
+                            img.src = artworkUrl;
+                            img.alt = stage.name;
+                            img.onerror = () => {
+                                img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${stage.id}.png`;
+                            };
+                        }
+                        if (nameEl) {
+                            nameEl.textContent = stage.name.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+                        }
+                        if (conditionEl) {
+                            conditionEl.textContent = stage.condition || 'Base Form';
+                            conditionEl.style.display = '';
+                        }
+                        evoItems[i].style.display = '';
+                    });
+
+                    // Hide unused stages
+                    for (let i = stages.length; i < evoItems.length; i++) {
+                        evoItems[i].style.display = 'none';
+                    }
+
+                    // Hide the whole section if no evolution (solo Pokémon)
+                    if (stages.length <= 1) {
+                        pokemonEvolutionLine.style.display = 'none';
+                    }
+                } catch (error) {
+                    console.error('Error fetching evolution line:', error);
+                }
+            }
+
             // Populate Base Stats
             const pokemonBaseStats = pokemonDetailContent.querySelector('.pokemonBaseStats');
             if (pokemonBaseStats && data.stats) {

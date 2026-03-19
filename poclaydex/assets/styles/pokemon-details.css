@@ -508,3 +508,46 @@
 .hidden {
     display: none !important;
 }
+
+.pokemonEvolutionLine .evolutionLine {
+    align-items: flex-start;
+    display: flex;
+    gap: 2rem;
+    margin-top: 1rem;
+    justify-content: space-evenly;
+}
+
+.pokemonEvolutionLine .evolutionLine li {
+    display: grid;
+    flex: 0 0 6rem;
+    gap: .5rem;
+    list-style-type: none;
+    font-size: .75rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.evolutionLine img {
+    display: block;
+    height: 6rem;
+    width: 6rem;
+    object-fit: contain;
+} 
+
+.pokemonEvolutionName {
+    background-color: none;
+    border: none;
+    border-radius: 1rem;
+    font-weight: 500;
+    padding: 2px 1rem;
+    width: 100%;
+}
+
+.pokemonEvolutionCondition {
+    background-color: #111111;
+    border-radius: 1rem;
+    box-sizing: border-box;
+    font-weight: 300;
+    padding: 2px 1rem;
+    width: 100%;
+}
