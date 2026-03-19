@@ -1,6 +1,6 @@
-const CACHE_NAME = 'poclaydex-v72';
-const API_CACHE_NAME = 'poclaydex-api-v72';
-const IMAGE_CACHE_NAME = 'poclaydex-images-v72';
+const CACHE_NAME = 'poclaydex-v73';
+const API_CACHE_NAME = 'poclaydex-api-v73';
+const IMAGE_CACHE_NAME = 'poclaydex-images-v73';
 
 const urlsToCache = [
   '/',
