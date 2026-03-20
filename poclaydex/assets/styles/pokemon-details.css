@@ -509,7 +509,8 @@
     display: none !important;
 }
 
-.pokemonEvolutionLine .evolutionLine {
+.pokemonEvolutionLine .evolutionLine,
+.pokemonSpecialEvolutionLine .evolutionLine {
     align-items: flex-start;
     display: flex;
     gap: 2rem;
@@ -517,7 +518,8 @@
     justify-content: space-evenly;
 }
 
-.pokemonEvolutionLine .evolutionLine li {
+.pokemonEvolutionLine .evolutionLine li,
+.pokemonSpecialEvolutionLine .evolutionLine li {
     display: grid;
     flex: 0 0 6rem;
     gap: .5rem;
@@ -546,8 +548,9 @@
 .pokemonEvolutionCondition {
     background-color: #111111;
     border-radius: 1rem;
-    box-sizing: border-box;
     font-weight: 300;
+    font-size: 0.625rem;
+    letter-spacing: .5px;
     padding: 2px 1rem;
     width: 100%;
 }

@@ -2915,13 +2915,8 @@ async function showPokemonByName(pokemonName) {
         if (!response.ok) throw new Error('Pokemon not found');
         
         const pokemonData = await response.json();
-        await showPokemonDetails({ url: pokemonData.species.url.replace('pokemon-species', 'pokemon').replace(/\/$/, '').replace(/[^/]*$/, pokemonData.id), name: pokemonName });
-        
-        // Smooth scroll to top of modal
-        const modalContent = document.querySelector('.modal-content');
-        if (modalContent) {
-            modalContent.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        const pokemonUrl = `https://pokeapi.co/api/v2/pokemon/${pokemonData.id}/`;
+        await populateDetailPanel({ url: pokemonUrl, name: pokemonName });
     } catch (error) {
         console.error('Error loading Pokemon:', error);
         showError('Failed to load Pokemon');
@@ -4236,6 +4231,10 @@ async function populateDetailPanel(pokemon) {
                             conditionEl.style.display = '';
                         }
                         evoItems[i].style.display = '';
+                        evoItems[i].style.cursor = 'pointer';
+                        evoItems[i].onclick = () => {
+                            showPokemonByName(stage.name);
+                        };
                     });
 
                     // Hide unused stages
@@ -4249,6 +4248,97 @@ async function populateDetailPanel(pokemon) {
                     }
                 } catch (error) {
                     console.error('Error fetching evolution line:', error);
+                }
+            }
+
+            // Populate Special Evolution Line (Mega / Gigantamax)
+            const pokemonSpecialEvolutionLine = pokemonDetailContent.querySelector('.pokemonSpecialEvolutionLine');
+            if (pokemonSpecialEvolutionLine) {
+                try {
+                    // Derive the base name (e.g. "charizard-mega-x" → "charizard")
+                    const baseName = data.name.toLowerCase().split('-')[0];
+
+                    // Fetch full Pokemon list to find mega/gmax variants of this base
+                    const allFormsRes = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=2000`);
+                    const allFormsData = await allFormsRes.json();
+                    const specialFormNames = allFormsData.results
+                        .map(p => p.name)
+                        .filter(name => name.startsWith(baseName) && (name.includes('-mega') || name.includes('-gmax') || name.includes('-gigantamax')));
+
+                    if (specialFormNames.length === 0) {
+                        pokemonSpecialEvolutionLine.classList.add('hidden');
+                    } else {
+                        // Fetch details for each special form
+                        const specialForms = (await Promise.all(
+                            specialFormNames.map(async (formName) => {
+                                try {
+                                    const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${formName}`);
+                                    return res.ok ? await res.json() : null;
+                                } catch { return null; }
+                            })
+                        )).filter(Boolean);
+
+                        // Build the list of special stage objects: just the special forms (no base)
+                        const specialStages = specialForms.map(f => {
+                                const isGmax = f.name.includes('-gmax') || f.name.includes('-gigantamax');
+                                let condition;
+                                if (isGmax) {
+                                    condition = 'Gigantamax';
+                                } else {
+                                    // Extract variant: "charizard-mega-x" → "X", "mewtwo-mega-y" → "Y", "venusaur-mega" → ""
+                                    const match = f.name.match(/-mega-([xyz])$/i);
+                                    condition = match ? `Mega ${match[1].toUpperCase()}` : 'Mega Evo';
+                                }
+                                return { formData: f, condition };
+                            });
+
+                        const specialEvoItems = pokemonSpecialEvolutionLine.querySelectorAll('.evolutionLine li');
+                        const evoList = pokemonSpecialEvolutionLine.querySelector('.evolutionLine');
+
+                        // Dynamically add extra li slots if there are more stages than template slots
+                        const extraNeeded = specialStages.length - specialEvoItems.length;
+                        for (let e = 0; e < extraNeeded; e++) {
+                            const li = document.createElement('li');
+                            li.innerHTML = `<img src="https://placehold.co/64" alt="Pokemon Sprite"><span class="pokemonEvolutionCondition"></span>`;
+                            evoList.appendChild(li);
+                        }
+
+                        // Re-query after potential additions
+                        const allSpecialEvoItems = pokemonSpecialEvolutionLine.querySelectorAll('.evolutionLine li');
+
+                        specialStages.forEach((stage, i) => {
+                            if (!allSpecialEvoItems[i]) return;
+                            const img = allSpecialEvoItems[i].querySelector('img');
+                            const conditionEl = allSpecialEvoItems[i].querySelector('.pokemonEvolutionCondition');
+                            const artworkUrl = getArtworkFromSprites(stage.formData.sprites);
+                            if (img) {
+                                img.src = artworkUrl;
+                                img.alt = stage.formData.name;
+                                img.onerror = () => {
+                                    img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${stage.formData.id}.png`;
+                                };
+                            }
+                            if (conditionEl) {
+                                conditionEl.textContent = stage.condition;
+                            }
+                            // All items are special forms — all clickable
+                            allSpecialEvoItems[i].style.cursor = 'pointer';
+                            allSpecialEvoItems[i].onclick = () => {
+                                showPokemonByName(stage.formData.name);
+                            };
+                            allSpecialEvoItems[i].style.display = '';
+                        });
+
+                        // Hide any unused li slots
+                        for (let i = specialStages.length; i < allSpecialEvoItems.length; i++) {
+                            allSpecialEvoItems[i].style.display = 'none';
+                        }
+
+                        pokemonSpecialEvolutionLine.classList.remove('hidden');
+                    }
+                } catch (error) {
+                    console.error('Error fetching special evolution line:', error);
+                    pokemonSpecialEvolutionLine.classList.add('hidden');
                 }
             }
 
@@ -4595,12 +4685,17 @@ async function populateDetailPanel(pokemon) {
         // Show the detail panel
         pokemonDetailPanel.style.display = 'block';
         
-        // Scroll detail panel to top (use requestAnimationFrame to ensure DOM is ready)
-        requestAnimationFrame(() => {
+        // Only open the panel if it's not already open (e.g. navigating from an evolution click)
+        if (!pokemonDetailPanel.classList.contains('open')) {
+            // Fresh open — scroll immediately before the panel animates in
             pokemonDetailPanel.scrollTop = 0;
-        });
-        
-        openDetailPanel();
+            openDetailPanel();
+        } else {
+            // Already open (evolution navigation) — let content load first, then smooth scroll
+            setTimeout(() => {
+                pokemonDetailPanel.scrollTo({ top: 0, behavior: 'smooth' });
+            }, 200);
+        }
     } catch (error) {
         console.error('Error loading Pokemon details:', error);
     }
