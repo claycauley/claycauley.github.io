@@ -4263,7 +4263,7 @@ async function populateDetailPanel(pokemon) {
                     const allFormsData = await allFormsRes.json();
                     const specialFormNames = allFormsData.results
                         .map(p => p.name)
-                        .filter(name => name.startsWith(baseName) && (name.includes('-mega') || name.includes('-gmax') || name.includes('-gigantamax')));
+                        .filter(name => (name === baseName || name.startsWith(baseName + '-')) && (name.includes('-mega') || name.includes('-gmax') || name.includes('-gigantamax')));
 
                     if (specialFormNames.length === 0) {
                         pokemonSpecialEvolutionLine.classList.add('hidden');
@@ -4287,7 +4287,7 @@ async function populateDetailPanel(pokemon) {
                                 } else {
                                     // Extract variant: "charizard-mega-x" → "X", "mewtwo-mega-y" → "Y", "venusaur-mega" → ""
                                     const match = f.name.match(/-mega-([xyz])$/i);
-                                    condition = match ? `Mega ${match[1].toUpperCase()}` : 'Mega Evo';
+                                    condition = match ? `Mega ${match[1].toUpperCase()}` : 'Mega';
                                 }
                                 return { formData: f, condition };
                             });
