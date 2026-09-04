@@ -1,0 +1,26 @@
+@use "variables" as *;
+
+.background {
+    &--white {
+        background-color: $white;
+    }
+    &--navy {
+        background-color: $baseNavy;
+    }
+    &--gray {
+        background-color: $baseGray;
+    }
+    &--green {
+        background-color: $baseGreen;
+    }
+    &--near-black {
+        background-color: $nearBlack;
+    }
+    &--off-white {
+        background-color: $offWhite;
+    }
+
+    &--ink {
+        background-color: $ink;
+    }
+}

@@ -1,0 +1,123 @@
+@use 'variables' as *;
+
+.header {
+    background-color: color-mix(in srgb, $ink 95%, transparent);
+    backdrop-filter: blur(2rem);
+    border-bottom: 1px solid $ink-800;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    transition: all .25s ease;
+    z-index: 10;
+    overflow: hidden;
+
+    .container {
+        align-items: center;
+        display: grid;
+        grid-template-columns: 1fr 1.5rem;
+        justify-items: space-between;
+
+        @media (min-width: 1024px) {
+            grid-template-columns: auto auto;
+            justify-content: space-between;
+        }
+
+        .menu {
+            font-size: 1.5rem;
+            z-index: 20;
+
+            @media (min-width: 1024px) {
+                display: none;
+            }
+        }
+        
+        .logo {
+            text-align: left;
+            transition: all .25s ease;
+
+            a p:first-of-type {
+                transition: color .25s ease;
+            }
+
+            &:hover a p:first-of-type {
+                color: $ember;
+            }
+
+            @media (min-width: 1024px) {
+                text-align: left;
+            }
+        }
+
+        .nav {
+            background-color: $ink;
+            border-right: 3px solid $faded-ember;
+            box-shadow: .5rem 0 2rem rgba(0, 0, 0, 0.75);
+            display: grid;
+            gap: 1rem;
+            height: 100dvh;
+            justify-items: center;
+            right: -100dvw;
+            max-width: 25rem;
+            padding: 6rem 1rem calc(100dvh - 5rem);
+            position: absolute;
+            top: 0;
+            transition: .25s ease all;
+            width: 80%;
+            z-index: 2;
+
+            @media (min-width: 1024px) {
+                background-color: transparent;
+                border-right: none;
+                box-shadow: none;
+                display: flex;
+                flex-direction: row;
+                gap: .5rem;
+                height: fit-content;
+                justify-items: unset;
+                left: unset;
+                max-width: unset;
+                padding: unset;
+                position: relative;
+                position: unset;
+                transition: unset;
+                width: auto;
+            }
+
+            &--is-open {
+                right: 0;
+            }
+
+            a {
+                width: 100%;
+            }
+
+            .btn-container {
+                margin-left: 1.5rem;
+            }
+        }
+
+        .overlay {
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(.5rem);
+            visibility: hidden;
+            height: 100dvh;
+            left: 0;
+            opacity: 0;
+            overflow-y: hidden;
+            position: fixed;
+            top: 0;
+            width: 100dvw;
+            z-index: 1;
+            transition: .25s ease all;
+
+            &--is-open {
+                opacity: 1;
+                visibility: visible;
+            }
+        }
+    }
+
+    &--is-scrolled {
+        border-bottom-color: $faded-ember;
+    }
+}

@@ -1,0 +1,39 @@
+.margin {
+    &--sm {
+        margin: 0.5rem;
+    }
+    &--md {
+        margin: .75rem;
+    }
+    &--lg {
+        margin: 1rem;
+    }   
+     &--xl {
+        margin: 1.5rem;
+    }
+     &--2xl {
+        margin: 2rem;
+    }
+    &--position {
+        &--top {
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-right: 0;
+        }
+        &--right {
+            margin-bottom: 0;
+            margin-left: 0;
+            margin-top: 0;
+        }
+        &--bottom {
+            margin-left: 0;
+            margin-right: 0;
+            margin-top: 0;
+        }
+        &--left {
+            margin-bottom: 0;
+            margin-right: 0;
+            margin-top: 0;
+        }
+    }
+}

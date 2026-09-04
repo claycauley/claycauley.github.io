@@ -1,0 +1,191 @@
+@use 'variables' as *;
+
+.hero {
+    background-color: $ink;
+    .container {
+        .text-image-block {
+
+            @media (min-width: 1024px) {
+                align-items: center;
+            }
+            .image-box {
+                position: relative;
+                display: none;
+
+                @media (min-width: 1024px) {
+                    display: block;
+                }
+
+                .corner {
+                    position: absolute;
+                    width: 1rem;
+                    height: 1rem;
+                    z-index: 2;
+                    pointer-events: none;
+                    
+                    &--tr {
+                        border-top: 3px solid $ember;
+                        border-right: 3px solid $ember;
+                        top: -1.5px;
+                        right: -1.5px;
+                    }
+                    &--br {
+                        border-bottom: 3px solid $ember;
+                        border-right: 3px solid $ember;
+                        bottom: -1px;
+                        right: -1px;
+                    }
+                    &--tl {
+                        border-top: 3px solid $ember;
+                        border-left: 3px solid $ember;
+                        top: -1px;
+                        left: -1px;
+                    }
+                    &--bl {
+                        border-bottom: 3px solid $ember;
+                        border-left: 3px solid $ember;
+                        bottom: -1px;
+                        left: -1px;
+                    }
+                }
+                
+                img {
+                    aspect-ratio: 5 / 7;
+                    border-radius: .5rem 0 .5rem 0;
+                    object-fit: cover;
+                    position: relative;
+                    width: clamp(200px, 25vw, 400px);
+                    z-index: 1;
+                }
+
+                .image-decor {
+                    border-radius: 1rem;
+                    border: 1px solid $faded-sand-light;
+                    bottom: -.75rem;
+                    height: 50%;
+                    position: absolute;
+                    right: -.75rem;
+                    width: 50%;
+                }
+            }
+
+            .text-box {
+                display: grid;
+                gap: 1rem;
+                align-self: flex-start;
+
+                @media (min-width: 1024px) {
+                    gap: 1.5rem;
+                }
+
+                em {
+                    display: inline-block;
+                }
+
+                .availability-container {
+                    display: inline-flex;
+                    align-items: center;
+                    gap: .5rem;
+                    margin-bottom: 0.875rem;
+
+                    @media (min-width: 1024px) {
+                        margin-bottom: 1rem;
+                    }
+
+                    .availability-indicator {
+                        display: inline-block;
+                        width: 6px;
+                        height: 6px;
+                        background: #4ade80;
+                        border-radius: 50%;
+                        box-shadow: 0 0 0 4px #4ade8033;
+                        flex-shrink: 0;
+                        animation: pulseDot 2.5s ease-in-out infinite;
+
+                        @keyframes pulseDot {
+                            0%, 100% {
+                                box-shadow: 0 0 0 4px #4ade8033;
+                            }
+                            50% {
+                                box-shadow: 0 0 0 8px #4ade8000;
+                            }
+                        }
+                    }
+                }
+
+                .text-button-block {
+                    display: grid;
+                    gap: 1rem;
+
+                     @media (min-width: 1024px) {
+                        gap: 1.5rem;
+                    }
+
+                    .body-text {
+                        display: grid;
+                        gap: .5rem;
+
+                        @media (min-width: 1024px) {
+                            gap: 1rem;
+                        }
+                    }
+                    .button-container {
+                        display: flex;
+                        gap: 1rem;
+
+                        @media (min-width: 1024px) {
+                            gap: .75rem;
+                        }
+
+                        a {
+                            flex: 1;
+
+                            @media (min-width: 1024px) {
+                                flex: 0;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.about {
+    background-color: $sand-pale;
+
+    .container {
+        .design-process {
+            display: grid;
+            gap: 2rem;
+
+            @media (min-width: 1024px) {
+                gap: 3rem;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .design-process-step {
+                padding: 1rem;
+
+                @media (min-width: 1024px) {
+                    padding: 2rem;
+                }
+
+                .design-path {
+                    display: flex;
+                    gap: .5rem;
+
+                    @media (min-width: 1024px) {
+                        gap: 1rem;
+                    }
+
+                    p {
+                        display: grid;
+                        flex: 1;
+                        justify-items: center;
+                    }
+                }
+            }
+        }
+    }
+}

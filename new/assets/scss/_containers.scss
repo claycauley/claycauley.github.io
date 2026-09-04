@@ -1,0 +1,9 @@
+.container {
+    &--size{
+        &--main {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding-inline: clamp(1rem,5vw,4rem)
+        }
+    }
+}

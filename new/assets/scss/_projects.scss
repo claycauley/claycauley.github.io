@@ -1,0 +1,248 @@
+@use 'variables' as *;
+
+// ── Work Hero ───────────────────────────────────────────────
+
+.work-hero {
+    align-items: center;
+    background-color: $ink;
+    display: flex;
+    min-height: 55vh;
+    overflow: hidden;
+    padding: 5rem 0;
+
+    .container {
+        position: relative;
+        width: 100%;
+    }
+
+    &__inner {
+        display: grid;
+        gap: 1.5rem;
+        max-width: 42rem;
+        position: relative;
+        z-index: 1;
+    }
+
+    &__label {
+        display: grid;
+        gap: 0.5rem;
+    }
+
+    &__headline {
+        font-family: $fontDisplay;
+        font-size: clamp(3rem, 8vw, 6rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        line-height: 1.05;
+
+        span,
+        em {
+            display: block;
+        }
+
+        em {
+            font-style: italic;
+        }
+    }
+
+    // Giant decorative number bleeding off the right edge
+    &__deco {
+        bottom: -0.2em;
+        color: white;
+        font-family: $fontDisplay;
+        font-size: clamp(12rem, 22vw, 24rem);
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        opacity: 0.04;
+        pointer-events: none;
+        position: absolute;
+        right: -0.05em;
+        user-select: none;
+        z-index: 0;
+    }
+}
+
+// ── Case Studies ────────────────────────────────────────────
+
+.case {
+    overflow: hidden;
+    padding: 4rem 0;
+    position: relative;
+
+    @media (min-width: 1024px) {
+        padding: 7rem 0;
+    }
+
+    &--navy { background-color: $baseNavy; }
+    &--dark  { background-color: $nearBlack; }
+
+    // Container sits above the decorative number
+    .container {
+        position: relative;
+        z-index: 1;
+    }
+
+    // ── Oversized index number ───────────────────────────────
+
+    &__num {
+        bottom: -0.15em;
+        color: white;
+        font-family: $fontDisplay;
+        font-size: clamp(10rem, 18vw, 22rem);
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        line-height: 1;
+        opacity: 0.04;
+        pointer-events: none;
+        position: absolute;
+        right: -0.02em;
+        user-select: none;
+        z-index: 0;
+    }
+
+    // Flip: number bleeds off the left
+    &--flip &__num {
+        left: -0.02em;
+        right: auto;
+    }
+
+    // ── Inner grid ───────────────────────────────────────────
+
+    &__inner {
+        align-items: center;
+        display: grid;
+        gap: 3rem;
+        grid-template-columns: 1fr;
+
+        @media (min-width: 1024px) {
+            gap: 5rem;
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+
+    // ── Content block ────────────────────────────────────────
+
+    &__content {
+        display: grid;
+        gap: 1.25rem;
+
+        @media (min-width: 1024px) {
+            gap: 1.5rem;
+        }
+
+        .btn {
+            justify-self: start;
+            margin-top: 0.5rem;
+        }
+    }
+
+    // Eyebrow: overline text + a short green dash after
+    &__eyebrow {
+        align-items: center;
+        display: flex;
+        gap: 0.75rem;
+
+        &::after {
+            background-color: $baseGreen;
+            content: '';
+            display: block;
+            flex-shrink: 0;
+            height: 2px;
+            width: 2rem;
+        }
+    }
+
+    // ── Visual composition ────────────────────────────────────
+
+    &__visual {
+        display: grid;
+    }
+
+    // Glass card containing the logo large
+    &__logo-ring {
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: var(--radius-lg);
+        display: flex;
+        justify-content: center;
+        padding: 3rem 2.5rem;
+
+        img {
+            max-height: 5.5rem;
+            max-width: 16rem;
+            object-fit: contain;
+            width: 100%;
+        }
+    }
+
+    // Screenshot card overlapping the logo ring, slightly tilted
+    &__mock {
+        border-radius: var(--radius-md);
+        box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.5);
+        margin-inline: 2rem;
+        margin-top: -2.5rem;
+        overflow: hidden;
+        transform: rotate(-1.5deg);
+
+        img {
+            display: block;
+            width: 100%;
+        }
+    }
+}
+
+// ── Brands Marquee ──────────────────────────────────────────
+
+.brands {
+    padding: 5rem 0 0;
+
+    &__heading {
+        display: grid;
+        gap: 0.75rem;
+        margin-bottom: 3.5rem;
+        max-width: 40rem;
+    }
+
+    // Full-bleed — sits outside any container, spans the viewport
+    &__marquee {
+        display: flex;
+        mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+        overflow: hidden;
+        padding: 2rem 0;
+        width: 100%;
+
+        &:hover .brands__track {
+            animation-play-state: paused;
+        }
+    }
+
+    &__track {
+        align-items: center;
+        animation: marquee 25s linear infinite;
+        display: flex;
+        flex-shrink: 0;
+        gap: 5rem;
+        min-width: 100%;
+        padding-right: 5rem; // matches gap so the loop is seamless
+
+        img {
+            filter: saturate(0) opacity(0.35);
+            height: 3rem;
+            object-fit: contain;
+            transition: filter $transitionBase;
+            width: auto;
+
+            &:hover {
+                filter: saturate(1) opacity(1);
+            }
+        }
+    }
+}
+
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-100%); }
+}

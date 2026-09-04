@@ -1,0 +1,35 @@
+@use 'variables' as *;
+
+.mark {
+    border-radius: .5rem;
+    font-weight: $fontWeightSemiBold;
+    padding: .5rem;
+
+    &--navy {
+        background-color: $baseNavy;
+        color: $white;
+    }
+    &--gray {
+        background-color: $baseGray;
+        color: $baseNavy;
+    }
+    &--green {
+        background-color: $baseGreen;
+        color: $baseNavy;
+    }
+    &--ember {
+        background-color: $ember;
+        color: $ink;
+    }
+    &--text {
+        &--navy {
+            color: $baseNavy;
+        }
+        &--green {
+            color: $baseGreen;
+        }
+        &--gray {
+            color: $baseGray;
+        }
+    }
+}

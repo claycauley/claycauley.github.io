@@ -1,0 +1,105 @@
+.icon {
+    display: inline-flex;
+    margin-right: .5rem;
+
+    &.reverse {
+        margin-right: 0;
+        margin-left: .5rem;
+    }
+
+    &--no-margin {
+        margin-right: 0;
+    }
+
+    // ── Variants ─────────────────────────────
+    &--solid {
+        &::before {
+            font-family: 'IconFont';
+        }
+    }
+
+    &--outline {
+        &::before {
+            font-family: 'IconFontOutline';
+        }
+    }
+
+    // ── Icons ─────────────────────────────
+    &--home {
+        &::before {
+            content: "\f015";
+        }
+    }
+    &--id-card {
+        &::before {
+            content: "\f47f";
+        }
+    }
+    &--paper-plane {
+        &::before {
+            content: "\f1d8";
+        }
+    }
+    &--pencil-brush {
+        &::before {
+            content: "\f618";
+        }
+    }
+    &--bars {
+        &::before {
+            content: "\f0c9";
+        }
+    }
+    &--cross-mark {
+        &::before {
+            content: "\f00d";
+        }
+    }
+    &--magnifying-glass {
+        &::before {
+            content: "\f002";
+        }
+    }
+    &--compass {
+        &::before {
+            content: "\f568";
+        }
+    }
+    &--code-laptop {
+        &::before {
+            content: "\f5fc";
+        }
+    }
+    &--browsers {
+        &::before {
+            content: "\e0cb";
+        }
+    }
+    &--handshake {
+        &::before {
+            content: "\f2b5";
+        }
+    }
+    &--long-arrow-right {
+        &::before {
+            content: "\f178";
+        }
+    }
+
+    // ── Size ─────────────────────────────
+    &--sm {
+        font-size: 1rem;
+    }
+    &--md {
+        font-size: 1.25rem;
+    }
+    &--lg {
+        font-size: 1.5rem;
+    }
+    &--xl {
+        font-size: 2rem;
+    }
+    &--2xl {
+        font-size: 3rem;
+    }
+}

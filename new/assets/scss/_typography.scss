@@ -1,0 +1,208 @@
+@use 'variables' as *;
+
+h1,
+.h1 {
+    font-family: $fontDisplay;
+    font-size: clamp(2.5rem, 5vw, 6rem);
+    font-weight: $fontWeightExtraBold;
+    letter-spacing: -2%;
+    line-height: 1.1;
+
+    &.subheading {
+        font-family: $fontDisplay;
+        font-size: clamp(1.5rem, 2.75vw, 2.5rem);
+        font-weight: $fontWeightSemiBold;
+        line-height: 1.2;
+        letter-spacing: -.02em;
+        margin: 0;
+        text-transform: capitalize;
+    }
+}
+
+h2,
+.h2 {
+    font-family: $fontDisplay;
+    font-size: clamp(1.5rem, 2.5vw, 2.5rem);
+    font-weight: $fontWeightBold;
+    letter-spacing: -1.5%;
+    line-height: 1.2;
+}
+
+h3,
+.h3 {
+    font-family: $fontDisplay;
+    font-size: 1.5rem;
+    font-weight: $fontWeightSemiBold;
+    letter-spacing: 0;
+    line-height: 1.25;
+
+    @media (min-width: 1024px) {
+        font-size: 2rem;
+        font-weight: $fontWeightBold;
+    }
+}
+
+h4,
+.h4 {
+    font-family: $fontBody;
+    font-size: 1rem;
+    font-weight: $fontWeightBold;
+    letter-spacing: 0;
+    line-height: 1.3;
+
+    @media (min-width: 1024px) {
+        font-size: 1.5rem;
+    }
+}
+
+h5,
+.h5 {
+    font-family: $fontDisplay;
+    font-size: 1rem;
+    font-weight: $fontWeightSemiBold;
+    letter-spacing: 0;
+    line-height: 1.35;
+
+    &.subheading {
+        font-family: $fontBody;
+    }
+
+    @media (min-width: 1024px) {
+        letter-spacing: 1%;
+    }
+}
+
+h6,
+.h6 {
+    font-family: $fontBody;
+    font-size: clamp(.65rem, 1vw, .75rem);
+    font-weight: $fontWeightBold;
+    letter-spacing: 10%;
+    text-transform: uppercase;
+
+    &.tagline {
+        line-height: 1.8;
+        letter-spacing: 5%;
+        text-transform: none;
+
+        @media (min-width: 1024px) {
+            text-transform: uppercase;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        line-height: 1.5;
+    }
+}
+
+p {
+    font-family: $fontBody;
+
+    &.body {
+        font-size: clamp(.875rem, 1.5vw, 1rem);
+        font-weight: $fontWeightRegular;
+        letter-spacing: 0;
+        line-height: 1.7;
+
+        @media (min-width: 1024px) {
+            line-height: 1.8;
+        }
+    }
+    &.lead {
+        font-size: clamp(1.25rem, 2vw, 1.5rem);
+        font-weight: $fontWeightSemiBold;
+        letter-spacing: 0;
+        line-height: 1.55;
+
+        @media (min-width: 1024px) {
+            line-height: 1.6;
+        }
+    }
+    &.small {
+        font-size: .75rem;
+        font-weight: $fontWeightRegular;
+        letter-spacing: 0;
+        line-height: 1.5;
+    }
+
+    &.eyebrow {
+        font-size: clamp(.75rem, 2vw, .875rem);
+        font-weight: 600;
+        letter-spacing: .1em;
+        text-transform: uppercase; 
+    }
+}
+
+.link {
+    font-family: $fontBody;
+    font-size: 1rem;
+    font-weight: $fontWeightRegular;
+    letter-spacing: 0;
+    transition: ease all .25s;
+
+    &:hover {
+        box-shadow: 0 1px 0 $ember;
+    }
+
+    @media (min-width: 1024px) {
+        font-size: .875rem;
+    }
+}
+
+.text {
+    &--color {
+        &--black {
+            color: $black;
+        }
+        &--white {
+            color: $white;
+        }
+        &--navy {
+            color: $baseNavy;
+        }
+        &--gray {
+            color: $baseGray;
+        }
+        &--green {
+            color: $baseGreen;
+
+            &--on-white {
+                color: $textGreen;
+            }
+        }
+        &--near-black {
+            color: $nearBlack;
+        }
+        &--dark-gray {
+            color: $darkGray;
+        }
+        &--ink {
+            color: $ink;
+        }
+        &--ink-light {
+            color: $ink-600;
+        }
+        &--sand-dark {
+            color: $sand-dark;
+        }
+        &--faded-sand-dark {
+            color: color-mix(in srgb, $sand-dark 50%, transparent);
+        }
+        &--sand-pale {
+            color: $sand-pale;
+        }
+        &--ember {
+            color: $ember;
+
+            &--on-white {
+                color: $ember-deep;
+            }
+        }
+        &--faded-sand-light {
+            color: color-mix(in srgb, $sand-light 65%, transparent);
+        }
+    }
+    &--emphasis {
+        font-style: italic;
+    }
+}

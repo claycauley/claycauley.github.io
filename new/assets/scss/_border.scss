@@ -1,0 +1,79 @@
+@use "variables" as *;
+
+.border {
+    border-width: 1px;
+    border-style: solid;
+    border-color: transparent;
+
+    &--color {
+        &--navy {
+            border-color: $baseNavy;
+        }
+        &--gray {
+            border-color: $baseGray;
+        }
+        &--white {
+            border-color: $white;
+        }
+        &--black {
+            border-color: $black;
+        }
+        &--near-black {
+            border-color: $nearBlack;
+        }
+        &--green {
+            border-color: $baseGreen;
+        }
+        &--ember {
+            border-color: $ember;
+        }
+        &--faded-ember {
+            border-color: $faded-ember;
+        }
+    }
+    &--radius {
+        &--sm {
+            border-radius: var(--radius-sm);
+        }
+        &--md {
+            border-radius: var(--radius-md);
+        }
+        &--lg {
+            border-radius: var(--radius-lg);
+        }
+        &--pill {
+            border-radius: var(--radius-pill);
+        }
+    }
+    &--thick {
+        border-width: 2px;
+    }
+    &--extra-thick {
+        border-width: 4px;
+    }
+    &--extra-extra-thick {
+        border-width: 6px;
+    }
+    &--position {
+        &--top {
+            border-bottom-width: 0;
+            border-left-width: 0;
+            border-right-width: 0;
+        }
+        &--right {
+            border-bottom-width: 0;
+            border-left-width: 0;
+            border-top-width: 0;
+        }
+        &--bottom {
+            border-left-width: 0;
+            border-right-width: 0;
+            border-top-width: 0;
+        }
+        &--left {
+            border-bottom-width: 0;
+            border-right-width: 0;
+            border-top-width: 0;
+        }
+    }
+}

@@ -1,0 +1,91 @@
+@use 'reset';
+@use 'variables' as *;
+@use 'typography' as *;
+@use 'icons' as *;
+@use 'button' as *;
+@use 'containers' as *;
+@use 'header' as *;
+@use 'footer' as *;
+@use 'border' as *;
+@use 'background' as *;
+@use 'shadow' as *;
+@use 'margin' as *;
+@use 'mark' as *;
+@use 'grid' as *;
+@use 'index' as *;
+@use 'projects' as *;
+@use 'portfolio-sample' as *;
+
+html {
+    background-color: $ink;
+    scroll-behavior: smooth;
+}
+
+.no-transition *,
+.no-transition *::before,
+.no-transition *::after {
+    transition: none !important;
+}
+
+section {
+    padding: 2rem 0;
+
+    @media (min-width: 1024px) {
+        padding: 6rem 0;
+    }
+}
+
+.hr {
+    background: $white;
+    border: none;
+    height: 1px;
+    margin: 1rem 0 0;
+    outline: none;
+    width: 100%;
+
+    &--double {
+        height: 2px;
+    }
+    &--xtra-short {
+        width: 10%;
+    }
+    &--short {
+        width: 25%;
+    }
+    &--medium {
+        width: 50%;
+    }
+    &--long {
+        width: 75%;
+    }
+    &--color {
+        &--navy {
+            background: $baseNavy;
+        }
+        &--gray {
+            background: $baseGray;
+        }
+        &--white {
+            background: $white;
+        }
+        &--green {
+            background: $baseGreen;
+        }
+        &--ember {
+            background: $ember;
+        }
+        &--faded-sand-light {
+            background: $faded-sand-light;
+        }
+    }
+    &.no-margin {
+        margin: 0;
+    }
+    &.desktop-only {
+        display: none;
+
+        @media (min-width: 1024px) {
+            display: block;
+        }
+    }
+}

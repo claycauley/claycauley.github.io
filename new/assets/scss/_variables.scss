@@ -1,0 +1,195 @@
+:root {
+  // Typography
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --font-size-base: 1rem;
+  --font-size-sm: 0.875rem;
+  --font-size-lg: 1.25rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 2rem;
+  --font-size-3xl: 3rem;
+
+  --font-weight-base: 400;
+  --font-weight-300: 300;
+  --font-weight-500: 500;
+  --font-weight-600: 600;
+  --font-weight-700: 700;
+  --font-weight-800: 800;
+  --font-weight-900: 900;
+
+  // Spacing
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  // Colors — base palette
+  --color-black: #000000;
+  --color-nearBlack: #0d1117;
+  --color-offWhite: #f5f7f9;
+  --color-white: #ffffff;
+
+  // Colors — Brand - Navy
+  --color-navy-50:  #E5ECF4;
+  --color-navy-100: #CCD9E9;
+  --color-navy-200: #99B3D3;
+  --color-navy-300: #668DBD;
+  --color-navy-400: #3367A7;
+  --color-navy-500: #002244;
+  --color-navy-600: #001C38;
+  --color-navy-700: #00152B;
+  --color-navy-800: #000E1D;
+  --color-navy-900: #000710;
+
+    // Colors — Brand - Green
+  --color-green-50:  #F0FAE6;
+  --color-green-100: #E0F5CC;
+  --color-green-200: #C1EB99;
+  --color-green-300: #A2E166;
+  --color-green-400: #83D733;
+  --color-green-500: #69BE28;
+  --color-green-600: #529820;
+  --color-green-700: #3C7218;
+  --color-green-800: #274C10;
+  --color-green-900: #132608;
+
+  // Colors — Brand - Gray
+  --color-gray-50:  #F6F7F7;
+  --color-gray-100: #EDEEF0;
+  --color-gray-200: #DCDDE0;
+  --color-gray-300: #C4C7CA;
+  --color-gray-400: #B4B9BC;
+  --color-gray-500: #A5ACAF;
+  --color-gray-600: #858C90;
+  --color-gray-700: #656C6F;
+  --color-gray-800: #454C4F;
+  --color-gray-900: #252C2F;
+
+  // Semantic tokens
+  --color-text:       var(--color-nearBlack);
+  --color-text-muted: var(--color-gray-500);
+
+  // Border radius
+  --radius-sm:   0.25rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   1rem;
+  --radius-pill: 9999px;
+
+  // Transitions
+  --transition-fast: 150ms ease;
+  --transition-base: 250ms ease;
+  --transition-slow: 400ms ease;
+}
+
+// Dark mode
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-text:       var(--color-neutral-50);
+    --color-text-muted: var(--color-neutral-400);
+    --color-bg:         var(--color-neutral-950);
+    --color-bg-subtle:  var(--color-neutral-900);
+    --color-border:     var(--color-neutral-800);
+  }
+}
+
+// Ink (near-black family)
+$ink:     #12100E;
+$ink-800: #1E1B16;
+$ink-700: #2D2720;
+$ink-600: #3D3228;
+
+// Ember (orange family)
+$ember:       #E8621E;
+$faded-ember: color-mix(in srgb, $ember 25%, transparent);
+$ember-deep:  #C84B0D;
+$ember-light: #F4874A;
+$ember-glow:  #FF9B6B;
+
+// Sand (tan/cream family)
+$sand:       #D4A87C;
+$sand-dark:  #B8956A;
+$sand-light: #EDD5B0;
+$faded-sand-light: color-mix(in srgb, $sand-light 65%, transparent);
+$sand-pale:  #FAF2E8;
+$sand-white: #FFFCF7;
+
+// Icon Font
+@font-face {
+    font-display: swap;
+    font-family: 'IconFont';
+    font-style: normal;
+    font-weight: normal;
+    src: url('../fonts/icon-font.woff2') format('woff2'),
+         url('../fonts/icon-font.ttf') format('truetype');
+}
+
+@font-face {
+    font-display: swap;
+    font-family: 'IconFontOutline';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/icon-font-outline.woff2') format('woff2'),
+         url('../fonts/icon-font-outline.ttf') format('truetype');
+}
+
+
+// ─────────────────────────────────────────────
+// SCSS shorthand aliases for CSS custom properties
+// Usage: color: $hover-color;
+// Compiles to: color: var(--color-neutral-400);
+// ─────────────────────────────────────────────
+
+// Colors
+$hoverColor:      var(--color-neutral-400);
+$textColor:       var(--color-text);
+$textMuted:       var(--color-text-muted);
+$bgColor:         var(--color-bg);
+$bgSubtle:        var(--color-bg-subtle);
+$borderColor:     var(--color-border);
+$accentColor:     var(--color-accent);
+
+$white:        var(--color-white);
+$black:        var(--color-black);
+$nearBlack:    var(--color-nearBlack);
+$offWhite:     var(--color-offWhite);
+$darkGray:     var(--color-gray-800);
+
+$baseNavy:         var(--color-navy-500);
+$baseNavyHover:    var(--color-navy-400);
+$baseNavyHoverLight:    var(--color-navy-50);
+$baseNavyActive:   var(--color-navy-600);
+$baseNavyActiveLight:   var(--color-navy-100);
+
+$baseGreen:        var(--color-green-500);
+$baseGreenHover:   var(--color-green-300);
+$baseGreenHoverLight:   var(--color-green-50);
+$baseGreenActive:  var(--color-green-600);
+$baseGreenActiveLight:  var(--color-green-100);
+$textGreen:        var(--color-green-600);
+$overlayGreen:     var(--color-green-800);
+
+$baseGray:         var(--color-gray-500);
+$baseGrayHover:    var(--color-gray-300);
+$baseGrayHoverLight:    var(--color-gray-50);
+$baseGrayActive:   var(--color-gray-600);
+$baseGrayActiveLight:   var(--color-gray-100);
+
+// Typography
+$fontDisplay:       var(--font-display);
+$fontBody:        var(--font-body);
+$fontWeightRegular: var(--font-weight-base);
+$fontWeightSemiBold: var(--font-weight-600);
+$fontWeightBold: var(--font-weight-700);
+$fontWeightExtraBold: var(--font-weight-900);
+$fontWeightLight: var(--font-weight-300);
+$buttonFontWeight: var(--font-weight-600);
+
+// Transitions
+$transitionFast:  var(--transition-fast);
+$transitionBase:  var(--transition-base);
+$transitionSlow:  var(--transition-slow);

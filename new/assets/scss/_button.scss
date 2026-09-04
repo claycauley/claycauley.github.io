@@ -1,0 +1,209 @@
+@use 'variables' as *;
+
+.btn {
+    align-items: center;
+    border-radius: .5rem;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: $fontBody;
+    font-weight: 600;
+    justify-content: center;
+    text-decoration: none;
+    transition: ease all .25s;
+    white-space: nowrap;
+
+    // ── Sizes ────────────────────────────────
+
+    &--sm {
+        font-size: .75rem;
+        padding: 0.75rem 1.25rem;
+
+        @media (min-width: 1024px) {
+            padding: 0.25rem 1rem;
+        }
+    }
+    &--md {
+        font-size: 1rem;
+        padding: .875rem 1.75rem;
+
+        @media (min-width: 1024px) {
+            padding: 0.5rem 1.5rem;
+        }
+    }
+    &--lg {
+        font-size: 1rem;
+        padding: .875rem 1.75rem;
+
+        @media (min-width: 1024px) {
+            padding: 1rem 2rem;
+        }
+    }
+
+    // ── States ─────────────────────────────
+
+    &--disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    &:hover {
+        transform: translateY(-2px);
+    }
+    &:active {
+        transform: translateY(2px);
+    }
+    &:focus-visible {
+        outline: 3px solid $ember;
+        outline-offset: 4px;
+    }
+
+    // ── Variants ─────────────────────────────
+
+    &--primary {
+        &--navy {
+            background-color: $baseNavy;
+            border-color: $baseNavy;
+            color: $white;
+
+            &:hover {
+                background-color: $baseNavyHover;
+                border-color: $baseNavyHover;
+            }
+            &:active {
+                background-color: $baseNavyActive;
+                border-color: $baseNavyActive;
+            }
+        }
+        &--green {
+            background-color: $baseGreen;
+            border-color: $baseGreen;
+            color: $baseNavy;
+
+            &:hover {
+                background-color: $baseGreenHover;
+                border-color: $baseGreenHover;
+            }
+            &:active {
+                background-color: $baseGreenActive;
+                border-color: $baseGreenActive;
+                color: $white;
+            }
+        }
+        &--gray {
+            background-color: $baseGray;
+            border-color: $baseGray;
+            color: $baseNavy;
+
+            &:hover {
+                background-color: $baseGrayHover;
+                border-color: $baseGrayHover;
+            }
+            &:active {
+                background-color: $baseGrayActive;
+                border-color: $baseGrayActive;
+                color: $white;
+            }
+        }
+        &--ember {
+            background-color: $ember;
+            border-color: $ember;
+            color: $ink;
+
+            &:hover {
+                background-color: $sand-pale;
+                border-color: transparent;
+                box-shadow: 0 4px 0 $ember
+            }
+            &:active {
+                background-color: $ember-deep;
+                box-shadow: none;
+            }
+        }
+    }
+    &--secondary {
+            &--navy {
+                border-color: $baseNavy;
+                color: $baseNavy;
+
+                &:hover {
+                    background-color: $baseNavyHoverLight;
+                }
+                &:active {
+                    background-color: $baseNavyActiveLight;
+                }
+            }
+            &--green {
+                border-color: $baseGreen;
+                color: $baseGreen;
+
+                &:hover {
+                    background-color: $baseGreenHoverLight;
+                    border-color: var(--color-green-700);
+                    color: var(--color-green-700);
+                }
+                &:active {
+                    background-color: $baseGreenActiveLight;
+                }
+            }
+            &--gray {
+                border-color: $baseGray;
+                color: $baseGray;
+
+                &:hover {
+                    background-color: $baseGrayHoverLight;
+                    border-color: var(--color-gray-700);
+                    color: var(--color-gray-700);
+                }
+                &:active {
+                    background-color: $baseGrayActiveLight;
+                }
+            }
+            &--faded-sand-light {
+                border-color: $faded-sand-light;
+                color: $sand-light;
+
+                &:hover {
+                    border-color: $ember;
+                    color: $ember;
+                }
+                &:active {
+                    background-color: color-mix(in srgb, $ink-600 100%, $black 20%);
+                    border-color: transparent;
+                    color: $sand-light;
+                }
+            }
+    }
+    &--tertiary {
+        color: color-mix(in srgb, $sand-pale 65%, transparent);
+        font-size: 1rem;
+        padding: 0.25rem 0.5rem;
+        position: relative;
+        transition: ease all .25s;
+
+        &::after {
+            content: "";
+            position: absolute;
+            bottom: 4px;
+            left: 0.5rem;
+            right: 0.5rem;
+            height: 2px;
+            background: $ember;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 350ms cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        &:hover::after,
+        &.is-active::after {
+            transform: scaleX(1);
+        }
+
+        &:hover,
+        &.is-active{
+            color: $sand-pale;
+            transform: translateY(0);
+        }
+
+            
+    }
+}
