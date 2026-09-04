@@ -1,0 +1,1124 @@
+<?php
+$pageTitle = "Fruit of the Loom Case Study | Clay";
+$pageDescription =
+    "Fruit of the Loom website redesign and platform migration — Clay Case Study.";
+$currentPage = "projects";
+include "partials/header.php";
+?>
+
+<main id="main-content">
+  <!-- ================================================================
+       HERO — Cinematic full-viewport, image background
+       ================================================================ -->
+  <section
+    id="cs-hero"
+    class="relative lg:min-h-screen flex flex-col overflow-hidden"
+    aria-label="Project hero">
+    <!-- Background: hero image + overlays -->
+    <div class="absolute inset-0" aria-hidden="true">
+      <!-- PLACEHOLDER: Replace with your project's hero/banner image -->
+      <img
+        src="dist/img/fruit/hero.webp"
+        alt=""
+        class="w-full h-full object-cover"
+        width="1920"
+        height="1080"
+      />
+      <!-- Dark gradient — heaviest at bottom so text is legible -->
+      <div
+        class="absolute inset-0 bg-gradient-to-t from-ink-950 via-ink-950/55 to-ink-950/10"
+      ></div>
+      <!-- Grid lines -->
+      <div class="absolute inset-0 grid-lines opacity-20"></div>
+      <!-- Glow accent at bottom-left -->
+      <div
+        class="absolute bottom-0 left-1/4 w-[700px] h-[400px] flame-glow opacity-15"
+      ></div>
+    </div>
+
+    <!-- Top bar: back link + category tags -->
+    <div
+      class="relative z-10 flex items-center justify-between px-6 lg:px-12 pt-24 lg:pt-28">
+      <a
+        href="projects.php"
+        class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ink-950/70 border border-ink-700/60 backdrop-blur-sm text-fluid-sm font-heading font-semibold text-ink-200 hover:text-flame-500 hover:border-flame-500/50 transition-all duration-200">
+        <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>
+        View All
+      </a>
+      <div class="flex flex-wrap gap-2 justify-end">
+        <!-- PLACEHOLDER: Replace with your real project categories -->
+        <span class="skill-tag">Web Design</span>
+        <span class="skill-tag">Figma</span>
+        <span class="skill-tag">React.js</span>
+      </div>
+    </div>
+
+    <!-- Content: flows to bottom of viewport -->
+    <div class="relative z-10 mt-8 lg:mt-auto px-6 lg:px-12 pb-12 lg:pb-20">
+      <div class="max-w-7xl mx-auto">
+        <!-- Case study label -->
+        <p class="section-label mb-5">
+          <!-- PLACEHOLDER: Update number -->
+          Case Study &mdash; 01
+        </p>
+        <!-- Project title -->
+        <h1
+          class="font-heading font-bold leading-[1.04] tracking-tight mb-5">
+          <!-- PLACEHOLDER: Replace with your project title -->
+          <span class="block text-fluid-display text-ink-50"
+            >Fruit of the Loom</span>
+          <span class="block text-fluid-display text-flame-500"
+            >Site Refresh &amp; Migration</span>
+        </h1>
+        <!-- One-line tagline -->
+        <!-- PLACEHOLDER: One sentence capturing what this project was -->
+        <p
+          class="text-fluid-xl text-ink-300 max-w-2xl mb-8 leading-relaxed">
+          A complete website redesign and platform migration for Fruit of
+          the Loom, shifting business focus and increasing site speed.
+        </p>
+        <!-- Meta pills -->
+        <div class="flex flex-wrap gap-3">
+          <!-- PLACEHOLDER: Update each pill value -->
+          <div
+            class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-ink-700 rounded-full px-4 py-2">
+            <i
+              class="fa-solid fa-building text-flame-600 text-xs"
+              aria-hidden="true"
+            ></i>
+            <span
+              class="font-heading font-semibold text-fluid-xs text-ink-200"
+              >Fruit of the Loom</span>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-ink-700 rounded-full px-4 py-2">
+            <i
+              class="fa-solid fa-calendar text-flame-600 text-xs"
+              aria-hidden="true"
+            ></i>
+            <span
+              class="font-heading font-semibold text-fluid-xs text-ink-200"
+              >2023</span>
+          </div>
+          <div
+            class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-ink-700 rounded-full px-4 py-2">
+            <i
+              class="fa-solid fa-clock text-flame-600 text-xs"
+              aria-hidden="true"
+            ></i>
+            <span
+              class="font-heading font-semibold text-fluid-xs text-ink-200"
+              >5 Months</span>
+          </div>
+          <!-- PLACEHOLDER: Add real live URL -->
+          <a
+            href="http://www.fruit.com"
+            class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-flame-600/40 rounded-full px-4 py-2 hover:border-flame-500 transition-colors duration-200"
+            target="_blank">
+            <i
+              class="fa-solid fa-globe text-flame-500 text-xs"
+              aria-hidden="true"
+            ></i>
+            <span
+              class="font-heading font-semibold text-fluid-xs text-flame-400"
+              >View Live Site</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll hint -->
+    <div
+      class="scroll-hint absolute bottom-5 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1.5 opacity-40 pointer-events-none"
+      aria-hidden="true">
+      <span
+        class="font-body text-ink-500 text-fluid-xs tracking-[0.2em] uppercase"
+        >Scroll</span>
+      <i
+        class="fa-solid fa-chevron-down text-flame-500 text-xs animate-bounce"
+      ></i>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       PROJECT SNAPSHOT — Quick-facts strip
+       ================================================================ -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-12">
+    <div
+      class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 py-10 border-y border-ink-800">
+      <div class="fade-in-up">
+        <p
+          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          Client
+        </p>
+        <!-- PLACEHOLDER -->
+        <p class="font-heading font-semibold text-fluid-base text-ink-100">
+          Fruit of the Loom
+        </p>
+      </div>
+
+      <div class="fade-in-up" data-delay="1">
+        <p
+          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          Skills
+        </p>
+        <!-- PLACEHOLDER -->
+        <p class="font-heading font-semibold text-fluid-base text-ink-100">
+          Figma, Web Design, &amp; React.js
+        </p>
+      </div>
+
+      <div class="fade-in-up" data-delay="2">
+        <p
+          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          Timeline
+        </p>
+        <!-- PLACEHOLDER -->
+        <p class="font-heading font-semibold text-fluid-base text-ink-100">
+          Mar &ndash; July 2023
+        </p>
+      </div>
+
+      <div class="fade-in-up" data-delay="3">
+        <p
+          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          Industry
+        </p>
+        <!-- PLACEHOLDER -->
+        <p class="font-heading font-semibold text-fluid-base text-ink-100">
+          B2C E-Commerce
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================
+       PROJECT OVERVIEW — Narrative + Sticky details card
+       ================================================================ -->
+  <section
+    id="cs-overview"
+    class="section"
+    aria-labelledby="overview-heading">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-start">
+        <!-- Left: overview copy -->
+        <div class="flex-1 fade-in-up">
+          <p class="section-label mb-4">Project Overview</p>
+          <h2 id="overview-heading" class="section-title mb-8">
+            The Full<br />
+            <span class="text-flame-500">Picture</span>
+          </h2>
+          <!-- PLACEHOLDER: Replace all three paragraphs below -->
+          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+            It's probably safe to say that most people know who Fruit of the
+            Loom is and the business they’re in, but for those who don’t,
+            here’s the quick context: Fruit of the Loom is a major player in
+            the apparel industry, known for their wide range of clothing
+            essentials. However, their online presence was outdated and not
+            reflective of their brand’s evolution towards sustainability and
+            innovation. The goal of this project was to completely redesign
+            their website and migrate it to a new platform, improving site
+            speed, user experience, and altering their current look at how
+            they run their e-commerce business.
+          </p>
+          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+            For me, this project was a great opportunity to learn new
+            skills. As part of a two person design team colloborating with a
+            larger group of developers and marketing team, I was responsible
+            for leading the design and front-end development of the new
+            site. This meant everything from design systems, wireframing and
+            prototyping in Figma to coding responsive layouts and
+            interactive components in React.js. It was a challenging but
+            rewarding experience that allowed me to grow as both a designer
+            and developer. Working closely with senior software engineers
+            also gave me valuable insight into the technical considerations
+            and constraints of web development, which informed my design
+            decisions and helped me create a more cohesive final product.
+          </p>
+          <p class="text-fluid-base text-ink-400 leading-[1.85]">
+            Once we completed the project, seeing the actual real world
+            impact of our work was fully rewarding. The new site not only
+            looked great but also performed significantly better, with
+            faster load times and a smoother user experience. Having built
+            something to also make the jobs of the marketing teams easier by
+            creating a more flexible design system and reusable components
+            was an added bonus.
+          </p>
+        </div>
+
+        <!-- Right: sticky project details card -->
+        <div
+          class="w-full lg:w-80 xl:w-96 shrink-0 lg:sticky lg:top-24 fade-in-up"
+          data-delay="1">
+          <div
+            class="p-6 xl:p-8 rounded-2xl bg-ink-900 border border-ink-800">
+            <h3
+              class="font-heading font-semibold text-fluid-xs text-ink-400 uppercase tracking-[0.15em] mb-5">
+              Project Details
+            </h3>
+            <ul class="flex flex-col divide-y divide-ink-800" role="list">
+              <li class="py-4 flex items-start gap-3">
+                <span
+                  class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <i
+                    class="fa-solid fa-building text-flame-500 text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+                <div>
+                  <p class="text-fluid-xs text-ink-400 mb-0.5">Client</p>
+                  <!-- PLACEHOLDER -->
+                  <p
+                    class="font-heading font-semibold text-fluid-sm text-ink-100">
+                    Fruit of the Loom
+                  </p>
+                </div>
+              </li>
+
+              <li class="py-4 flex items-start gap-3">
+                <span
+                  class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <i
+                    class="fa-solid fa-pen-ruler text-flame-500 text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+                <div>
+                  <p class="text-fluid-xs text-ink-400 mb-0.5">My Role</p>
+                  <!-- PLACEHOLDER -->
+                  <p
+                    class="font-heading font-semibold text-fluid-sm text-ink-100">
+                    Designer &amp; Front-End Developer
+                  </p>
+                </div>
+              </li>
+
+              <li class="py-4 flex items-start gap-3">
+                <span
+                  class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <i
+                    class="fa-solid fa-calendar text-flame-500 text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+                <div>
+                  <p class="text-fluid-xs text-ink-400 mb-0.5">Timeline</p>
+                  <!-- PLACEHOLDER -->
+                  <p
+                    class="font-heading font-semibold text-fluid-sm text-ink-100">
+                    5 Months (Mar &ndash; July 2023)
+                  </p>
+                </div>
+              </li>
+
+              <li class="py-4 flex items-start gap-3">
+                <span
+                  class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <i
+                    class="fa-solid fa-code text-flame-500 text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+                <div>
+                  <p class="text-fluid-xs text-ink-400 mb-0.5">
+                    Technologies
+                  </p>
+                  <!-- PLACEHOLDER -->
+                  <p
+                    class="font-heading font-semibold text-fluid-sm text-ink-100">
+                    Figma, HTML, CSS, JS, React.js
+                  </p>
+                </div>
+              </li>
+
+              <li class="py-4 flex items-start gap-3">
+                <span
+                  class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5">
+                  <i
+                    class="fa-solid fa-globe text-flame-500 text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </span>
+                <div>
+                  <p class="text-fluid-xs text-ink-400 mb-0.5">Live URL</p>
+                  <!-- PLACEHOLDER: Add real URL -->
+                  <a
+                    href="http://www.fruit.com"
+                    class="font-heading font-semibold text-fluid-sm text-flame-500 hover:text-flame-400 transition-colors"
+                    target="_blank">
+                    Visit Website ↗
+                  </a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+  <!-- ================================================================
+       THE CHALLENGE / THE PROBLEM
+       ================================================================ -->
+  <section
+    id="cs-challenge"
+    class="section"
+    aria-labelledby="challenge-heading">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="flex flex-col lg:flex-row gap-14 lg:gap-20 items-start">
+        <!-- Left: problem copy -->
+        <div class="flex-1 fade-in-up">
+          <p class="section-label mb-4">The Challenge</p>
+          <h2 id="challenge-heading" class="section-title mb-8">
+            The Problem<br />
+            <span class="text-flame-500">Worth Solving</span>
+          </h2>
+
+          <!-- PLACEHOLDER: Describe the core problem in detail -->
+          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+            The old Fruit of the Loom website was not only visually outdated
+            but also suffered from slow load times and a clunky user
+            experience. Users were frustrated at how long it took for pages
+            to load, especially on mobile devices, which led to high bounce
+            rates and lost sales. Additionally, the site’s information
+            architecture was confusing, making it difficult for customers to
+            find products and complete purchases. The challenge was to
+            completely overhaul the website’s design and underlying codebase
+            to create a faster, more intuitive shopping experience that also
+            aligned with the brand’s new focus and e-commerce strategy.
+          </p>
+
+          <!-- Pull quote — key insight or the brief in a nutshell -->
+          <blockquote
+            class="relative pl-6 border-l-2 border-flame-500 my-8">
+            <!-- PLACEHOLDER: A key insight or the client's brief in their own words -->
+            <p
+              class="font-heading font-semibold text-fluid-xl text-ink-100 leading-snug italic">
+              "Checkout should be a breeze, not a barrier. Customers get
+              frustrated easily and if you won't let them checkout, they'll
+              just go somewhere else that will."
+            </p>
+          </blockquote>
+
+          <!-- PLACEHOLDER: Expand on root causes, context, and constraints -->
+          <p class="text-fluid-base text-ink-400 leading-[1.85]">
+            As Fruit of the Loom proper was shifting away from selling
+            products direct to consumers, we needed a way to push our
+            customers to our partners where they could buy our products,
+            while still providing a compelling and branded experience on our
+            own site. This meant rethinking the entire user flow and
+            information architecture of the site, as well as implementing a
+            new design that better reflected the brand’s evolution.
+            Additionally, we had to work within the constraints of a tight
+            timeline and rebuilding the entire codebase, adding an extra
+            layer of complexity to the project.
+          </p>
+        </div>
+
+        <!-- Right: context image + constraints card -->
+        <div
+          class="w-full lg:w-[42%] shrink-0 flex flex-col gap-5 fade-in-up"
+          data-delay="1">
+          <!-- Context image -->
+          <div class="cs-gallery-item aspect-[4/3]">
+            <!-- PLACEHOLDER: Before-state screenshot, whiteboard photo, brief, etc. -->
+            <img
+              src="dist/img/fruit/problem.webp"
+              alt="Project context — replace with a real before-state or research image"
+              width="700"
+              height="525"
+            />
+          </div>
+
+          <!-- Key constraints card -->
+          <div class="p-6 rounded-2xl bg-ink-900 border border-ink-800">
+            <h3
+              class="font-heading font-semibold text-fluid-xs text-ink-400 uppercase tracking-[0.15em] mb-4">
+              Key Constraints
+            </h3>
+            <ul class="flex flex-col gap-3" role="list">
+              <!-- PLACEHOLDER: Replace with your real project constraints -->
+              <li class="flex items-start gap-3">
+                <i
+                  class="fa-solid fa-triangle-exclamation text-flame-500 text-xs mt-1 shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <p class="text-fluid-sm text-ink-400">
+                  Tight deadline with no room for extension
+                </p>
+              </li>
+              <li class="flex items-start gap-3">
+                <i
+                  class="fa-solid fa-triangle-exclamation text-flame-500 text-xs mt-1 shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <p class="text-fluid-sm text-ink-400">
+                  Brand new codebase &amp; framework
+                </p>
+              </li>
+              <li class="flex items-start gap-3">
+                <i
+                  class="fa-solid fa-triangle-exclamation text-flame-500 text-xs mt-1 shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <p class="text-fluid-sm text-ink-400">
+                  Simultaneous project alongside 3 others
+                </p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+  <!-- ================================================================
+       THE WORK — Three editorial phases
+       ================================================================ -->
+  <section id="cs-work" class="section" aria-labelledby="work-heading">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Section header -->
+      <div class="text-center mb-16 fade-in-up">
+        <p class="section-label justify-center">The Work</p>
+        <h2 id="work-heading" class="section-title mt-3">
+          How We Got<br />
+          <span class="text-flame-500">There</span>
+        </h2>
+        <!-- PLACEHOLDER: Brief overview of your approach -->
+        <p class="section-subtitle max-w-2xl mx-auto">
+          A look at the process, thinking, and execution that turned the
+          challenge into a solution worth talking about.
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-14 lg:gap-20">
+        <!-- ── Phase 01 ── Image LEFT, content RIGHT -->
+        <div
+          class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 fade-in-up">
+          <!-- Image -->
+          <div class="w-full lg:w-1/2 shrink-0">
+            <div class="cs-gallery-item aspect-video">
+              <!-- PLACEHOLDER -->
+              <img
+                src="https://placehold.co/800x450/1F1614/2A1810?text=Phase+01+Image"
+                alt="Discovery and strategy phase — replace with real image"
+                width="800"
+                height="450"
+              />
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1">
+            <div class="flex items-center gap-4 mb-5">
+              <span
+                class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em] shrink-0"
+                >PHASE 01</span>
+              <div class="h-px flex-1 bg-ink-800"></div>
+            </div>
+            <!-- PLACEHOLDER: Phase title -->
+            <h3
+              class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4">
+              Discovery &amp;<br />Strategy
+            </h3>
+            <!-- PLACEHOLDER: Phase description -->
+            <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+              Describe what this phase involved. What research did you
+              conduct? What did you learn about the users, the business, and
+              the competitive landscape? How did these findings inform the
+              direction you took?
+            </p>
+            <!-- PLACEHOLDER: Real deliverables for this phase -->
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">User Research</span>
+              <span class="skill-tag">Competitive Analysis</span>
+              <span class="skill-tag">Site Audit</span>
+              <span class="skill-tag">Strategy Brief</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connecting chevron -->
+        <div
+          class="hidden lg:flex items-center gap-4 fade-in-up"
+          aria-hidden="true">
+          <div
+            class="h-px flex-1 bg-gradient-to-r from-transparent via-ink-800 to-transparent"
+          ></div>
+          <i class="fa-solid fa-chevron-down text-flame-700 text-sm"></i>
+          <div
+            class="h-px flex-1 bg-gradient-to-r from-transparent via-ink-800 to-transparent"
+          ></div>
+        </div>
+
+        <!-- ── Phase 02 ── Content LEFT, image RIGHT -->
+        <div
+          class="flex flex-col lg:flex-row-reverse items-center gap-10 lg:gap-16 fade-in-up">
+          <!-- Image -->
+          <div class="w-full lg:w-1/2 shrink-0">
+            <div class="cs-gallery-item aspect-video">
+              <!-- PLACEHOLDER -->
+              <img
+                src="https://placehold.co/800x450/1F1614/312820?text=Phase+02+Image"
+                alt="Design and prototyping phase — replace with real image"
+                width="800"
+                height="450"
+              />
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1">
+            <div class="flex items-center gap-4 mb-5">
+              <span
+                class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em] shrink-0"
+                >PHASE 02</span>
+              <div class="h-px flex-1 bg-ink-800"></div>
+            </div>
+            <!-- PLACEHOLDER -->
+            <h3
+              class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4">
+              Design &amp;<br />Prototyping
+            </h3>
+            <!-- PLACEHOLDER -->
+            <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+              Walk through your design process. How did strategy translate
+              into wireframes, then into high-fidelity designs? What
+              iterations happened along the way, and what feedback shaped
+              the final direction?
+            </p>
+            <!-- PLACEHOLDER -->
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">Wireframes</span>
+              <span class="skill-tag">UI Design</span>
+              <span class="skill-tag">Prototyping</span>
+              <span class="skill-tag">Design System</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Connecting chevron -->
+        <div
+          class="hidden lg:flex items-center gap-4 fade-in-up"
+          aria-hidden="true">
+          <div
+            class="h-px flex-1 bg-gradient-to-r from-transparent via-ink-800 to-transparent"
+          ></div>
+          <i class="fa-solid fa-chevron-down text-flame-700 text-sm"></i>
+          <div
+            class="h-px flex-1 bg-gradient-to-r from-transparent via-ink-800 to-transparent"
+          ></div>
+        </div>
+
+        <!-- ── Phase 03 ── Image LEFT, content RIGHT -->
+        <div
+          class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16 fade-in-up">
+          <!-- Image -->
+          <div class="w-full lg:w-1/2 shrink-0">
+            <div class="cs-gallery-item aspect-video">
+              <!-- PLACEHOLDER -->
+              <img
+                src="https://placehold.co/800x450/1F1614/2E1A10?text=Phase+03+Image"
+                alt="Development and build phase — replace with real image"
+                width="800"
+                height="450"
+              />
+            </div>
+          </div>
+          <!-- Content -->
+          <div class="flex-1">
+            <div class="flex items-center gap-4 mb-5">
+              <span
+                class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em] shrink-0"
+                >PHASE 03</span>
+              <div class="h-px flex-1 bg-ink-800"></div>
+            </div>
+            <!-- PLACEHOLDER -->
+            <h3
+              class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4">
+              Development<br />&amp; Build
+            </h3>
+            <!-- PLACEHOLDER -->
+            <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+              Describe the build. What technologies were used and why? What
+              were the trickiest technical problems to solve? How did you
+              ensure quality — testing approach, performance optimization,
+              accessibility checks?
+            </p>
+            <!-- PLACEHOLDER -->
+            <div class="flex flex-wrap gap-2">
+              <span class="skill-tag">HTML / CSS</span>
+              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">Performance</span>
+              <span class="skill-tag">QA &amp; Testing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================================================================
+       GALLERY — Asymmetric photo showcase
+       ================================================================ -->
+  <section
+    id="cs-gallery"
+    class="pb-20 lg:pb-28"
+    aria-label="Project photo gallery">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="mb-8 fade-in-up">
+        <p class="section-label">The Work in Detail</p>
+      </div>
+
+      <!-- Row 1: large image (spans 2 cols) + 2 smaller stacked -->
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 fade-in-up">
+        <!-- Large image — 2 cols wide, 2 rows tall on lg -->
+        <div
+          class="cs-gallery-item aspect-video lg:col-span-2 lg:row-span-2">
+          <!-- PLACEHOLDER -->
+          <img
+            src="https://placehold.co/1200x675/1F1614/312320?text=Gallery+1+(Large)"
+            alt="Project screenshot — replace with real image"
+            class="w-full h-full"
+            width="1200"
+            height="675"
+          />
+        </div>
+        <!-- Smaller 1 -->
+        <div class="cs-gallery-item aspect-video">
+          <!-- PLACEHOLDER -->
+          <img
+            src="https://placehold.co/600x338/1F1614/2A1810?text=Gallery+2"
+            alt="Project detail — replace with real image"
+            class="w-full h-full"
+            width="600"
+            height="338"
+          />
+        </div>
+        <!-- Smaller 2 -->
+        <div class="cs-gallery-item aspect-video">
+          <!-- PLACEHOLDER -->
+          <img
+            src="https://placehold.co/600x338/1F1614/241610?text=Gallery+3"
+            alt="Project detail — replace with real image"
+            class="w-full h-full"
+            width="600"
+            height="338"
+          />
+        </div>
+      </div>
+
+      <!-- Row 2: 3 equal images -->
+      <div
+        class="grid grid-cols-1 sm:grid-cols-3 gap-4 lg:gap-5 mt-4 lg:mt-5 fade-in-up"
+        data-delay="1">
+        <div class="cs-gallery-item aspect-[4/3]">
+          <!-- PLACEHOLDER -->
+          <img
+            src="https://placehold.co/600x450/1F1614/2A1810?text=Gallery+4"
+            alt="Project detail — replace with real image"
+            class="w-full h-full"
+            width="600"
+            height="450"
+          />
+        </div>
+        <div class="cs-gallery-item aspect-[4/3]">
+          <!-- PLACEHOLDER -->
+          <img
+            src="https://placehold.co/600x450/1F1614/281810?text=Gallery+5"
+            alt="Project detail — replace with real image"
+            class="w-full h-full"
+            width="600"
+            height="450"
+          />
+        </div>
+        <div class="cs-gallery-item aspect-[4/3]">
+          <!-- PLACEHOLDER -->
+          <img
+            src="https://placehold.co/600x450/1F1614/241510?text=Gallery+6"
+            alt="Project detail — replace with real image"
+            class="w-full h-full"
+            width="600"
+            height="450"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+  <!-- ================================================================
+       THE RESULTS — Metrics + Outcome narrative
+       ================================================================ -->
+  <section
+    id="cs-results"
+    class="section"
+    aria-labelledby="results-heading">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Section header -->
+      <div class="text-center mb-14 fade-in-up">
+        <p class="section-label justify-center">The Results</p>
+        <h2 id="results-heading" class="section-title mt-3">
+          What We<br />
+          <span class="text-flame-500">Achieved</span>
+        </h2>
+        <!-- PLACEHOLDER: Lead-in to your metrics -->
+        <p class="section-subtitle max-w-2xl mx-auto">
+          Numbers don't tell the whole story — but they're a great place to
+          start. Here's what changed after launch.
+        </p>
+      </div>
+
+      <!-- Metrics row — 4 stat cards -->
+      <div
+        class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-16 fade-in-up">
+        <!-- PLACEHOLDER: Replace each metric with real data -->
+        <div class="cs-metric">
+          <div
+            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
+            +142%
+          </div>
+          <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
+          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+            Organic Traffic Increase
+          </p>
+        </div>
+
+        <div class="cs-metric">
+          <div
+            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
+            3.2×
+          </div>
+          <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
+          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+            Conversion Rate Lift
+          </p>
+        </div>
+
+        <div class="cs-metric">
+          <div
+            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
+            98
+          </div>
+          <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
+          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+            Google PageSpeed Score
+          </p>
+        </div>
+
+        <div class="cs-metric">
+          <div
+            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
+            &minus;62%
+          </div>
+          <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
+          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+            Bounce Rate Reduction
+          </p>
+        </div>
+      </div>
+
+      <!-- Outcome narrative + image -->
+      <div
+        class="flex flex-col lg:flex-row gap-12 lg:gap-20 items-center fade-in-up">
+        <!-- Copy + testimonial -->
+        <div class="flex-1">
+          <!-- PLACEHOLDER: Outcome narrative -->
+          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+            Go beyond the numbers here. How did this project change the
+            client's business in ways that aren't captured by a metric? What
+            did users say? Were there any unexpected wins or learnings that
+            surfaced after launch?
+          </p>
+          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-8">
+            This is also a great place for a client testimonial — a direct
+            quote from the people you worked with. Authentic feedback
+            carries far more weight with prospective clients than anything
+            you can write yourself.
+          </p>
+          <!-- Client testimonial quote -->
+          <blockquote class="pl-6 border-l-2 border-flame-500">
+            <!-- PLACEHOLDER: Real client testimonial -->
+            <p
+              class="font-heading font-semibold text-fluid-lg text-ink-200 leading-snug italic mb-3">
+              "Replace this with a genuine quote from your client about the
+              results, the process, or their experience working with you."
+            </p>
+            <!-- PLACEHOLDER: Client name + title -->
+            <footer
+              class="text-fluid-xs text-ink-500 font-semibold uppercase tracking-[0.15em]">
+              &mdash; Client Name, Title at Company
+            </footer>
+          </blockquote>
+        </div>
+
+        <!-- Results image -->
+        <div class="w-full lg:w-[45%] shrink-0">
+          <div class="cs-gallery-item aspect-[4/3]">
+            <!-- PLACEHOLDER -->
+            <img
+              src="https://placehold.co/700x525/1F1614/2A1810?text=Results+Image"
+              alt="Project results — replace with real image"
+              class="w-full h-full"
+              width="700"
+              height="525"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+  <!-- ================================================================
+       KEY TAKEAWAYS — Learnings & Reflection
+       ================================================================ -->
+  <section
+    id="cs-takeaways"
+    class="section"
+    aria-labelledby="takeaways-heading">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <div class="flex flex-col lg:flex-row gap-12 lg:gap-20">
+        <!-- Left: heading -->
+        <div class="lg:w-80 xl:w-96 shrink-0 fade-in-up">
+          <p class="section-label mb-4">Reflection</p>
+          <h2 id="takeaways-heading" class="section-title">
+            What I<br />
+            <span class="text-flame-500">Learned</span>
+          </h2>
+          <!-- PLACEHOLDER -->
+          <p class="section-subtitle text-fluid-base mt-4">
+            Every project teaches you something. These are the lessons that
+            stuck with me from this one.
+          </p>
+        </div>
+
+        <!-- Right: takeaway cards -->
+        <div
+          class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-5 fade-in-up"
+          data-delay="1">
+          <div class="service-card">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-flame-500/10 shrink-0">
+              <i
+                class="fa-solid fa-magnifying-glass text-flame-500 text-sm"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <!-- PLACEHOLDER: Real lesson from this project -->
+            <h3
+              class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
+              Discovery First, Always
+            </h3>
+            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+              Replace with a genuine insight specific to this project. What
+              did you learn about your process, the client, or the craft?
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-flame-500/10 shrink-0">
+              <i
+                class="fa-solid fa-comments text-flame-500 text-sm"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <!-- PLACEHOLDER -->
+            <h3
+              class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
+              Communication Is the Work
+            </h3>
+            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+              What did this project teach you about collaboration, client
+              relationships, or managing expectations under pressure?
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-flame-500/10 shrink-0">
+              <i
+                class="fa-solid fa-bolt text-flame-500 text-sm"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <!-- PLACEHOLDER -->
+            <h3
+              class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
+              Constraint Creates Clarity
+            </h3>
+            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+              Another real takeaway. You can use this card, remove it, or
+              reframe it as a "What's Next" note about ongoing work.
+            </p>
+          </div>
+
+          <div class="service-card">
+            <div
+              class="w-10 h-10 rounded-xl flex items-center justify-center mb-4 bg-flame-500/10 shrink-0">
+              <i
+                class="fa-solid fa-chart-line text-flame-500 text-sm"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <!-- PLACEHOLDER -->
+            <h3
+              class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
+              Ship, Then Iterate
+            </h3>
+            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+              A fourth lesson or a note on what came after launch — any
+              follow-up phases, ongoing support, or future roadmap items.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+  <!-- ================================================================
+       PROJECT NAVIGATION — Prev / Next + CTA
+       ================================================================ -->
+  <section class="section" aria-label="More projects">
+    <div class="max-w-7xl mx-auto px-6 lg:px-12">
+      <!-- Nav header -->
+      <div class="mb-8 fade-in-up">
+        <p class="section-label">More Work</p>
+      </div>
+
+      <!-- Prev / Next cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-14 fade-in-up">
+        <!-- Previous project card -->
+        <a
+          href="case-study-template.php"
+          class="group relative rounded-2xl border border-ink-800 overflow-hidden hover:border-flame-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(232,98,30,0.08)]">
+          <div class="absolute inset-0">
+            <!-- PLACEHOLDER: Replace with prev project thumbnail -->
+            <img
+              src="https://placehold.co/600x300/1F1614/312320?text=Previous+Project"
+              alt=""
+              class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-300"
+              width="600"
+              height="300"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-r from-ink-950 via-ink-950/80 to-ink-950/30"
+            ></div>
+          </div>
+          <div
+            class="relative z-10 p-6 lg:p-8 h-44 flex flex-col justify-between">
+            <div
+              class="flex items-center gap-2 text-fluid-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-500 group-hover:text-flame-500 transition-colors duration-200">
+              <i
+                class="fa-solid fa-arrow-left text-xs"
+                aria-hidden="true"
+              ></i>
+              Previous Project
+            </div>
+            <!-- PLACEHOLDER: Previous project title -->
+            <p
+              class="font-heading font-bold text-fluid-xl text-ink-100 group-hover:text-ink-50 transition-colors leading-tight">
+              Previous Project<br />Name Here
+            </p>
+          </div>
+        </a>
+
+        <!-- Next project card -->
+        <a
+          href="case-study-template.php"
+          class="group relative rounded-2xl border border-ink-800 overflow-hidden hover:border-flame-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(232,98,30,0.08)]">
+          <div class="absolute inset-0">
+            <!-- PLACEHOLDER: Replace with next project thumbnail -->
+            <img
+              src="https://placehold.co/600x300/1F1614/312320?text=Next+Project"
+              alt=""
+              class="w-full h-full object-cover opacity-40 group-hover:opacity-60 transition-opacity duration-300"
+              width="600"
+              height="300"
+            />
+            <div
+              class="absolute inset-0 bg-gradient-to-l from-ink-950 via-ink-950/80 to-ink-950/30"
+            ></div>
+          </div>
+          <div
+            class="relative z-10 p-6 lg:p-8 h-44 flex flex-col justify-between items-end text-right">
+            <div
+              class="flex items-center gap-2 text-fluid-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-500 group-hover:text-flame-500 transition-colors duration-200">
+              Next Project
+              <i
+                class="fa-solid fa-arrow-right text-xs"
+                aria-hidden="true"
+              ></i>
+            </div>
+            <!-- PLACEHOLDER: Next project title -->
+            <p
+              class="font-heading font-bold text-fluid-xl text-ink-100 group-hover:text-ink-50 transition-colors leading-tight">
+              Next Project<br />Name Here
+            </p>
+          </div>
+        </a>
+      </div>
+
+      <!-- CTA Banner -->
+      <div
+        class="relative p-8 lg:p-16 rounded-3xl border border-ink-800 overflow-hidden text-center fade-in-up"
+        style="
+          background: linear-gradient(
+            135deg,
+            #1f1614 0%,
+            #2a1810 60%,
+            #1f1614 100%
+          );
+        ">
+        <div
+          class="absolute inset-0 flex items-center justify-center pointer-events-none"
+          aria-hidden="true">
+          <div class="w-96 h-96 flame-glow opacity-20"></div>
+        </div>
+        <div
+          class="absolute top-6 left-6 w-16 h-16 dot-grid opacity-30 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute bottom-6 right-6 w-16 h-16 dot-grid opacity-30 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+
+        <div class="relative z-10">
+          <p class="section-label justify-center mb-4">
+            Like What You See?
+          </p>
+          <h2
+            class="font-heading font-bold text-fluid-4xl text-ink-50 leading-tight tracking-tight mb-4">
+            Let's Build Something<br />Together
+          </h2>
+          <!-- PLACEHOLDER -->
+          <p class="text-fluid-lg text-ink-500 max-w-xl mx-auto mb-10">
+            Have a project in mind? I'd love to hear about it. Every great
+            collaboration starts with a good conversation.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="contact.php" class="btn-primary">
+              Start the Conversation
+              <i
+                class="fa-solid fa-arrow-right text-xs"
+                aria-hidden="true"
+              ></i>
+            </a>
+            <a href="projects.php" class="btn-outline">All Projects</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<?php include "partials/footer.php"; ?>

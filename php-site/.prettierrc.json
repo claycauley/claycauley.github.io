@@ -1,0 +1,14 @@
+{
+  "plugins": ["@prettier/plugin-php"],
+  "bracketSameLine": true,
+  "overrides": [
+    {
+      "files": "*.php",
+      "options": {
+        "parser": "php",
+        "phpVersion": "8.3",
+        "braceStyle": "1tbs"
+      }
+    }
+  ]
+}

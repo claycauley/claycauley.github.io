@@ -1,0 +1,6 @@
+node_modules/
+dist/
+mailer/
+old-files/
+*.min.css
+*.min.js

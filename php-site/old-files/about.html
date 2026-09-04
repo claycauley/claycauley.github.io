@@ -1,0 +1,1257 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="About Clay — Web Designer & Front-End Developer."
+    />
+    <title>About | Clay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dist/css/main.css" />
+  </head>
+  <body class="bg-ink-950 text-ink-100 font-body overflow-x-hidden">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-flame-500 focus:text-ink-950 focus:font-heading focus:font-semibold focus:rounded-lg"
+    >
+      Skip to main content
+    </a>
+
+    <!-- HEADER -->
+    <header class="site-header" id="site-header" role="banner">
+      <a
+        href="index.html"
+        class="flex items-center shrink-0 group"
+        aria-label="Clay — Home"
+      >
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 tracking-tight leading-none"
+          >Clay</span
+        >
+        <span
+          class="font-heading font-bold text-fluid-xl text-flame-500 leading-none"
+          >.</span
+        >
+      </a>
+      <nav
+        class="hidden lg:flex items-center gap-8"
+        aria-label="Primary navigation"
+      >
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link active" aria-current="page"
+          >About</a
+        >
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="contact.html" class="btn-primary hidden md:inline-flex">
+          Let's Talk
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+        </a>
+        <button
+          id="hamburger-btn"
+          class="hamburger-btn lg:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-drawer"
+        >
+          <span class="hamburger-line" aria-hidden="true"></span>
+          <span class="hamburger-line" aria-hidden="true"></span>
+          <span class="hamburger-line" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+    <aside
+      id="mobile-drawer"
+      class="mobile-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site navigation"
+    >
+      <div class="flex items-center justify-between mb-8">
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 leading-none"
+          >Clay<span class="text-flame-500">.</span></span
+        >
+        <button
+          id="mobile-close"
+          class="flex items-center justify-center w-9 h-9 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-300 transition-colors"
+          aria-label="Close menu"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <nav class="flex-1" aria-label="Mobile navigation">
+        <ul class="flex flex-col gap-1" role="list">
+          <li>
+            <a href="index.html" class="mobile-nav-link"
+              ><i
+                class="fa-solid fa-house w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >Home</a
+            >
+          </li>
+          <li>
+            <a
+              href="about.html"
+              class="mobile-nav-link active"
+              aria-current="page"
+              ><i
+                class="fa-solid fa-user w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >About</a
+            >
+          </li>
+          <li>
+            <a href="projects.html" class="mobile-nav-link"
+              ><i
+                class="fa-solid fa-layer-group w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >Projects</a
+            >
+          </li>
+          <li>
+            <a href="contact.html" class="mobile-nav-link"
+              ><i
+                class="fa-solid fa-envelope w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="mt-auto pt-6 border-t border-ink-800">
+        <a href="contact.html" class="btn-primary w-full mb-6 mobile-nav-link"
+          >Let's Work Together
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i
+        ></a>
+        <div class="flex items-center justify-center gap-3">
+          <a href="#" class="social-btn" aria-label="LinkedIn"
+            ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="GitHub"
+            ><i class="fa-brands fa-github" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="Dribbble"
+            ><i class="fa-brands fa-dribbble" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="X / Twitter"
+            ><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+          ></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="main-content">
+      <!-- ================================================================
+           HERO — Editorial intro
+           ================================================================ -->
+      <section
+        id="about-hero"
+        class="relative min-h-screen flex items-center pt-[4.5rem] lg:pt-20 overflow-hidden"
+        aria-label="About Clay"
+      >
+        <!-- Background treatments -->
+        <div
+          class="absolute inset-0 grid-lines pointer-events-none"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute top-1/4 left-1/3 w-[600px] h-[600px] flame-glow opacity-20 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute bottom-0 right-0 w-96 h-96 flame-glow opacity-10 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+
+        <div
+          class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24"
+        >
+          <div class="flex flex-col lg:flex-row items-center gap-14 lg:gap-20">
+            <!-- ── Text Side ── -->
+            <div class="flex-1 text-center lg:text-left">
+              <p
+                class="section-label justify-center lg:justify-start mb-6 fade-in-up"
+              >
+                A Little About Me
+              </p>
+
+              <h1
+                class="font-heading font-bold leading-[1.04] tracking-tight mb-8 fade-in-up"
+                data-delay="1"
+              >
+                <span class="block text-fluid-5xl text-ink-50">Designer.</span>
+                <span class="block text-fluid-5xl text-ink-50">Developer.</span>
+                <span class="block text-fluid-5xl text-flame-500"
+                  >Problem Solver.</span
+                >
+              </h1>
+
+              <!-- PLACEHOLDER: Replace with your own headline tagline -->
+              <p
+                class="text-fluid-lg text-ink-300 leading-relaxed max-w-xl mx-auto lg:mx-0 mb-10 fade-in-up"
+                data-delay="2"
+              >
+                I spend my time deep in the trenches of design. Where I can use
+                my background as a front-end developer to build out my own
+                design ideas or work in partnership with engineers to pass off
+                designs that are ready to ship and accessible to all users.
+              </p>
+
+              <div
+                class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start fade-in-up"
+                data-delay="3"
+              >
+                <a href="projects.html" class="btn-primary">
+                  See My Work
+                  <i
+                    class="fa-solid fa-arrow-right text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+                <a href="contact.html" class="btn-outline">Let's Connect</a>
+              </div>
+            </div>
+
+            <!-- ── Photo Side ── -->
+            <div class="relative shrink-0 fade-in-up" data-delay="1">
+              <!-- Glow behind photo -->
+              <div
+                class="absolute inset-0 translate-x-8 translate-y-8 rounded-3xl bg-flame-500 opacity-15 blur-3xl pointer-events-none"
+                aria-hidden="true"
+              ></div>
+
+              <!-- Photo + frame -->
+              <div class="relative w-72 lg:w-[400px]">
+                <div
+                  class="rounded-3xl overflow-hidden border border-ink-700 shadow-2xl aspect-[4/5]"
+                >
+                  <!-- PLACEHOLDER: Replace with your photo -->
+                  <img
+                    src="dist/img/about-profile.webp"
+                    alt="Clay — Web Designer & Front-End Developer"
+                    class="w-full h-full object-cover object-top"
+                    width="400"
+                    height="500"
+                  />
+                </div>
+
+                <!-- Floating name card -->
+                <div
+                  class="absolute -bottom-6 -left-6 bg-ink-900 border border-ink-700 rounded-2xl px-5 py-4 shadow-2xl"
+                >
+                  <p
+                    class="font-heading font-bold text-fluid-lg text-ink-50 leading-tight"
+                  >
+                    Clay Cauley
+                  </p>
+                  <!-- PLACEHOLDER: Update title/location -->
+                  <p class="text-fluid-xs text-ink-500 mt-0.5">
+                    Full Stack Web Designer &amp; Front-End Dev
+                  </p>
+                  <p
+                    class="text-fluid-xs text-flame-500 mt-1 flex items-center gap-1.5"
+                  >
+                    <i
+                      class="fa-solid fa-location-dot text-[10px]"
+                      aria-hidden="true"
+                    ></i>
+                    <!-- PLACEHOLDER: Your city -->
+                    Kentucky, USA
+                  </p>
+                </div>
+
+                <!-- Decorative dot grid -->
+                <div
+                  class="absolute -top-8 -right-8 w-24 h-24 dot-grid opacity-40 pointer-events-none"
+                  aria-hidden="true"
+                ></div>
+
+                <!-- Corner accent -->
+                <div
+                  class="absolute -top-4 -right-4 w-16 h-16 rounded-2xl border-2 border-flame-500/30 pointer-events-none"
+                  aria-hidden="true"
+                ></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll hint -->
+        <div
+          class="scroll-hint absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 opacity-40 pointer-events-none"
+          aria-hidden="true"
+        >
+          <span
+            class="font-body text-ink-500 text-fluid-xs tracking-[0.2em] uppercase"
+            >Scroll</span
+          >
+          <i
+            class="fa-solid fa-chevron-down text-flame-500 text-xs animate-bounce"
+          ></i>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           MY STORY — Narrative
+           ================================================================ -->
+      <section id="my-story" class="section" aria-labelledby="story-heading">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div class="flex flex-col lg:flex-row gap-16 lg:gap-24 items-start">
+            <!-- Left: label + heading sticky anchor -->
+            <div class="lg:w-80 xl:w-96 shrink-0 fade-in-up">
+              <p class="section-label mb-4">My Story</p>
+              <h2 id="story-heading" class="section-title">
+                The Long<br />
+                <span class="text-flame-500">Version</span>
+              </h2>
+
+              <!-- Quick-facts sidebar card -->
+              <div
+                class="mt-10 p-6 rounded-2xl bg-ink-900 border border-ink-800"
+              >
+                <h3
+                  class="font-heading font-semibold text-fluid-sm text-ink-200 uppercase tracking-[0.15em] mb-5"
+                >
+                  Quick Facts
+                </h3>
+                <ul class="flex flex-col gap-4" role="list">
+                  <li class="flex items-start gap-3">
+                    <span
+                      class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5"
+                    >
+                      <i
+                        class="fa-solid fa-briefcase text-flame-500 text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                    <div>
+                      <p
+                        class="text-fluid-xs text-ink-500 uppercase tracking-widest mb-0.5"
+                      >
+                        Role
+                      </p>
+                      <!-- PLACEHOLDER -->
+                      <p class="text-fluid-sm text-ink-200">
+                        Full Stack Web Designer &amp; Front-End Dev
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span
+                      class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5"
+                    >
+                      <i
+                        class="fa-solid fa-calendar text-flame-500 text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                    <div>
+                      <p
+                        class="text-fluid-xs text-ink-500 uppercase tracking-widest mb-0.5"
+                      >
+                        Experience
+                      </p>
+                      <!-- PLACEHOLDER -->
+                      <p class="text-fluid-sm text-ink-200">
+                        15+ Years in UI/UX, Web Design &amp; Front-End
+                        Development
+                      </p>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span
+                      class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5"
+                    >
+                      <i
+                        class="fa-solid fa-location-dot text-flame-500 text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                    <div>
+                      <p
+                        class="text-fluid-xs text-ink-500 uppercase tracking-widest mb-0.5"
+                      >
+                        Based In
+                      </p>
+                      <!-- PLACEHOLDER -->
+                      <p class="text-fluid-sm text-ink-200">Kentucky, USA</p>
+                    </div>
+                  </li>
+                  <li class="flex items-start gap-3">
+                    <span
+                      class="w-7 h-7 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0 mt-0.5"
+                    >
+                      <i
+                        class="fa-solid fa-graduation-cap text-flame-500 text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </span>
+                    <div>
+                      <p
+                        class="text-fluid-xs text-ink-500 uppercase tracking-widest mb-0.5"
+                      >
+                        Education
+                      </p>
+                      <!-- PLACEHOLDER -->
+                      <p class="text-fluid-sm text-ink-200">
+                        B.A. in Web Design, Western Kentucky University
+                      </p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- Right: story copy -->
+            <div class="flex-1 space-y-8 fade-in-up" data-delay="1">
+              <!-- PLACEHOLDER: Replace all paragraph copy below with your real story -->
+              <p class="text-fluid-base text-ink-400 leading-[1.85]">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                Replace this with your actual background story — where you grew
+                up, what first sparked your interest in design and technology,
+                and how that curiosity turned into a career.
+              </p>
+
+              <!-- Pull quote -->
+              <blockquote
+                class="relative pl-6 border-l-2 border-flame-500 my-10"
+              >
+                <p
+                  class="font-heading font-semibold text-fluid-2xl text-ink-100 leading-snug italic"
+                >
+                  <!-- PLACEHOLDER: A favorite quote or personal mantra -->
+                  "Replace this with something that genuinely reflects how you
+                  think about your work — a mantra, a belief, a principle you
+                  live by."
+                </p>
+              </blockquote>
+
+              <p class="text-fluid-base text-ink-400 leading-[1.85]">
+                <!-- PLACEHOLDER: Middle section of your story — your journey, turning points, influences -->
+                Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                laboris. Talk about what drew you to web design specifically.
+                Maybe a particular project, a mentor, a late night tinkering
+                with CSS that made something click. Keep it personal and honest
+                — people connect with real stories.
+              </p>
+
+              <p class="text-fluid-base text-ink-400 leading-[1.85]">
+                <!-- PLACEHOLDER: Where you are now and where you're headed -->
+                Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore. Describe where you are today — what kinds of work
+                excite you most, what kinds of clients or projects you gravitate
+                toward, and what you're working toward in the next chapter of
+                your career.
+              </p>
+
+              <!-- Subtle CTA inline -->
+              <div
+                class="flex flex-col sm:flex-row items-start sm:items-center gap-4 pt-4"
+              >
+                <a href="contact.html" class="btn-primary">
+                  Work With Me
+                  <i
+                    class="fa-solid fa-arrow-right text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+                <a
+                  href="projects.html"
+                  class="footer-link text-fluid-sm flex items-center gap-2 hover:text-flame-500 transition-colors"
+                >
+                  Or browse my work
+                  <i
+                    class="fa-solid fa-chevron-right text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           WHAT DRIVES ME — Values / Pillars
+           ================================================================ -->
+      <section id="values" class="section" aria-labelledby="values-heading">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div class="text-center mb-14 fade-in-up">
+            <p class="section-label justify-center">What Drives Me</p>
+            <h2 id="values-heading" class="section-title mt-3">
+              The Principles Behind<br />
+              <span class="text-flame-500">The Work</span>
+            </h2>
+            <!-- PLACEHOLDER: Short intro to your values/approach -->
+            <p class="section-subtitle max-w-2xl mx-auto">
+              Good work doesn't happen by accident. These are the principles
+              that guide every decision I make — from the first sketch to the
+              final line of code.
+            </p>
+          </div>
+
+          <div
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6"
+          >
+            <!-- Value 1 -->
+            <div class="service-card fade-in-up">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-flame-500/10"
+              >
+                <i
+                  class="fa-solid fa-bullseye text-flame-500 text-xl"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <!-- PLACEHOLDER: Replace title + copy -->
+              <h3
+                class="font-heading font-semibold text-fluid-xl text-ink-50 mb-3"
+              >
+                Design with Intention
+              </h3>
+              <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                Every color, typeface, and pixel has a job to do. I don't add
+                things because they look interesting — I add them because they
+                serve the user.
+              </p>
+            </div>
+
+            <!-- Value 2 -->
+            <div class="service-card fade-in-up" data-delay="1">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-flame-500/10"
+              >
+                <i
+                  class="fa-solid fa-hammer text-flame-500 text-xl"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <!-- PLACEHOLDER -->
+              <h3
+                class="font-heading font-semibold text-fluid-xl text-ink-50 mb-3"
+              >
+                Built to Last
+              </h3>
+              <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                I write code I'm not embarrassed to look at six months later.
+                Clean, documented, and structured so the next person isn't
+                starting from scratch.
+              </p>
+            </div>
+
+            <!-- Value 3 -->
+            <div class="service-card fade-in-up" data-delay="2">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-flame-500/10"
+              >
+                <i
+                  class="fa-solid fa-people-group text-flame-500 text-xl"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <!-- PLACEHOLDER -->
+              <h3
+                class="font-heading font-semibold text-fluid-xl text-ink-50 mb-3"
+              >
+                People First
+              </h3>
+              <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                Accessibility isn't a checklist — it's respect. I build things
+                that work for everyone, regardless of how they're accessing the
+                web.
+              </p>
+            </div>
+
+            <!-- Value 4 -->
+            <div class="service-card fade-in-up" data-delay="3">
+              <div
+                class="w-12 h-12 rounded-xl flex items-center justify-center mb-5 bg-flame-500/10"
+              >
+                <i
+                  class="fa-solid fa-rotate text-flame-500 text-xl"
+                  aria-hidden="true"
+                ></i>
+              </div>
+              <!-- PLACEHOLDER -->
+              <h3
+                class="font-heading font-semibold text-fluid-xl text-ink-50 mb-3"
+              >
+                Always Iterating
+              </h3>
+              <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                The best work rarely comes from the first idea. I embrace
+                feedback, test assumptions early, and treat every project as a
+                chance to get sharper.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           SKILLS & TOOLS
+           ================================================================ -->
+      <section id="skills" class="section" aria-labelledby="skills-heading">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div class="flex flex-col lg:flex-row gap-14 lg:gap-20 items-start">
+            <!-- Left: heading -->
+            <div class="lg:w-80 xl:w-96 shrink-0 fade-in-up">
+              <p class="section-label mb-4">Skills &amp; Tools</p>
+              <h2 id="skills-heading" class="section-title">
+                The Toolkit I<br />
+                <span class="text-flame-500">Reach For</span>
+              </h2>
+              <!-- PLACEHOLDER -->
+              <p class="section-subtitle text-fluid-base mt-4">
+                A living set of skills I rely on every day — and keep sharpening
+                through every project.
+              </p>
+            </div>
+
+            <!-- Right: skill groups -->
+            <div
+              class="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in-up"
+              data-delay="1"
+            >
+              <!-- Group 1 -->
+              <div class="p-6 rounded-2xl bg-ink-900 border border-ink-800">
+                <div class="flex items-center gap-3 mb-5">
+                  <span
+                    class="w-8 h-8 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0"
+                  >
+                    <i
+                      class="fa-solid fa-pen-nib text-flame-500 text-sm"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                  <h3
+                    class="font-heading font-semibold text-fluid-sm text-ink-100 uppercase tracking-[0.12em]"
+                  >
+                    Design
+                  </h3>
+                </div>
+                <!-- PLACEHOLDER: Update with your actual tools -->
+                <div class="flex flex-wrap gap-2">
+                  <span class="skill-tag">Figma</span>
+                  <span class="skill-tag">Adobe XD</span>
+                  <span class="skill-tag">Photoshop</span>
+                  <span class="skill-tag">Illustrator</span>
+                  <span class="skill-tag">Prototyping</span>
+                  <span class="skill-tag">Wireframing</span>
+                </div>
+              </div>
+
+              <!-- Group 2 -->
+              <div class="p-6 rounded-2xl bg-ink-900 border border-ink-800">
+                <div class="flex items-center gap-3 mb-5">
+                  <span
+                    class="w-8 h-8 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0"
+                  >
+                    <i
+                      class="fa-solid fa-code text-flame-500 text-sm"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                  <h3
+                    class="font-heading font-semibold text-fluid-sm text-ink-100 uppercase tracking-[0.12em]"
+                  >
+                    Development
+                  </h3>
+                </div>
+                <!-- PLACEHOLDER: Update with your actual skills -->
+                <div class="flex flex-wrap gap-2">
+                  <span class="skill-tag">HTML5</span>
+                  <span class="skill-tag">CSS3 / Sass</span>
+                  <span class="skill-tag">JavaScript</span>
+                  <span class="skill-tag">Tailwind CSS</span>
+                  <span class="skill-tag">React</span>
+                  <span class="skill-tag">Git / GitHub</span>
+                </div>
+              </div>
+
+              <!-- Group 3 -->
+              <div class="p-6 rounded-2xl bg-ink-900 border border-ink-800">
+                <div class="flex items-center gap-3 mb-5">
+                  <span
+                    class="w-8 h-8 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0"
+                  >
+                    <i
+                      class="fa-solid fa-layer-group text-flame-500 text-sm"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                  <h3
+                    class="font-heading font-semibold text-fluid-sm text-ink-100 uppercase tracking-[0.12em]"
+                  >
+                    Platforms &amp; CMS
+                  </h3>
+                </div>
+                <!-- PLACEHOLDER: Update with your actual platforms -->
+                <div class="flex flex-wrap gap-2">
+                  <span class="skill-tag">WordPress</span>
+                  <span class="skill-tag">Shopify</span>
+                  <span class="skill-tag">Webflow</span>
+                  <span class="skill-tag">Contentful</span>
+                  <span class="skill-tag">Netlify</span>
+                </div>
+              </div>
+
+              <!-- Group 4 -->
+              <div class="p-6 rounded-2xl bg-ink-900 border border-ink-800">
+                <div class="flex items-center gap-3 mb-5">
+                  <span
+                    class="w-8 h-8 rounded-lg bg-flame-500/10 flex items-center justify-center shrink-0"
+                  >
+                    <i
+                      class="fa-solid fa-lightbulb text-flame-500 text-sm"
+                      aria-hidden="true"
+                    ></i>
+                  </span>
+                  <h3
+                    class="font-heading font-semibold text-fluid-sm text-ink-100 uppercase tracking-[0.12em]"
+                  >
+                    Strategy &amp; Process
+                  </h3>
+                </div>
+                <!-- PLACEHOLDER: Update with your actual soft skills / processes -->
+                <div class="flex flex-wrap gap-2">
+                  <span class="skill-tag">UX Research</span>
+                  <span class="skill-tag">SEO</span>
+                  <span class="skill-tag">A/B Testing</span>
+                  <span class="skill-tag">Agile / Scrum</span>
+                  <span class="skill-tag">Brand Strategy</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           EXPERIENCE TIMELINE
+           ================================================================ -->
+      <section
+        id="experience"
+        class="section"
+        aria-labelledby="experience-heading"
+      >
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div class="flex flex-col lg:flex-row gap-14 lg:gap-16 items-start">
+            <!-- Left: heading -->
+            <div class="lg:w-80 xl:w-96 shrink-0 fade-in-up">
+              <p class="section-label mb-4">Experience</p>
+              <h2 id="experience-heading" class="section-title">
+                Where I've<br />
+                <span class="text-flame-500">Been</span>
+              </h2>
+              <!-- PLACEHOLDER -->
+              <p class="section-subtitle text-fluid-base mt-4">
+                A snapshot of the roles, companies, and experiences that shaped
+                how I think and work.
+              </p>
+            </div>
+
+            <!-- Right: timeline -->
+            <div class="flex-1">
+              <!-- Vertical rail wrapper -->
+              <div class="relative pl-10 border-l border-ink-800">
+                <!-- Item 1 — Most recent -->
+                <div class="relative mb-10 fade-in-up">
+                  <!-- Rail dot -->
+                  <div
+                    class="absolute -left-[2.875rem] top-4 w-10 h-10 rounded-full bg-flame-500 border-4 border-ink-950 flex items-center justify-center shadow-flame-sm"
+                    aria-hidden="true"
+                  >
+                    <i class="fa-solid fa-star text-ink-950 text-xs"></i>
+                  </div>
+                  <div
+                    class="p-6 rounded-2xl bg-ink-900 border border-ink-800 hover:border-flame-500/30 transition-colors duration-300"
+                  >
+                    <div
+                      class="flex flex-wrap items-start justify-between gap-3 mb-1"
+                    >
+                      <!-- PLACEHOLDER: Replace role, company, dates -->
+                      <h3
+                        class="font-heading font-semibold text-fluid-lg text-ink-50"
+                      >
+                        Lead Senior UI &amp; UX Designer
+                      </h3>
+                      <span
+                        class="shrink-0 text-fluid-xs text-flame-400 font-heading font-semibold bg-flame-500/10 px-3 py-1 rounded-full"
+                        >2026 – Present</span
+                      >
+                    </div>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-flame-600 font-medium mb-3">
+                      WiserSites
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                      Describe your responsibilities and accomplishments in this
+                      role. What did you build? What problems did you solve?
+                      What was the impact on the business?
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative mb-10 fade-in-up" data-delay="1">
+                  <div
+                    class="absolute -left-[2.875rem] top-4 w-10 h-10 rounded-full bg-ink-800 border-4 border-ink-950 flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <i class="fa-solid fa-circle text-flame-600 text-xs"></i>
+                  </div>
+                  <div
+                    class="p-6 rounded-2xl bg-ink-900 border border-ink-800 hover:border-flame-500/30 transition-colors duration-300"
+                  >
+                    <div
+                      class="flex flex-wrap items-start justify-between gap-3 mb-1"
+                    >
+                      <!-- PLACEHOLDER -->
+                      <h3
+                        class="font-heading font-semibold text-fluid-lg text-ink-50"
+                      >
+                        Sr. Web Designer &amp; Front-End Developer
+                      </h3>
+                      <span
+                        class="shrink-0 text-fluid-xs text-ink-500 font-heading font-semibold bg-ink-800 px-3 py-1 rounded-full"
+                        >2021 – 2025</span
+                      >
+                    </div>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-flame-600 font-medium mb-3">
+                      Fruit of the Loom
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                      Describe your responsibilities and key accomplishments.
+                      Keep it focused on impact and results rather than just
+                      listing day-to-day tasks.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative mb-10 fade-in-up" data-delay="1">
+                  <div
+                    class="absolute -left-[2.875rem] top-4 w-10 h-10 rounded-full bg-ink-800 border-4 border-ink-950 flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <i class="fa-solid fa-circle text-flame-600 text-xs"></i>
+                  </div>
+                  <div
+                    class="p-6 rounded-2xl bg-ink-900 border border-ink-800 hover:border-flame-500/30 transition-colors duration-300"
+                  >
+                    <div
+                      class="flex flex-wrap items-start justify-between gap-3 mb-1"
+                    >
+                      <!-- PLACEHOLDER -->
+                      <h3
+                        class="font-heading font-semibold text-fluid-lg text-ink-50"
+                      >
+                        Sr. UI/UX Web Designer &amp; Front-End Developer
+                      </h3>
+                      <span
+                        class="shrink-0 text-fluid-xs text-ink-500 font-heading font-semibold bg-ink-800 px-3 py-1 rounded-full"
+                        >2015 – 2021</span
+                      >
+                    </div>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-flame-600 font-medium mb-3">
+                      CafePress
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                      Describe your responsibilities and key accomplishments.
+                      Keep it focused on impact and results rather than just
+                      listing day-to-day tasks.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative mb-10 fade-in-up" data-delay="2">
+                  <div
+                    class="absolute -left-[2.875rem] top-4 w-10 h-10 rounded-full bg-ink-800 border-4 border-ink-950 flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <i class="fa-solid fa-circle text-flame-700 text-xs"></i>
+                  </div>
+                  <div
+                    class="p-6 rounded-2xl bg-ink-900 border border-ink-800 hover:border-flame-500/30 transition-colors duration-300"
+                  >
+                    <div
+                      class="flex flex-wrap items-start justify-between gap-3 mb-1"
+                    >
+                      <!-- PLACEHOLDER -->
+                      <h3
+                        class="font-heading font-semibold text-fluid-lg text-ink-50"
+                      >
+                        Lead Web Designer &amp; Front-End Developer
+                      </h3>
+                      <span
+                        class="shrink-0 text-fluid-xs text-ink-500 font-heading font-semibold bg-ink-800 px-3 py-1 rounded-full"
+                        >2011-2015</span
+                      >
+                    </div>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-flame-600 font-medium mb-3">
+                      Fruit of the Loom
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                      Describe your freelance experience — the range of clients,
+                      industries, what you learned operating independently, and
+                      notable wins.
+                    </p>
+                  </div>
+                </div>
+
+                <!-- Item 5 — Education / earliest -->
+                <div class="relative fade-in-up" data-delay="3">
+                  <div
+                    class="absolute -left-[2.875rem] top-4 w-10 h-10 rounded-full bg-ink-800 border-4 border-ink-950 flex items-center justify-center"
+                    aria-hidden="true"
+                  >
+                    <i
+                      class="fa-solid fa-graduation-cap text-ink-500 text-xs"
+                    ></i>
+                  </div>
+                  <div
+                    class="p-6 rounded-2xl bg-ink-900 border border-ink-800 hover:border-flame-500/30 transition-colors duration-300"
+                  >
+                    <div
+                      class="flex flex-wrap items-start justify-between gap-3 mb-1"
+                    >
+                      <!-- PLACEHOLDER -->
+                      <h3
+                        class="font-heading font-semibold text-fluid-lg text-ink-50"
+                      >
+                        BA in Advertising &amp; Web Design
+                      </h3>
+                      <span
+                        class="shrink-0 text-fluid-xs text-ink-500 font-heading font-semibold bg-ink-800 px-3 py-1 rounded-full"
+                        >2011</span
+                      >
+                    </div>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-flame-600 font-medium mb-3">
+                      Western Kentucky University
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-500 leading-relaxed">
+                      My time at WKU was spent during the crossover from Flash
+                      to HTML5, which meant I got to learn both the design and
+                      development sides of the web at a time when everything was
+                      changing. It was a formative experience that set the stage
+                      for my career.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           BEYOND THE SCREEN — Personal / Human side
+           ================================================================ -->
+      <section id="beyond" class="section" aria-labelledby="beyond-heading">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div class="flex flex-col lg:flex-row gap-14 items-center">
+            <!-- Left: heading + copy -->
+            <div class="flex-1 fade-in-up">
+              <p class="section-label mb-4">Beyond the Screen</p>
+              <h2 id="beyond-heading" class="section-title mb-6">
+                What I'm Like<br />
+                <span class="text-flame-500">Outside Work</span>
+              </h2>
+              <!-- PLACEHOLDER: Replace with genuine personal interests -->
+              <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+                When I'm not pushing pixels or debugging CSS, you can usually
+                find me [your hobbies here]. I believe the best designers and
+                developers are curious people — the kind who find inspiration in
+                unexpected places.
+              </p>
+              <p class="text-fluid-base text-ink-400 leading-relaxed">
+                <!-- PLACEHOLDER: More personal colour — what excites you, what you geek out on -->
+                Add another sentence or two here about something specific. A
+                hobby, a passion project, something you're learning. The more
+                specific, the more real it feels.
+              </p>
+            </div>
+
+            <!-- Right: interest tiles -->
+            <div
+              class="flex-1 grid grid-cols-2 gap-4 fade-in-up"
+              data-delay="1"
+            >
+              <!-- PLACEHOLDER: Replace icons and labels with your actual interests -->
+              <div class="interest-tile group">
+                <i
+                  class="fa-solid fa-camera text-2xl text-flame-500 mb-3"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  class="font-heading font-semibold text-fluid-sm text-ink-100"
+                  >Photography</span
+                >
+                <span class="text-fluid-xs text-ink-400 mt-1"
+                  >Your interest here</span
+                >
+              </div>
+
+              <div class="interest-tile group">
+                <i
+                  class="fa-solid fa-music text-2xl text-flame-500 mb-3"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  class="font-heading font-semibold text-fluid-sm text-ink-100"
+                  >Music</span
+                >
+                <span class="text-fluid-xs text-ink-400 mt-1"
+                  >Your interest here</span
+                >
+              </div>
+
+              <div class="interest-tile group">
+                <i
+                  class="fa-solid fa-person-hiking text-2xl text-flame-500 mb-3"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  class="font-heading font-semibold text-fluid-sm text-ink-100"
+                  >Outdoors</span
+                >
+                <span class="text-fluid-xs text-ink-400 mt-1"
+                  >Your interest here</span
+                >
+              </div>
+
+              <div class="interest-tile group">
+                <i
+                  class="fa-solid fa-book-open text-2xl text-flame-500 mb-3"
+                  aria-hidden="true"
+                ></i>
+                <span
+                  class="font-heading font-semibold text-fluid-sm text-ink-100"
+                  >Reading</span
+                >
+                <span class="text-fluid-xs text-ink-400 mt-1"
+                  >Your interest here</span
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           CTA BANNER
+           ================================================================ -->
+      <section class="section" aria-label="Call to action">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div
+            class="relative p-8 lg:p-16 rounded-3xl border border-ink-800 overflow-hidden text-center fade-in-up"
+            style="
+              background: linear-gradient(
+                135deg,
+                #1f1614 0%,
+                #2a1810 60%,
+                #1f1614 100%
+              );
+            "
+          >
+            <!-- Decorative glow -->
+            <div
+              class="absolute inset-0 flex items-center justify-center pointer-events-none"
+              aria-hidden="true"
+            >
+              <div class="w-96 h-96 flame-glow opacity-20"></div>
+            </div>
+            <!-- Dot grid corners -->
+            <div
+              class="absolute top-6 left-6 w-16 h-16 dot-grid opacity-30 pointer-events-none"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="absolute bottom-6 right-6 w-16 h-16 dot-grid opacity-30 pointer-events-none"
+              aria-hidden="true"
+            ></div>
+
+            <div class="relative z-10">
+              <p class="section-label justify-center mb-4">
+                Let's Build Something
+              </p>
+              <h2
+                class="font-heading font-bold text-fluid-4xl text-ink-50 leading-tight tracking-tight mb-4"
+              >
+                Got a Project in Mind?
+              </h2>
+              <!-- PLACEHOLDER -->
+              <p class="text-fluid-lg text-ink-500 max-w-xl mx-auto mb-10">
+                I'm always open to hearing about new projects, collaborations,
+                or just a good conversation about design and the web.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="contact.html" class="btn-primary">
+                  Start the Conversation
+                  <i
+                    class="fa-solid fa-arrow-right text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+                <a href="projects.html" class="btn-outline">See My Projects</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 py-14 lg:py-16">
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-ink-800"
+        >
+          <div>
+            <a
+              href="index.html"
+              class="inline-flex items-baseline mb-4 group"
+              aria-label="Clay — Home"
+            >
+              <span
+                class="font-heading font-bold text-fluid-2xl text-ink-50 leading-none"
+                >Clay</span
+              >
+              <span
+                class="font-heading font-bold text-fluid-2xl text-flame-500 leading-none"
+                >.</span
+              >
+            </a>
+            <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+              Web Designer &amp; Front-End Developer crafting modern digital
+              experiences.
+            </p>
+            <div class="flex gap-3">
+              <a href="#" class="social-btn" aria-label="LinkedIn"
+                ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+              ></a>
+              <a href="#" class="social-btn" aria-label="GitHub"
+                ><i class="fa-brands fa-github" aria-hidden="true"></i
+              ></a>
+              <a href="#" class="social-btn" aria-label="Dribbble"
+                ><i class="fa-brands fa-dribbble" aria-hidden="true"></i
+              ></a>
+              <a href="#" class="social-btn" aria-label="X / Twitter"
+                ><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+              ></a>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5"
+            >
+              Navigate
+            </h4>
+            <ul class="flex flex-col gap-3" role="list">
+              <li><a href="index.html" class="footer-link">Home</a></li>
+              <li><a href="about.html" class="footer-link">About</a></li>
+              <li><a href="projects.html" class="footer-link">Projects</a></li>
+              <li><a href="contact.html" class="footer-link">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5"
+            >
+              Get In Touch
+            </h4>
+            <ul class="flex flex-col gap-4" role="list">
+              <li>
+                <a
+                  href="mailto:hello@yourdomain.com"
+                  class="footer-link flex items-center gap-3 group"
+                  ><i
+                    class="fa-solid fa-envelope text-flame-700 group-hover:text-flame-500 transition-colors w-4 shrink-0"
+                    aria-hidden="true"
+                  ></i
+                  >hello@yourdomain.com</a
+                >
+              </li>
+              <li>
+                <a
+                  href="contact.html"
+                  class="footer-link flex items-center gap-3 group"
+                  ><i
+                    class="fa-solid fa-comment-dots text-flame-700 group-hover:text-flame-500 transition-colors w-4 shrink-0"
+                    aria-hidden="true"
+                  ></i
+                  >Start a project</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8"
+        >
+          <p class="text-fluid-xs text-ink-500">
+            &copy; <span id="footer-year">2026</span> Clay. All rights reserved.
+          </p>
+          <p class="text-fluid-xs text-ink-500">
+            Designed &amp; Built by Clay
+            <i
+              class="fa-solid fa-heart text-flame-700 ml-1"
+              aria-label="with love"
+            ></i>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

@@ -1,0 +1,1414 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Projects by Clay — Web Designer & Front-End Developer."
+    />
+    <title>Projects | Clay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="dist/css/main.css" />
+  </head>
+  <body class="bg-ink-950 text-ink-100 font-body overflow-x-hidden">
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-flame-500 focus:text-ink-950 focus:font-heading focus:font-semibold focus:rounded-lg"
+    >
+      Skip to main content
+    </a>
+
+    <!-- HEADER -->
+    <header class="site-header" id="site-header" role="banner">
+      <a
+        href="index.html"
+        class="flex items-center shrink-0 group"
+        aria-label="Clay — Home"
+      >
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 tracking-tight leading-none"
+          >Clay</span
+        >
+        <span
+          class="font-heading font-bold text-fluid-xl text-flame-500 leading-none"
+          >.</span
+        >
+      </a>
+      <nav
+        class="hidden lg:flex items-center gap-8"
+        aria-label="Primary navigation"
+      >
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="projects.html" class="nav-link active" aria-current="page"
+          >Projects</a
+        >
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <a href="contact.html" class="btn-primary hidden md:inline-flex">
+          Let's Talk
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+        </a>
+        <button
+          id="hamburger-btn"
+          class="hamburger-btn lg:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-drawer"
+        >
+          <span class="hamburger-line" aria-hidden="true"></span>
+          <span class="hamburger-line" aria-hidden="true"></span>
+          <span class="hamburger-line" aria-hidden="true"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- MOBILE MENU -->
+    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+    <aside
+      id="mobile-drawer"
+      class="mobile-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site navigation"
+    >
+      <div class="flex items-center justify-between mb-8">
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 leading-none"
+          >Clay<span class="text-flame-500">.</span></span
+        >
+        <button
+          id="mobile-close"
+          class="flex items-center justify-center w-9 h-9 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-300 transition-colors"
+          aria-label="Close menu"
+        >
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <nav class="flex-1" aria-label="Mobile navigation">
+        <ul class="flex flex-col gap-1" role="list">
+          <li>
+            <a href="index.html" class="mobile-nav-link"
+              ><i
+                class="fa-solid fa-house w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >Home</a
+            >
+          </li>
+          <li>
+            <a href="about.html" class="mobile-nav-link"
+              ><i
+                class="fa-solid fa-user w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >About</a
+            >
+          </li>
+          <li>
+            <a
+              href="projects.html"
+              class="mobile-nav-link active"
+              aria-current="page"
+              ><i
+                class="fa-solid fa-layer-group w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >Projects</a
+            >
+          </li>
+          <li>
+            <a href="contact.html" class="mobile-nav-link"
+              ><i
+                class="fa-solid fa-envelope w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i
+              >Contact</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <div class="mt-auto pt-6 border-t border-ink-800">
+        <a href="contact.html" class="btn-primary w-full mb-6 mobile-nav-link"
+          >Let's Work Together
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i
+        ></a>
+        <div class="flex items-center justify-center gap-3">
+          <a href="#" class="social-btn" aria-label="LinkedIn"
+            ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="GitHub"
+            ><i class="fa-brands fa-github" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="Dribbble"
+            ><i class="fa-brands fa-dribbble" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="X / Twitter"
+            ><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+          ></a>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main id="main-content">
+      <!-- ================================================================
+           HERO
+           ================================================================ -->
+      <section
+        id="projects-hero"
+        class="relative min-h-screen flex items-center pt-[4.5rem] lg:pt-20 overflow-hidden"
+        aria-label="Projects overview"
+      >
+        <!-- Background treatments -->
+        <div
+          class="absolute inset-0 grid-lines pointer-events-none"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute top-1/2 right-1/4 -translate-y-1/2 w-[640px] h-[640px] flame-glow opacity-20 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+        <div
+          class="absolute bottom-0 left-0 w-80 h-80 flame-glow opacity-10 pointer-events-none"
+          aria-hidden="true"
+        ></div>
+
+        <div
+          class="relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 py-16 lg:py-24"
+        >
+          <div class="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+            <!-- LEFT: Editorial text -->
+            <div class="flex-1 text-center lg:text-left">
+              <p
+                class="section-label justify-center lg:justify-start mb-6 fade-in-up"
+              >
+                Featured Work
+              </p>
+
+              <h1
+                class="font-heading font-bold leading-[1.04] tracking-tight mb-6 fade-in-up"
+                data-delay="1"
+              >
+                <span class="block text-fluid-display text-ink-50"
+                  >Projects</span
+                >
+                <span class="block text-fluid-display text-ink-50"
+                  >That Move</span
+                >
+                <span class="block text-fluid-display text-flame-500"
+                  >the Needle.</span
+                >
+              </h1>
+
+              <!-- PLACEHOLDER: Update intro copy -->
+              <p
+                class="text-fluid-lg text-ink-400 leading-relaxed max-w-xl mx-auto lg:mx-0 mb-10 fade-in-up"
+                data-delay="2"
+              >
+                From brand-defining redesigns to complex front-end builds — a
+                curated selection of the work I'm genuinely proud to put my name
+                on.
+              </p>
+
+              <!-- Quick stats -->
+              <div
+                class="flex flex-wrap gap-8 justify-center lg:justify-start mb-10 fade-in-up"
+                data-delay="2"
+              >
+                <div class="text-center lg:text-left">
+                  <div
+                    class="font-heading font-bold text-fluid-4xl text-flame-500 leading-none"
+                  >
+                    4
+                  </div>
+                  <div
+                    class="text-fluid-xs text-ink-500 mt-1 uppercase tracking-widest"
+                  >
+                    Featured Projects
+                  </div>
+                </div>
+                <div class="hidden sm:block w-px bg-ink-800 self-stretch"></div>
+                <div class="text-center lg:text-left">
+                  <!-- PLACEHOLDER: Update number -->
+                  <div
+                    class="font-heading font-bold text-fluid-4xl text-flame-500 leading-none"
+                  >
+                    20+
+                  </div>
+                  <div
+                    class="text-fluid-xs text-ink-500 mt-1 uppercase tracking-widest"
+                  >
+                    Total Projects
+                  </div>
+                </div>
+                <div class="hidden sm:block w-px bg-ink-800 self-stretch"></div>
+                <div class="text-center lg:text-left">
+                  <!-- PLACEHOLDER: Update number -->
+                  <div
+                    class="font-heading font-bold text-fluid-4xl text-flame-500 leading-none"
+                  >
+                    15+
+                  </div>
+                  <div
+                    class="text-fluid-xs text-ink-500 mt-1 uppercase tracking-widest"
+                  >
+                    Brands Worked With
+                  </div>
+                </div>
+              </div>
+
+              <!-- Jump-to links -->
+              <!-- PLACEHOLDER: Update project names to match your real project titles -->
+              <div
+                class="flex flex-wrap gap-3 justify-center lg:justify-start fade-in-up"
+                data-delay="3"
+              >
+                <a
+                  href="#project-01"
+                  class="btn-outline !text-fluid-xs !px-4 !py-2 gap-2"
+                >
+                  <span class="text-flame-500 font-bold">01</span> Project One
+                </a>
+                <a
+                  href="#project-02"
+                  class="btn-outline !text-fluid-xs !px-4 !py-2 gap-2"
+                >
+                  <span class="text-flame-500 font-bold">02</span> Project Two
+                </a>
+                <a
+                  href="#project-03"
+                  class="btn-outline !text-fluid-xs !px-4 !py-2 gap-2"
+                >
+                  <span class="text-flame-500 font-bold">03</span> Project Three
+                </a>
+                <a
+                  href="#project-04"
+                  class="btn-outline !text-fluid-xs !px-4 !py-2 gap-2"
+                >
+                  <span class="text-flame-500 font-bold">04</span> Project Four
+                </a>
+              </div>
+            </div>
+
+            <!-- RIGHT: Hero preview image -->
+            <div
+              class="relative shrink-0 w-full max-w-sm lg:max-w-[420px] fade-in-up"
+              data-delay="1"
+            >
+              <!-- Glow -->
+              <div
+                class="absolute inset-0 translate-x-6 translate-y-6 rounded-3xl bg-flame-500 opacity-15 blur-3xl pointer-events-none"
+                aria-hidden="true"
+              ></div>
+
+              <div
+                class="relative rounded-3xl overflow-hidden border border-ink-700 shadow-2xl aspect-square"
+              >
+                <!-- PLACEHOLDER: Replace with a hero project image -->
+                <img
+                  src="https://placehold.co/480x480/1F1614/312320?text=Featured+Work"
+                  alt="Featured project preview"
+                  class="w-full h-full object-cover"
+                  width="480"
+                  height="480"
+                />
+                <!-- Overlay -->
+                <div
+                  class="absolute inset-0 bg-gradient-to-tr from-ink-950/60 via-transparent to-transparent pointer-events-none"
+                ></div>
+                <!-- Latest badge -->
+                <div
+                  class="absolute top-4 left-4 flex items-center gap-2 bg-ink-900/90 backdrop-blur-sm border border-ink-700 rounded-full px-3 py-1.5"
+                >
+                  <span
+                    class="w-2 h-2 rounded-full bg-flame-500 animate-pulse shrink-0"
+                  ></span>
+                  <span
+                    class="font-heading font-semibold text-fluid-xs text-ink-200"
+                    >Latest Work</span
+                  >
+                </div>
+              </div>
+
+              <!-- Floating metric card -->
+              <!-- PLACEHOLDER: Update stat -->
+              <div
+                class="absolute -bottom-5 -right-5 bg-ink-900 border border-ink-700 rounded-2xl px-5 py-4 shadow-2xl"
+              >
+                <p
+                  class="font-heading font-bold text-fluid-2xl text-flame-500 leading-none"
+                >
+                  100%
+                </p>
+                <p class="text-fluid-xs text-ink-500 mt-0.5">
+                  Client Satisfaction
+                </p>
+              </div>
+
+              <!-- Dot grid -->
+              <div
+                class="absolute -top-8 -left-8 w-24 h-24 dot-grid opacity-40 pointer-events-none"
+                aria-hidden="true"
+              ></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scroll hint -->
+        <div
+          class="scroll-hint absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 opacity-40 pointer-events-none"
+          aria-hidden="true"
+        >
+          <span
+            class="font-body text-ink-500 text-fluid-xs tracking-[0.2em] uppercase"
+            >Explore</span
+          >
+          <i
+            class="fa-solid fa-chevron-down text-flame-500 text-xs animate-bounce"
+          ></i>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           FEATURED PROJECTS
+           ================================================================ -->
+      <section
+        id="featured-projects"
+        class="section"
+        aria-labelledby="projects-heading"
+      >
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <!-- Section header -->
+          <div class="text-center mb-16 fade-in-up">
+            <p class="section-label justify-center">The Work</p>
+            <h2 id="projects-heading" class="section-title mt-3">
+              Featured <span class="text-flame-500">Case Studies</span>
+            </h2>
+            <!-- PLACEHOLDER: Update intro copy -->
+            <p class="section-subtitle max-w-2xl mx-auto">
+              Each project came with its own set of challenges. Click through to
+              read the full story behind the strategy, design, and execution.
+            </p>
+          </div>
+
+          <!-- ── Projects List ── -->
+          <div class="flex flex-col gap-8 lg:gap-10">
+            <!-- ============================================================
+                 PROJECT 01  ·  Image LEFT  ·  Content RIGHT
+                 ============================================================ -->
+            <article
+              id="project-01"
+              class="project-card fade-in-up"
+              aria-labelledby="proj-01-title"
+            >
+              <!-- Top bar -->
+              <div
+                class="flex items-center justify-between px-6 lg:px-8 py-4 border-b border-ink-800"
+              >
+                <span
+                  class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em]"
+                  >01</span
+                >
+                <div class="flex gap-2">
+                  <!-- PLACEHOLDER: Update with your real categories -->
+                  <span class="skill-tag">Web Design</span>
+                  <span class="skill-tag">UI/UX</span>
+                </div>
+              </div>
+
+              <!-- Body grid -->
+              <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr]">
+                <!-- Image -->
+                <div
+                  class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px]"
+                >
+                  <!-- PLACEHOLDER: Replace with your real project screenshot -->
+                  <img
+                    src="https://placehold.co/900x500/1F1614/4A3630?text=Project+01+Image"
+                    alt="Project One — replace with real screenshot"
+                    class="project-card-img"
+                    width="900"
+                    height="500"
+                  />
+                  <!-- Desktop fade edge blending image into content panel -->
+                  <div
+                    class="hidden lg:block absolute inset-y-0 right-0 w-40 bg-gradient-to-r from-transparent to-ink-900 pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                  <!-- Year badge -->
+                  <div
+                    class="absolute bottom-4 left-4 bg-ink-950/80 backdrop-blur-sm border border-ink-700 rounded-full px-3 py-1"
+                  >
+                    <!-- PLACEHOLDER: Update year -->
+                    <span
+                      class="text-fluid-xs font-heading font-semibold text-flame-400"
+                      >2024</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Content -->
+                <div
+                  class="flex flex-col justify-center p-8 lg:p-10 xl:p-12 relative"
+                >
+                  <!-- Decorative bg number -->
+                  <span
+                    class="absolute top-3 right-5 font-heading font-bold text-[6rem] lg:text-[8rem] leading-none text-ink-800/60 select-none pointer-events-none"
+                    aria-hidden="true"
+                    >01</span
+                  >
+
+                  <div class="relative z-10">
+                    <!-- PLACEHOLDER: Replace with your project title -->
+                    <h3
+                      id="proj-01-title"
+                      class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4"
+                    >
+                      Project Title<br />Goes Here
+                    </h3>
+                    <!-- PLACEHOLDER: Replace with your project description -->
+                    <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+                      A compelling overview of this project. Describe the brand,
+                      the challenge, and what made this engagement unique. Keep
+                      it concise — the full story lives in the case study.
+                    </p>
+                    <!-- PLACEHOLDER: Replace with a real standout metric -->
+                    <div
+                      class="flex items-center gap-3 mb-8 p-4 rounded-xl bg-ink-950 border border-ink-800"
+                    >
+                      <i
+                        class="fa-solid fa-arrow-trend-up text-flame-500 text-lg shrink-0"
+                        aria-hidden="true"
+                      ></i>
+                      <div>
+                        <p
+                          class="font-heading font-bold text-fluid-lg text-flame-400"
+                        >
+                          +000%
+                        </p>
+                        <p class="text-fluid-xs text-ink-500">
+                          Key result metric — PLACEHOLDER
+                        </p>
+                      </div>
+                    </div>
+                    <a href="fotl-case-study.html" class="btn-primary">
+                      View Case Study
+                      <i
+                        class="fa-solid fa-arrow-right text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ============================================================
+                 PROJECT 02  ·  Content LEFT  ·  Image RIGHT  (flipped)
+                 ============================================================ -->
+            <article
+              id="project-02"
+              class="project-card fade-in-up"
+              aria-labelledby="proj-02-title"
+            >
+              <!-- Top bar -->
+              <div
+                class="flex items-center justify-between px-6 lg:px-8 py-4 border-b border-ink-800"
+              >
+                <div class="flex gap-2">
+                  <!-- PLACEHOLDER -->
+                  <span class="skill-tag">Front-End Dev</span>
+                  <span class="skill-tag">E-Commerce</span>
+                </div>
+                <span
+                  class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em]"
+                  >02</span
+                >
+              </div>
+
+              <!-- Body grid — content LEFT, image RIGHT -->
+              <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+                <!-- Content (stacks below image on mobile via order) -->
+                <div
+                  class="flex flex-col justify-center p-8 lg:p-10 xl:p-12 relative order-2 lg:order-1"
+                >
+                  <span
+                    class="absolute top-3 left-5 font-heading font-bold text-[6rem] lg:text-[8rem] leading-none text-ink-800/60 select-none pointer-events-none"
+                    aria-hidden="true"
+                    >02</span
+                  >
+                  <div class="relative z-10">
+                    <!-- PLACEHOLDER -->
+                    <h3
+                      id="proj-02-title"
+                      class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4"
+                    >
+                      Project Name<br />Here
+                    </h3>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+                      Describe what makes this project stand out. What problem
+                      did you solve? What was your specific role, and what
+                      impact did it have on the client's business or their
+                      users?
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <div
+                      class="flex items-center gap-3 mb-8 p-4 rounded-xl bg-ink-950 border border-ink-800"
+                    >
+                      <i
+                        class="fa-solid fa-arrow-trend-up text-flame-500 text-lg shrink-0"
+                        aria-hidden="true"
+                      ></i>
+                      <div>
+                        <p
+                          class="font-heading font-bold text-fluid-lg text-flame-400"
+                        >
+                          +000%
+                        </p>
+                        <p class="text-fluid-xs text-ink-500">
+                          Key result metric — PLACEHOLDER
+                        </p>
+                      </div>
+                    </div>
+                    <a href="case-study.html" class="btn-primary">
+                      View Case Study
+                      <i
+                        class="fa-solid fa-arrow-right text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Image -->
+                <div
+                  class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px] order-1 lg:order-2"
+                >
+                  <!-- PLACEHOLDER -->
+                  <img
+                    src="https://placehold.co/900x500/1F1614/3D2820?text=Project+02+Image"
+                    alt="Project Two — replace with real screenshot"
+                    class="project-card-img"
+                    width="900"
+                    height="500"
+                  />
+                  <div
+                    class="hidden lg:block absolute inset-y-0 left-0 w-40 bg-gradient-to-l from-transparent to-ink-900 pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                  <div
+                    class="absolute bottom-4 right-4 bg-ink-950/80 backdrop-blur-sm border border-ink-700 rounded-full px-3 py-1"
+                  >
+                    <!-- PLACEHOLDER -->
+                    <span
+                      class="text-fluid-xs font-heading font-semibold text-flame-400"
+                      >2024</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ============================================================
+                 PROJECT 03  ·  Image LEFT  ·  Content RIGHT
+                 ============================================================ -->
+            <article
+              id="project-03"
+              class="project-card fade-in-up"
+              aria-labelledby="proj-03-title"
+            >
+              <!-- Top bar -->
+              <div
+                class="flex items-center justify-between px-6 lg:px-8 py-4 border-b border-ink-800"
+              >
+                <span
+                  class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em]"
+                  >03</span
+                >
+                <div class="flex gap-2">
+                  <!-- PLACEHOLDER -->
+                  <span class="skill-tag">Branding</span>
+                  <span class="skill-tag">Web Design</span>
+                </div>
+              </div>
+
+              <!-- Body grid -->
+              <div class="grid grid-cols-1 lg:grid-cols-[3fr_2fr]">
+                <!-- Image -->
+                <div
+                  class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px]"
+                >
+                  <!-- PLACEHOLDER -->
+                  <img
+                    src="https://placehold.co/900x500/1F1614/4A3230?text=Project+03+Image"
+                    alt="Project Three — replace with real screenshot"
+                    class="project-card-img"
+                    width="900"
+                    height="500"
+                  />
+                  <div
+                    class="hidden lg:block absolute inset-y-0 right-0 w-40 bg-gradient-to-r from-transparent to-ink-900 pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                  <div
+                    class="absolute bottom-4 left-4 bg-ink-950/80 backdrop-blur-sm border border-ink-700 rounded-full px-3 py-1"
+                  >
+                    <!-- PLACEHOLDER -->
+                    <span
+                      class="text-fluid-xs font-heading font-semibold text-flame-400"
+                      >2023</span
+                    >
+                  </div>
+                </div>
+
+                <!-- Content -->
+                <div
+                  class="flex flex-col justify-center p-8 lg:p-10 xl:p-12 relative"
+                >
+                  <span
+                    class="absolute top-3 right-5 font-heading font-bold text-[6rem] lg:text-[8rem] leading-none text-ink-800/60 select-none pointer-events-none"
+                    aria-hidden="true"
+                    >03</span
+                  >
+                  <div class="relative z-10">
+                    <!-- PLACEHOLDER -->
+                    <h3
+                      id="proj-03-title"
+                      class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4"
+                    >
+                      Project Three<br />Title Here
+                    </h3>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+                      Another compelling project description. What was the scope
+                      of work? What did you design or build, and why does this
+                      piece represent the best of what you bring to the table?
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <div
+                      class="flex items-center gap-3 mb-8 p-4 rounded-xl bg-ink-950 border border-ink-800"
+                    >
+                      <i
+                        class="fa-solid fa-arrow-trend-up text-flame-500 text-lg shrink-0"
+                        aria-hidden="true"
+                      ></i>
+                      <div>
+                        <p
+                          class="font-heading font-bold text-fluid-lg text-flame-400"
+                        >
+                          +000%
+                        </p>
+                        <p class="text-fluid-xs text-ink-500">
+                          Key result metric — PLACEHOLDER
+                        </p>
+                      </div>
+                    </div>
+                    <a href="case-study.html" class="btn-primary">
+                      View Case Study
+                      <i
+                        class="fa-solid fa-arrow-right text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ============================================================
+                 PROJECT 04  ·  Content LEFT  ·  Image RIGHT  (flipped)
+                 ============================================================ -->
+            <article
+              id="project-04"
+              class="project-card fade-in-up"
+              aria-labelledby="proj-04-title"
+            >
+              <!-- Top bar -->
+              <div
+                class="flex items-center justify-between px-6 lg:px-8 py-4 border-b border-ink-800"
+              >
+                <div class="flex gap-2">
+                  <!-- PLACEHOLDER -->
+                  <span class="skill-tag">UI/UX</span>
+                  <span class="skill-tag">Strategy</span>
+                </div>
+                <span
+                  class="font-heading font-bold text-fluid-xs text-flame-500 tracking-[0.25em]"
+                  >04</span
+                >
+              </div>
+
+              <!-- Body grid — content LEFT, image RIGHT -->
+              <div class="grid grid-cols-1 lg:grid-cols-[2fr_3fr]">
+                <!-- Content -->
+                <div
+                  class="flex flex-col justify-center p-8 lg:p-10 xl:p-12 relative order-2 lg:order-1"
+                >
+                  <span
+                    class="absolute top-3 left-5 font-heading font-bold text-[6rem] lg:text-[8rem] leading-none text-ink-800/60 select-none pointer-events-none"
+                    aria-hidden="true"
+                    >04</span
+                  >
+                  <div class="relative z-10">
+                    <!-- PLACEHOLDER -->
+                    <h3
+                      id="proj-04-title"
+                      class="font-heading font-bold text-fluid-3xl text-ink-50 leading-tight mb-4"
+                    >
+                      Project Four<br />Title Here
+                    </h3>
+                    <!-- PLACEHOLDER -->
+                    <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+                      Round out your featured work with this final case study.
+                      What skills or range does it showcase that the others
+                      don't? Give visitors a different perspective on your depth
+                      and versatility.
+                    </p>
+                    <!-- PLACEHOLDER -->
+                    <div
+                      class="flex items-center gap-3 mb-8 p-4 rounded-xl bg-ink-950 border border-ink-800"
+                    >
+                      <i
+                        class="fa-solid fa-arrow-trend-up text-flame-500 text-lg shrink-0"
+                        aria-hidden="true"
+                      ></i>
+                      <div>
+                        <p
+                          class="font-heading font-bold text-fluid-lg text-flame-400"
+                        >
+                          +000%
+                        </p>
+                        <p class="text-fluid-xs text-ink-500">
+                          Key result metric — PLACEHOLDER
+                        </p>
+                      </div>
+                    </div>
+                    <a href="case-study.html" class="btn-primary">
+                      View Case Study
+                      <i
+                        class="fa-solid fa-arrow-right text-xs"
+                        aria-hidden="true"
+                      ></i>
+                    </a>
+                  </div>
+                </div>
+
+                <!-- Image -->
+                <div
+                  class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px] order-1 lg:order-2"
+                >
+                  <!-- PLACEHOLDER -->
+                  <img
+                    src="https://placehold.co/900x500/1F1614/3A2418?text=Project+04+Image"
+                    alt="Project Four — replace with real screenshot"
+                    class="project-card-img"
+                    width="900"
+                    height="500"
+                  />
+                  <div
+                    class="hidden lg:block absolute inset-y-0 left-0 w-40 bg-gradient-to-l from-transparent to-ink-900 pointer-events-none"
+                    aria-hidden="true"
+                  ></div>
+                  <div
+                    class="absolute bottom-4 right-4 bg-ink-950/80 backdrop-blur-sm border border-ink-700 rounded-full px-3 py-1"
+                  >
+                    <!-- PLACEHOLDER -->
+                    <span
+                      class="text-fluid-xs font-heading font-semibold text-flame-400"
+                      >2023</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           BRANDS WORKED WITH — Infinite Logo Carousel
+           ================================================================ -->
+      <section id="brands" class="section" aria-labelledby="brands-heading">
+        <!-- Section header -->
+        <div class="max-w-7xl mx-auto px-6 lg:px-12 mb-14">
+          <div class="text-center fade-in-up">
+            <p class="section-label justify-center">
+              Clients &amp; Collaborators
+            </p>
+            <h2 id="brands-heading" class="section-title mt-3">
+              Brands I've Had the<br />
+              <span class="text-flame-500">Privilege to Work With</span>
+            </h2>
+            <!-- PLACEHOLDER: Personalize or remove -->
+            <p class="section-subtitle max-w-2xl mx-auto">
+              From ambitious startups to established names — a few of the brands
+              I've been lucky enough to partner with over the years.
+            </p>
+          </div>
+        </div>
+
+        <!-- ── Row 1: scrolling LEFT ── -->
+        <!-- PLACEHOLDER: Replace each img src with your real logo files (SVG or PNG preferred) -->
+        <div class="logo-carousel-mask mb-5">
+          <div
+            class="logo-track"
+            role="list"
+            aria-label="Partner logos, row one"
+          >
+            <!-- ── Set 1 of 2 ── -->
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/1d4ed8/ffffff?text=NEXUS+CO"
+                  alt="Nexus Co"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Nexus Co</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/15803d/ffffff?text=MERIDIAN"
+                  alt="Meridian"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Meridian</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/7e22ce/ffffff?text=ATLAS+GROUP"
+                  alt="Atlas Group"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Atlas Group</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/c2410c/ffffff?text=SOLARIS"
+                  alt="Solaris"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Solaris</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/0e7490/ffffff?text=VEGA+STUDIO"
+                  alt="Vega Studio"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Vega Studio</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/be123c/ffffff?text=PINNACLE"
+                  alt="Pinnacle"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Pinnacle</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/92400e/ffffff?text=EMBER+LABS"
+                  alt="Ember Labs"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Ember Labs</span>
+            </div>
+            <div class="logo-item" role="listitem">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/3730a3/ffffff?text=STRATUM+CO"
+                  alt="Stratum Co"
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Stratum Co</span>
+            </div>
+
+            <!-- ── Set 2 of 2 — exact duplicate for seamless loop ── -->
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/1d4ed8/ffffff?text=NEXUS+CO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Nexus Co</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/15803d/ffffff?text=MERIDIAN"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Meridian</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/7e22ce/ffffff?text=ATLAS+GROUP"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Atlas Group</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/c2410c/ffffff?text=SOLARIS"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Solaris</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/0e7490/ffffff?text=VEGA+STUDIO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Vega Studio</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/be123c/ffffff?text=PINNACLE"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Pinnacle</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/92400e/ffffff?text=EMBER+LABS"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Ember Labs</span>
+            </div>
+            <div class="logo-item" role="listitem" aria-hidden="true">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/3730a3/ffffff?text=STRATUM+CO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Stratum Co</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── Row 2: scrolling RIGHT (reverse direction) ── -->
+        <div class="logo-carousel-mask" aria-hidden="true">
+          <div class="logo-track-reverse">
+            <!-- ── Set 1 of 2 — staggered order for visual variety ── -->
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/3730a3/ffffff?text=STRATUM+CO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Stratum Co</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/92400e/ffffff?text=EMBER+LABS"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Ember Labs</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/be123c/ffffff?text=PINNACLE"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Pinnacle</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/0e7490/ffffff?text=VEGA+STUDIO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Vega Studio</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/c2410c/ffffff?text=SOLARIS"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Solaris</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/7e22ce/ffffff?text=ATLAS+GROUP"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Atlas Group</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/15803d/ffffff?text=MERIDIAN"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Meridian</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/1d4ed8/ffffff?text=NEXUS+CO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Nexus Co</span>
+            </div>
+
+            <!-- ── Set 2 of 2 — duplicate for seamless loop ── -->
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/3730a3/ffffff?text=STRATUM+CO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Stratum Co</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/92400e/ffffff?text=EMBER+LABS"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Ember Labs</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/be123c/ffffff?text=PINNACLE"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Pinnacle</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/0e7490/ffffff?text=VEGA+STUDIO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Vega Studio</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/c2410c/ffffff?text=SOLARIS"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Solaris</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/7e22ce/ffffff?text=ATLAS+GROUP"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Atlas Group</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/15803d/ffffff?text=MERIDIAN"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Meridian</span>
+            </div>
+            <div class="logo-item">
+              <div class="logo-item-inner">
+                <img
+                  src="https://placehold.co/160x48/1d4ed8/ffffff?text=NEXUS+CO"
+                  alt=""
+                  width="160"
+                  height="48"
+                />
+              </div>
+              <span class="logo-name">Nexus Co</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="section-divider" role="separator" aria-hidden="true"></div>
+
+      <!-- ================================================================
+           CTA BANNER
+           ================================================================ -->
+      <section class="section" aria-label="Call to action">
+        <div class="max-w-7xl mx-auto px-6 lg:px-12">
+          <div
+            class="relative p-8 lg:p-16 rounded-3xl border border-ink-800 overflow-hidden text-center fade-in-up"
+            style="
+              background: linear-gradient(
+                135deg,
+                #1f1614 0%,
+                #2a1810 60%,
+                #1f1614 100%
+              );
+            "
+          >
+            <!-- Decorative glow -->
+            <div
+              class="absolute inset-0 flex items-center justify-center pointer-events-none"
+              aria-hidden="true"
+            >
+              <div class="w-96 h-96 flame-glow opacity-20"></div>
+            </div>
+            <div
+              class="absolute top-6 left-6 w-16 h-16 dot-grid opacity-30 pointer-events-none"
+              aria-hidden="true"
+            ></div>
+            <div
+              class="absolute bottom-6 right-6 w-16 h-16 dot-grid opacity-30 pointer-events-none"
+              aria-hidden="true"
+            ></div>
+
+            <div class="relative z-10">
+              <p class="section-label justify-center mb-4">
+                Start Something New
+              </p>
+              <h2
+                class="font-heading font-bold text-fluid-4xl text-ink-50 leading-tight tracking-tight mb-4"
+              >
+                Like What You See?
+              </h2>
+              <!-- PLACEHOLDER -->
+              <p class="text-fluid-lg text-ink-500 max-w-xl mx-auto mb-10">
+                Let's talk about what we can build together. Every great project
+                starts with a conversation.
+              </p>
+              <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="contact.html" class="btn-primary">
+                  Start the Conversation
+                  <i
+                    class="fa-solid fa-arrow-right text-xs"
+                    aria-hidden="true"
+                  ></i>
+                </a>
+                <a href="about.html" class="btn-outline">Learn More About Me</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="site-footer" role="contentinfo">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 py-14 lg:py-16">
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-ink-800"
+        >
+          <div>
+            <a
+              href="index.html"
+              class="inline-flex items-baseline mb-4 group"
+              aria-label="Clay — Home"
+            >
+              <span
+                class="font-heading font-bold text-fluid-2xl text-ink-50 leading-none"
+                >Clay</span
+              >
+              <span
+                class="font-heading font-bold text-fluid-2xl text-flame-500 leading-none"
+                >.</span
+              >
+            </a>
+            <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+              Web Designer &amp; Front-End Developer crafting modern digital
+              experiences.
+            </p>
+            <div class="flex gap-3">
+              <a href="#" class="social-btn" aria-label="LinkedIn"
+                ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+              ></a>
+              <a href="#" class="social-btn" aria-label="GitHub"
+                ><i class="fa-brands fa-github" aria-hidden="true"></i
+              ></a>
+              <a href="#" class="social-btn" aria-label="Dribbble"
+                ><i class="fa-brands fa-dribbble" aria-hidden="true"></i
+              ></a>
+              <a href="#" class="social-btn" aria-label="X / Twitter"
+                ><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+              ></a>
+            </div>
+          </div>
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5"
+            >
+              Navigate
+            </h4>
+            <ul class="flex flex-col gap-3" role="list">
+              <li><a href="index.html" class="footer-link">Home</a></li>
+              <li><a href="about.html" class="footer-link">About</a></li>
+              <li><a href="projects.html" class="footer-link">Projects</a></li>
+              <li><a href="contact.html" class="footer-link">Contact</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5"
+            >
+              Get In Touch
+            </h4>
+            <ul class="flex flex-col gap-4" role="list">
+              <li>
+                <a
+                  href="mailto:hello@yourdomain.com"
+                  class="footer-link flex items-center gap-3 group"
+                  ><i
+                    class="fa-solid fa-envelope text-flame-700 group-hover:text-flame-500 transition-colors w-4 shrink-0"
+                    aria-hidden="true"
+                  ></i
+                  >hello@yourdomain.com</a
+                >
+              </li>
+              <li>
+                <a
+                  href="contact.html"
+                  class="footer-link flex items-center gap-3 group"
+                  ><i
+                    class="fa-solid fa-comment-dots text-flame-700 group-hover:text-flame-500 transition-colors w-4 shrink-0"
+                    aria-hidden="true"
+                  ></i
+                  >Start a project</a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8"
+        >
+          <p class="text-fluid-xs text-ink-500">
+            &copy; <span id="footer-year">2026</span> Clay. All rights reserved.
+          </p>
+          <p class="text-fluid-xs text-ink-500">
+            Designed &amp; Built by Clay
+            <i
+              class="fa-solid fa-heart text-flame-700 ml-1"
+              aria-label="with love"
+            ></i>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
