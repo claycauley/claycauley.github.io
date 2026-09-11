@@ -1,9 +1,194 @@
-<?php
-$pageTitle = "Projects | Clay";
-$pageDescription = "Projects by Clay — Web Designer &amp; Front-End Developer.";
-$currentPage = "projects";
-include "partials/header.php";
-?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Projects by Clay — Web Designer &amp;amp; Front-End Developer."
+    />
+    <title>Projects | Clay</title>
+
+    <!-- Google Fonts: Space Grotesk + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome 6 Free -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Compiled Tailwind CSS -->
+    <link rel="stylesheet" href="css/main.css" />
+
+      </head>
+
+    <body class="bg-ink-950 text-ink-100 font-body overflow-x-hidden">
+    <!-- Skip to main content (accessibility) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-flame-500 focus:text-ink-950 focus:font-heading focus:font-semibold focus:rounded-lg focus:shadow-lg">
+      Skip to main content
+    </a>
+
+    <!-- ====================================================================
+       GLOBAL HEADER
+       ==================================================================== -->
+    <header class="site-header" id="site-header" role="banner">
+      <!-- Logo -->
+      <a
+        href="index.html"
+        class="flex items-center shrink-0 group"
+        aria-label="Clay — Return to homepage">
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 tracking-tight leading-none transition-colors duration-300 group-hover:text-ink-100"
+          >Clay</span>
+        <span
+          class="font-heading font-bold text-fluid-xl text-flame-500 leading-none"
+          >.</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav
+        class="hidden lg:flex items-center gap-8"
+        aria-label="Primary navigation">
+        <a href="index.html"    class="nav-link ">Home</a>
+        <a href="about.html"    class="nav-link ">About</a>
+        <a href="projects.html" class="nav-link active" aria-current="page">Projects</a>
+        <a href="contact.html"  class="nav-link ">Contact</a>
+      </nav>
+
+      <!-- CTA + Hamburger -->
+      <div class="flex items-center gap-3">
+        <a
+          href="contact.html"
+          class="btn-primary hidden md:inline-flex"
+          aria-label="Contact Clay">
+          Let's Talk
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+        </a>
+
+        <button
+          id="hamburger-btn"
+          class="hamburger-btn lg:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-drawer">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+       MOBILE MENU
+       ==================================================================== -->
+
+    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+
+    <aside
+      id="mobile-drawer"
+      class="mobile-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site navigation">
+      <!-- Drawer header -->
+      <div class="flex items-center justify-between mb-8">
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 leading-none">
+          Clay<span class="text-flame-500">.</span>
+        </span>
+        <button
+          id="mobile-close"
+          class="flex items-center justify-center w-9 h-9 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-300 transition-colors duration-200"
+          aria-label="Close navigation menu">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Drawer links -->
+      <nav class="flex-1" aria-label="Mobile navigation">
+        <ul class="flex flex-col gap-1" role="list">
+          <li>
+            <a
+              href="index.html"
+              class="mobile-nav-link "
+              >
+              <i
+                class="fa-solid fa-house w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href="about.html"
+              class="mobile-nav-link "
+              >
+              <i
+                class="fa-solid fa-user w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="projects.html"
+              class="mobile-nav-link active"
+              aria-current="page">
+              <i
+                class="fa-solid fa-layer-group w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              Projects
+            </a>
+          </li>
+          <li>
+            <a
+              href="contact.html"
+              class="mobile-nav-link "
+              >
+              <i
+                class="fa-solid fa-envelope w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Drawer footer -->
+      <div class="mt-auto pt-6 border-t border-ink-800">
+        <a href="contact.html" class="btn-primary w-full mb-6 mobile-nav-link">
+          Let's Work Together
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+        </a>
+        <div class="flex items-center justify-center gap-3">
+          <a href="#" class="social-btn" aria-label="LinkedIn"
+            ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="GitHub"
+            ><i class="fa-brands fa-github" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="Dribbble"
+            ><i class="fa-brands fa-dribbble" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="X / Twitter"
+            ><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+          ></a>
+        </div>
+      </div>
+    </aside>
 
 <main id="main-content">
   <!-- ================================================================
@@ -142,7 +327,7 @@ include "partials/header.php";
             class="relative rounded-3xl overflow-hidden border border-ink-700 shadow-2xl aspect-square">
             <!-- PLACEHOLDER: Replace with a hero project image -->
             <img
-              src="dist/img/projects-featured.webp"
+              src="img/projects-featured.webp"
               alt="Featured project preview"
               class="w-full h-full object-cover"
               width="480"
@@ -255,7 +440,7 @@ include "partials/header.php";
               class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px]">
               <!-- PLACEHOLDER: Replace with your real project screenshot -->
               <img
-                src="dist/img/fruit/featured.webp"
+                src="img/fruit/featured.webp"
                 alt="Project One — replace with real screenshot"
                 class="project-card-img"
                 width="900"
@@ -314,7 +499,7 @@ include "partials/header.php";
                     </p>
                   </div>
                 </div>
-                <a href="fotl-case-study.php" class="btn-primary">
+                <a href="fotl-case-study.html" class="btn-primary">
                   View Case Study
                   <i
                     class="fa-solid fa-arrow-right text-xs"
@@ -391,7 +576,7 @@ include "partials/header.php";
                     </p>
                   </div>
                 </div>
-                <a href="case-study-template.php" class="btn-primary is-disabled">
+                <a href="case-study-template.html" class="btn-primary is-disabled">
                   Case Study Coming Soon
                 </a>
               </div>
@@ -402,7 +587,7 @@ include "partials/header.php";
               class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px] order-1 lg:order-2">
               <!-- PLACEHOLDER -->
               <img
-                src="dist/img/vfl/featured.webp"
+                src="img/vfl/featured.webp"
                 alt="Project Two — replace with real screenshot"
                 class="project-card-img"
                 width="900"
@@ -454,7 +639,7 @@ include "partials/header.php";
               class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px]">
               <!-- PLACEHOLDER -->
               <img
-                src="dist/img/ra/featured.webp"
+                src="img/ra/featured.webp"
                 alt="Project Three — replace with real screenshot"
                 class="project-card-img"
                 width="900"
@@ -511,7 +696,7 @@ include "partials/header.php";
                     </p>
                   </div>
                 </div>
-                <a href="case-study-template.php" class="btn-primary is-disabled">
+                <a href="case-study-template.html" class="btn-primary is-disabled">
                   Case Study Coming Soon
                 </a>
               </div>
@@ -584,7 +769,7 @@ include "partials/header.php";
                     </p>
                   </div>
                 </div>
-                <a href="case-study-template.php" class="btn-primary is-disabled">
+                <a href="case-study-template.html" class="btn-primary is-disabled">
                   Case Study Coming Soon
                 </a>
               </div>
@@ -595,7 +780,7 @@ include "partials/header.php";
               class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px] order-1 lg:order-2">
               <!-- PLACEHOLDER -->
               <img
-                src="dist/img/spalding/featured.webp"
+                src="img/spalding/featured.webp"
                 alt="Project Four — replace with real screenshot"
                 class="project-card-img"
                 width="900"
@@ -646,7 +831,7 @@ include "partials/header.php";
               class="relative overflow-hidden aspect-video lg:aspect-auto lg:min-h-[420px] xl:min-h-[500px]">
               <!-- PLACEHOLDER -->
               <img
-                src="dist/img/bj/featured.webp"
+                src="img/bj/featured.webp"
                 alt="Project Three — replace with real screenshot"
                 class="project-card-img"
                 width="900"
@@ -703,7 +888,7 @@ include "partials/header.php";
                     </p>
                   </div>
                 </div>
-                <a href="case-study-template.php" class="btn-primary is-disabled">
+                <a href="case-study-template.html" class="btn-primary is-disabled">
                   Case Study Coming Soon
                 </a>
               </div>
@@ -748,7 +933,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/my-star-brands.svg"
+              src="img/brand-logos/my-star-brands.svg"
               alt="MyStarBrands"
               width="100%"
             />
@@ -758,7 +943,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/jade-range.svg"
+              src="img/brand-logos/jade-range.svg"
               alt="Jade Range"
               width="max-content"
             />
@@ -768,7 +953,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/fruit-logo.svg"
+              src="img/brand-logos/fruit-logo.svg"
               alt="Fruit of the Loom"
               width="max-content"
             />
@@ -778,7 +963,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/russell-logo-wordmark.svg"
+              src="img/brand-logos/russell-logo-wordmark.svg"
               alt="Russellc Athletic"
               width="max-content"
             />
@@ -788,7 +973,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/spalding-logo-wordmark.svg"
+              src="img/brand-logos/spalding-logo-wordmark.svg"
               alt="Spalding"
               width="max-content"
             />
@@ -798,7 +983,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/vfl-logo.svg"
+              src="img/brand-logos/vfl-logo.svg"
               alt="Vanity Fair Lingerie"
               width="max-content"
             />
@@ -808,7 +993,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/bakers-pride.svg"
+              src="img/brand-logos/bakers-pride.svg"
               alt="Baker's Pride"
               width="100%"
             />
@@ -818,7 +1003,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/turbochef.svg"
+              src="img/brand-logos/turbochef.svg"
               alt="Turbochef"
               width="100%"
             />
@@ -828,7 +1013,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/wisersites.svg"
+              src="img/brand-logos/wisersites.svg"
               alt="Wiser Sites"
               width="100%"
             />
@@ -838,7 +1023,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/follett.svg"
+              src="img/brand-logos/follett.svg"
               alt="Follett"
               width="100%"
             />
@@ -848,7 +1033,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/adcraft.svg"
+              src="img/brand-logos/adcraft.svg"
               alt="Admiral Craft"
               width="100%"
             />
@@ -858,7 +1043,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/southbend.webp"
+              src="img/brand-logos/southbend.webp"
               alt="Southbend"
               width="100%"
             />
@@ -868,7 +1053,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/synesso.svg"
+              src="img/brand-logos/synesso.svg"
               alt="Synesso"
               width="100%"
             />
@@ -878,7 +1063,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/newton.svg"
+              src="img/brand-logos/newton.svg"
               alt="Newton Beverage Solutions"
               width="100%"
             />
@@ -888,7 +1073,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/lincat.svg"
+              src="img/brand-logos/lincat.svg"
               alt="Lincat"
               width="100%"
             />
@@ -898,7 +1083,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/savante.svg"
+              src="img/brand-logos/savante.svg"
               alt="Savante"
               width="100%"
             />
@@ -908,7 +1093,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/imperial.svg"
+              src="img/brand-logos/imperial.svg"
               alt="Imperial Range"
               width="100%"
             />
@@ -920,7 +1105,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/my-star-brands.svg"
+              src="img/brand-logos/my-star-brands.svg"
               alt="MyStarBrands"
               width="100%"
             />
@@ -930,7 +1115,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/jade-range.svg"
+              src="img/brand-logos/jade-range.svg"
               alt="Jade Range"
               width="max-content"
             />
@@ -940,7 +1125,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/fruit-logo.svg"
+              src="img/brand-logos/fruit-logo.svg"
               alt="Fruit of the Loom"
               width="max-content"
             />
@@ -950,7 +1135,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/russell-logo-wordmark.svg"
+              src="img/brand-logos/russell-logo-wordmark.svg"
               alt="Russellc Athletic"
               width="max-content"
             />
@@ -960,7 +1145,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/spalding-logo-wordmark.svg"
+              src="img/brand-logos/spalding-logo-wordmark.svg"
               alt="Spalding"
               width="max-content"
             />
@@ -970,7 +1155,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/vfl-logo.svg"
+              src="img/brand-logos/vfl-logo.svg"
               alt="Vanity Fair Lingerie"
               width="max-content"
             />
@@ -980,7 +1165,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/bakers-pride.svg"
+              src="img/brand-logos/bakers-pride.svg"
               alt="Baker's Pride"
               width="100%"
             />
@@ -990,7 +1175,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/turbochef.svg"
+              src="img/brand-logos/turbochef.svg"
               alt="Turbochef"
               width="100%"
             />
@@ -1000,7 +1185,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/wisersites.svg"
+              src="img/brand-logos/wisersites.svg"
               alt="Wiser Sites"
               width="100%"
             />
@@ -1010,7 +1195,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/follett.svg"
+              src="img/brand-logos/follett.svg"
               alt="Follett"
               width="100%"
             />
@@ -1020,7 +1205,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/adcraft.svg"
+              src="img/brand-logos/adcraft.svg"
               alt="Admiral Craft"
               width="100%"
             />
@@ -1030,7 +1215,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/southbend.webp"
+              src="img/brand-logos/southbend.webp"
               alt="Southbend"
               width="100%"
             />
@@ -1040,7 +1225,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/synesso.svg"
+              src="img/brand-logos/synesso.svg"
               alt="Synesso"
               width="100%"
             />
@@ -1050,7 +1235,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/newton.svg"
+              src="img/brand-logos/newton.svg"
               alt="Newton Beverage Solutions"
               width="100%"
             />
@@ -1060,7 +1245,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/lincat.svg"
+              src="img/brand-logos/lincat.svg"
               alt="Lincat"
               width="100%"
             />
@@ -1070,7 +1255,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/savante.svg"
+              src="img/brand-logos/savante.svg"
               alt="Savante"
               width="100%"
             />
@@ -1080,7 +1265,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/imperial.svg"
+              src="img/brand-logos/imperial.svg"
               alt="Imperial Range"
               width="100%"
             />
@@ -1096,7 +1281,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/my-star-brands.svg"
+              src="img/brand-logos/my-star-brands.svg"
               alt="MyStarBrands"
               width="100%"
             />
@@ -1106,7 +1291,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/jade-range.svg"
+              src="img/brand-logos/jade-range.svg"
               alt="Jade Range"
               width="max-content"
             />
@@ -1116,7 +1301,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/fruit-logo.svg"
+              src="img/brand-logos/fruit-logo.svg"
               alt="Fruit of the Loom"
               width="max-content"
             />
@@ -1126,7 +1311,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/russell-logo-wordmark.svg"
+              src="img/brand-logos/russell-logo-wordmark.svg"
               alt="Russellc Athletic"
               width="max-content"
             />
@@ -1136,7 +1321,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/spalding-logo-wordmark.svg"
+              src="img/brand-logos/spalding-logo-wordmark.svg"
               alt="Spalding"
               width="max-content"
             />
@@ -1146,7 +1331,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/vfl-logo.svg"
+              src="img/brand-logos/vfl-logo.svg"
               alt="Vanity Fair Lingerie"
               width="max-content"
             />
@@ -1156,7 +1341,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/bakers-pride.svg"
+              src="img/brand-logos/bakers-pride.svg"
               alt="Baker's Pride"
               width="100%"
             />
@@ -1166,7 +1351,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/turbochef.svg"
+              src="img/brand-logos/turbochef.svg"
               alt="Turbochef"
               width="100%"
             />
@@ -1176,7 +1361,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/wisersites.svg"
+              src="img/brand-logos/wisersites.svg"
               alt="Wiser Sites"
               width="100%"
             />
@@ -1186,7 +1371,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/follett.svg"
+              src="img/brand-logos/follett.svg"
               alt="Follett"
               width="100%"
             />
@@ -1196,7 +1381,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/adcraft.svg"
+              src="img/brand-logos/adcraft.svg"
               alt="Admiral Craft"
               width="100%"
             />
@@ -1206,7 +1391,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/southbend.webp"
+              src="img/brand-logos/southbend.webp"
               alt="Southbend"
               width="100%"
             />
@@ -1216,7 +1401,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/synesso.svg"
+              src="img/brand-logos/synesso.svg"
               alt="Synesso"
               width="100%"
             />
@@ -1226,7 +1411,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/newton.svg"
+              src="img/brand-logos/newton.svg"
               alt="Newton Beverage Solutions"
               width="100%"
             />
@@ -1236,7 +1421,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/lincat.svg"
+              src="img/brand-logos/lincat.svg"
               alt="Lincat"
               width="100%"
             />
@@ -1246,7 +1431,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/savante.svg"
+              src="img/brand-logos/savante.svg"
               alt="Savante"
               width="100%"
             />
@@ -1256,7 +1441,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/imperial.svg"
+              src="img/brand-logos/imperial.svg"
               alt="Imperial Range"
               width="100%"
             />
@@ -1268,7 +1453,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/my-star-brands.svg"
+              src="img/brand-logos/my-star-brands.svg"
               alt="MyStarBrands"
               width="100%"
             />
@@ -1278,7 +1463,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/jade-range.svg"
+              src="img/brand-logos/jade-range.svg"
               alt="Jade Range"
               width="max-content"
             />
@@ -1288,7 +1473,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/fruit-logo.svg"
+              src="img/brand-logos/fruit-logo.svg"
               alt="Fruit of the Loom"
               width="max-content"
             />
@@ -1298,7 +1483,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/russell-logo-wordmark.svg"
+              src="img/brand-logos/russell-logo-wordmark.svg"
               alt="Russellc Athletic"
               width="max-content"
             />
@@ -1308,7 +1493,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/spalding-logo-wordmark.svg"
+              src="img/brand-logos/spalding-logo-wordmark.svg"
               alt="Spalding"
               width="max-content"
             />
@@ -1318,7 +1503,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/vfl-logo.svg"
+              src="img/brand-logos/vfl-logo.svg"
               alt="Vanity Fair Lingerie"
               width="max-content"
             />
@@ -1328,7 +1513,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/bakers-pride.svg"
+              src="img/brand-logos/bakers-pride.svg"
               alt="Baker's Pride"
               width="100%"
             />
@@ -1338,7 +1523,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/turbochef.svg"
+              src="img/brand-logos/turbochef.svg"
               alt="Turbochef"
               width="100%"
             />
@@ -1348,7 +1533,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/wisersites.svg"
+              src="img/brand-logos/wisersites.svg"
               alt="Wiser Sites"
               width="100%"
             />
@@ -1358,7 +1543,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/follett.svg"
+              src="img/brand-logos/follett.svg"
               alt="Follett"
               width="100%"
             />
@@ -1368,7 +1553,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/adcraft.svg"
+              src="img/brand-logos/adcraft.svg"
               alt="Admiral Craft"
               width="100%"
             />
@@ -1378,7 +1563,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/southbend.webp"
+              src="img/brand-logos/southbend.webp"
               alt="Southbend"
               width="100%"
             />
@@ -1388,7 +1573,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/synesso.svg"
+              src="img/brand-logos/synesso.svg"
               alt="Synesso"
               width="100%"
             />
@@ -1398,7 +1583,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/newton.svg"
+              src="img/brand-logos/newton.svg"
               alt="Newton Beverage Solutions"
               width="100%"
             />
@@ -1408,7 +1593,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/lincat.svg"
+              src="img/brand-logos/lincat.svg"
               alt="Lincat"
               width="100%"
             />
@@ -1418,7 +1603,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/savante.svg"
+              src="img/brand-logos/savante.svg"
               alt="Savante"
               width="100%"
             />
@@ -1428,7 +1613,7 @@ include "partials/header.php";
         <div class="logo-item" role="listitem" aria-hidden="true">
           <div class="logo-item-inner">
             <img
-              src="dist/img/brand-logos/imperial.svg"
+              src="img/brand-logos/imperial.svg"
               alt="Imperial Range"
               width="100%"
             />
@@ -1484,14 +1669,14 @@ include "partials/header.php";
             starts with a conversation.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="contact.php" class="btn-primary">
+            <a href="contact.html" class="btn-primary">
               Start the Conversation
               <i
                 class="fa-solid fa-arrow-right text-xs"
                 aria-hidden="true"
               ></i>
             </a>
-            <a href="about.php" class="btn-outline">Learn More About Me</a>
+            <a href="about.html" class="btn-outline">Learn More About Me</a>
           </div>
         </div>
       </div>
@@ -1499,4 +1684,104 @@ include "partials/header.php";
   </section>
 </main>
 
-<?php include "partials/footer.php"; ?>
+    <footer class="site-footer" role="contentinfo">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 py-14 lg:py-16">
+        <!-- Footer top: 3-column grid -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-ink-800">
+          <!-- Brand column -->
+          <div>
+            <a
+              href="index.html"
+              class="inline-flex items-baseline mb-4 group"
+              aria-label="Clay — Home">
+              <span
+                class="font-heading font-bold text-fluid-2xl text-ink-50 leading-none transition-colors group-hover:text-flame-400"
+                >Clay</span>
+              <span
+                class="font-heading font-bold text-fluid-2xl text-flame-500 leading-none"
+                >.</span>
+            </a>
+            <p class="text-fluid-sm text-ink-300 leading-relaxed mb-6">
+              Web UI/UX Designer &amp; Front-End Developer crafting modern
+              digital experiences.
+            </p>
+            <div class="flex gap-3">
+              <a
+                href="http://linkedin.com/in/clay-cauley"
+                class="social-btn"
+                aria-label="LinkedIn"
+                target="_blank"
+                ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+              ></a>
+            </div>
+          </div>
+
+          <!-- Navigation column -->
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5">
+              Navigate
+            </h4>
+            <ul class="flex flex-col gap-3" role="list">
+              <li><a href="index.html"    class="footer-link">Home</a></li>
+              <li><a href="about.html"    class="footer-link">About</a></li>
+              <li><a href="projects.html" class="footer-link">Projects</a></li>
+              <li><a href="contact.html"  class="footer-link">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact column -->
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5">
+              Get In Touch
+            </h4>
+            <ul class="flex flex-col gap-4" role="list">
+              <li class="flex items-center gap-3 group">
+                <i
+                  class="fa-solid fa-envelope text-flame-700 group-hover:text-flame-500 transition-colors w-4 text-center shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <button
+                  type="button"
+                  data-copy-email="hello@claydesigns.cc"
+                  class="footer-link relative inline-block text-left">
+                  hello@claydesigns.cc
+                </button>
+              </li>
+              <li>
+                <a
+                  href="contact.html"
+                  class="footer-link flex items-center gap-3 group">
+                  <i
+                    class="fa-solid fa-comment-dots text-flame-700 group-hover:text-flame-500 transition-colors w-4 text-center shrink-0"
+                    aria-hidden="true"
+                  ></i>
+                  Start a project
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer bottom -->
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8">
+          <p class="text-fluid-xs text-ink-300">
+            &copy; <span id="footer-year">2026</span> Clay. All rights reserved.
+          </p>
+          <p class="text-fluid-xs text-ink-300">
+            Designed &amp; Built by Clay
+            <i
+              class="fa-solid fa-heart text-flame-700 ml-1"
+              aria-label="with love"
+            ></i>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

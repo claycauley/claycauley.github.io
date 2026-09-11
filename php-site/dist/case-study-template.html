@@ -1,10 +1,194 @@
-<?php
-$pageTitle = "Fruit of the Loom Case Study | Clay";
-$pageDescription =
-    "Fruit of the Loom website redesign and platform migration — Clay Case Study.";
-$currentPage = "projects";
-include "partials/header.php";
-?>
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Case Study — Clay | Web Designer &amp;amp; Front-End Developer."
+    />
+    <title>Case Study | Clay</title>
+
+    <!-- Google Fonts: Space Grotesk + Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Font Awesome 6 Free -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Compiled Tailwind CSS -->
+    <link rel="stylesheet" href="css/main.css" />
+
+      </head>
+
+    <body class="bg-ink-950 text-ink-100 font-body overflow-x-hidden">
+    <!-- Skip to main content (accessibility) -->
+    <a
+      href="#main-content"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-flame-500 focus:text-ink-950 focus:font-heading focus:font-semibold focus:rounded-lg focus:shadow-lg">
+      Skip to main content
+    </a>
+
+    <!-- ====================================================================
+       GLOBAL HEADER
+       ==================================================================== -->
+    <header class="site-header" id="site-header" role="banner">
+      <!-- Logo -->
+      <a
+        href="index.html"
+        class="flex items-center shrink-0 group"
+        aria-label="Clay — Return to homepage">
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 tracking-tight leading-none transition-colors duration-300 group-hover:text-ink-100"
+          >Clay</span>
+        <span
+          class="font-heading font-bold text-fluid-xl text-flame-500 leading-none"
+          >.</span>
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav
+        class="hidden lg:flex items-center gap-8"
+        aria-label="Primary navigation">
+        <a href="index.html"    class="nav-link ">Home</a>
+        <a href="about.html"    class="nav-link ">About</a>
+        <a href="projects.html" class="nav-link active" aria-current="page">Projects</a>
+        <a href="contact.html"  class="nav-link ">Contact</a>
+      </nav>
+
+      <!-- CTA + Hamburger -->
+      <div class="flex items-center gap-3">
+        <a
+          href="contact.html"
+          class="btn-primary hidden md:inline-flex"
+          aria-label="Contact Clay">
+          Let's Talk
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+        </a>
+
+        <button
+          id="hamburger-btn"
+          class="hamburger-btn lg:hidden"
+          aria-label="Toggle navigation menu"
+          aria-expanded="false"
+          aria-controls="mobile-drawer">
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- ====================================================================
+       MOBILE MENU
+       ==================================================================== -->
+
+    <div id="mobile-overlay" class="mobile-overlay" aria-hidden="true"></div>
+
+    <aside
+      id="mobile-drawer"
+      class="mobile-drawer"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Site navigation">
+      <!-- Drawer header -->
+      <div class="flex items-center justify-between mb-8">
+        <span
+          class="font-heading font-bold text-fluid-xl text-ink-50 leading-none">
+          Clay<span class="text-flame-500">.</span>
+        </span>
+        <button
+          id="mobile-close"
+          class="flex items-center justify-center w-9 h-9 rounded-lg bg-ink-800 hover:bg-ink-700 text-ink-300 transition-colors duration-200"
+          aria-label="Close navigation menu">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+
+      <!-- Drawer links -->
+      <nav class="flex-1" aria-label="Mobile navigation">
+        <ul class="flex flex-col gap-1" role="list">
+          <li>
+            <a
+              href="index.html"
+              class="mobile-nav-link "
+              >
+              <i
+                class="fa-solid fa-house w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href="about.html"
+              class="mobile-nav-link "
+              >
+              <i
+                class="fa-solid fa-user w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              About
+            </a>
+          </li>
+          <li>
+            <a
+              href="projects.html"
+              class="mobile-nav-link active"
+              aria-current="page">
+              <i
+                class="fa-solid fa-layer-group w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              Projects
+            </a>
+          </li>
+          <li>
+            <a
+              href="contact.html"
+              class="mobile-nav-link "
+              >
+              <i
+                class="fa-solid fa-envelope w-5 text-center shrink-0 text-fluid-sm"
+                aria-hidden="true"
+              ></i>
+              Contact
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Drawer footer -->
+      <div class="mt-auto pt-6 border-t border-ink-800">
+        <a href="contact.html" class="btn-primary w-full mb-6 mobile-nav-link">
+          Let's Work Together
+          <i class="fa-solid fa-arrow-right text-xs" aria-hidden="true"></i>
+        </a>
+        <div class="flex items-center justify-center gap-3">
+          <a href="#" class="social-btn" aria-label="LinkedIn"
+            ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="GitHub"
+            ><i class="fa-brands fa-github" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="Dribbble"
+            ><i class="fa-brands fa-dribbble" aria-hidden="true"></i
+          ></a>
+          <a href="#" class="social-btn" aria-label="X / Twitter"
+            ><i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+          ></a>
+        </div>
+      </div>
+    </aside>
 
 <main id="main-content">
   <!-- ================================================================
@@ -18,7 +202,7 @@ include "partials/header.php";
     <div class="absolute inset-0" aria-hidden="true">
       <!-- PLACEHOLDER: Replace with your project's hero/banner image -->
       <img
-        src="dist/img/fruit/hero.webp"
+        src="https://placehold.co/1920x1080/12100E/1F1614?text=Project+Hero+Image"
         alt=""
         class="w-full h-full object-cover"
         width="1920"
@@ -40,19 +224,15 @@ include "partials/header.php";
     <div
       class="relative z-10 flex items-center justify-between px-6 lg:px-12 pt-24 lg:pt-28">
       <a
-        href="projects.php"
+        href="projects.html"
         class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-ink-950/70 border border-ink-700/60 backdrop-blur-sm text-fluid-sm font-heading font-semibold text-ink-200 hover:text-flame-500 hover:border-flame-500/50 transition-all duration-200">
         <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>
-        View All
+        All Projects
       </a>
       <div class="flex flex-wrap gap-2 justify-end hidden lg:block">
         <!-- PLACEHOLDER: Replace with your real project categories -->
-        <span class="skill-tag">Figma</span>
         <span class="skill-tag">Web Design</span>
-        <span class="skill-tag">UI/UX</span>
         <span class="skill-tag">Front-End Dev</span>
-        <span class="skill-tag">E-Commerce</span>
-        <span class="skill-tag">React.js</span>
       </div>
     </div>
 
@@ -64,16 +244,16 @@ include "partials/header.php";
           class="font-heading font-bold leading-[1.04] tracking-tight mb-5">
           <!-- PLACEHOLDER: Replace with your project title -->
           <span class="block text-fluid-display text-ink-50"
-            >Fruit of the Loom</span>
+            >Project Title</span>
           <span class="block text-fluid-display text-flame-500"
-            >Case Study</span>
+            >Goes Right Here</span>
         </h1>
         <!-- One-line tagline -->
         <!-- PLACEHOLDER: One sentence capturing what this project was -->
         <p
           class="text-fluid-xl text-ink-300 max-w-2xl mb-8 leading-relaxed">
-          A complete website redesign and platform migration for Fruit of
-          the Loom, shifting business focus and increasing site speed.
+          A compelling one-liner that captures the scope of this project,
+          who it was for, and why it moved the needle.
         </p>
         <!-- Meta pills -->
         <div class="flex flex-wrap gap-3">
@@ -86,7 +266,7 @@ include "partials/header.php";
             ></i>
             <span
               class="font-heading font-semibold text-fluid-xs text-ink-200"
-              >Fruit of the Loom</span>
+              >Client Name</span>
           </div>
           <div
             class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-ink-700 rounded-full px-4 py-2">
@@ -96,7 +276,7 @@ include "partials/header.php";
             ></i>
             <span
               class="font-heading font-semibold text-fluid-xs text-ink-200"
-              >2023</span>
+              >2024</span>
           </div>
           <div
             class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-ink-700 rounded-full px-4 py-2">
@@ -106,13 +286,12 @@ include "partials/header.php";
             ></i>
             <span
               class="font-heading font-semibold text-fluid-xs text-ink-200"
-              >5 Months</span>
+              >3 Months</span>
           </div>
           <!-- PLACEHOLDER: Add real live URL -->
           <a
-            href="http://www.fruit.com"
-            class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-flame-600/40 rounded-full px-4 py-2 hover:border-flame-500 transition-colors duration-200"
-            target="_blank">
+            href="#"
+            class="flex items-center gap-2 bg-ink-900/80 backdrop-blur-sm border border-flame-600/40 rounded-full px-4 py-2 hover:border-flame-500 transition-colors duration-200">
             <i
               class="fa-solid fa-globe text-flame-500 text-xs"
               aria-hidden="true"
@@ -151,18 +330,18 @@ include "partials/header.php";
         </p>
         <!-- PLACEHOLDER -->
         <p class="font-heading font-semibold text-fluid-base text-ink-100">
-          Fruit of the Loom
+          Company Name
         </p>
       </div>
 
       <div class="fade-in-up" data-delay="1">
         <p
           class="text-fluid-xs text-ink-300 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
-          Skills
+          Services
         </p>
         <!-- PLACEHOLDER -->
         <p class="font-heading font-semibold text-fluid-base text-ink-100">
-          Figma, Web Design, &amp; React.js
+          Web Design &amp; Dev
         </p>
       </div>
 
@@ -173,7 +352,7 @@ include "partials/header.php";
         </p>
         <!-- PLACEHOLDER -->
         <p class="font-heading font-semibold text-fluid-base text-ink-100">
-          Mar &ndash; July 2023
+          Jan &ndash; Mar 2024
         </p>
       </div>
 
@@ -184,7 +363,7 @@ include "partials/header.php";
         </p>
         <!-- PLACEHOLDER -->
         <p class="font-heading font-semibold text-fluid-base text-ink-100">
-          B2C E-Commerce
+          Your Industry
         </p>
       </div>
     </div>
@@ -208,39 +387,21 @@ include "partials/header.php";
           </h2>
           <!-- PLACEHOLDER: Replace all three paragraphs below -->
           <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
-            It's probably safe to say that most people know who Fruit of the
-            Loom is and the business they’re in, but for those who don’t,
-            here’s the quick context: Fruit of the Loom is a major player in
-            the apparel industry, known for their wide range of clothing
-            essentials. However, their online presence was outdated and not
-            reflective of their brand’s evolution towards sustainability and
-            innovation. The goal of this project was to completely redesign
-            their website and migrate it to a new platform, improving site
-            speed, user experience, and altering their current look at how
-            they run their e-commerce business.
+            Start with the big picture — who the client is, what their
+            business does, and where they were when this engagement began.
+            Give readers enough context to understand why this project
+            existed and what was at stake for the people involved.
           </p>
           <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
-            For me, this project was a great opportunity to learn new
-            skills. As part of a two person design team colloborating with a
-            larger group of developers and marketing team, I was responsible
-            for leading the design and front-end development of the new
-            site. This meant everything from design systems, wireframing and
-            prototyping in Figma to coding responsive layouts and
-            interactive components in React.js. It was a challenging but
-            rewarding experience that allowed me to grow as both a designer
-            and developer. Working closely with senior software engineers
-            also gave me valuable insight into the technical considerations
-            and constraints of web development, which informed my design
-            decisions and helped me create a more cohesive final product.
+            Be specific about your role. Were you the sole designer and
+            developer, part of a larger team, or leading a group of
+            collaborators? Clarity about your individual contribution is
+            essential when prospective clients are evaluating your work.
           </p>
           <p class="text-fluid-base text-ink-300 leading-[1.85]">
-            Once we completed the project, seeing the actual real world
-            impact of our work was fully rewarding. The new site not only
-            looked great but also performed significantly better, with
-            faster load times and a smoother user experience. Having built
-            something to also make the jobs of the marketing teams easier by
-            creating a more flexible design system and reusable components
-            was an added bonus.
+            Close the overview with the high-level outcome — a teaser of the
+            impact this project had. The full results section comes later,
+            but give readers a compelling reason to keep scrolling.
           </p>
         </div>
 
@@ -268,7 +429,7 @@ include "partials/header.php";
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
-                    Fruit of the Loom
+                    Company Name Here
                   </p>
                 </div>
               </li>
@@ -286,7 +447,7 @@ include "partials/header.php";
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
-                    Designer &amp; Front-End Developer
+                    Lead Designer &amp; Developer
                   </p>
                 </div>
               </li>
@@ -304,7 +465,7 @@ include "partials/header.php";
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
-                    5 Months (Mar &ndash; July 2023)
+                    3 Months (Jan &ndash; Mar 2024)
                   </p>
                 </div>
               </li>
@@ -324,7 +485,7 @@ include "partials/header.php";
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
-                    Figma, HTML, CSS, JS, React.js
+                    HTML, CSS, JS, Figma
                   </p>
                 </div>
               </li>
@@ -341,9 +502,8 @@ include "partials/header.php";
                   <p class="text-fluid-xs text-ink-300 mb-0.5">Live URL</p>
                   <!-- PLACEHOLDER: Add real URL -->
                   <a
-                    href="http://www.fruit.com"
-                    class="font-heading font-semibold text-fluid-sm text-flame-500 hover:text-flame-400 transition-colors"
-                    target="_blank">
+                    href="#"
+                    class="font-heading font-semibold text-fluid-sm text-flame-500 hover:text-flame-400 transition-colors">
                     Visit Website ↗
                   </a>
                 </div>
@@ -376,16 +536,11 @@ include "partials/header.php";
 
           <!-- PLACEHOLDER: Describe the core problem in detail -->
           <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
-            The old Fruit of the Loom website was not only visually outdated
-            but also suffered from slow load times and a clunky user
-            experience. Users were frustrated at how long it took for pages
-            to load, especially on mobile devices, which led to high bounce
-            rates and lost sales. Additionally, the site’s information
-            architecture was confusing, making it difficult for customers to
-            find products and complete purchases. The challenge was to
-            completely overhaul the website’s design and underlying codebase
-            to create a faster, more intuitive shopping experience that also
-            aligned with the brand’s new focus and e-commerce strategy.
+            Describe the core challenge this project was brought in to
+            address. What was the client struggling with? What was
+            underperforming, broken, or simply missing? Paint a clear
+            picture of the "before" state so readers appreciate the gap
+            between where things were and where they needed to be.
           </p>
 
           <!-- Pull quote — key insight or the brief in a nutshell -->
@@ -394,24 +549,19 @@ include "partials/header.php";
             <!-- PLACEHOLDER: A key insight or the client's brief in their own words -->
             <p
               class="font-heading font-semibold text-fluid-xl text-ink-100 leading-snug italic">
-              "Checkout should be a breeze, not a barrier. Customers get
-              frustrated easily and if you won't let them checkout, they'll
-              just go somewhere else that will."
+              "Replace this with a quote that captures the heart of the
+              challenge — from the client brief, a discovery session, or
+              your own insight going into the project."
             </p>
           </blockquote>
 
           <!-- PLACEHOLDER: Expand on root causes, context, and constraints -->
           <p class="text-fluid-base text-ink-300 leading-[1.85]">
-            As Fruit of the Loom proper was shifting away from selling
-            products direct to consumers, we needed a way to push our
-            customers to our partners where they could buy our products,
-            while still providing a compelling and branded experience on our
-            own site. This meant rethinking the entire user flow and
-            information architecture of the site, as well as implementing a
-            new design that better reflected the brand’s evolution.
-            Additionally, we had to work within the constraints of a tight
-            timeline and rebuilding the entire codebase, adding an extra
-            layer of complexity to the project.
+            Go deeper on the underlying causes and business context. Why was
+            this a priority now? What had been tried before, if anything?
+            What were the key constraints — budget, timeline, technical, or
+            organizational? A thorough diagnosis is what separates good
+            solutions from great ones.
           </p>
         </div>
 
@@ -423,7 +573,7 @@ include "partials/header.php";
           <div class="cs-gallery-item aspect-[4/3]">
             <!-- PLACEHOLDER: Before-state screenshot, whiteboard photo, brief, etc. -->
             <img
-              src="dist/img/fruit/problem.webp"
+              src="https://placehold.co/700x525/1F1614/2A1810?text=Context+Image"
               alt="Project context — replace with a real before-state or research image"
               width="700"
               height="525"
@@ -444,7 +594,7 @@ include "partials/header.php";
                   aria-hidden="true"
                 ></i>
                 <p class="text-fluid-sm text-ink-300">
-                  Tight deadline with no room for extension
+                  Tight 3-month deadline with no room for extension
                 </p>
               </li>
               <li class="flex items-start gap-3">
@@ -453,7 +603,7 @@ include "partials/header.php";
                   aria-hidden="true"
                 ></i>
                 <p class="text-fluid-sm text-ink-300">
-                  Brand new codebase &amp; framework
+                  Legacy codebase with minimal documentation to inherit
                 </p>
               </li>
               <li class="flex items-start gap-3">
@@ -462,7 +612,7 @@ include "partials/header.php";
                   aria-hidden="true"
                 ></i>
                 <p class="text-fluid-sm text-ink-300">
-                  Simultaneous project alongside 3 others
+                  Replace with a real constraint specific to this project
                 </p>
               </li>
             </ul>
@@ -988,7 +1138,7 @@ include "partials/header.php";
   <section class="section" aria-label="More projects">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Nav header -->
-      <<div class="mb-8 fade-in-up">
+      <div class="mb-8 fade-in-up">
         <p class="section-label">More Work</p>
       </div>
 
@@ -996,7 +1146,7 @@ include "partials/header.php";
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-14 fade-in-up">
         <!-- Previous project card -->
         <a
-          href="case-study-template.php"
+          href="case-study-template.html"
           class="group relative rounded-2xl border border-ink-800 overflow-hidden hover:border-flame-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(232,98,30,0.08)]">
           <div class="absolute inset-0">
             <!-- PLACEHOLDER: Replace with prev project thumbnail -->
@@ -1031,7 +1181,7 @@ include "partials/header.php";
 
         <!-- Next project card -->
         <a
-          href="case-study-template.php"
+          href="case-study-template.html"
           class="group relative rounded-2xl border border-ink-800 overflow-hidden hover:border-flame-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(232,98,30,0.08)]">
           <div class="absolute inset-0">
             <!-- PLACEHOLDER: Replace with next project thumbnail -->
@@ -1104,14 +1254,14 @@ include "partials/header.php";
             collaboration starts with a good conversation.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="contact.php" class="btn-primary">
+            <a href="contact.html" class="btn-primary">
               Start the Conversation
               <i
                 class="fa-solid fa-arrow-right text-xs"
                 aria-hidden="true"
               ></i>
             </a>
-            <a href="projects.php" class="btn-outline">All Projects</a>
+            <a href="projects.html" class="btn-outline">All Projects</a>
           </div>
         </div>
       </div>
@@ -1119,4 +1269,104 @@ include "partials/header.php";
   </section>
 </main>
 
-<?php include "partials/footer.php"; ?>
+    <footer class="site-footer" role="contentinfo">
+      <div class="max-w-7xl mx-auto px-6 lg:px-12 py-14 lg:py-16">
+        <!-- Footer top: 3-column grid -->
+        <div
+          class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-ink-800">
+          <!-- Brand column -->
+          <div>
+            <a
+              href="index.html"
+              class="inline-flex items-baseline mb-4 group"
+              aria-label="Clay — Home">
+              <span
+                class="font-heading font-bold text-fluid-2xl text-ink-50 leading-none transition-colors group-hover:text-flame-400"
+                >Clay</span>
+              <span
+                class="font-heading font-bold text-fluid-2xl text-flame-500 leading-none"
+                >.</span>
+            </a>
+            <p class="text-fluid-sm text-ink-300 leading-relaxed mb-6">
+              Web UI/UX Designer &amp; Front-End Developer crafting modern
+              digital experiences.
+            </p>
+            <div class="flex gap-3">
+              <a
+                href="http://linkedin.com/in/clay-cauley"
+                class="social-btn"
+                aria-label="LinkedIn"
+                target="_blank"
+                ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
+              ></a>
+            </div>
+          </div>
+
+          <!-- Navigation column -->
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5">
+              Navigate
+            </h4>
+            <ul class="flex flex-col gap-3" role="list">
+              <li><a href="index.html"    class="footer-link">Home</a></li>
+              <li><a href="about.html"    class="footer-link">About</a></li>
+              <li><a href="projects.html" class="footer-link">Projects</a></li>
+              <li><a href="contact.html"  class="footer-link">Contact</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact column -->
+          <div>
+            <h4
+              class="font-heading font-semibold text-fluid-xs text-ink-200 uppercase tracking-[0.15em] mb-5">
+              Get In Touch
+            </h4>
+            <ul class="flex flex-col gap-4" role="list">
+              <li class="flex items-center gap-3 group">
+                <i
+                  class="fa-solid fa-envelope text-flame-700 group-hover:text-flame-500 transition-colors w-4 text-center shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <button
+                  type="button"
+                  data-copy-email="hello@claydesigns.cc"
+                  class="footer-link relative inline-block text-left">
+                  hello@claydesigns.cc
+                </button>
+              </li>
+              <li>
+                <a
+                  href="contact.html"
+                  class="footer-link flex items-center gap-3 group">
+                  <i
+                    class="fa-solid fa-comment-dots text-flame-700 group-hover:text-flame-500 transition-colors w-4 text-center shrink-0"
+                    aria-hidden="true"
+                  ></i>
+                  Start a project
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Footer bottom -->
+        <div
+          class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8">
+          <p class="text-fluid-xs text-ink-300">
+            &copy; <span id="footer-year">2026</span> Clay. All rights reserved.
+          </p>
+          <p class="text-fluid-xs text-ink-300">
+            Designed &amp; Built by Clay
+            <i
+              class="fa-solid fa-heart text-flame-700 ml-1"
+              aria-label="with love"
+            ></i>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

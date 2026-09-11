@@ -16,7 +16,7 @@
                 class="font-heading font-bold text-fluid-2xl text-flame-500 leading-none"
                 >.</span>
             </a>
-            <p class="text-fluid-sm text-ink-400 leading-relaxed mb-6">
+            <p class="text-fluid-sm text-ink-300 leading-relaxed mb-6">
               Web UI/UX Designer &amp; Front-End Developer crafting modern
               digital experiences.
             </p>
@@ -52,16 +52,17 @@
               Get In Touch
             </h4>
             <ul class="flex flex-col gap-4" role="list">
-              <li>
-                <a
-                  href="mailto:hello@claydesigns.cc"
-                  class="footer-link flex items-center gap-3 group">
-                  <i
-                    class="fa-solid fa-envelope text-flame-700 group-hover:text-flame-500 transition-colors w-4 text-center shrink-0"
-                    aria-hidden="true"
-                  ></i>
+              <li class="flex items-center gap-3 group">
+                <i
+                  class="fa-solid fa-envelope text-flame-700 group-hover:text-flame-500 transition-colors w-4 text-center shrink-0"
+                  aria-hidden="true"
+                ></i>
+                <button
+                  type="button"
+                  data-copy-email="hello@claydesigns.cc"
+                  class="footer-link relative inline-block text-left">
                   hello@claydesigns.cc
-                </a>
+                </button>
               </li>
               <li>
                 <a
@@ -81,12 +82,12 @@
         <!-- Footer bottom -->
         <div
           class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-8">
-          <p class="text-fluid-xs text-ink-500">
+          <p class="text-fluid-xs text-ink-300">
             &copy; <span id="footer-year"><?= date(
                 "Y",
             ) ?></span> Clay. All rights reserved.
           </p>
-          <p class="text-fluid-xs text-ink-500">
+          <p class="text-fluid-xs text-ink-300">
             Designed &amp; Built by Clay
             <i
               class="fa-solid fa-heart text-flame-700 ml-1"

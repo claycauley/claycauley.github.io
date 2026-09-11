@@ -45,7 +45,7 @@ include "partials/header.php";
         <i class="fa-solid fa-arrow-left text-xs" aria-hidden="true"></i>
         All Projects
       </a>
-      <div class="flex flex-wrap gap-2 justify-end">
+      <div class="flex flex-wrap gap-2 justify-end hidden lg:block">
         <!-- PLACEHOLDER: Replace with your real project categories -->
         <span class="skill-tag">Web Design</span>
         <span class="skill-tag">Front-End Dev</span>
@@ -55,11 +55,6 @@ include "partials/header.php";
     <!-- Content: flows to bottom of viewport -->
     <div class="relative z-10 mt-8 lg:mt-auto px-6 lg:px-12 pb-12 lg:pb-20">
       <div class="max-w-7xl mx-auto">
-        <!-- Case study label -->
-        <p class="section-label mb-5">
-          <!-- PLACEHOLDER: Update number -->
-          Case Study &mdash; 01
-        </p>
         <!-- Project title -->
         <h1
           class="font-heading font-bold leading-[1.04] tracking-tight mb-5">
@@ -130,7 +125,7 @@ include "partials/header.php";
       class="scroll-hint absolute bottom-5 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-1.5 opacity-40 pointer-events-none"
       aria-hidden="true">
       <span
-        class="font-body text-ink-500 text-fluid-xs tracking-[0.2em] uppercase"
+        class="font-body text-ink-300 text-fluid-xs tracking-[0.2em] uppercase"
         >Scroll</span>
       <i
         class="fa-solid fa-chevron-down text-flame-500 text-xs animate-bounce"
@@ -146,7 +141,7 @@ include "partials/header.php";
       class="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 py-10 border-y border-ink-800">
       <div class="fade-in-up">
         <p
-          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          class="text-fluid-xs text-ink-300 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
           Client
         </p>
         <!-- PLACEHOLDER -->
@@ -157,7 +152,7 @@ include "partials/header.php";
 
       <div class="fade-in-up" data-delay="1">
         <p
-          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          class="text-fluid-xs text-ink-300 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
           Services
         </p>
         <!-- PLACEHOLDER -->
@@ -168,7 +163,7 @@ include "partials/header.php";
 
       <div class="fade-in-up" data-delay="2">
         <p
-          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          class="text-fluid-xs text-ink-300 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
           Timeline
         </p>
         <!-- PLACEHOLDER -->
@@ -179,7 +174,7 @@ include "partials/header.php";
 
       <div class="fade-in-up" data-delay="3">
         <p
-          class="text-fluid-xs text-ink-400 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
+          class="text-fluid-xs text-ink-300 font-heading font-semibold uppercase tracking-[0.18em] mb-2">
           Industry
         </p>
         <!-- PLACEHOLDER -->
@@ -207,19 +202,19 @@ include "partials/header.php";
             <span class="text-flame-500">Picture</span>
           </h2>
           <!-- PLACEHOLDER: Replace all three paragraphs below -->
-          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+          <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
             Start with the big picture — who the client is, what their
             business does, and where they were when this engagement began.
             Give readers enough context to understand why this project
             existed and what was at stake for the people involved.
           </p>
-          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+          <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
             Be specific about your role. Were you the sole designer and
             developer, part of a larger team, or leading a group of
             collaborators? Clarity about your individual contribution is
             essential when prospective clients are evaluating your work.
           </p>
-          <p class="text-fluid-base text-ink-400 leading-[1.85]">
+          <p class="text-fluid-base text-ink-300 leading-[1.85]">
             Close the overview with the high-level outcome — a teaser of the
             impact this project had. The full results section comes later,
             but give readers a compelling reason to keep scrolling.
@@ -233,7 +228,7 @@ include "partials/header.php";
           <div
             class="p-6 xl:p-8 rounded-2xl bg-ink-900 border border-ink-800">
             <h3
-              class="font-heading font-semibold text-fluid-xs text-ink-400 uppercase tracking-[0.15em] mb-5">
+              class="font-heading font-semibold text-fluid-xs text-ink-300 uppercase tracking-[0.15em] mb-5">
               Project Details
             </h3>
             <ul class="flex flex-col divide-y divide-ink-800" role="list">
@@ -246,7 +241,7 @@ include "partials/header.php";
                   ></i>
                 </span>
                 <div>
-                  <p class="text-fluid-xs text-ink-400 mb-0.5">Client</p>
+                  <p class="text-fluid-xs text-ink-300 mb-0.5">Client</p>
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
@@ -264,7 +259,7 @@ include "partials/header.php";
                   ></i>
                 </span>
                 <div>
-                  <p class="text-fluid-xs text-ink-400 mb-0.5">My Role</p>
+                  <p class="text-fluid-xs text-ink-300 mb-0.5">My Role</p>
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
@@ -282,7 +277,7 @@ include "partials/header.php";
                   ></i>
                 </span>
                 <div>
-                  <p class="text-fluid-xs text-ink-400 mb-0.5">Timeline</p>
+                  <p class="text-fluid-xs text-ink-300 mb-0.5">Timeline</p>
                   <!-- PLACEHOLDER -->
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-100">
@@ -300,7 +295,7 @@ include "partials/header.php";
                   ></i>
                 </span>
                 <div>
-                  <p class="text-fluid-xs text-ink-400 mb-0.5">
+                  <p class="text-fluid-xs text-ink-300 mb-0.5">
                     Technologies
                   </p>
                   <!-- PLACEHOLDER -->
@@ -320,7 +315,7 @@ include "partials/header.php";
                   ></i>
                 </span>
                 <div>
-                  <p class="text-fluid-xs text-ink-400 mb-0.5">Live URL</p>
+                  <p class="text-fluid-xs text-ink-300 mb-0.5">Live URL</p>
                   <!-- PLACEHOLDER: Add real URL -->
                   <a
                     href="#"
@@ -356,7 +351,7 @@ include "partials/header.php";
           </h2>
 
           <!-- PLACEHOLDER: Describe the core problem in detail -->
-          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+          <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
             Describe the core challenge this project was brought in to
             address. What was the client struggling with? What was
             underperforming, broken, or simply missing? Paint a clear
@@ -377,7 +372,7 @@ include "partials/header.php";
           </blockquote>
 
           <!-- PLACEHOLDER: Expand on root causes, context, and constraints -->
-          <p class="text-fluid-base text-ink-400 leading-[1.85]">
+          <p class="text-fluid-base text-ink-300 leading-[1.85]">
             Go deeper on the underlying causes and business context. Why was
             this a priority now? What had been tried before, if anything?
             What were the key constraints — budget, timeline, technical, or
@@ -404,7 +399,7 @@ include "partials/header.php";
           <!-- Key constraints card -->
           <div class="p-6 rounded-2xl bg-ink-900 border border-ink-800">
             <h3
-              class="font-heading font-semibold text-fluid-xs text-ink-400 uppercase tracking-[0.15em] mb-4">
+              class="font-heading font-semibold text-fluid-xs text-ink-300 uppercase tracking-[0.15em] mb-4">
               Key Constraints
             </h3>
             <ul class="flex flex-col gap-3" role="list">
@@ -414,7 +409,7 @@ include "partials/header.php";
                   class="fa-solid fa-triangle-exclamation text-flame-500 text-xs mt-1 shrink-0"
                   aria-hidden="true"
                 ></i>
-                <p class="text-fluid-sm text-ink-400">
+                <p class="text-fluid-sm text-ink-300">
                   Tight 3-month deadline with no room for extension
                 </p>
               </li>
@@ -423,7 +418,7 @@ include "partials/header.php";
                   class="fa-solid fa-triangle-exclamation text-flame-500 text-xs mt-1 shrink-0"
                   aria-hidden="true"
                 ></i>
-                <p class="text-fluid-sm text-ink-400">
+                <p class="text-fluid-sm text-ink-300">
                   Legacy codebase with minimal documentation to inherit
                 </p>
               </li>
@@ -432,7 +427,7 @@ include "partials/header.php";
                   class="fa-solid fa-triangle-exclamation text-flame-500 text-xs mt-1 shrink-0"
                   aria-hidden="true"
                 ></i>
-                <p class="text-fluid-sm text-ink-400">
+                <p class="text-fluid-sm text-ink-300">
                   Replace with a real constraint specific to this project
                 </p>
               </li>
@@ -494,7 +489,7 @@ include "partials/header.php";
               Discovery &amp;<br />Strategy
             </h3>
             <!-- PLACEHOLDER: Phase description -->
-            <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+            <p class="text-fluid-base text-ink-300 leading-relaxed mb-6">
               Describe what this phase involved. What research did you
               conduct? What did you learn about the users, the business, and
               the competitive landscape? How did these findings inform the
@@ -552,7 +547,7 @@ include "partials/header.php";
               Design &amp;<br />Prototyping
             </h3>
             <!-- PLACEHOLDER -->
-            <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+            <p class="text-fluid-base text-ink-300 leading-relaxed mb-6">
               Walk through your design process. How did strategy translate
               into wireframes, then into high-fidelity designs? What
               iterations happened along the way, and what feedback shaped
@@ -610,7 +605,7 @@ include "partials/header.php";
               Development<br />&amp; Build
             </h3>
             <!-- PLACEHOLDER -->
-            <p class="text-fluid-base text-ink-400 leading-relaxed mb-6">
+            <p class="text-fluid-base text-ink-300 leading-relaxed mb-6">
               Describe the build. What technologies were used and why? What
               were the trickiest technical problems to solve? How did you
               ensure quality — testing approach, performance optimization,
@@ -752,7 +747,7 @@ include "partials/header.php";
             +142%
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
-          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+          <p class="text-fluid-sm text-ink-300 text-center leading-snug">
             Organic Traffic Increase
           </p>
         </div>
@@ -763,7 +758,7 @@ include "partials/header.php";
             3.2×
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
-          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+          <p class="text-fluid-sm text-ink-300 text-center leading-snug">
             Conversion Rate Lift
           </p>
         </div>
@@ -774,7 +769,7 @@ include "partials/header.php";
             98
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
-          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+          <p class="text-fluid-sm text-ink-300 text-center leading-snug">
             Google PageSpeed Score
           </p>
         </div>
@@ -785,7 +780,7 @@ include "partials/header.php";
             &minus;62%
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
-          <p class="text-fluid-sm text-ink-400 text-center leading-snug">
+          <p class="text-fluid-sm text-ink-300 text-center leading-snug">
             Bounce Rate Reduction
           </p>
         </div>
@@ -797,13 +792,13 @@ include "partials/header.php";
         <!-- Copy + testimonial -->
         <div class="flex-1">
           <!-- PLACEHOLDER: Outcome narrative -->
-          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-6">
+          <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
             Go beyond the numbers here. How did this project change the
             client's business in ways that aren't captured by a metric? What
             did users say? Were there any unexpected wins or learnings that
             surfaced after launch?
           </p>
-          <p class="text-fluid-base text-ink-400 leading-[1.85] mb-8">
+          <p class="text-fluid-base text-ink-300 leading-[1.85] mb-8">
             This is also a great place for a client testimonial — a direct
             quote from the people you worked with. Authentic feedback
             carries far more weight with prospective clients than anything
@@ -819,7 +814,7 @@ include "partials/header.php";
             </p>
             <!-- PLACEHOLDER: Client name + title -->
             <footer
-              class="text-fluid-xs text-ink-500 font-semibold uppercase tracking-[0.15em]">
+              class="text-fluid-xs text-ink-300 font-semibold uppercase tracking-[0.15em]">
               &mdash; Client Name, Title at Company
             </footer>
           </blockquote>
@@ -884,7 +879,7 @@ include "partials/header.php";
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
               Discovery First, Always
             </h3>
-            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+            <p class="text-fluid-sm text-ink-300 leading-relaxed">
               Replace with a genuine insight specific to this project. What
               did you learn about your process, the client, or the craft?
             </p>
@@ -903,7 +898,7 @@ include "partials/header.php";
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
               Communication Is the Work
             </h3>
-            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+            <p class="text-fluid-sm text-ink-300 leading-relaxed">
               What did this project teach you about collaboration, client
               relationships, or managing expectations under pressure?
             </p>
@@ -922,7 +917,7 @@ include "partials/header.php";
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
               Constraint Creates Clarity
             </h3>
-            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+            <p class="text-fluid-sm text-ink-300 leading-relaxed">
               Another real takeaway. You can use this card, remove it, or
               reframe it as a "What's Next" note about ongoing work.
             </p>
@@ -941,7 +936,7 @@ include "partials/header.php";
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
               Ship, Then Iterate
             </h3>
-            <p class="text-fluid-sm text-ink-500 leading-relaxed">
+            <p class="text-fluid-sm text-ink-300 leading-relaxed">
               A fourth lesson or a note on what came after launch — any
               follow-up phases, ongoing support, or future roadmap items.
             </p>
@@ -985,7 +980,7 @@ include "partials/header.php";
           <div
             class="relative z-10 p-6 lg:p-8 h-44 flex flex-col justify-between">
             <div
-              class="flex items-center gap-2 text-fluid-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-500 group-hover:text-flame-500 transition-colors duration-200">
+              class="flex items-center gap-2 text-fluid-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-300 group-hover:text-flame-500 transition-colors duration-200">
               <i
                 class="fa-solid fa-arrow-left text-xs"
                 aria-hidden="true"
@@ -1020,7 +1015,7 @@ include "partials/header.php";
           <div
             class="relative z-10 p-6 lg:p-8 h-44 flex flex-col justify-between items-end text-right">
             <div
-              class="flex items-center gap-2 text-fluid-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-500 group-hover:text-flame-500 transition-colors duration-200">
+              class="flex items-center gap-2 text-fluid-xs font-heading font-semibold uppercase tracking-[0.15em] text-ink-300 group-hover:text-flame-500 transition-colors duration-200">
               Next Project
               <i
                 class="fa-solid fa-arrow-right text-xs"
@@ -1070,7 +1065,7 @@ include "partials/header.php";
             Let's Build Something<br />Together
           </h2>
           <!-- PLACEHOLDER -->
-          <p class="text-fluid-lg text-ink-500 max-w-xl mx-auto mb-10">
+          <p class="text-fluid-lg text-ink-300 max-w-xl mx-auto mb-10">
             Have a project in mind? I'd love to hear about it. Every great
             collaboration starts with a good conversation.
           </p>

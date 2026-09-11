@@ -102,9 +102,7 @@
           aria-label="Toggle navigation menu"
           aria-expanded="false"
           aria-controls="mobile-drawer">
-          <span class="hamburger-line" aria-hidden="true"></span>
-          <span class="hamburger-line" aria-hidden="true"></span>
-          <span class="hamburger-line" aria-hidden="true"></span>
+          <i class="fa-solid fa-bars" aria-hidden="true"></i>
         </button>
       </div>
     </header>
