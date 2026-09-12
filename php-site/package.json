@@ -1,0 +1,26 @@
+{
+  "name": "php-site",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Source for the PHP-templated portfolio site (exported to static HTML for deployment).",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tailwindcss -i ./src/css/main.css -o ./dist/css/main.css --minify",
+    "watch": "tailwindcss -i ./src/css/main.css -o ./dist/css/main.css --watch",
+    "serve": "php -S localhost:8000",
+    "sync": "browser-sync start --proxy \"localhost:8000\" --files \"**/*.php\" \"dist/css/*.css\" \"js/*.js\" --port 3000 --no-notify",
+    "dev": "npm-run-all -p watch serve sync",
+    "export": "node scripts/export-static.js",
+    "build:static": "npm run build && npm run export",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "@prettier/plugin-php": "^0.25.0",
+    "browser-sync": "^3.0.4",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^3.9.6",
+    "tailwindcss": "^3.4.19"
+  }
+}

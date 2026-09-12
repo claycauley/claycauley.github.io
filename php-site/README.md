@@ -12,20 +12,33 @@ Before deployment, the site is **exported to plain static HTML** (see
 ## Requirements
 
 - **Node.js** (v18+) + npm — for Tailwind CLI, Browsersync, and the export script
-- **PHP** (v8+) — used locally to render `.php` pages. This project uses the
-  copy bundled with [Laragon](https://laragon.org/):
+- **PHP** (v8+) — used locally to render `.php` pages, and must be available
+  on your `PATH` as `php` (this is how the `serve` script and
+  `scripts/export-static.js` invoke it by default). This project is
+  developed using the copy bundled with [Laragon](https://laragon.org/):
   ```
   D:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe
   ```
-  If your PHP install lives elsewhere, update the `PHP_BIN` path in
-  `scripts/export-static.js` and the `serve` script in `package.json`.
+  If your PHP install isn't on `PATH`, set the `PHP_BIN` environment
+  variable to the full path instead of editing any scripts, e.g.:
+  ```powershell
+  $env:PHP_BIN = "D:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe"
+  npm run dev
+  ```
 
 ## First-time setup
 
 ```powershell
 cd php-site
 npm install
+cp mailer.config.example.php mailer.config.php
 ```
+
+Then edit `mailer.config.php` and fill in the real SMTP password and
+reCAPTCHA v3 secret key. This file is **gitignored** and must never be
+committed — it holds live credentials used by `mailer.php` to send the
+contact form email. (`mailer.config.example.php` is the committed template
+documenting the expected shape.)
 
 ## Local development
 
@@ -120,6 +133,8 @@ php-site/
     header.php           ← shared <head>/nav, single source of truth
     footer.php           ← shared footer, single source of truth
   mailer.php             ← contact form mail handler (PHPMailer)
+  mailer.config.php      ← gitignored: real SMTP/reCAPTCHA secrets (create locally)
+  mailer.config.example.php ← committed template for mailer.config.php
   mailer/                ← PHPMailer library files
   js/main.js              ← site JS (nav highlighting, animations, form submit)
   src/css/main.css        ← Tailwind entry point (@tailwind directives)

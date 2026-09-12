@@ -15,8 +15,21 @@ use PHPMailer\PHPMailer\Exception;
 
 $to_email = "hello@claydesigns.cc";
 $to_name = "Clay";
-$recaptcha_secret = "6LfX2RctAAAAAOsY0PdjI7fNx68qvBwKw0l2yTo5";
-$smtp_password = 'Nuclei$Salvation$Pluck$Tipped$Railcar5';
+
+$config_file = __DIR__ . "/mailer.config.php";
+if (!file_exists($config_file)) {
+    ob_end_clean();
+    http_response_code(500);
+    exit(
+        json_encode([
+            "error" =>
+                "Server misconfigured: missing mailer.config.php (see mailer.config.example.php).",
+        ])
+    );
+}
+$config = require $config_file;
+$recaptcha_secret = $config["recaptcha_secret"];
+$smtp_password = $config["smtp_password"];
 
 $allowed_origins = [
     "http://localhost",

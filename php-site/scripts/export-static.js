@@ -19,8 +19,12 @@ const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
 const DIST = path.join(ROOT, "dist");
-const PHP_BIN =
-  "D:\\laragon\\bin\\php\\php-8.3.30-Win32-vs16-x64\\php.exe";
+// Uses "php" from PATH by default. If your PHP install isn't on PATH
+// (e.g. a standalone Laragon install on Windows), set the PHP_BIN
+// environment variable to the full path of php.exe instead of editing
+// this file, e.g.:
+//   PHP_BIN="D:\laragon\bin\php\php-8.3.30-Win32-vs16-x64\php.exe" npm run export
+const PHP_BIN = process.env.PHP_BIN || "php";
 const HOST = "localhost";
 const PORT = 8791; // dedicated port so it won't collide with `npm run serve`
 
@@ -134,6 +138,19 @@ async function main() {
     copyRecursive(path.join(ROOT, "mailer.php"), path.join(DIST, "mailer.php"));
     copyRecursive(path.join(ROOT, "mailer"), path.join(DIST, "mailer"));
     console.log("  ✓ copied mailer.php + mailer/ → dist/");
+
+    // Copy the local mailer secrets file (gitignored) so mailer.php can
+    // actually run once uploaded. This file is never committed to git —
+    // see mailer.config.example.php for the template.
+    const mailerConfig = path.join(ROOT, "mailer.config.php");
+    if (fs.existsSync(mailerConfig)) {
+      copyRecursive(mailerConfig, path.join(DIST, "mailer.config.php"));
+      console.log("  ✓ copied mailer.config.php → dist/");
+    } else {
+      console.warn(
+        "  ⚠ mailer.config.php not found — dist/mailer.php will not be able to send mail until you create it (see mailer.config.example.php).",
+      );
+    }
 
     console.log("\n✅ Static export complete: php-site/dist");
   } finally {

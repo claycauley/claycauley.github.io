@@ -1,6 +1,12 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./*.html", "./*.php", "./partials/**/*.php", "./js/**/*.js"],
+  // Tailwind's JIT engine tree-shakes ANY selector inside a `@layer` block
+  // (including hand-written component classes, not just its own generated
+  // utilities) if the class name isn't found anywhere in `content`. Safelist
+  // reusable component classes here so they always ship even before a page
+  // references them.
+  safelist: ["btn-tertiary"],
   theme: {
     extend: {
       colors: {

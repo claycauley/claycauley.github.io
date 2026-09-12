@@ -338,6 +338,73 @@
     box-shadow: none;
   }
 
+  /* Low-emphasis text CTA: no fill/border box like btn-primary/btn-outline,
+     just a solid underline that "exits" to the right on hover and
+     re-enters from the left on mouse-out. The exit/enter directions are
+     intentionally asymmetric, so a single reversible transition won't
+     work — instead each state is a separate @keyframes, and swapping the
+     assigned animation name on :hover forces the browser to restart from
+     that keyframe's `from` position. Since the resting `from` position of
+     the "in" animation sits at translateX(-100%) (clipped out of view via
+     overflow:hidden), the jump there is invisible, and it plays back in
+     smoothly from the left. */
+  .btn-tertiary {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    overflow: hidden;
+    padding-bottom: 0.25rem;
+    background: none;
+    border: none;
+    color: #ede7e1;
+    font-family: "Space Grotesk", sans-serif;
+    font-weight: 600;
+    font-size: var(--text-sm);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .btn-tertiary:hover {
+    color: #f07a3d;
+  }
+
+  .btn-tertiary::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    border-radius: 9999px;
+    background-color: #e8621e;
+    animation: btnTertiaryUnderlineIn 0.35s ease forwards;
+  }
+
+  .btn-tertiary:hover::after {
+    animation: btnTertiaryUnderlineOut 0.35s ease forwards;
+  }
+
+  @keyframes btnTertiaryUnderlineOut {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(100%);
+    }
+  }
+
+  @keyframes btnTertiaryUnderlineIn {
+    from {
+      transform: translateX(-100%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
   .btn-primary:disabled,
   .btn-primary.is-disabled,
   .btn-outline:disabled,
@@ -348,6 +415,19 @@
     box-shadow: none;
     transform: none;
     cursor: not-allowed;
+  }
+
+  .btn-tertiary:disabled,
+  .btn-tertiary.is-disabled {
+    color: #7a5f51;
+    cursor: not-allowed;
+  }
+
+  .btn-tertiary:disabled::after,
+  .btn-tertiary.is-disabled::after {
+    background-color: #7a5f51;
+    animation: none;
+    transform: translateX(0);
   }
 
   /* Native <button disabled> already blocks clicks via the disabled
@@ -368,6 +448,10 @@
     pointer-events: auto;
   }
 
+  .btn-tertiary.is-disabled {
+    pointer-events: auto;
+  }
+
   .btn-primary:disabled:hover,
   .btn-primary.is-disabled:hover,
   .btn-outline:disabled:hover,
@@ -377,6 +461,17 @@
     color: #7a5f51;
     box-shadow: none;
     transform: none;
+  }
+
+  .btn-tertiary:disabled:hover,
+  .btn-tertiary.is-disabled:hover {
+    color: #7a5f51;
+  }
+
+  .btn-tertiary:disabled:hover::after,
+  .btn-tertiary.is-disabled:hover::after {
+    animation: none;
+    transform: translateX(0);
   }
 
   /* -----------------------------------------------------------------------
@@ -818,10 +913,9 @@
    ========================================================================== */
 
 .logo-track {
-  align-items: center;
   display: flex;
   gap: 3rem;
-  animation: scrollLogo 35s linear infinite;
+  animation: scrollLogo 60s linear infinite;
   width: max-content;
 }
 
@@ -833,7 +927,7 @@
 .logo-track-reverse {
   display: flex;
   gap: 3rem;
-  animation: scrollLogoReverse 42s linear infinite;
+  animation: scrollLogoReverse 70s linear infinite;
   width: max-content;
 }
 

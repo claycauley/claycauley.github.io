@@ -499,7 +499,7 @@ include "partials/header.php";
                 <div>
                   <p
                     class="font-heading font-semibold text-fluid-sm text-ink-200 mb-0.5">
-                    I reply within 24 hours
+                    I reply within 48 hours
                   </p>
                   <p class="text-fluid-xs text-ink-300 leading-relaxed">
                     You'll get a thoughtful response — usually much sooner.
