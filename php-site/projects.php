@@ -698,7 +698,10 @@ include "partials/header.php";
                   Coming Soon
                 </a>
                 <a href="http://claydesigns.cc/blackjack" target="_blank" class="btn-tertiary">
-                  Play Now
+                  Play Now <i
+                    class="fa-solid fa-arrow-right text-xs"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               </div>
             </div>

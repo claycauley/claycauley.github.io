@@ -28,6 +28,12 @@
                 target="_blank"
                 ><i class="fa-brands fa-linkedin-in" aria-hidden="true"></i
               ></a>
+              <a
+                href="contact.php"
+                class="social-btn"
+                aria-label="Contact"
+                ><i class="fa-solid fa-envelope" aria-hidden="true"></i
+              ></a>
             </div>
           </div>
 

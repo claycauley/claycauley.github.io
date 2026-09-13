@@ -288,10 +288,10 @@ include "partials/header.php";
             </a>
             <a
               href="projects.php"
-              class="footer-link text-fluid-sm flex items-center gap-2 hover:text-flame-500 transition-colors">
+              class="btn-tertiary">
               Or browse my work
               <i
-                class="fa-solid fa-chevron-right text-xs"
+                class="fa-solid fa-arrow-right text-xs"
                 aria-hidden="true"
               ></i>
             </a>
@@ -508,6 +508,7 @@ include "partials/header.php";
               <span class="skill-tag">Accessibility</span>
               <span class="skill-tag">Semantic HTML/Design</span>
               <span class="skill-tag">Brand Strategy</span>
+              <span class="skill-tag">Brand Experience Guide</span>
             </div>
           </div>
         </div>
@@ -812,9 +813,9 @@ include "partials/header.php";
         style="
           background: linear-gradient(
             135deg,
-            #1f1614 0%,
-            #2a1810 60%,
-            #1f1614 100%
+            #00162B 0%,
+            #002244 60%,
+            #00162B 100%
           );
         ">
         <!-- Decorative glow -->
