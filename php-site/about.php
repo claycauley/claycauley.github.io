@@ -813,10 +813,10 @@ include "partials/header.php";
         style="
           background: linear-gradient(
             135deg,
-            #00162B 0%,
-            #002244 60%,
-            #00162B 100%
-          );
+            #1f1614 0%,
+            #2a1810 60%,
+            #1f1614 100%
+          )
         ">
         <!-- Decorative glow -->
         <div
