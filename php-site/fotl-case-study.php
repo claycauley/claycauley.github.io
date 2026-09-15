@@ -764,7 +764,7 @@ include "partials/header.php";
 
       <!-- Metrics row — 3 stat cards -->
       <div
-        class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-16 fade-in-up">
+        class="grid grid-cols-1 lg:grid-cols-3 gap-4 lg:gap-5 mb-16 fade-in-up">
         <!-- PLACEHOLDER: Replace each metric with real data -->
         <div class="cs-metric">
           <div
