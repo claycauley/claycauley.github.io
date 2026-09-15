@@ -149,7 +149,7 @@ try {
     $mail->addReplyTo($email, $name);
 
     $mail->isHTML(false);
-    $mail->Subject = "Portfolio Contact: {$subject}";
+    $mail->Subject = "Message From Portfolio Contact Form: {$subject}";
     $mail->Body =
         "Name:    {$name}\nEmail:   {$email}\nSubject: {$subject}\n\nMessage:\n{$message}\n\n---\nIP: " .
         ($_SERVER["REMOTE_ADDR"] ?? "unknown") .

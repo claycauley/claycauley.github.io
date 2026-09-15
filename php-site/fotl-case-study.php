@@ -342,9 +342,12 @@ include "partials/header.php";
                   <!-- PLACEHOLDER: Add real URL -->
                   <a
                     href="http://www.fruit.com"
-                    class="font-heading font-semibold text-fluid-sm text-flame-500 hover:text-flame-400 transition-colors"
+                    class="btn-tertiary"
                     target="_blank">
-                    Visit Website ↗
+                    Visit Website <i
+                    class="fa-solid fa-arrow-right text-xs"
+                    aria-hidden="true"
+                  ></i>
                   </a>
                 </div>
               </li>
@@ -481,15 +484,14 @@ include "partials/header.php";
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Section header -->
       <div class="text-center mb-16 fade-in-up">
-        <p class="section-label justify-center">The Work</p>
+        <p class="section-label justify-center">The Nitty Gritty</p>
         <h2 id="work-heading" class="section-title mt-3">
           How We Got<br />
           <span class="text-flame-500">There</span>
         </h2>
         <!-- PLACEHOLDER: Brief overview of your approach -->
         <p class="section-subtitle max-w-2xl mx-auto">
-          A look at the process, thinking, and execution that turned the
-          challenge into a solution worth talking about.
+          The process, thinking & execution that turned our challenge into a solution.
         </p>
       </div>
 
@@ -502,7 +504,7 @@ include "partials/header.php";
             <div class="cs-gallery-item aspect-video">
               <!-- PLACEHOLDER -->
               <img
-                src="https://placehold.co/800x450/1F1614/2A1810?text=Phase+01+Image"
+                src="dist/img/fruit/discovery-strategy.webp"
                 alt="Discovery and strategy phase — replace with real image"
                 width="800"
                 height="450"
@@ -524,17 +526,12 @@ include "partials/header.php";
             </h3>
             <!-- PLACEHOLDER: Phase description -->
             <p class="text-fluid-base text-ink-300 leading-relaxed mb-6">
-              Describe what this phase involved. What research did you
-              conduct? What did you learn about the users, the business, and
-              the competitive landscape? How did these findings inform the
-              direction you took?
+              To rebuild Fruit from the ground up, we first had to tear it down. The current site wasn't performing well as an e-commerce solution, so the ultimate goal was to remove that piece of the puzzle and focus more on promoting the individual products and drive customers to our partners to purchase their product.
             </p>
             <!-- PLACEHOLDER: Real deliverables for this phase -->
             <div class="flex flex-wrap gap-2">
-              <span class="skill-tag">User Research</span>
-              <span class="skill-tag">Competitive Analysis</span>
+              <span class="skill-tag">Customer Research</span>
               <span class="skill-tag">Site Audit</span>
-              <span class="skill-tag">Strategy Brief</span>
             </div>
           </div>
         </div>
@@ -560,7 +557,7 @@ include "partials/header.php";
             <div class="cs-gallery-item aspect-video">
               <!-- PLACEHOLDER -->
               <img
-                src="https://placehold.co/800x450/1F1614/312820?text=Phase+02+Image"
+                src="dist/img/fruit/design-prototyping.webp"
                 alt="Design and prototyping phase — replace with real image"
                 width="800"
                 height="450"
@@ -582,15 +579,12 @@ include "partials/header.php";
             </h3>
             <!-- PLACEHOLDER -->
             <p class="text-fluid-base text-ink-300 leading-relaxed mb-6">
-              Walk through your design process. How did strategy translate
-              into wireframes, then into high-fidelity designs? What
-              iterations happened along the way, and what feedback shaped
-              the final direction?
+              For this project we began the transition to Figma from Sketch. We created a design system and reusable components to help speed up the design process and make it easier for the marketing team to create new pages and content. Building these components with primitive and semantic variables made it easier to create new pages and content without having to worry about breaking the design system or creating inconsistencies across the site.
             </p>
             <!-- PLACEHOLDER -->
             <div class="flex flex-wrap gap-2">
               <span class="skill-tag">Wireframes</span>
-              <span class="skill-tag">UI Design</span>
+              <span class="skill-tag">Figma</span>
               <span class="skill-tag">Prototyping</span>
               <span class="skill-tag">Design System</span>
             </div>
@@ -618,7 +612,7 @@ include "partials/header.php";
             <div class="cs-gallery-item aspect-video">
               <!-- PLACEHOLDER -->
               <img
-                src="https://placehold.co/800x450/1F1614/2E1A10?text=Phase+03+Image"
+                src="dist/img/fruit/development-build.webp"
                 alt="Development and build phase — replace with real image"
                 width="800"
                 height="450"
@@ -640,17 +634,14 @@ include "partials/header.php";
             </h3>
             <!-- PLACEHOLDER -->
             <p class="text-fluid-base text-ink-300 leading-relaxed mb-6">
-              Describe the build. What technologies were used and why? What
-              were the trickiest technical problems to solve? How did you
-              ensure quality — testing approach, performance optimization,
-              accessibility checks?
+              For this project we built from the ground up using React.js. For my part, I was responsible for building the components we had created in Figma that would live in our CMS and allow our marketing team to pages and content on the fly. This site was built with a headless architecture which allowed us to build a more flexible site. We also implemented a number of performance optimizations and accessibility checks to ensure that the site was fast and accessible to all users.
             </p>
             <!-- PLACEHOLDER -->
             <div class="flex flex-wrap gap-2">
               <span class="skill-tag">HTML / CSS</span>
-              <span class="skill-tag">JavaScript</span>
+              <span class="skill-tag">React.js</span>
               <span class="skill-tag">Performance</span>
-              <span class="skill-tag">QA &amp; Testing</span>
+              <span class="skill-tag">WCAG/ADA Compliant</span>
             </div>
           </div>
         </div>
@@ -678,7 +669,7 @@ include "partials/header.php";
           class="cs-gallery-item aspect-video lg:col-span-2 lg:row-span-2">
           <!-- PLACEHOLDER -->
           <img
-            src="https://placehold.co/1200x675/1F1614/312320?text=Gallery+1+(Large)"
+            src="dist/img/fruit/detail-1.webp"
             alt="Project screenshot — replace with real image"
             class="w-full h-full"
             width="1200"
@@ -689,7 +680,7 @@ include "partials/header.php";
         <div class="cs-gallery-item aspect-video">
           <!-- PLACEHOLDER -->
           <img
-            src="https://placehold.co/600x338/1F1614/2A1810?text=Gallery+2"
+            src="dist/img/fruit/detail-2.webp"
             alt="Project detail — replace with real image"
             class="w-full h-full"
             width="600"
@@ -700,7 +691,7 @@ include "partials/header.php";
         <div class="cs-gallery-item aspect-video">
           <!-- PLACEHOLDER -->
           <img
-            src="https://placehold.co/600x338/1F1614/241610?text=Gallery+3"
+            src="dist/img/fruit/detail-3.webp"
             alt="Project detail — replace with real image"
             class="w-full h-full"
             width="600"
@@ -716,7 +707,7 @@ include "partials/header.php";
         <div class="cs-gallery-item aspect-[4/3]">
           <!-- PLACEHOLDER -->
           <img
-            src="https://placehold.co/600x450/1F1614/2A1810?text=Gallery+4"
+            src="dist/img/fruit/detail-4.webp"
             alt="Project detail — replace with real image"
             class="w-full h-full"
             width="600"
@@ -726,7 +717,7 @@ include "partials/header.php";
         <div class="cs-gallery-item aspect-[4/3]">
           <!-- PLACEHOLDER -->
           <img
-            src="https://placehold.co/600x450/1F1614/281810?text=Gallery+5"
+            src="dist/img/fruit/detail-5.webp"
             alt="Project detail — replace with real image"
             class="w-full h-full"
             width="600"
@@ -736,7 +727,7 @@ include "partials/header.php";
         <div class="cs-gallery-item aspect-[4/3]">
           <!-- PLACEHOLDER -->
           <img
-            src="https://placehold.co/600x450/1F1614/241510?text=Gallery+6"
+            src="dist/img/fruit/detail-6.webp"
             alt="Project detail — replace with real image"
             class="w-full h-full"
             width="600"
@@ -771,36 +762,25 @@ include "partials/header.php";
         </p>
       </div>
 
-      <!-- Metrics row — 4 stat cards -->
+      <!-- Metrics row — 3 stat cards -->
       <div
-        class="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5 mb-16 fade-in-up">
+        class="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-5 mb-16 fade-in-up">
         <!-- PLACEHOLDER: Replace each metric with real data -->
         <div class="cs-metric">
           <div
-            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
-            +142%
+            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-plus text-4xl"></i>7%
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
           <p class="text-fluid-sm text-ink-300 text-center leading-snug">
-            Organic Traffic Increase
+            Monthly Traffic Increase
           </p>
         </div>
 
         <div class="cs-metric">
           <div
             class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
-            3.2×
-          </div>
-          <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
-          <p class="text-fluid-sm text-ink-300 text-center leading-snug">
-            Conversion Rate Lift
-          </p>
-        </div>
-
-        <div class="cs-metric">
-          <div
-            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
-            98
+            94
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
           <p class="text-fluid-sm text-ink-300 text-center leading-snug">
@@ -810,12 +790,12 @@ include "partials/header.php";
 
         <div class="cs-metric">
           <div
-            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3">
-            &minus;62%
+            class="font-heading font-bold text-fluid-5xl text-flame-500 leading-none mb-3 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-minus text-4xl"></i>42%
           </div>
           <div class="w-8 h-0.5 bg-ink-700 rounded-full mb-3"></div>
           <p class="text-fluid-sm text-ink-300 text-center leading-snug">
-            Bounce Rate Reduction
+            Page Load Time
           </p>
         </div>
       </div>
@@ -827,29 +807,22 @@ include "partials/header.php";
         <div class="flex-1">
           <!-- PLACEHOLDER: Outcome narrative -->
           <p class="text-fluid-base text-ink-300 leading-[1.85] mb-6">
-            Go beyond the numbers here. How did this project change the
-            client's business in ways that aren't captured by a metric? What
-            did users say? Were there any unexpected wins or learnings that
-            surfaced after launch?
+           We changed a core mechanic of Fruit of the Loom's e-commerce strategy. We took away the Direct to Consumer sales and instead pointed potential customers to our partners. Along with this we also transitioned our codebase and content efforts to help our marketing team have more freedoms when creating new campaigns.
           </p>
           <p class="text-fluid-base text-ink-300 leading-[1.85] mb-8">
-            This is also a great place for a client testimonial — a direct
-            quote from the people you worked with. Authentic feedback
-            carries far more weight with prospective clients than anything
-            you can write yourself.
+            Instead of relying on our designers and developers to help create banners and content for future launches, the components we built allowed them to create new pages and content on their own without having to worry about breaking anything.
           </p>
           <!-- Client testimonial quote -->
           <blockquote class="pl-6 border-l-2 border-flame-500">
             <!-- PLACEHOLDER: Real client testimonial -->
             <p
               class="font-heading font-semibold text-fluid-lg text-ink-200 leading-snug italic mb-3">
-              "Replace this with a genuine quote from your client about the
-              results, the process, or their experience working with you."
+              "Planning campaigns and creating new content has never been easier. The new site is fast, flexible, and easy to use. We couldn't be happier with the results."
             </p>
             <!-- PLACEHOLDER: Client name + title -->
             <footer
               class="text-fluid-xs text-ink-300 font-semibold uppercase tracking-[0.15em]">
-              &mdash; Client Name, Title at Company
+              &mdash; Fruit of the Loom, Marketing Department
             </footer>
           </blockquote>
         </div>
@@ -859,7 +832,7 @@ include "partials/header.php";
           <div class="cs-gallery-item aspect-[4/3]">
             <!-- PLACEHOLDER -->
             <img
-              src="https://placehold.co/700x525/1F1614/2A1810?text=Results+Image"
+              src="dist/img/fruit/results.webp"
               alt="Project results — replace with real image"
               class="w-full h-full"
               width="700"
@@ -891,8 +864,7 @@ include "partials/header.php";
           </h2>
           <!-- PLACEHOLDER -->
           <p class="section-subtitle text-fluid-base mt-4">
-            Every project teaches you something. These are the lessons that
-            stuck with me from this one.
+            This project was a great learning opportunity and taught me a lot about my abilities as a designer, both my strengths and weaknesses.
           </p>
         </div>
 
@@ -911,11 +883,10 @@ include "partials/header.php";
             <!-- PLACEHOLDER: Real lesson from this project -->
             <h3
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
-              Discovery First, Always
+              Discovery First
             </h3>
             <p class="text-fluid-sm text-ink-300 leading-relaxed">
-              Replace with a genuine insight specific to this project. What
-              did you learn about your process, the client, or the craft?
+              Figuring out how people interacted with our site goes a long way into understand how the design plays a role in guiding that interaction.
             </p>
           </div>
 
@@ -930,11 +901,10 @@ include "partials/header.php";
             <!-- PLACEHOLDER -->
             <h3
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
-              Communication Is the Work
+              Communication Is Key
             </h3>
             <p class="text-fluid-sm text-ink-300 leading-relaxed">
-              What did this project teach you about collaboration, client
-              relationships, or managing expectations under pressure?
+              I've always had a good relationship with our developers and this project really strengthed that. I leaned on them to help learn React while they leaned on me for design understanding.
             </p>
           </div>
 
@@ -952,8 +922,7 @@ include "partials/header.php";
               Constraint Creates Clarity
             </h3>
             <p class="text-fluid-sm text-ink-300 leading-relaxed">
-              Another real takeaway. You can use this card, remove it, or
-              reframe it as a "What's Next" note about ongoing work.
+              During this project we had a strict timeline. Contracts with services were ending and we were not in a position to extend them. This forced us to make decisions and move forward without getting stuck in the weeds.
             </p>
           </div>
 
@@ -968,11 +937,10 @@ include "partials/header.php";
             <!-- PLACEHOLDER -->
             <h3
               class="font-heading font-semibold text-fluid-lg text-ink-50 mb-2">
-              Ship, Then Iterate
+              Always Iterate
             </h3>
             <p class="text-fluid-sm text-ink-300 leading-relaxed">
-              A fourth lesson or a note on what came after launch — any
-              follow-up phases, ongoing support, or future roadmap items.
+              Shipping the final product is never the end. We are constantly iterating and improving the site based on internal feedback and external user feedback and analytics. This is a never-ending process that will continue to evolve as the brand's needs and its customers evolve.
             </p>
           </div>
         </div>
@@ -988,18 +956,16 @@ include "partials/header.php";
   <section class="section" aria-label="More projects">
     <div class="max-w-7xl mx-auto px-6 lg:px-12">
       <!-- Nav header -->
-      <<div class="mb-8 fade-in-up">
+      <!-- <div class="mb-8 fade-in-up">
         <p class="section-label">More Work</p>
-      </div>
+      </div> -->
 
       <!-- Prev / Next cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-14 fade-in-up">
-        <!-- Previous project card -->
+      <!-- <div class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-14 fade-in-up">
         <a
           href="case-study-template.php"
           class="group relative rounded-2xl border border-ink-800 overflow-hidden hover:border-flame-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(232,98,30,0.08)]">
           <div class="absolute inset-0">
-            <!-- PLACEHOLDER: Replace with prev project thumbnail -->
             <img
               src="https://placehold.co/600x300/1F1614/312320?text=Previous+Project"
               alt=""
@@ -1021,7 +987,6 @@ include "partials/header.php";
               ></i>
               Previous Project
             </div>
-            <!-- PLACEHOLDER: Previous project title -->
             <p
               class="font-heading font-bold text-fluid-xl text-ink-100 group-hover:text-ink-50 transition-colors leading-tight">
               Previous Project<br />Name Here
@@ -1029,12 +994,11 @@ include "partials/header.php";
           </div>
         </a>
 
-        <!-- Next project card -->
+        
         <a
           href="case-study-template.php"
           class="group relative rounded-2xl border border-ink-800 overflow-hidden hover:border-flame-500/40 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_48px_rgba(232,98,30,0.08)]">
           <div class="absolute inset-0">
-            <!-- PLACEHOLDER: Replace with next project thumbnail -->
             <img
               src="https://placehold.co/600x300/1F1614/312320?text=Next+Project"
               alt=""
@@ -1056,14 +1020,13 @@ include "partials/header.php";
                 aria-hidden="true"
               ></i>
             </div>
-            <!-- PLACEHOLDER: Next project title -->
             <p
               class="font-heading font-bold text-fluid-xl text-ink-100 group-hover:text-ink-50 transition-colors leading-tight">
               Next Project<br />Name Here
             </p>
           </div>
         </a>
-      </div>
+      </div> -->
 
       <!-- CTA Banner -->
       <div
