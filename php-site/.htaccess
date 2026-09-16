@@ -1,0 +1,28 @@
+# -----------------------------------------------------------------------
+# Clean URL rewriting for the static export (dist/).
+# Copied into dist/ automatically by scripts/export-static.js.
+#
+# Goals:
+#   1. domain.com/about        -> serves dist/about.html   (no extension shown)
+#   2. domain.com/about.html   -> redirects to domain.com/about (canonical)
+#   3. domain.com/index.html   -> redirects to domain.com/ (bare root)
+# -----------------------------------------------------------------------
+
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# 1) Requests for index(.html) at the root -> redirect to bare "/"
+RewriteCond %{THE_REQUEST} \s/+index(\.html)?[\s?] [NC]
+RewriteRule ^ / [R=301,L]
+
+# 2) Requests for any other "page.html" -> redirect to "/page" (strip extension)
+RewriteCond %{THE_REQUEST} \s/+(.+)\.html[\s?] [NC]
+RewriteRule ^ /%1 [R=301,L]
+
+# 3) Internally serve the matching .html file for a clean, extensionless URL
+#    (only kicks in when there isn't already a real file/directory at that path)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME}\.html -f
+RewriteRule ^([^.]+)$ $1.html [L]

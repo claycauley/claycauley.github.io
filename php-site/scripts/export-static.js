@@ -38,12 +38,21 @@ const PAGES = {
   "case-study-template.php": "case-study-template.html",
 };
 
-// Internal page links to rewrite from .php -> .html in the rendered markup
+// Internal page links are rewritten from .php -> clean, extensionless URLs
+// in the rendered markup (e.g. href="about.php" -> href="/about", and
+// href="index.php" -> href="/"). The .htaccess shipped in dist/ maps these
+// clean URLs back to the matching .html file on the server, and redirects
+// any direct .html/.php requests to the clean URL so the address bar never
+// shows a file extension.
 const INTERNAL_PAGES = Object.keys(PAGES).map((f) => f.replace(/\.php$/, ""));
 const phpLinkPattern = new RegExp(
   `(href=["'])(${INTERNAL_PAGES.join("|")})\\.php(["'#?])`,
   "g",
 );
+
+function toCleanUrl(page) {
+  return page === "index" ? "/" : `/${page}`;
+}
 
 // Asset paths in the PHP source are written relative to the project root
 // (e.g. href="dist/css/main.css", src="dist/img/foo.webp") because the
@@ -121,7 +130,10 @@ async function main() {
         console.warn(`  ⚠ Skipping ${phpFile}: ${err.message}`);
         continue;
       }
-      html = html.replace(phpLinkPattern, "$1$2.html$3");
+      html = html.replace(
+        phpLinkPattern,
+        (_match, prefix, page, suffix) => `${prefix}${toCleanUrl(page)}${suffix}`,
+      );
       html = html.replace(distAssetPattern, "$1$2/");
       fs.writeFileSync(path.join(DIST, htmlFile), html, "utf8");
       console.log(`  ✓ ${phpFile} → dist/${htmlFile}`);
@@ -130,6 +142,16 @@ async function main() {
     // Copy static assets referenced by the pages so /dist is self-contained
     copyRecursive(path.join(ROOT, "js"), path.join(DIST, "js"));
     console.log("  ✓ copied js/ → dist/js/");
+
+    // Copy the .htaccess that maps clean URLs (e.g. /about) to their
+    // matching .html file on the server and redirects any direct .html
+    // requests to the clean URL, so the address bar never shows a file
+    // extension in production (Apache/Hostinger).
+    const htaccessSrc = path.join(ROOT, ".htaccess");
+    if (fs.existsSync(htaccessSrc)) {
+      copyRecursive(htaccessSrc, path.join(DIST, ".htaccess"));
+      console.log("  ✓ copied .htaccess → dist/");
+    }
 
     // Copy the contact-form mailer endpoint + its PHPMailer dependency so
     // the deployed dist/ folder is a fully working package on a PHP host
