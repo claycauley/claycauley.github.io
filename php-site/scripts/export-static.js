@@ -60,6 +60,18 @@ function toCleanUrl(page) {
 // those same paths would resolve to dist/dist/... so strip the prefix.
 const distAssetPattern = /((?:href|src)=["'])dist\/(css|img)\//g;
 
+// Strips developer-facing HTML comments (e.g. <!-- PLACEHOLDER: ... -->,
+// section dividers, etc.) from the final rendered output so they don't
+// show up in "View Source" on the live site. Conditional comments
+// (<!--[if ...]>) are intentionally left alone since they're meaningful
+// markup, not dev notes — though none are currently used on this site.
+function stripHtmlComments(html) {
+  return html
+    .replace(/<!--(?!\[if[\s\S]*?<!\[endif\])[\s\S]*?-->/g, "")
+    .replace(/[ \t]+\n/g, "\n") // trailing whitespace left behind on a line
+    .replace(/\n{3,}/g, "\n\n"); // collapse 3+ blank lines down to 1
+}
+
 function fetchPage(pagePath) {
   return new Promise((resolve, reject) => {
     http
@@ -135,6 +147,7 @@ async function main() {
         (_match, prefix, page, suffix) => `${prefix}${toCleanUrl(page)}${suffix}`,
       );
       html = html.replace(distAssetPattern, "$1$2/");
+      html = stripHtmlComments(html);
       fs.writeFileSync(path.join(DIST, htmlFile), html, "utf8");
       console.log(`  ✓ ${phpFile} → dist/${htmlFile}`);
     }

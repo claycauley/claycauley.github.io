@@ -13,7 +13,8 @@
     "sync": "browser-sync start --proxy \"localhost:8000\" --files \"**/*.php\" \"dist/css/*.css\" \"js/*.js\" --port 3000 --no-notify",
     "dev": "concurrently \"npm:watch\" \"npm:serve\" \"npm:sync\"",
     "export": "node scripts/export-static.js",
-    "build:static": "npm run build && npm run export",
+    "build:static": "npm run build && npm run export && npm run prettify:dist",
+    "prettify:dist": "prettier --write \"dist/**/*.{html,js}\"",
     "format": "prettier --write ."
   },
   "devDependencies": {
