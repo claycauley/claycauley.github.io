@@ -1,16 +1,7 @@
-/* ==========================================================================
-   CLAY PORTFOLIO — main.js
-   ========================================================================== */
-
 (function () {
   "use strict";
 
-  /* -----------------------------------------------------------------------
-     DISABLED LINKS — <a class="is-disabled"> can't use the `disabled`
-     HTML attribute (it's invalid on anchors and does nothing), so we
-     block navigation here in JS and mark them inaccessible to
-     keyboard/AT users. CSS still handles the visual "disabled" look.
-     ----------------------------------------------------------------------- */
+  
   document.querySelectorAll("a.is-disabled").forEach((link) => {
     link.setAttribute("aria-disabled", "true");
     link.setAttribute("tabindex", "-1");
@@ -21,9 +12,7 @@
     });
   });
 
-  /* -----------------------------------------------------------------------
-     HEADER — scroll state
-     ----------------------------------------------------------------------- */
+  
   const header = document.getElementById("site-header");
 
   if (header) {
@@ -31,12 +20,10 @@
       header.classList.toggle("scrolled", window.scrollY > 24);
     };
     window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll(); // Run on load in case page is already scrolled
+    onScroll();
   }
 
-  /* -----------------------------------------------------------------------
-     SCROLL HINT — fade out when scrolled, restore at top
-     ----------------------------------------------------------------------- */
+  
   const scrollHints = document.querySelectorAll(".scroll-hint");
 
   if (scrollHints.length) {
@@ -45,12 +32,10 @@
       scrollHints.forEach((el) => el.classList.toggle("is-scrolled", hide));
     };
     window.addEventListener("scroll", onScrollHint, { passive: true });
-    onScrollHint(); // Run on load
+    onScrollHint();
   }
 
-  /* -----------------------------------------------------------------------
-     MOBILE MENU
-     ----------------------------------------------------------------------- */
+  
   const hamburgerBtn = document.getElementById("hamburger-btn");
   const mobileOverlay = document.getElementById("mobile-overlay");
   const mobileDrawer = document.getElementById("mobile-drawer");
@@ -64,7 +49,7 @@
     mobileDrawer.classList.add("open");
     hamburgerBtn.setAttribute("aria-expanded", "true");
     document.body.style.overflow = "hidden";
-    // Move focus to the close button
+
     if (mobileClose) mobileClose.focus();
   }
 
@@ -94,7 +79,7 @@
 
   mobileLinks.forEach((link) => link.addEventListener("click", closeMenu));
 
-  // Close on Escape
+
   document.addEventListener("keydown", (e) => {
     if (
       e.key === "Escape" &&
@@ -105,7 +90,7 @@
     }
   });
 
-  // Trap focus inside drawer while open
+
   if (mobileDrawer) {
     mobileDrawer.addEventListener("keydown", (e) => {
       if (e.key !== "Tab" || !mobileDrawer.classList.contains("open")) return;
@@ -124,9 +109,7 @@
     });
   }
 
-  /* -----------------------------------------------------------------------
-     SCROLL ANIMATIONS — IntersectionObserver
-     ----------------------------------------------------------------------- */
+  
   const fadeEls = document.querySelectorAll(".fade-in-up");
 
   if ("IntersectionObserver" in window && fadeEls.length) {
@@ -143,13 +126,11 @@
     );
     fadeEls.forEach((el) => observer.observe(el));
   } else {
-    // Fallback: make all visible immediately
+
     fadeEls.forEach((el) => el.classList.add("visible"));
   }
 
-  /* -----------------------------------------------------------------------
-     ACTIVE NAV LINK — highlight current page
-     ----------------------------------------------------------------------- */
+  
   const currentFile = window.location.pathname.split("/").pop() || "index.php";
   document.querySelectorAll(".nav-link, .mobile-nav-link").forEach((link) => {
     const href = (link.getAttribute("href") || "").split("/").pop();
@@ -159,15 +140,11 @@
     }
   });
 
-  /* -----------------------------------------------------------------------
-     DYNAMIC COPYRIGHT YEAR
-     ----------------------------------------------------------------------- */
+  
   const yearEl = document.getElementById("footer-year");
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-  /* -----------------------------------------------------------------------
-     SMOOTH SCROLL — anchor links
-     ----------------------------------------------------------------------- */
+  
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
     anchor.addEventListener("click", (e) => {
       const target = document.querySelector(anchor.getAttribute("href"));
@@ -181,13 +158,11 @@
     });
   });
 
-  /* -----------------------------------------------------------------------
-     CONTACT FORM — Validation, reCAPTCHA bridge, and submission
-     ----------------------------------------------------------------------- */
+  
   const contactForm = document.getElementById("contact-form");
 
   if (contactForm) {
-    // Field definitions — element + error element + validation rule
+
     const fields = {
       name: {
         el: document.getElementById("field-name"),
@@ -220,7 +195,7 @@
     const textarea = document.getElementById("field-message");
     const charCount = document.getElementById("char-count");
 
-    // ── Helpers ─────────────────────────────────────────────────────────
+
 
     function markError(field) {
       if (!field.el) return;
@@ -264,7 +239,7 @@
         if (btnLabel) btnLabel.textContent = "Sent!";
         if (btnIcon) btnIcon.className = "fa-solid fa-check text-xs";
       } else {
-        // idle
+
         submitBtn.removeAttribute("data-state");
         submitBtn.removeAttribute("aria-disabled");
         if (btnLabel) btnLabel.textContent = "Send Message";
@@ -272,24 +247,24 @@
       }
     }
 
-    // ── Real-time validation (blur = full check; input = clear error only) ─
+
 
     Object.keys(fields).forEach((key) => {
       const field = fields[key];
       if (!field.el) return;
 
-      // Validate when user leaves the field (only if they typed something)
+
       field.el.addEventListener("blur", () => {
         if (field.el.value.length > 0) validateField(key);
       });
 
-      // As soon as the error clears, re-validate on every keystroke
+
       field.el.addEventListener("input", () => {
         if (field.el.classList.contains("error")) validateField(key);
       });
     });
 
-    // ── Live character counter ───────────────────────────────────────────
+
 
     if (textarea && charCount) {
       textarea.addEventListener("input", () => {
@@ -299,10 +274,10 @@
       });
     }
 
-    // ── reCAPTCHA v3 site key — must match the key in the <script> src ─────
+
     const RECAPTCHA_V3_SITE_KEY = "6LfX2RctAAAAAN5DxWTBLJfVTVmbtyJuNVWtMagZ";
 
-    // ── Submit handler ───────────────────────────────────────────────────
+
 
     contactForm.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -315,7 +290,7 @@
 
       setButtonState("loading");
 
-      // v3: grecaptcha.ready wraps grecaptcha.execute — fully silent, no widget
+
       if (window.grecaptcha && typeof window.grecaptcha.ready === "function") {
         window.grecaptcha.ready(function () {
           window.grecaptcha
@@ -324,17 +299,17 @@
               submitFormData(token);
             })
             .catch(function () {
-              // Token generation failed — submit without token (PHP will decide)
+
               submitFormData(null);
             });
         });
       } else {
-        // reCAPTCHA script not loaded yet — submit without token
+
         submitFormData(null);
       }
     });
 
-    // ── Form submission logic ────────────────────────────────────────────
+
 
     function submitFormData(recaptchaToken) {
       const payload = {
@@ -351,13 +326,13 @@
         body: JSON.stringify(payload),
       })
         .then((res) => {
-          // Guard against non-JSON responses (PHP fatal errors, etc.)
+
           return res.text().then((text) => {
             try {
               const data = JSON.parse(text);
               return { ok: res.ok, data };
             } catch (_) {
-              // Log the raw PHP output to the browser console for debugging
+
               console.error("contact.php raw response:", text);
               return {
                 ok: false,
@@ -382,7 +357,7 @@
         });
     }
 
-    // ── Outcome helpers ──────────────────────────────────────────────────
+
 
     function showSuccess() {
       contactForm.style.display = "none";
@@ -401,7 +376,7 @@
       }
     }
 
-    // ── Reset (Send Another Message button inside success state) ─────────
+
 
     if (resetFormBtn) {
       resetFormBtn.addEventListener("click", () => {
@@ -412,7 +387,7 @@
         if (charCount) charCount.textContent = "0 / 2000";
         if (submitStatus) submitStatus.textContent = "";
 
-        // Clear all field validation classes
+
         Object.values(fields).forEach((field) => {
           if (!field.el) return;
           field.el.classList.remove("error", "valid");
@@ -422,17 +397,14 @@
 
         setButtonState("idle");
 
-        // Move focus back to the first field
+
         const firstField = document.getElementById("field-name");
         if (firstField) firstField.focus();
       });
     }
-  } // end if (contactForm)
+  }
 
-  /* -----------------------------------------------------------------------
-     CLICK-TO-COPY EMAIL — replaces mailto: links with copy-to-clipboard
-     buttons that show a small "Copied!" tooltip.
-     ----------------------------------------------------------------------- */
+  
   const copyEmailButtons = document.querySelectorAll("[data-copy-email]");
 
   if (copyEmailButtons.length) {
@@ -453,7 +425,7 @@
           btn.appendChild(tooltipEl);
         }
         tooltipEl.textContent = text;
-        // Force reflow so the animation restarts on rapid re-clicks
+
         void tooltipEl.offsetWidth;
         tooltipEl.classList.add("visible");
 
@@ -470,7 +442,7 @@
           if (navigator.clipboard && window.isSecureContext) {
             await navigator.clipboard.writeText(email);
           } else {
-            // Fallback for older browsers / non-HTTPS contexts
+
             const tempInput = document.createElement("textarea");
             tempInput.value = email;
             tempInput.style.position = "fixed";

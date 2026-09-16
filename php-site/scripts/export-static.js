@@ -72,6 +72,121 @@ function stripHtmlComments(html) {
     .replace(/\n{3,}/g, "\n\n"); // collapse 3+ blank lines down to 1
 }
 
+// Strips JS comments (both // line comments and /* block comments */,
+// including the /* ===... section headers === */ style used in main.js)
+// from the shipped dist/js/*.js so source stays documented but the
+// deployed bundle doesn't. This is a small hand-rolled scanner (rather
+// than a blind regex) so it doesn't corrupt comment-like sequences that
+// appear inside strings, template literals, or regex literals.
+function stripJsComments(src) {
+  let out = "";
+  let i = 0;
+  const n = src.length;
+  let lastSignificant = ""; // last non-whitespace char emitted, used to guess regex vs division
+
+  while (i < n) {
+    const ch = src[i];
+    const next = src[i + 1];
+
+    // Line comment
+    if (ch === "/" && next === "/") {
+      i += 2;
+      while (i < n && src[i] !== "\n") i++;
+      continue;
+    }
+
+    // Block comment
+    if (ch === "/" && next === "*") {
+      i += 2;
+      while (i < n && !(src[i] === "*" && src[i + 1] === "/")) i++;
+      i += 2; // skip closing */
+      continue;
+    }
+
+    // String literals — copy verbatim, respecting escapes
+    if (ch === '"' || ch === "'") {
+      const quote = ch;
+      out += ch;
+      i++;
+      while (i < n && src[i] !== quote) {
+        if (src[i] === "\\" && i + 1 < n) {
+          out += src[i] + src[i + 1];
+          i += 2;
+        } else {
+          out += src[i];
+          i++;
+        }
+      }
+      if (i < n) {
+        out += src[i]; // closing quote
+        i++;
+      }
+      lastSignificant = quote;
+      continue;
+    }
+
+    // Template literals — copy verbatim (comments inside are left as-is,
+    // which is safe/conservative; ${...} interpolation isn't parsed here)
+    if (ch === "`") {
+      out += ch;
+      i++;
+      while (i < n && src[i] !== "`") {
+        if (src[i] === "\\" && i + 1 < n) {
+          out += src[i] + src[i + 1];
+          i += 2;
+        } else {
+          out += src[i];
+          i++;
+        }
+      }
+      if (i < n) {
+        out += src[i];
+        i++;
+      }
+      lastSignificant = "`";
+      continue;
+    }
+
+    // Regex literal — only treat "/" as a regex start if the previous
+    // significant token suggests an expression context (not a value that
+    // could be divided), a conservative heuristic good enough for this file.
+    if (ch === "/" && !/[)\]\w$]/.test(lastSignificant)) {
+      let j = i + 1;
+      let inClass = false;
+      while (j < n) {
+        if (src[j] === "\\") {
+          j += 2;
+          continue;
+        }
+        if (src[j] === "[") inClass = true;
+        else if (src[j] === "]") inClass = false;
+        else if (src[j] === "/" && !inClass) break;
+        else if (src[j] === "\n") break; // unterminated — bail, not a regex
+        j++;
+      }
+      if (src[j] === "/") {
+        j++;
+        while (j < n && /[a-z]/i.test(src[j])) j++; // flags
+        out += src.slice(i, j);
+        lastSignificant = "/";
+        i = j;
+        continue;
+      }
+      // fall through: not actually a regex, treat "/" as normal char below
+    }
+
+    out += ch;
+    if (!/\s/.test(ch)) lastSignificant = ch;
+    i++;
+  }
+
+  return out
+    .replace(/[ \t]+\n/g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim() + "\n";
+}
+
+
 function fetchPage(pagePath) {
   return new Promise((resolve, reject) => {
     http
@@ -98,6 +213,10 @@ function copyRecursive(src, dest) {
     for (const entry of fs.readdirSync(src)) {
       copyRecursive(path.join(src, entry), path.join(dest, entry));
     }
+  } else if (path.extname(src) === ".js") {
+    fs.mkdirSync(path.dirname(dest), { recursive: true });
+    const source = fs.readFileSync(src, "utf8");
+    fs.writeFileSync(dest, stripJsComments(source), "utf8");
   } else {
     fs.mkdirSync(path.dirname(dest), { recursive: true });
     fs.copyFileSync(src, dest);
