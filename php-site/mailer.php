@@ -144,12 +144,12 @@ try {
     $mail->Port = 465;
     $mail->CharSet = "UTF-8";
 
-    $mail->setFrom("hello@claydesigns.cc", "Portfolio Contact Form");
+    $mail->setFrom("hello@claydesigns.cc", "ClayDesigns.cc Contact Form Message");
     $mail->addAddress($to_email, $to_name);
     $mail->addReplyTo($email, $name);
 
     $mail->isHTML(false);
-    $mail->Subject = "Message From Portfolio Contact Form: {$subject}";
+    $mail->Subject = "Clay Designs Contact Form: {$subject}";
     $mail->Body =
         "Name:    {$name}\nEmail:   {$email}\nSubject: {$subject}\n\nMessage:\n{$message}\n\n---\nIP: " .
         ($_SERVER["REMOTE_ADDR"] ?? "unknown") .
