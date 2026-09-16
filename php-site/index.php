@@ -1,7 +1,7 @@
 <?php
-$pageTitle = "Clay | Web Designer &amp; Front-End Developer";
+$pageTitle = "Clay | Web Designer & Front-End Developer";
 $pageDescription =
-    "Clay — Web Designer &amp; Front-End Developer crafting modern, high-performance digital experiences.";
+    "Clay — Web Designer & Front-End Developer crafting modern, high-performance digital experiences.";
 $currentPage = "home";
 include "partials/header.php";
 ?>

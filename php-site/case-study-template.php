@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Case Study | Clay";
 $pageDescription =
-    "Case Study — Clay | Web Designer &amp; Front-End Developer.";
+    "Case Study — Clay | Web Designer & Front-End Developer.";
 $currentPage = "projects";
 include "partials/header.php";
 ?>

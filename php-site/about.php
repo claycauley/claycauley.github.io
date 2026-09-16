@@ -1,6 +1,6 @@
 <?php
 $pageTitle = "About | Clay";
-$pageDescription = "About Clay — Web Designer &amp; Front-End Developer.";
+$pageDescription = "About Clay — Web Designer & Front-End Developer.";
 $currentPage = "about";
 include "partials/header.php";
 ?>

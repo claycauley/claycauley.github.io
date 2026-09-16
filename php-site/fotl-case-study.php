@@ -1,7 +1,7 @@
 <?php
 $pageTitle = "Fruit of the Loom Case Study | Clay";
 $pageDescription =
-    "Fruit of the Loom website redesign and platform migration — Clay Case Study.";
+    "Fruit of the Loom Case Study — Clay | Web Designer & Front-End Developer.";
 $currentPage = "projects";
 include "partials/header.php";
 ?>

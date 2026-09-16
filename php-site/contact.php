@@ -1,6 +1,6 @@
 <?php
 $pageTitle = "Contact | Clay";
-$pageDescription = "Contact Clay — Web Designer &amp; Front-End Developer.";
+$pageDescription = "Contact Clay — Web Designer & Front-End Developer.";
 $currentPage = "contact";
 $extraHead =
     '<script src="https://www.google.com/recaptcha/api.js?render=6LfX2RctAAAAAN5DxWTBLJfVTVmbtyJuNVWtMagZ" async defer></script><style>.grecaptcha-badge{visibility:hidden!important;}</style>';
