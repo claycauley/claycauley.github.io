@@ -389,7 +389,10 @@ include "partials/header.php";
                   </div>
                 </div>
                 <a href="case-study-template.php" class="btn-primary is-disabled">
-                  Coming Soon
+                  Coming Soon <i
+                    class="fa-regular fa-clock text-sm"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               </div>
             </div>
@@ -507,7 +510,10 @@ include "partials/header.php";
                   </div>
                 </div>
                 <a href="case-study-template.php" class="btn-primary is-disabled">
-                  Coming Soon
+                  Coming Soon <i
+                    class="fa-regular fa-clock text-sm"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               </div>
             </div>
@@ -577,7 +583,10 @@ include "partials/header.php";
                   </div>
                 </div>
                 <a href="case-study-template.php" class="btn-primary is-disabled">
-                  Coming Soon
+                  Coming Soon <i
+                    class="fa-regular fa-clock text-sm"
+                    aria-hidden="true"
+                  ></i>
                 </a>
               </div>
             </div>
@@ -694,8 +703,11 @@ include "partials/header.php";
                     </p>
                   </div>
                 </div>
-                <a href="case-study-template.php" class="btn-primary is-disabled mr-6">
-                  Coming Soon
+                <a href="bitesized-blackjack-case-study.php" class="btn-primary is-disabled mr-6">
+                  Coming Soon <i
+                    class="fa-regular fa-clock text-sm"
+                    aria-hidden="true"
+                  ></i>
                 </a>
                 <a href="http://claydesigns.cc/blackjack" target="_blank" class="btn-tertiary">
                   Play Now <i

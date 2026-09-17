@@ -36,6 +36,7 @@ const PAGES = {
   "contact.php": "contact.html",
   "fotl-case-study.php": "fotl-case-study.html",
   "case-study-template.php": "case-study-template.html",
+  "bitesized-blackjack-case-study.php": "bitesized-blackjack-case-study.html",
 };
 
 // Internal page links are rewritten from .php -> clean, extensionless URLs
